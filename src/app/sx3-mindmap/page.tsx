@@ -7,7 +7,7 @@ import { LandingFooter } from '@/components/landing-footer';
 import { tools, Feature } from '@/lib/tools-client';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
-import { ArrowRight, Briefcase, Clock2, BadgeCheck, MessageCircle, Network, Palette, PenTool, Plus, Search, Sparkles, Target, Upload, UserCog, Wallet, Share2, LayoutTemplate, FileText } from 'lucide-react';
+import { ArrowRight, Briefcase, Clock2, BadgeCheck, MessageCircle, Network, Palette, PenTool, Plus, Search, Sparkles, Target, Upload, UserCog, Wallet, Share2, LayoutTemplate, FileText, Upload as UploadIcon } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -62,7 +62,7 @@ const ToolLeaf = ({ tool, onClick }: { tool: Feature; onClick: (tool: Feature) =
     </div>
 );
 
-const FeatureModal = ({ feature, onClose }: { feature: Feature | null, onClose: () => void }) => {
+const ServiceModal = ({ feature, onClose }: { feature: Feature | null, onClose: () => void }) => {
   if (!feature) return null;
 
   return (
@@ -82,62 +82,57 @@ const FeatureModal = ({ feature, onClose }: { feature: Feature | null, onClose: 
                       <p className="text-lg text-white/80">{feature.description}</p>
                     </div>
                   </div>
-                   <div className='flex items-center gap-2'>
-                     <Link href="/dashboard">
-                        <Button variant="ghost" className="text-white/80 hover:text-white hover:bg-white/20">Login</Button>
-                      </Link>
-                   </div>
                </div>
             </div>
             
             <div className='p-8'>
-              <Tabs defaultValue="overview" className="w-full">
+              <Tabs defaultValue="how-to-use" className="w-full">
                 <TabsList className="grid w-full grid-cols-4 mb-6">
-                  <TabsTrigger value="overview">How to Use</TabsTrigger>
-                  <TabsTrigger value="comparison">AI vs. Manual</TabsTrigger>
+                  <TabsTrigger value="how-to-use">How to Use</TabsTrigger>
+                  <TabsTrigger value="ai-vs-manual">AI vs. Manual</TabsTrigger>
                   <TabsTrigger value="synergy">Synergy</TabsTrigger>
                   <TabsTrigger value="faq">FAQs</TabsTrigger>
                 </TabsList>
                 
-                <TabsContent value="overview" className="space-y-6 text-foreground/90">
+                <TabsContent value="how-to-use" className="space-y-6 text-foreground/90">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      {feature.details.steps.map((step, i) => (
-                        <div key={i} className="flex flex-col items-center text-center p-4 bg-card rounded-lg border">
+                        <div className="flex flex-col items-center text-center p-4 bg-card rounded-lg border">
                           <div className='p-3 bg-primary/10 rounded-full mb-3 text-primary'>
-                            {step.icon}
+                            <Briefcase className="h-6 w-6" />
                           </div>
-                          <p className="font-semibold text-foreground">Step {i+1}</p>
-                          <p className='text-sm text-foreground/70'>{step.text}</p>
+                          <p className="font-semibold text-foreground">Step 1</p>
+                          <p className='text-sm text-foreground/70'>Choose Project & Brand</p>
                         </div>
-                      ))}
+                        <div className="flex flex-col items-center text-center p-4 bg-card rounded-lg border">
+                          <div className='p-3 bg-primary/10 rounded-full mb-3 text-primary'>
+                            <UploadIcon className="h-6 w-6" />
+                          </div>
+                          <p className="font-semibold text-foreground">Step 2</p>
+                          <p className='text-sm text-foreground/70'>Upload brochure or pick from Storage</p>
+                        </div>
+                        <div className="flex flex-col items-center text-center p-4 bg-card rounded-lg border">
+                          <div className='p-3 bg-primary/10 rounded-full mb-3 text-primary'>
+                            <Sparkles className="h-6 w-6" />
+                          </div>
+                          <p className="font-semibold text-foreground">Step 3</p>
+                          <p className='text-sm text-foreground/70'>Generate & Save</p>
+                        </div>
                     </div>
                 </TabsContent>
                 
-                <TabsContent value="comparison" className="space-y-4 text-foreground/90">
+                <TabsContent value="ai-vs-manual" className="space-y-4 text-foreground/90">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                     <div className="space-y-4">
                       <h3 className="text-2xl font-semibold font-heading text-center text-foreground/80">Manual</h3>
-                       {feature.details.aiVsManual.map((item, index) => (
-                        <div key={index} className="p-4 bg-card rounded-lg border">
-                           <div className="flex items-center gap-3 mb-2">
-                            {React.cloneElement(item.icon, { className: "h-5 w-5 text-muted-foreground" })}
-                            <h4 className="font-semibold text-foreground">{item.metric}</h4>
-                          </div>
-                          <p className="text-foreground/80 pl-8">{item.manual}</p>
-                        </div>
-                      ))}
+                       <div className="p-4 bg-card rounded-lg border">
+                           <p className="text-foreground/80">Hours of design, writing, and research.</p>
+                       </div>
                     </div>
                      <div className="space-y-4">
                       <h3 className="text-2xl font-semibold font-heading text-center text-primary">Super Seller Suite</h3>
-                       {feature.details.aiVsManual.map((item, index) => (
-                        <div key={index} className="p-4 bg-card rounded-lg border border-primary/20 shadow-lg shadow-primary/5">
-                           <div className="flex items-center gap-3 mb-2">
-                             {React.cloneElement(item.icon, { className: "h-5 w-5 text-primary" })}
-                            <h4 className="font-semibold text-primary">{item.metric}</h4>
-                          </div>
-                          <p className="text-foreground/80 pl-8">{item.ai}</p>
-                        </div>
-                      ))}
+                       <div className="p-4 bg-card rounded-lg border border-primary/20 shadow-lg shadow-primary/5">
+                           <p className="text-foreground/80">90% faster, consistent branding, one-click exports.</p>
+                       </div>
                     </div>
                   </div>
                 </TabsContent>
@@ -178,14 +173,13 @@ const FeatureModal = ({ feature, onClose }: { feature: Feature | null, onClose: 
 
             <Separator />
 
-            <div className="p-6 text-center">
+            <div className="p-6 flex justify-end items-center gap-2">
+                <Button variant="ghost">Try Demo</Button>
+                <Link href={`/blog/${feature.id}`}><Button variant="outline">Read Guide</Button></Link>
                 <Link href={`/dashboard/tool/${feature.id}`}>
-                    <Button variant="outline" size="lg" className='text-base'>
-                      Create your first {feature.cta} today
-                    </Button>
+                    <Button>Launch in Dashboard</Button>
                 </Link>
             </div>
-            
           </div>
       </DialogContent>
     </Dialog>
@@ -212,7 +206,7 @@ export default function SX3MindmapPage() {
             SX3 Services Mind Map
           </h1>
           <p className="text-lg md:text-xl text-foreground/60 max-w-3xl mx-auto">
-            A visual overview of the powerful, interconnected tools in the Super Seller Suite.
+            A visual map of the tools inside Super Seller Suite. Click any item to learn or launch.
           </p>
         </div>
 
@@ -221,7 +215,7 @@ export default function SX3MindmapPage() {
                  <MindMapNode title="Super Seller Suite" isRoot />
             </div>
 
-            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-start">
                 {toolCategories.map((category) => (
                     <MindMapNode key={category.name} title={category.name}>
                         {category.tools.map(tool => (
@@ -232,7 +226,7 @@ export default function SX3MindmapPage() {
             </div>
         </div>
       </main>
-      <FeatureModal feature={selectedFeature} onClose={() => setSelectedFeature(null)} />
+      <ServiceModal feature={selectedFeature} onClose={() => setSelectedFeature(null)} />
       <LandingFooter />
     </div>
   );

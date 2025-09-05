@@ -12,12 +12,24 @@ import {
   Plus,
   Sparkles,
   Upload,
+  Briefcase,
+  Clock,
+  Wallet,
+  BadgeCheck,
+  Palette,
+  MessageCircle,
+  PenTool,
+  Network,
+  Users2,
+  LayoutTemplate,
+  FileText,
+  Search,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { LandingHeader } from '@/components/landing-header';
 import { LandingFooter } from '@/components/landing-footer';
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import {
   Accordion,
   AccordionContent,
@@ -27,54 +39,48 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Feature, tools as features, FilterCategory } from '@/lib/tools-client.tsx';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ShinyButton } from '@/components/ui/shiny-button';
 
 
-const filterCategories: FilterCategory[] = ['All', 'Marketing', 'Lead Gen', 'Creative', 'Sales Tools', 'Social & Comms', 'Web', 'Editing', 'Ads'];
+const valueCards = [
+    { title: 'Learn', description: 'Quick lessons. Smart scripts. Easy wins.' },
+    { title: 'Plan', description: 'Your next move, mapped in seconds.' },
+    { title: 'Create', description: 'Ads, PDFs, pages — done fast.' },
+    { title: 'Sell', description: 'Fewer steps. Faster closes.' },
+    { title: 'Meet', description: 'Video calls with AI notes.' },
+    { title: 'Offer', description: 'Proposals and terms in one click.' },
+    { title: 'Send', description: 'WhatsApp, email, SMS — one tap.' },
+    { title: 'Report', description: 'No drama. Just numbers that count.' },
+];
 
-const FeatureCard = ({
-  feature,
-  onClick,
-}: {
-  feature: Feature;
-  onClick: (feature: Feature) => void;
-}) => {
+const InfoModal = ({ open, onClose }: { open: boolean, onClose: () => void }) => {
   return (
-    <Card 
-        className="group flex flex-col bg-card/50 backdrop-blur-lg border-border hover:border-primary/30 transition-all duration-300 cursor-pointer hover:-translate-y-1"
-        onClick={() => onClick(feature)}
-    >
-      <CardHeader>
-        <div className='flex items-center justify-between'>
-            <div 
-              className="p-3 rounded-lg w-fit text-white"
-              style={{ backgroundColor: feature.color }}
-            >
-                {React.cloneElement(feature.icon, { className: 'h-8 w-8' })}
-            </div>
-            {(feature.badge) && (
-                <span className={`px-2 py-1 text-xs font-semibold text-white rounded-full ${feature.badge === 'NEW' ? 'bg-blue-500' : 'bg-yellow-500'}`}>
-                    {feature.badge}
-                </span>
-            )}
+    <Dialog open={open} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="bg-card/90 backdrop-blur-lg border-primary/20 text-foreground">
+        <DialogHeader>
+          <DialogTitle>Welcome to Super Seller Suite</DialogTitle>
+          <DialogDescription asChild>
+            <ul className="space-y-3 pt-4 text-base text-foreground/80 list-disc pl-5">
+              <li>Set up your <strong>first Project</strong> and <strong>Brand</strong> in 2 minutes.</li>
+              <li>Generate ads, pages, PDFs, and reports from any brochure.</li>
+              <li>Train <strong>Your AI Assistant</strong> to reply, write, and plan for you.</li>
+            </ul>
+          </DialogDescription>
+        </DialogHeader>
+        <div className="flex justify-end gap-2 pt-4">
+            <Button variant="ghost" onClick={onClose}>Browse Features</Button>
+            <Link href="/dashboard">
+                <Button>Go to Dashboard</Button>
+            </Link>
         </div>
-      </CardHeader>
-      <CardContent className="flex flex-col flex-grow">
-        <h2 className="text-2xl font-bold font-heading mb-2 text-foreground">{feature.title}</h2>
-        <p className="text-lg text-foreground/70 flex-grow">{feature.description}</p>
-         <div className="mt-6">
-            <Button variant="link" className="p-0 text-base text-primary">
-                Try Demo
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </Button>
-         </div>
-      </CardContent>
-    </Card>
+      </DialogContent>
+    </Dialog>
   );
 };
 
-const FeatureModal = ({ feature, onClose }: { feature: Feature | null, onClose: () => void }) => {
+
+const ServiceModal = ({ feature, onClose }: { feature: Feature | null, onClose: () => void }) => {
   if (!feature) return null;
 
   return (
@@ -94,62 +100,57 @@ const FeatureModal = ({ feature, onClose }: { feature: Feature | null, onClose: 
                       <p className="text-lg text-white/80">{feature.description}</p>
                     </div>
                   </div>
-                   <div className='flex items-center gap-2'>
-                     <Link href="/dashboard">
-                        <Button variant="ghost" className="text-white/80 hover:text-white hover:bg-white/20">Login</Button>
-                      </Link>
-                   </div>
                </div>
             </div>
             
             <div className='p-8'>
-              <Tabs defaultValue="overview" className="w-full">
+              <Tabs defaultValue="how-to-use" className="w-full">
                 <TabsList className="grid w-full grid-cols-4 mb-6">
-                  <TabsTrigger value="overview">How to Use</TabsTrigger>
-                  <TabsTrigger value="comparison">AI vs. Manual</TabsTrigger>
+                  <TabsTrigger value="how-to-use">How to Use</TabsTrigger>
+                  <TabsTrigger value="ai-vs-manual">AI vs. Manual</TabsTrigger>
                   <TabsTrigger value="synergy">Synergy</TabsTrigger>
                   <TabsTrigger value="faq">FAQs</TabsTrigger>
                 </TabsList>
                 
-                <TabsContent value="overview" className="space-y-6 text-foreground/90">
+                <TabsContent value="how-to-use" className="space-y-6 text-foreground/90">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      {feature.details.steps.map((step, i) => (
-                        <div key={i} className="flex flex-col items-center text-center p-4 bg-card rounded-lg border">
+                        <div className="flex flex-col items-center text-center p-4 bg-card rounded-lg border">
                           <div className='p-3 bg-primary/10 rounded-full mb-3 text-primary'>
-                            {step.icon}
+                            <Briefcase className="h-6 w-6" />
                           </div>
-                          <p className="font-semibold text-foreground">Step {i+1}</p>
-                          <p className='text-sm text-foreground/70'>{step.text}</p>
+                          <p className="font-semibold text-foreground">Step 1</p>
+                          <p className='text-sm text-foreground/70'>Choose Project & Brand</p>
                         </div>
-                      ))}
+                        <div className="flex flex-col items-center text-center p-4 bg-card rounded-lg border">
+                          <div className='p-3 bg-primary/10 rounded-full mb-3 text-primary'>
+                            <Upload className="h-6 w-6" />
+                          </div>
+                          <p className="font-semibold text-foreground">Step 2</p>
+                          <p className='text-sm text-foreground/70'>Upload brochure or pick from Storage</p>
+                        </div>
+                        <div className="flex flex-col items-center text-center p-4 bg-card rounded-lg border">
+                          <div className='p-3 bg-primary/10 rounded-full mb-3 text-primary'>
+                            <Sparkles className="h-6 w-6" />
+                          </div>
+                          <p className="font-semibold text-foreground">Step 3</p>
+                          <p className='text-sm text-foreground/70'>Generate & Save</p>
+                        </div>
                     </div>
                 </TabsContent>
                 
-                <TabsContent value="comparison" className="space-y-4 text-foreground/90">
+                <TabsContent value="ai-vs-manual" className="space-y-4 text-foreground/90">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                     <div className="space-y-4">
                       <h3 className="text-2xl font-semibold font-heading text-center text-foreground/80">Manual</h3>
-                       {feature.details.aiVsManual.map((item, index) => (
-                        <div key={index} className="p-4 bg-card rounded-lg border">
-                           <div className="flex items-center gap-3 mb-2">
-                            {React.cloneElement(item.icon, { className: "h-5 w-5 text-muted-foreground" })}
-                            <h4 className="font-semibold text-foreground">{item.metric}</h4>
-                          </div>
-                          <p className="text-foreground/80 pl-8">{item.manual}</p>
-                        </div>
-                      ))}
+                       <div className="p-4 bg-card rounded-lg border">
+                          <p className="text-foreground/80">Hours of design, writing, and research.</p>
+                       </div>
                     </div>
                      <div className="space-y-4">
                       <h3 className="text-2xl font-semibold font-heading text-center text-primary">Super Seller Suite</h3>
-                       {feature.details.aiVsManual.map((item, index) => (
-                        <div key={index} className="p-4 bg-card rounded-lg border border-primary/20 shadow-lg shadow-primary/5">
-                           <div className="flex items-center gap-3 mb-2">
-                             {React.cloneElement(item.icon, { className: "h-5 w-5 text-primary" })}
-                            <h4 className="font-semibold text-primary">{item.metric}</h4>
-                          </div>
-                          <p className="text-foreground/80 pl-8">{item.ai}</p>
-                        </div>
-                      ))}
+                       <div className="p-4 bg-card rounded-lg border border-primary/20 shadow-lg shadow-primary/5">
+                          <p className="text-foreground/80">90% faster, consistent branding, one-click exports.</p>
+                       </div>
                     </div>
                   </div>
                 </TabsContent>
@@ -190,14 +191,13 @@ const FeatureModal = ({ feature, onClose }: { feature: Feature | null, onClose: 
 
             <Separator />
 
-            <div className="p-6 text-center">
+            <div className="p-6 flex justify-end items-center gap-2">
+                <Button variant="ghost">Try Demo</Button>
+                <Link href={`/blog/${feature.id}`}><Button variant="outline">Read Guide</Button></Link>
                 <Link href={`/dashboard/tool/${feature.id}`}>
-                    <Button variant="outline" size="lg" className='text-base'>
-                      Create your first {feature.cta} today
-                    </Button>
+                    <Button>Launch in Dashboard</Button>
                 </Link>
             </div>
-            
           </div>
       </DialogContent>
     </Dialog>
@@ -206,82 +206,57 @@ const FeatureModal = ({ feature, onClose }: { feature: Feature | null, onClose: 
 
 
 export default function Home() {
-  const [selectedFeature, setSelectedFeature] = React.useState<Feature | null>(null);
-  const [activeFilter, setActiveFilter] = React.useState<FilterCategory>('All');
-
-  const handleCardClick = (feature: Feature) => {
-    setSelectedFeature(feature);
-  };
-
-  const getCategoryCount = (category: FilterCategory) => {
-    if (category === 'All') return features.length;
-    return features.filter(f => f.categories.includes(category)).length;
-  }
-
-  const filteredFeatures = activeFilter === 'All'
-    ? features
-    : features.filter(feature => feature.categories.includes(activeFilter));
+  const [infoModalOpen, setInfoModalOpen] = React.useState(false);
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <LandingHeader />
       <main className="flex-1 w-full max-w-full px-4 md:px-6 lg:px-8 py-12 md:py-20">
-        <div className="text-center mb-12 max-w-5xl mx-auto">
+        <div className="text-center mb-24 max-w-5xl mx-auto">
           <h1 className="text-4xl md:text-7xl font-bold font-heading tracking-tighter mb-4 text-foreground">
-            A salesperson with tools is a Super Seller.
+            One good lead is enough.
           </h1>
           <p className="text-lg md:text-xl text-foreground/60">
-            Explore the tools. Train your assistant. Close faster.
+            A single workspace for ads, creatives, CRM, and your AI assistant.
+            <br/>
+            Pay as you go. Escrowed. Assured. Refunds if unqualified.
           </p>
-          <div className='mt-8'>
-            <Link href="/signup">
-                <ShinyButton>
-                    Start Free • No card
-                </ShinyButton>
+          <div className='mt-8 flex items-center justify-center gap-4'>
+            <Button size="lg" onClick={() => setInfoModalOpen(true)}>Start Free</Button>
+            <Link href="#mindmap">
+                <Button size="lg" variant="outline">Explore the Suite</Button>
             </Link>
           </div>
         </div>
 
-        <div className="sticky top-16 z-10 bg-background/80 backdrop-blur-lg -mx-8 px-8 py-4 mb-12">
-            <div className="flex justify-center overflow-x-auto pb-4">
-                <div className="flex gap-2 md:gap-4 flex-nowrap">
-                  {filterCategories.map(category => (
-                    <Button
-                      key={category}
-                      variant={activeFilter === category ? 'default' : 'outline'}
-                      onClick={() => setActiveFilter(category)}
-                      className={cn(
-                        'rounded-full px-4 py-2 text-sm md:text-base transition-all duration-200 shrink-0',
-                        activeFilter === category && 'shadow-lg shadow-primary/20'
-                      )}
-                    >
-                      {category} ({getCategoryCount(category)})
-                    </Button>
-                  ))}
-                </div>
+        <section className="mb-24">
+            <div className="text-center mb-12">
+                <h2 className="text-3xl font-bold font-heading">Your Sales Power Cloud</h2>
+                <p className="text-lg text-muted-foreground">Tools that turn text into action — learn, plan, create, send, report.</p>
             </div>
-        </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-8">
+                {valueCards.map(card => (
+                     <Card key={card.title} className="text-center p-4 aspect-square flex flex-col justify-center items-center bg-card/50 hover:border-primary/50 transition-colors cursor-pointer">
+                        <CardHeader className="p-2">
+                            <CardTitle>{card.title}</CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-2">
+                            <p className="text-sm text-muted-foreground">{card.description}</p>
+                        </CardContent>
+                     </Card>
+                ))}
+            </div>
+        </section>
 
-        <div 
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8 lg:gap-12 max-w-[120rem] mx-auto"
-        >
-          {filteredFeatures.map((feature) => (
-            <FeatureCard 
-                key={feature.id} 
-                feature={feature} 
-                onClick={handleCardClick}
-            />
-          ))}
-        </div>
-        
-        <section className="mt-24 max-w-6xl mx-auto">
+
+        <section className="mt-24 max-w-6xl mx-auto" id="mindmap">
             <Card className="bg-card/50 backdrop-blur-lg border-border shadow-xl shadow-primary/10 overflow-hidden">
                 <div className="grid grid-cols-1 lg:grid-cols-2 items-center">
                     <div className="p-8 md:p-12">
                          <div className="p-3 bg-primary/10 text-primary rounded-full w-fit mb-4">
                             <Bot className="h-8 w-8" />
                         </div>
-                        <h2 className="text-4xl font-bold font-heading tracking-tight mb-4">Meet your AI partner</h2>
+                        <h2 className="text-4xl font-bold font-heading tracking-tight mb-4">Meet Your AI Assistant</h2>
                         <p className="text-lg text-foreground/70 mb-6">
                            Give it a name, a role, and your playbook. It learns your market, drafts your replies, and keeps you moving.
                         </p>
@@ -290,14 +265,22 @@ export default function Home() {
                                 <div className="p-2 bg-primary/10 text-primary rounded-md mt-1"><Sparkles className="h-5 w-5" /></div>
                                 <div>
                                     <h4 className="font-semibold">Presets</h4>
-                                    <p className="text-sm text-foreground/60">Closer (fast replies, follow-ups), Marketer (ads, posts, reels), or Analyst (comps, reports).</p>
+                                    <div className="flex gap-2 mt-1">
+                                        <Button variant="outline" size="sm">Closer</Button>
+                                        <Button variant="outline" size="sm">Marketer</Button>
+                                        <Button variant="outline" size="sm">Analyst</Button>
+                                    </div>
                                 </div>
                             </div>
                              <div className="flex items-start gap-4">
                                 <div className="p-2 bg-primary/10 text-primary rounded-md mt-1"><Upload className="h-5 w-5" /></div>
                                 <div>
-                                    <h4 className="font-semibold">Capabilities</h4>
-                                    <p className="text-sm text-foreground/60">Summarize brochures, compare projects, or turn a PDF into a Reel script.</p>
+                                    <h4 className="font-semibold">Example prompts</h4>
+                                     <ul className="space-y-2 mt-2">
+                                         <li className="text-sm text-foreground/60">"Summarize this brochure and draft a WhatsApp reply."</li>
+                                         <li className="text-sm text-foreground/60">"Compare Emaar vs Damac for a 2M AED investor."</li>
+                                         <li className="text-sm text-foreground/60">"Turn this PDF into a 30-sec Instagram Reel script."</li>
+                                     </ul>
                                 </div>
                             </div>
                         </div>
@@ -328,12 +311,9 @@ export default function Home() {
                 </div>
             </Card>
         </section>
-
       </main>
-      <FeatureModal feature={selectedFeature} onClose={() => setSelectedFeature(null)} />
+      <InfoModal open={infoModalOpen} onClose={() => setInfoModalOpen(false)} />
       <LandingFooter />
     </div>
   );
 }
-
-    

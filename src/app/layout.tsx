@@ -18,8 +18,11 @@ const fontHeading = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: 'Super Seller Suite: Your AI Co-Pilot for Real Estate',
-  description: 'The AI-powered suite for real estate agents. Generate ads, target buyers, rebrand brochures, and close deals faster. Your new co-pilot for sales and marketing.',
+  title: 'Super Seller Suite — AI tools for ads, creatives, and sales',
+  description: 'Create ads, pages, PDFs, emails, and reports from any brochure. Train your AI assistant. Pay as you go with escrow and refunds if unqualified.',
+  openGraph: {
+    images: ['https://placehold.co/1200x630/000000/FFFFFF/png?text=Super+Seller+Suite'],
+  },
 };
 
 export default function RootLayout({
@@ -41,5 +44,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-    

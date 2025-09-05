@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { useParams } from 'next/navigation';
-import { tools } from '@/lib/tools';
+import { tools } from '@/lib/tools-client';
 import { LandingHeader } from '@/components/landing-header';
 import { LandingFooter } from '@/components/landing-footer';
 import { Card, CardContent } from '@/components/ui/card';
