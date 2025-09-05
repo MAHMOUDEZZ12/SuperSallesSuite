@@ -134,12 +134,22 @@ export default function DashboardLayout({
                </SidebarMenuItem>
             </SidebarMenu>
              <SidebarMenu>
-               <SidebarMenuItem>
-                 <SidebarMenuButton>
-                    <Star />
-                    <span className="group-data-[collapsible=icon]:hidden">Sales & CRM</span>
-                 </SidebarMenuButton>
-               </SidebarMenuItem>
+                 <SidebarMenuItem>
+                    <Link href="/dashboard/leads">
+                        <SidebarMenuButton isActive={pathname.startsWith('/dashboard/leads')}>
+                            <Star />
+                            <span className="group-data-[collapsible=icon]:hidden">Leads (CRM)</span>
+                        </SidebarMenuButton>
+                    </Link>
+                </SidebarMenuItem>
+                 <SidebarMenuItem>
+                    <Link href="/dashboard/tool/investor-matching">
+                        <SidebarMenuButton isActive={pathname.startsWith('/dashboard/tool/investor-matching')}>
+                            <Users2 />
+                            <span className="group-data-[collapsible=icon]:hidden">Investor Matching</span>
+                        </SidebarMenuButton>
+                    </Link>
+                </SidebarMenuItem>
             </SidebarMenu>
              <SidebarMenu>
                <SidebarMenuItem>

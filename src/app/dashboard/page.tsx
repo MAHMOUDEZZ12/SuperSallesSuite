@@ -8,7 +8,6 @@ import { PlusCircle, Link as LinkIcon, ArrowRight, Target, Palette, Share2, Line
 import Link from 'next/link';
 import { PageHeader } from '@/components/ui/page-header';
 import { tools as allTools, Feature } from '@/lib/tools-client';
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 
 const toolCards = [
     { id: 'ad-creation', title: 'Ad Snap', description: 'Create ads from any brochure.' },
@@ -32,15 +31,6 @@ const assistantPrompts = [
 ]
 
 export default function DashboardPage() {
-    const [selectedFeature, setSelectedFeature] = React.useState<Feature | null>(null);
-
-    const handleCardClick = (toolId: string) => {
-        const feature = allTools.find(t => t.id === toolId);
-        if (feature) {
-            setSelectedFeature(feature);
-        }
-    };
-  
     return (
         <main className="flex-1 flex-col p-4 md:p-10 space-y-8">
             <PageHeader
@@ -55,18 +45,16 @@ export default function DashboardPage() {
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {toolCards.map(tool => (
-                        <Card 
-                            key={tool.id} 
-                            onClick={() => handleCardClick(tool.id)}
-                            className="group hover:border-primary/30 transition-colors hover:bg-card/80 cursor-pointer"
-                        >
-                             <CardHeader>
-                                <CardTitle className='font-heading'>{tool.title}</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <p className='text-muted-foreground'>{tool.description}</p>
-                            </CardContent>
-                        </Card>
+                        <Link key={tool.id} href={`/dashboard/tool/${tool.id}`}>
+                            <Card className="group hover:border-primary/30 transition-colors hover:bg-card/80 cursor-pointer h-full">
+                                <CardHeader>
+                                    <CardTitle className='font-heading'>{tool.title}</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <p className='text-muted-foreground'>{tool.description}</p>
+                                </CardContent>
+                            </Card>
+                        </Link>
                     ))}
                 </div>
             </div>
@@ -127,4 +115,3 @@ export default function DashboardPage() {
         </main>
     );
 }
-

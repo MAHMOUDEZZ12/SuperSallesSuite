@@ -135,6 +135,33 @@ const EditPdfOutputSchema = z.object({
 });
     `,
   },
+  {
+    name: 'matchInvestors',
+    description: 'An AI flow to match investment properties with suitable clients from a database, providing a ranked list with justifications.',
+    inputSchema: `
+const MatchInvestorsInputSchema = z.object({
+  clientDatabase: z.string().describe("..."),
+  propertyType: z.string().describe("e.g., Duplex, Commercial"),
+  location: z.string().describe("The location of the property."),
+  price: z.number().describe("The asking price."),
+  capRate: z.number().describe("The capitalization rate."),
+  investmentThesis: z.string().describe("..."),
+  keyFeatures: z.string().describe("Key selling points..."),
+});
+    `,
+    outputSchema: `
+const MatchInvestorsOutputSchema = z.object({
+  matches: z.array(
+    z.object({
+      name: z.string().describe("..."),
+      email: z.string().email().describe("..."),
+      matchScore: z.number().describe("Score from 0 to 100."),
+      reasoning: z.string().describe("Explanation for the match."),
+    })
+  ),
+});
+    `,
+  },
 ];
 
 

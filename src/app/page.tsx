@@ -29,7 +29,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { LandingHeader } from '@/components/landing-header';
 import { LandingFooter } from '@/components/landing-footer';
-import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogHeader } from '@/components/ui/dialog';
 import {
   Accordion,
   AccordionContent,
@@ -234,7 +234,7 @@ export default function Home() {
                 <h2 className="text-3xl font-bold font-heading">Your Sales Power Cloud</h2>
                 <p className="text-lg text-muted-foreground">Tools that turn text into action — learn, plan, create, send, report.</p>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                 {valueCards.map(card => (
                      <Card key={card.title} className="text-center p-4 aspect-square flex flex-col justify-center items-center bg-card/50 hover:border-primary/50 transition-colors cursor-pointer">
                         <CardHeader className="p-2">
@@ -292,19 +292,19 @@ export default function Home() {
                         </Link>
                     </div>
                      <div className="bg-muted/50 p-8 lg:p-12 h-full flex flex-col justify-center">
-                         <h3 className="text-xl font-semibold font-heading mb-4 text-foreground/90">Sample Prompts</h3>
+                         <h3 className="text-xl font-semibold font-heading mb-4 text-foreground/90">Capabilities</h3>
                          <ul className="space-y-3">
                              <li className="flex items-center gap-3">
                                  <CheckCircle className="h-5 w-5 text-primary" />
-                                 <span className="text-foreground/80">"Summarize this brochure and draft a WhatsApp reply."</span>
+                                 <span className="text-foreground/80">Summarize brochures → WhatsApp/Email reply</span>
                             </li>
                              <li className="flex items-center gap-3">
                                  <CheckCircle className="h-5 w-5 text-primary" />
-                                 <span className="text-foreground/80">"Compare Emaar vs Damac for a 2M AED investor."</span>
+                                 <span className="text-foreground/80">Compare two projects by budget & ROI</span>
                             </li>
                              <li className="flex items-center gap-3">
                                  <CheckCircle className="h-5 w-5 text-primary" />
-                                 <span className="text-foreground/80">"Turn this PDF into a 30-sec Instagram Reel script."</span>
+                                 <span className="text-foreground/80">Turn a PDF into a 30-sec Reel script</span>
                             </li>
                          </ul>
                     </div>
