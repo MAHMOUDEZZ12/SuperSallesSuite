@@ -50,6 +50,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
 import { IconMap, IconProps } from '@/components/ui/icon-map';
 import { useRouter } from 'next/navigation';
+import MarketSearchInput from '@/components/ui/market-search-input';
 
 
 const filterCategories: FilterCategory[] = ['All', 'Marketing', 'Lead Gen', 'Creative', 'Sales Tools', 'Social & Comms', 'Web', 'Editing', 'Ads'];
@@ -60,12 +61,6 @@ const announcements = [
     "The Investor Matching tool now supports commercial properties.",
 ];
 
-const suggestedPrompts = [
-    "Apartments in Downtown with rental yield",
-    "Top off-plan projects launching this month",
-    "Average villa prices in Palm Jumeirah 2025",
-    "Market trends for Business Bay offices",
-];
 
 const faqItems = [
     {
@@ -326,24 +321,7 @@ export default function Home() {
           <p className="text-lg md:text-xl text-foreground/60 mb-8">
             Search anything about Dubai’s property market. From projects to trends—and instantly act on insights with our integrated app suite.
           </p>
-           <form className="max-w-2xl mx-auto" onSubmit={handleSearch}>
-                <div className="relative">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                    <Input 
-                        placeholder="Search anything in the Dubai real estate market..."
-                        className="w-full rounded-full h-14 pl-12 pr-6 text-lg"
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                    />
-                     <Button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full h-10 w-24">Search</Button>
-                </div>
-           </form>
-           <div className="mt-4 flex justify-center flex-wrap gap-x-4 gap-y-2 text-sm text-muted-foreground">
-                <span className="font-semibold text-foreground">AI Suggestions:</span>
-                {suggestedPrompts.map(prompt => (
-                    <button key={prompt} className="hover:text-primary transition-colors" onClick={() => router.push(`/search?q=${encodeURIComponent(prompt)}`)}>{prompt}</button>
-                ))}
-           </div>
+           <MarketSearchInput />
         </div>
 
         <div className="sticky top-16 z-10 bg-background/80 backdrop-blur-lg py-4 mb-8">
