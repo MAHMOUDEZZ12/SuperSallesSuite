@@ -13,6 +13,7 @@ export function ProjectCard({
     id: string;
     badge?: string; name: string; developer: string; area: string;
     priceFrom?: string | number; unitTypes?: string[]; handover?: string; thumbnailUrl?: string;
+    developerLogoUrl?: string;
   };
   selectable?: boolean; selected?: boolean;
   onToggle?: () => void; actions?: React.ReactNode;
@@ -27,6 +28,7 @@ export function ProjectCard({
            <Image src={`https://picsum.photos/seed/${project.id}/400/200`} alt={project.name} layout="fill" objectFit="cover" data-ai-hint="building exterior" />
             {project.badge && <span className="absolute top-2 left-2 text-xs rounded-full border px-2 py-0.5 bg-background/70 backdrop-blur-sm text-foreground">{project.badge}</span>}
             {selectable && <div className="absolute top-2 right-2"><Checkbox checked={selected} readOnly aria-label={`Select project ${project.name}`} /></div>}
+             {project.developerLogoUrl && <Image src={project.developerLogoUrl} alt={`${project.developer} Logo`} width={32} height={32} className="absolute bottom-2 right-2 rounded-md bg-white/80 p-1" data-ai-hint="company logo" />}
         </div>
         <div className="p-4">
             <h4 className="font-semibold truncate">{project.name}</h4>
