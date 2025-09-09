@@ -6,7 +6,7 @@ import {
   Star, Loader2, ArrowLeft, Crown, TrendingUp, CheckCircle, Percent, Calendar, Languages, Youtube, Terminal,
   Edit, Server, Globe, UserCheck, User, Plus, Check, BookOpen, GitBranch, Component, Wind, ShieldQuestion,
   Cpu, GanttChartSquare, X, Sun, Moon, Laptop, Menu, Home, Puzzle, LifeBuoy, LogOut, Scissors, Text, Music,
-  Mic, Lightbulb, Bomb
+  Mic, Lightbulb, Bomb, PenSquare
 } from 'lucide-react';
 import type { LucideProps } from 'lucide-react';
 import React from 'react';
@@ -19,7 +19,7 @@ export const IconMap: { [key: string]: React.FC<LucideProps> } = {
   Star, Loader2, ArrowLeft, Crown, TrendingUp, CheckCircle, Percent, Calendar, Languages, Youtube, Terminal,
   Edit, Server, Globe, UserCheck, User, Plus, Check, BookOpen, GitBranch, Component, Wind, ShieldQuestion,
   Cpu, GanttChartSquare, X, Sun, Moon, Laptop, Menu, Home, Puzzle, LifeBuoy, LogOut, Scissors, Text, Music,
-  Mic, Lightbulb, Bomb
+  Mic, Lightbulb, Bomb, PenSquare
 };
 
 export type IconProps = LucideProps;

@@ -822,3 +822,21 @@ export const CreateVmOutputSchema = z.object({
   selfLink: z.string().url().optional().describe("The self-link of the created instance."),
 });
 export type CreateVmOutput = z.infer<typeof CreateVmOutputSchema>;
+
+// Schemas for UGC Script Writer
+export const GenerateUgcScriptInputSchema = z.object({
+  productDescription: z.string().describe('A detailed description of the product to create a script for.'),
+});
+export type GenerateUgcScriptInput = z.infer<typeof GenerateUgcScriptInputSchema>;
+
+const UgcSceneSchema = z.object({
+  "Scene-Name": z.string(),
+  "Original-Script": z.string(),
+  "New-Script": z.string(),
+});
+
+export const GenerateUgcScriptOutputSchema = z.object({
+  "Concept-Name": z.string(),
+  "Script": z.array(UgcSceneSchema),
+});
+export type GenerateUgcScriptOutput = z.infer<typeof GenerateUgcScriptOutputSchema>;

@@ -3,7 +3,6 @@
 // It can be safely imported by both server and client components.
 
 import type { ReactNode } from 'react';
-import type { LucideIcon } from 'lucide-react';
 
 export type Field = {
   id: string;
@@ -47,14 +46,6 @@ export type Feature = {
   };
   creationFields: Field[];
   renderResult?: (result: any, toast: any) => ReactNode;
-};
-
-const copyToClipboard = (text: string, toast: any) => {
-    navigator.clipboard.writeText(text);
-    toast({
-      title: "Copied to clipboard!",
-      description: "The text has been copied successfully.",
-    });
 };
 
 export const tools: Omit<Feature, 'renderResult'>[] = [
@@ -165,6 +156,44 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
       ],
     },
     creationFields: [],
+  },
+   {
+    id: 'ugc-script-writer',
+    title: 'UGC Script Writer',
+    dashboardTitle: 'UGC Script Writer',
+    description: 'Generate authentic, user-generated content style video ad scripts.',
+    icon: 'PenSquare',
+    color: '#8b5cf6',
+    cta: 'Generate Script',
+    categories: ['Creative', 'Ads', 'Social & Comms'],
+    mindMapCategory: 'Creative Suite',
+    badge: 'NEW',
+    isPage: false,
+    href: '/dashboard/tool/ugc-script-writer',
+    details: {
+      steps: [
+        { text: 'Provide a description of your product or service', icon: 'PenTool' },
+        { text: 'AI analyzes a proven script framework', icon: 'BrainCircuit' },
+        { text: 'A new, structured script is generated for your product', icon: 'Sparkles' },
+      ],
+      aiVsManual: [
+        { metric: 'Scriptwriting Time', manual: 'Hours of creative effort and rewrites', ai: 'Minutes to generate a structured draft', icon: 'Clock2' },
+        { metric: 'Framework', manual: 'Guesswork on what makes a script effective', ai: 'Based on a proven, successful UGC ad structure', icon: 'BadgeCheck' },
+        { metric: 'Authenticity', manual: 'Can sound overly polished or like an ad', ai: 'Generates language that mimics genuine user content', icon: 'Sparkles' },
+      ],
+      synergy: [
+        { tool: 'AI Video Presenter', benefit: 'Use the generated script with the AI Video Presenter to create the final video ad instantly.' },
+        { tool: 'Reel Ads', benefit: 'Use the script as a shot-by-shot guide for creating a compelling Instagram Reel ad.' },
+      ],
+      faqs: [
+        { question: 'What is "UGC" style?', answer: 'UGC stands for User-Generated Content. It refers to a style of video that looks and feels like it was made by a real customer, not a professional production company. This style is often seen as more authentic and trustworthy by viewers.' },
+        { question: 'Can I change the original script framework?', answer: 'The current tool uses a fixed, proven framework for consistency and quality. The ability to provide your own template scripts is on our roadmap for a future update.' },
+        { question: 'Is the output a video or just text?', answer: 'This tool generates the text script in a structured JSON format. You can then use this script as a blueprint for filming your own video or by using it with other tools in the suite like the AI Video Presenter.' },
+      ],
+    },
+    creationFields: [
+        { id: 'productDescription', name: 'New Product Description', type: 'textarea', placeholder: 'Provide all the key details, features, and benefits of the product you want to advertise...', description: 'A detailed description of the product for the new script.' },
+    ],
   },
   {
     id: 'tiktok-editor',
