@@ -6,7 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Feature, Field } from '@/lib/tools-client.tsx';
+import { Feature, Field } from '@/lib/tools-client';
 import { tools as clientTools, fileToDataUri, filesToDataUris } from '@/lib/tools-client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -140,6 +140,7 @@ const AppActivationGate = ({ tool, onActivated }: { tool: Feature, onActivated: 
     const [isConnecting, setIsConnecting] = React.useState(false);
     const connectionRequired = appsThatNeedConnection[tool.id];
     const paymentRequired = appsThatNeedPayment.includes(tool.id);
+    const Icon = tool.icon;
 
     const handleAction = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -220,7 +221,7 @@ const AppActivationGate = ({ tool, onActivated }: { tool: Feature, onActivated: 
         <Card className="max-w-2xl mx-auto text-center">
             <CardHeader>
                 <div className="p-3 rounded-lg w-fit text-white mx-auto" style={{ backgroundColor: tool.color }}>
-                    {React.cloneElement(tool.icon, { className: 'h-10 w-10' })}
+                    <Icon className="h-10 w-10" />
                 </div>
                  <CardTitle className="text-2xl mt-4">Activate {tool.title}</CardTitle>
                 <CardDescription>This app isn't in your workspace yet. Add it to start generating.</CardDescription>
@@ -494,6 +495,8 @@ export default function ToolPage() {
     );
   };
   
+  const Icon = tool.icon;
+  
   return (
     <main className="p-4 md:p-10 space-y-8">
       {showConfetti && <Confetti onComplete={() => setShowConfetti(false)} />}
@@ -522,7 +525,7 @@ export default function ToolPage() {
                 <CardHeader>
                 <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                     <div className="p-3 rounded-lg w-fit text-white shrink-0" style={{ backgroundColor: tool.color }}>
-                    {React.cloneElement(tool.icon, { className: 'h-8 w-8' })}
+                      <Icon className="h-8 w-8" />
                     </div>
                     <div>
                     <CardTitle className="text-3xl font-heading">{tool.title}</CardTitle>

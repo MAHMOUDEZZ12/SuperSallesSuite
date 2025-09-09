@@ -97,7 +97,7 @@ export type Feature = {
   title: string;
   dashboardTitle?: string;
   description: string;
-  icon: React.ReactElement;
+  icon: React.ElementType;
   color: string;
   cta: string;
   categories: FilterCategory[];
@@ -135,7 +135,7 @@ export const tools: Feature[] = [
     title: 'AI Video Presenter',
     dashboardTitle: 'AI Video Presenter',
     description: 'Create a lifelike AI presenter to deliver your project pitch.',
-    icon: <UserCheck />,
+    icon: UserCheck,
     color: '#f43f5e', // rose-500
     cta: 'Generate Video',
     categories: ['Creative', 'Video', 'Marketing', 'Ads'],
@@ -172,7 +172,7 @@ export const tools: Feature[] = [
     title: 'Embeddable Site Assistant',
     dashboardTitle: 'Embeddable Assistant',
     description: 'Add a market-aware AI chatbot to any website.',
-    icon: <Bot />,
+    icon: Bot,
     color: '#6366f1', // a mix of others
     cta: 'Get Embed Code',
     categories: ['Web', 'Lead Gen', 'Sales Tools', 'Utilities'],
@@ -209,7 +209,7 @@ export const tools: Feature[] = [
     title: 'AI Keyword Planner',
     dashboardTitle: 'AI Keyword Planner',
     description: 'Generate a strategic keyword plan for Google Ads.',
-    icon: <Search />,
+    icon: Search,
     color: '#34A853', // Google Green
     cta: 'Generate Keyword Plan',
     categories: ['Google AI Suite', 'Ads', 'Marketing'],
@@ -247,7 +247,7 @@ export const tools: Feature[] = [
     title: 'AI TikTok Video Editor',
     dashboardTitle: 'TikTok Video Editor',
     description: 'Create on-trend, engaging videos for TikTok.',
-    icon: <Video />,
+    icon: Video,
     color: '#000000',
     cta: 'Generate TikTok',
     categories: ['TikTok AI Suite', 'Ads', 'Creative', 'Social & Comms'],
@@ -288,7 +288,7 @@ export const tools: Feature[] = [
     title: 'Meta Auto Pilot',
     dashboardTitle: 'Meta Auto Pilot',
     description: 'The single-click manager for your entire Meta suite.',
-    icon: <Star />,
+    icon: Star,
     color: '#fbbf24', // amber-400
     cta: 'Run Workflow',
     categories: ['Marketing', 'Ads', 'Lead Gen'],
@@ -324,7 +324,7 @@ export const tools: Feature[] = [
     title: 'Campaign Builder',
     dashboardTitle: 'Campaign Builder',
     description: 'Your dedicated agent for Facebook &amp; Instagram advertising.',
-    icon: <Facebook />,
+    icon: Facebook,
     color: '#1d4ed8', // blue-700
     cta: 'Create Campaign',
     categories: ['Marketing', 'Ads', 'Lead Gen'],
@@ -361,7 +361,7 @@ export const tools: Feature[] = [
     title: 'Audience Creator',
     dashboardTitle: 'Audience Creator',
     description: 'Find high-intent buyers before they search.',
-    icon: <Binoculars />,
+    icon: Binoculars,
     color: '#3b82f6', // blue-600
     cta: 'Generate Strategies',
     categories: ['Marketing', 'Lead Gen', 'Ads'],
@@ -400,7 +400,7 @@ export const tools: Feature[] = [
     title: 'Insta Ads Designer',
     dashboardTitle: 'Insta Ads Designer',
     description: 'Create perfect ads for Instagram Stories &amp; Feed.',
-    icon: <Instagram />,
+    icon: Instagram,
     color: '#ec4899', // pink-500
     cta: 'Generate Ad',
     categories: ['Ads', 'Creative', 'Social & Comms'],
@@ -483,7 +483,7 @@ export const tools: Feature[] = [
     title: 'Reel Ads',
     dashboardTitle: 'Reel Ads',
     description: 'Generate engaging video ads for Instagram Reels.',
-    icon: <Clapperboard />,
+    icon: Clapperboard,
     color: '#7c3aed',
     cta: 'Generate Reel Ad',
     categories: ['Ads', 'Creative', 'Social & Comms'],
@@ -523,7 +523,7 @@ export const tools: Feature[] = [
     title: 'Instagram Admin',
     dashboardTitle: 'Instagram Admin',
     description: 'Schedules posts and handles replies on Instagram.',
-    icon: <UserCog />,
+    icon: UserCog,
     color: '#c026d3',
     cta: 'Run Admin Task',
     categories: ['Sales Tools', 'Social & Comms'],
@@ -571,7 +571,7 @@ export const tools: Feature[] = [
     title: 'Story Planner',
     dashboardTitle: 'Story Planner',
     description: 'Plan and design animated Instagram stories.',
-    icon: <Film />,
+    icon: Film,
     color: '#a855f7',
     cta: 'Generate Story',
     categories: ['Creative', 'Social & Comms'],
@@ -613,7 +613,7 @@ export const tools: Feature[] = [
     title: 'Instagram Content Creator',
     dashboardTitle: 'Instagram Content',
     description: 'Generate a full week of social media content and a tiered hashtag strategy from a single topic or URL.',
-    icon: <Share2 />,
+    icon: Share2,
     color: '#ea580c',
     cta: 'Generate Content Strategy',
     categories: ['Marketing', 'Creative', 'Social & Comms'],
@@ -653,7 +653,7 @@ export const tools: Feature[] = [
     title: 'Email Campaigns',
     dashboardTitle: 'Email Campaigns',
     description: 'Design, write, and schedule.',
-    icon: <Mail />,
+    icon: Mail,
     color: '#0ea5e9', // sky-500
     cta: 'Send Email Campaign',
     categories: ['Marketing', 'Social & Comms', 'Sales Tools'],
@@ -695,7 +695,7 @@ export const tools: Feature[] = [
     title: 'AI YouTube Video Editor',
     dashboardTitle: 'YouTube Video Editor',
     description: 'Edit any video to be YouTube-ready.',
-    icon: <Youtube />,
+    icon: Youtube,
     color: '#ef4444', // red-500
     cta: 'Edit YouTube Video',
     categories: ['Creative', 'Editing', 'Social & Comms'],
@@ -732,7 +732,7 @@ export const tools: Feature[] = [
     title: 'Landing Page Builder',
     dashboardTitle: 'Landing Pages',
     description: 'Launch a high-converting page in minutes.',
-    icon: <LayoutTemplate />,
+    icon: LayoutTemplate,
     color: '#22c55e', // green-500
     cta: 'Create Landing Page',
     categories: ['Creative', 'Web'],
@@ -768,7 +768,7 @@ export const tools: Feature[] = [
     title: 'Automated Rebranding',
     dashboardTitle: 'Rebranding',
     description: 'Upload any brochure and apply your brand identity with text-based commands in the Creative Canvas.',
-    icon: <Palette />,
+    icon: Palette,
     color: '#f97316', // orange-600
     cta: 'Rebrand a Document',
     categories: ['Creative', 'Editing'],
@@ -805,7 +805,7 @@ export const tools: Feature[] = [
     title: 'Visual PDF Editor',
     dashboardTitle: 'PDF Editor',
     description: 'This tool is deprecated. Use the new Rebranding tool instead.',
-    icon: <Edit />,
+    icon: Edit,
     color: '#eab308', // yellow-500
     cta: 'Edit a PDF',
     categories: ['Creative', 'Editing'],
@@ -842,7 +842,7 @@ export const tools: Feature[] = [
     title: 'Brochure Translator',
     dashboardTitle: 'Brochure Translator',
     description: 'Translate brochures to multiple languages.',
-    icon: <Languages />,
+    icon: Languages,
     color: '#8b5cf6', // violet-500
     cta: 'Translate Brochure',
     categories: ['Creative', 'Editing', 'Sales Tools'],
@@ -896,7 +896,7 @@ export const tools: Feature[] = [
     title: 'Listing Manager',
     dashboardTitle: 'Listing Manager',
     description: 'Your central hub to create, manage, and syndicate your property listings to all major portals.',
-    icon: <Building />,
+    icon: Building,
     color: '#0891b2',
     cta: 'Manage Listings',
     categories: ['Listing Intelligence AI', 'Sales Tools', 'Editing', 'Web'],
@@ -933,7 +933,7 @@ export const tools: Feature[] = [
     title: 'Listing Performance',
     dashboardTitle: 'Listing Performance',
     description: 'Track listing views and performance.',
-    icon: <BarChart />,
+    icon: BarChart,
     color: '#ef4444',
     cta: 'View Performance',
     categories: ['Listing Intelligence AI', 'Sales Tools', 'Lead Gen', 'Ads'],
@@ -969,7 +969,7 @@ export const tools: Feature[] = [
     title: 'Listing Generator',
     dashboardTitle: 'Listing Generator',
     description: 'Craft perfect listings for portals like Property Finder, Bayut, and Dubizzle.',
-    icon: <Building />,
+    icon: Building,
     color: '#10b981',
     cta: 'Create Listing',
     categories: ['Listing Intelligence AI', 'Sales Tools', 'Editing', 'Web'],
@@ -1035,7 +1035,7 @@ export const tools: Feature[] = [
     title: 'Commission Calculator',
     dashboardTitle: 'Commission Calculator',
     description: 'Instantly calculate your 5% sales commission.',
-    icon: <Percent />,
+    icon: Percent,
     color: '#16a34a',
     cta: 'Calculate Commission',
     categories: ['Sales Tools'],
@@ -1092,7 +1092,7 @@ export const tools: Feature[] = [
     title: 'Payment Planner',
     dashboardTitle: 'Payment Planner',
     description: 'Generate tailored payment plans for clients.',
-    icon: <Calendar />,
+    icon: Calendar,
     color: '#0ea5e9',
     cta: 'Generate Plan',
     categories: ['Sales Tools'],
@@ -1162,7 +1162,7 @@ export const tools: Feature[] = [
     title: 'Investor Matching',
     dashboardTitle: 'Investor Matching',
     description: 'Pair budgets with the right projects.',
-    icon: <Users2 />,
+    icon: Users2,
     color: '#6366f1', // indigo-500
     cta: 'Generate Investor Match',
     categories: ['Sales Tools', 'Lead Gen'],
@@ -1225,7 +1225,7 @@ export const tools: Feature[] = [
     title: 'Multi-Offer Builder',
     dashboardTitle: 'Multi-Offer Builder',
     description: 'Compare options side-by-side.',
-    icon: <Briefcase />,
+    icon: Briefcase,
     color: '#78716c', // stone-500
     cta: 'Create Offer Package',
     categories: ['Sales Tools', 'Editing'],
@@ -1265,7 +1265,7 @@ export const tools: Feature[] = [
     title: 'WhatsApp Manager',
     dashboardTitle: 'WhatsApp Manager',
     description: 'Personalized broadcasts + drips.',
-    icon: <Phone />,
+    icon: Phone,
     color: '#16a34a', // green-600
     cta: 'Send WhatsApp Campaign',
     categories: ['Sales Tools', 'Social & Comms', 'Lead Gen'],
@@ -1305,7 +1305,7 @@ export const tools: Feature[] = [
     title: 'Lead Investigator AI',
     dashboardTitle: 'Lead Investigator',
     description: 'Investigate any lead. Find their social profiles and professional history.',
-    icon: <Search />,
+    icon: Search,
     color: '#0284c7', // sky-600
     cta: 'Investigate Lead',
     categories: ['Sales Tools', 'Lead Gen'],
@@ -1343,7 +1343,7 @@ export const tools: Feature[] = [
     title: 'Market Reports',
     dashboardTitle: 'Market Reports',
     description: 'Generates PDF reports on market trends, pricing, and sentiment, turning raw data into client-ready insights.',
-    icon: <LineChart />,
+    icon: LineChart,
     color: '#f59e0b', // amber-500
     cta: 'Generate Market Report',
     categories: ['Market Library', 'Sales Tools', 'Editing'],
@@ -1384,7 +1384,7 @@ export const tools: Feature[] = [
     title: 'Market Trends',
     dashboardTitle: 'Market Trends Watcher',
     description: 'Acts as a "Watcher" agent, synthesizing news and data to identify emerging market trends and sentiment before they become mainstream.',
-    icon: <TrendingUp />,
+    icon: TrendingUp,
     color: '#14b8a6', // teal-500
     cta: 'Analyze Trends',
     categories: ['Market Library', 'Sales Tools', 'Lead Gen'],
@@ -1421,7 +1421,7 @@ export const tools: Feature[] = [
     title: 'Market Library',
     dashboardTitle: 'Projects Finder',
     description: "Continuously scans public records and news to find off-market deals and development opportunities, feeding the central library.",
-    icon: <Search />,
+    icon: Search,
     color: '#fde047', // yellow-300
     cta: 'Search Market Library',
     categories: ['Market Library', 'Sales Tools', 'Lead Gen'],
@@ -1466,7 +1466,7 @@ export const tools: Feature[] = [
     title: 'Brand Creator',
     dashboardTitle: 'Brand Creator',
     description: "Configures your entire brand kit and project library by analyzing uploaded documents with a single command.",
-    icon: <Wrench />,
+    icon: Wrench,
     color: '#10b981', // emerald-500
     cta: 'Create Brand Kit',
     categories: ['Sales Tools', 'Creative'],
@@ -1505,7 +1505,7 @@ export const tools: Feature[] = [
     title: 'CRM Memory',
     dashboardTitle: 'CRM Memory',
     description: 'The core data store of the "Brain". It remembers every client interaction, preference, and detail, making all other tools smarter.',
-    icon: <Database />,
+    icon: Database,
     color: '#0d9488', // teal-600
     cta: 'Get Client Record',
     categories: ['Sales Tools', 'Lead Gen'],
@@ -1544,7 +1544,7 @@ export const tools: Feature[] = [
     title: 'Assistant',
     dashboardTitle: 'Assistant',
     description: 'Your personal, trainable AI partner.',
-    icon: <BrainCircuit />,
+    icon: BrainCircuit,
     color: '#84cc16', // lime-500
     cta: 'Train Assistant',
     categories: ['Sales Tools'],
@@ -1583,7 +1583,7 @@ export const tools: Feature[] = [
     id: 'property-finder-sync',
     title: 'Property Finder Pilot',
     description: 'PULL data from Property Finder, or PUSH listing plans to it.',
-    icon: <Server />,
+    icon: Server,
     color: '#6b7280',
     cta: 'Go to Pilot',
     categories: ['Utilities', 'Web', 'Listing Intelligence AI'],
@@ -1600,7 +1600,7 @@ export const tools: Feature[] = [
     id: 'bayut-sync',
     title: 'Bayut Pilot',
     description: 'PULL data from Bayut, or PUSH listing plans to it.',
-    icon: <Server />,
+    icon: Server,
     color: '#6b7280',
     cta: 'Go to Pilot',
     categories: ['Utilities', 'Web', 'Listing Intelligence AI'],
@@ -1617,7 +1617,7 @@ export const tools: Feature[] = [
     id: 'creative-execution-terminal',
     title: 'Creative Execution Terminal',
     description: 'The execution engine for your creative tasks. Paste a plan and watch it run.',
-    icon: <Terminal />,
+    icon: Terminal,
     color: '#64748b', // slate-500
     cta: 'Go to Terminal',
     categories: ['Utilities'],
@@ -1654,7 +1654,7 @@ export const tools: Feature[] = [
     id: 'superfreetime',
     title: 'SuperFreeTime Game',
     description: 'A hidden mini-game to find a secret key and win a prize.',
-    icon: <Key />,
+    icon: Key,
     color: '#a1a1aa', // zinc-400
     cta: 'Play Game',
     categories: ['All'],

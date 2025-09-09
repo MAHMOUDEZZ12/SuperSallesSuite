@@ -52,13 +52,15 @@ const MindMapNode = ({
   );
 };
 
-const ToolLeaf = ({ tool, onClick, className }: { tool: Feature; onClick: (tool: Feature) => void; className?: string }) => (
+const ToolLeaf = ({ tool, onClick, className }: { tool: Feature; onClick: (tool: Feature) => void; className?: string }) => {
+    const Icon = tool.icon;
+    return (
     <div className={cn("group w-full max-w-xs flex justify-center", className)}>
         <button onClick={() => onClick(tool)} className="w-full text-left h-full">
             <div className={cn("relative flex items-center justify-center h-full", tool.id === 'ai-assistant' ? 'min-h-[16rem]' : 'h-12')}>
                 <div className="flex w-full h-full flex-col justify-center rounded-lg border bg-card/90 p-3 pr-4 shadow-md transition-all duration-200 hover:border-primary/50 hover:shadow-primary/10 hover:-translate-y-1">
                     <div className="flex items-center gap-3">
-                        <div className="p-2 rounded-md text-white" style={{backgroundColor: tool.color}}>{React.cloneElement(tool.icon, { className: 'h-5 w-5' })}</div>
+                        <div className="p-2 rounded-md text-white" style={{backgroundColor: tool.color}}><Icon className='h-5 w-5' /></div>
                         <span className="font-medium text-sm text-foreground/90">{tool.title}</span>
                         {tool.badge && (
                            <TooltipProvider>
@@ -101,10 +103,11 @@ const ToolLeaf = ({ tool, onClick, className }: { tool: Feature; onClick: (tool:
             </div>
         </button>
     </div>
-);
+)};
 
 const FeatureModal = ({ feature, onClose }: { feature: Feature | null, onClose: () => void }) => {
   if (!feature) return null;
+  const Icon = feature.icon;
 
   return (
     <Dialog open={!!feature} onOpenChange={(open) => !open && onClose()}>
@@ -114,7 +117,7 @@ const FeatureModal = ({ feature, onClose }: { feature: Feature | null, onClose: 
                <div className="flex items-start justify-between">
                   <div className='flex items-center gap-4'>
                     <div className="p-4 bg-white/20 rounded-full w-fit">
-                      {React.cloneElement(feature.icon, { className: 'h-10 w-10 text-white' })}
+                      <Icon className='h-10 w-10 text-white' />
                     </div>
                     <div>
                       <DialogTitle asChild>

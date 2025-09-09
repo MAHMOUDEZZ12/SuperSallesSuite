@@ -41,7 +41,7 @@ import {
 } from '@/components/ui/accordion';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { type Feature, type FilterCategory } from '@/lib/tools-client.tsx';
+import { type Feature, type FilterCategory } from '@/lib/tools-client';
 import { tools as features } from '@/lib/features';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { ShinyButton } from '@/components/ui/shiny-button';
@@ -94,6 +94,7 @@ const FeatureCard = ({
   feature: Feature;
   onClick: (feature: Feature) => void;
 }) => {
+  const Icon = feature.icon;
   return (
     <Card 
         className="group flex flex-col bg-card/50 backdrop-blur-lg border-border hover:border-primary/30 transition-all duration-300 cursor-pointer hover:-translate-y-1 shadow-xl shadow-primary/10"
@@ -105,7 +106,7 @@ const FeatureCard = ({
               className="p-3 rounded-lg w-fit text-white"
               style={{ backgroundColor: feature.color }}
             >
-                {React.cloneElement(feature.icon, { className: 'h-8 w-8' })}
+                <Icon className="h-8 w-8" />
             </div>
              {(feature.badge) && (
               <TooltipProvider>
@@ -140,6 +141,7 @@ const FeatureCard = ({
 
 const FeatureModal = ({ feature, onClose }: { feature: Feature | null, onClose: () => void }) => {
   if (!feature) return null;
+  const Icon = feature.icon;
 
   return (
     <Dialog open={!!feature} onOpenChange={(open) => !open && onClose()}>
@@ -149,7 +151,7 @@ const FeatureModal = ({ feature, onClose }: { feature: Feature | null, onClose: 
                <div className="flex items-start justify-between">
                   <div className='flex items-center gap-4'>
                     <div className="p-4 bg-white/20 rounded-full w-fit">
-                      {React.cloneElement(feature.icon, { className: 'h-10 w-10 text-white' })}
+                      <Icon className='h-10 w-10 text-white' />
                     </div>
                     <div>
                       <DialogTitle asChild>

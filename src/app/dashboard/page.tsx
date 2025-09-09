@@ -255,20 +255,23 @@ export default function DashboardPage() {
                     <CardDescription>Based on your activity, here are some tools you might find useful.</CardDescription>
                 </CardHeader>
                 <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {topTools.map(tool => (
-                        <Link href={`/dashboard/tool/${tool.id}`} key={tool.id} className="group">
-                             <div className="flex items-center gap-4 p-4 rounded-lg border bg-background hover:bg-muted/50 transition-colors">
-                                <div className="p-2 rounded-md text-white" style={{backgroundColor: tool.color}}>
-                                    {React.cloneElement(tool.icon, {className: "h-6 w-6"})}
+                    {topTools.map(tool => {
+                        const Icon = tool.icon;
+                        return (
+                            <Link href={`/dashboard/tool/${tool.id}`} key={tool.id} className="group">
+                                <div className="flex items-center gap-4 p-4 rounded-lg border bg-background hover:bg-muted/50 transition-colors">
+                                    <div className="p-2 rounded-md text-white" style={{backgroundColor: tool.color}}>
+                                        <Icon className="h-6 w-6"/>
+                                    </div>
+                                    <div>
+                                        <h4 className="font-semibold">{tool.title}</h4>
+                                        <p className="text-sm text-muted-foreground">{tool.description.substring(0, 40)}...</p>
+                                    </div>
+                                    <ArrowRight className="h-5 w-5 ml-auto text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
                                 </div>
-                                <div>
-                                    <h4 className="font-semibold">{tool.title}</h4>
-                                    <p className="text-sm text-muted-foreground">{tool.description.substring(0, 40)}...</p>
-                                </div>
-                                <ArrowRight className="h-5 w-5 ml-auto text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                            </div>
-                        </Link>
-                    ))}
+                            </Link>
+                        )
+                    })}
                 </CardContent>
             </Card>
              <Link href="/blog" className="block">

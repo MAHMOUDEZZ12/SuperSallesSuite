@@ -33,6 +33,8 @@ export default function BlogPage() {
             </div>
         );
     }
+    
+    const Icon = feature.icon;
 
     return (
         <div className="flex min-h-screen flex-col bg-background">
@@ -41,7 +43,7 @@ export default function BlogPage() {
                 <article>
                     <header className="mb-12 text-center">
                         <div className={cn("inline-block p-4 mb-6 text-white rounded-2xl bg-gradient-to-br")} style={{ backgroundColor: feature.color }}>
-                            {React.cloneElement(feature.icon, { className: 'h-12 w-12' })}
+                            <Icon className='h-12 w-12' />
                         </div>
                         <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 bg-clip-text text-transparent bg-gradient-to-b from-foreground/90 to-foreground/60">
                             {content.title}

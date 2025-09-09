@@ -23,7 +23,7 @@ const allHacks = Object.keys(blogContent).map(slug => {
         title: blogContent[slug].title,
         intro: blogContent[slug].intro,
         categories: tool?.categories || [],
-        icon: tool?.icon,
+        Icon: tool?.icon,
         color: tool?.color,
         toolTitle: tool?.title || 'General',
     };
@@ -85,9 +85,9 @@ export default function BlogIndexPage() {
                                             </p>
                                         </CardContent>
                                         <CardFooter className="flex justify-between items-center">
-                                            {hack.icon && (
+                                            {hack.Icon && (
                                                  <div className={cn("flex items-center gap-2 p-1 pr-2 rounded-md w-fit text-white")} style={{ backgroundColor: hack.color }}>
-                                                    {React.cloneElement(hack.icon, { className: 'h-4 w-4' })}
+                                                    <hack.Icon className='h-4 w-4' />
                                                     <span className="text-xs font-semibold">{hack.toolTitle}</span>
                                                 </div>
                                             )}

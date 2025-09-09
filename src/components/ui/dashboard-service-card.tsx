@@ -41,7 +41,7 @@ export function DashboardServiceCard({
   const { toast } = useToast();
   const [isConnecting, setIsConnecting] = useState(false);
   
-  const { title, description, icon, href, guideHref, color, dashboardTitle } = tool;
+  const { title, description, icon: Icon, href, guideHref, color, dashboardTitle } = tool;
 
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -169,7 +169,7 @@ export function DashboardServiceCard({
                     className="rounded-lg p-3 text-white"
                     style={{ backgroundColor: color || 'hsl(var(--primary))' }}
                 >
-                    {React.cloneElement(icon as React.ReactElement, { className: 'h-6 w-6' })}
+                    <Icon className="h-6 w-6" />
                 </div>
                 <CardTitle className="text-xl font-heading">{dashboardTitle || title}</CardTitle>
             </div>
