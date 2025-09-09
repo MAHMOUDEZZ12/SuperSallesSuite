@@ -1,17 +1,19 @@
 
 'use client';
 
-import React, { useState, Suspense } from 'react';
+import React, from 'react';
 import { LandingHeader } from '@/components/landing-header';
 import { LandingFooter } from '@/components/landing-footer';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Loader2, ArrowRight, Lightbulb, AlertTriangle, ShieldCheck, Megaphone, FileText, Users2, BarChart2 } from 'lucide-react';
+import { Search, Loader2, ArrowRight, Lightbulb, AlertTriangle, ShieldCheck, Megaphone, FileText, Users2 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { ProjectCard } from '@/components/ui/project-card';
 import type { Project } from '@/types';
 import Link from 'next/link';
+import { ConnectedAppCard } from '@/components/ui/connected-app-card';
+
 
 // Mock data to simulate a rich API response for "Emaar"
 const mockResults = {
@@ -36,26 +38,6 @@ const mockResults = {
         investorDemand: "Very High, particularly from European and Asian markets for luxury and high-yield rental properties."
     }
 };
-
-const ConnectedAppCard = ({ title, description, icon, ctaText, href }: { title: string, description: string, icon: React.ReactNode, ctaText: string, href: string }) => (
-    <Card className="bg-muted/50 hover:bg-muted transition-colors h-full flex flex-col">
-        <CardHeader className="flex-row items-start gap-4 space-y-0">
-            <div className="p-2 bg-primary/10 text-primary rounded-lg">{icon}</div>
-            <div>
-                <CardTitle className="text-base font-semibold">{title}</CardTitle>
-                <CardDescription className="text-xs">{description}</CardDescription>
-            </div>
-        </CardHeader>
-        <CardContent className="flex-grow" />
-        <CardFooter>
-            <Link href={href} className="w-full">
-                <Button variant="outline" className="w-full">
-                    {ctaText} <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-            </Link>
-        </CardFooter>
-    </Card>
-);
 
 const SearchResults = ({ query }: { query: string }) => {
     // In a real app, this would fetch data. Here, we use mock data.
@@ -95,7 +77,7 @@ const SearchResults = ({ query }: { query: string }) => {
                  <div className="text-center mt-4">
                      <Link href="/dashboard/tool/projects-finder">
                         <Button variant="outline">
-                            Promote these listings with the Meta Suite <ArrowRight className="ml-2 h-4 w-4" />
+                            View all projects from {query} <ArrowRight className="ml-2 h-4 w-4" />
                         </Button>
                     </Link>
                  </div>
@@ -164,7 +146,7 @@ function MarketLibrary() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get('q') || '';
-  const [query, setQuery] = useState(initialQuery);
+  const [query, setQuery] = React.useState(initialQuery);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -200,14 +182,14 @@ function MarketLibrary() {
         </div>
         
         {initialQuery && (
-          <Suspense fallback={
+          <React.Suspense fallback={
             <div className="flex items-center justify-center h-64 text-muted-foreground">
                 <Loader2 className="mr-2 h-8 w-8 animate-spin" />
                 <span>Generating your intelligence dashboard...</span>
             </div>
           }>
             <SearchResults query={initialQuery} />
-          </Suspense>
+          </React.Suspense>
         )}
 
       </main>
@@ -218,8 +200,8 @@ function MarketLibrary() {
 
 export default function MarketLibraryPage() {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <React.Suspense fallback={<div>Loading...</div>}>
             <MarketLibrary />
-        </Suspense>
+        </React.Suspense>
     )
 }
