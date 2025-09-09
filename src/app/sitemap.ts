@@ -69,7 +69,7 @@ const blogSlugs = [
 
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const siteUrl = 'https://supersellersuite.ai'; // Replace with your actual domain
+  const siteUrl = 'https://selltoday.ai'; // Replace with your actual domain
 
   const staticRoutes = [
     '/',

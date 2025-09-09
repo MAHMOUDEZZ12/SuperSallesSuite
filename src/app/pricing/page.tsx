@@ -28,7 +28,7 @@ export default function PricingPage() {
             'Brochure Translator (1/day)',
             'Payment Planner (Basic)',
             'AI Copilot (Limited)',
-            'Free *.sx3.site subdomain',
+            'Free *.selltoday.ai/site subdomain',
         ],
         cta: 'Start for Free',
         variant: 'outline'

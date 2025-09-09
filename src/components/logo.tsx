@@ -9,7 +9,7 @@ export const Logo = ({ className }: { className?: string }) => (
         <Pyramid className="h-6 w-6" />
     </div>
     <span className="text-xl font-bold font-heading text-primary">
-      Super Seller Suite
+      selltoday.ai
     </span>
   </Link>
 );

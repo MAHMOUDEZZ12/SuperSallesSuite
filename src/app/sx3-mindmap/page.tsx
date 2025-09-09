@@ -171,7 +171,7 @@ const FeatureModal = ({ feature, onClose }: { feature: Omit<Feature, 'renderResu
                        )})}
                     </div>
                      <div className="space-y-4">
-                      <h3 className="text-2xl font-semibold font-heading text-center text-primary">Super Seller Suite</h3>
+                      <h3 className="text-2xl font-semibold font-heading text-center text-primary">selltoday.ai</h3>
                        {feature.details.aiVsManual.map((item, index) => {
                         const ItemIcon = IconMap[item.icon as keyof typeof IconMap];
                         return (
@@ -285,16 +285,16 @@ export default function SX3MindmapPage() {
                 </div>
             </motion.div>
           <h1 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 bg-clip-text text-transparent bg-gradient-to-b from-foreground/90 to-foreground/60">
-            SX3 Services Mind Map
+            selltoday.ai Services Mind Map
           </h1>
           <p className="text-lg md:text-xl text-foreground/60 max-w-3xl mx-auto">
-            A visual overview of the powerful, interconnected tools in the Super Seller Suite.
+            A visual overview of the powerful, interconnected tools in the selltoday.ai suite.
           </p>
         </div>
         
         <div className="relative flex w-full flex-col justify-center items-center">
             <div className="w-full max-w-xs mb-16 z-10">
-                 <MindMapNode title="Super Seller Suite" isRoot />
+                 <MindMapNode title="selltoday.ai" isRoot />
             </div>
 
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
@@ -325,7 +325,7 @@ export default function SX3MindmapPage() {
                                 <BookOpen className="h-8 w-8" />
                             </div>
                             <div className="text-center md:text-left">
-                                <h3 className="text-xl font-bold font-heading text-foreground">The Super Seller Handbook</h3>
+                                <h3 className="text-xl font-bold font-heading text-foreground">The selltoday.ai Handbook</h3>
                                 <p className="text-foreground/70">From a high-level view to a deep dive. Explore detailed guides and expert hacks for every tool.</p>
                             </div>
                             <div className="ml-auto">

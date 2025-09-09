@@ -15,7 +15,7 @@ import { secretCodes } from '@/lib/codes';
 const principles = [
   {
     name: 'An Integrated Suite, Not Just Tools',
-    description: 'Standalone tools create fragmented workflows. Super Seller Suite is an interconnected ecosystem where every component works in concert. Your ad creator talks to your landing page builder, which talks to your social media scheduler. This seamless integration is where the magic happens, saving you time and amplifying your impact.',
+    description: 'Standalone tools create fragmented workflows. selltoday.ai is an interconnected ecosystem where every component works in concert. Your ad creator talks to your landing page builder, which talks to your social media scheduler. This seamless integration is where the magic happens, saving you time and amplifying your impact.',
     icon: <Puzzle className="h-8 w-8" />,
   },
   {
@@ -61,10 +61,10 @@ export default function AboutPage() {
                 <Zap className="h-12 w-12" />
             </div>
           <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4 bg-clip-text text-transparent bg-gradient-to-b from-foreground/90 to-foreground/60">
-            What is the Super Seller Suite?
+            What is selltoday.ai?
           </h1>
            <p className="text-lg md:text-xl text-foreground/60 max-w-4xl mx-auto">
-            The Super Seller Suite (or "SX3") is not just another set of AI tools; it's a fundamental rethinking of how real estate professionals operate. We saw a landscape of fragmented apps and generic AI assistants and knew there was a better way. Our mission is to give you, the agent, an unfair advantage by building an integrated, intelligent, and ever-evolving co-pilot for your business.
+            selltoday.ai is not just another set of AI tools; it's a fundamental rethinking of how real estate professionals operate. We saw a landscape of fragmented apps and generic AI assistants and knew there was a better way. Our mission is to give you, the agent, an unfair advantage by building an integrated, intelligent, and ever-evolving co-pilot for your business.
           </p>
         </div>
 
@@ -88,7 +88,7 @@ export default function AboutPage() {
         <Separator className="my-24" />
 
         <section>
-          <h2 className="text-3xl font-bold mb-8 text-center">Roadmap: The Future of SX3</h2>
+          <h2 className="text-3xl font-bold mb-8 text-center">Roadmap: The Future of selltoday.ai</h2>
            <div className="max-w-2xl mx-auto">
                 <Card className="bg-card/50 backdrop-blur-lg border-primary/10">
                     <CardContent className="p-8 space-y-6">

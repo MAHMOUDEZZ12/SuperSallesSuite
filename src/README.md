@@ -1,7 +1,7 @@
-# Super Sales Suite (S3)
+# selltoday.ai
 
 ## Overview
-Super Sales Suite (S3) is a **real estate–focused AI productivity hub**.  
+selltoday.ai is a **real estate–focused AI productivity hub**.  
 It connects **projects, brands, storage, and sales tools** into one unified system that empowers agents to create, manage, and sell faster.  
 
 The system is built on a **modular architecture**: each feature is an AI-driven service card that plugs into a shared core (auth, storage, brand kit, project library).
@@ -106,7 +106,5 @@ referrals/{uid}
 
 ## Vision
 
-S3 turns every salesperson into a Super-Seller by giving them tools, not just tasks.
-With projects, brand, and storage unified, S3 becomes the AI co-pilot for real estate sales.
-
-    
+selltoday.ai turns every salesperson into a Super-Seller by giving them tools, not just tasks.
+With projects, brand, and storage unified, selltoday.ai becomes the AI co-pilot for real estate sales.

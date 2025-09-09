@@ -44,7 +44,7 @@ export default function BlogIndexPage() {
                 <div className="text-center mb-16">
                      <BookOpen className="mx-auto h-16 w-16 mb-4 text-primary" />
                     <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4 bg-clip-text text-transparent bg-gradient-to-b from-foreground/90 to-foreground/60">
-                        The Gemin Handbook
+                        The selltoday.ai Handbook
                     </h1>
                     <p className="text-lg md:text-xl text-foreground/60 max-w-3xl mx-auto">
                         A collection of actionable guides, tips, and hacks to get the most out of your AI toolkit.

@@ -43,7 +43,7 @@ const aiBrandCreatorPrompt = ai.definePrompt({
   name: 'aiBrandCreatorPrompt',
   input: {schema: AIBrandCreatorInputSchema},
   output: {schema: AIBrandCreatorOutputSchema},
-  prompt: `You are an expert system administrator for the Super Seller Suite. Your task is to configure the user's workspace based on their command and the text content extracted from the documents they provide. Some content may come from images via OCR.
+  prompt: `You are an expert system administrator for selltoday.ai. Your task is to configure the user's workspace based on their command and the text content extracted from the documents they provide. Some content may come from images via OCR.
 
   User Command: "{{{command}}}"
 

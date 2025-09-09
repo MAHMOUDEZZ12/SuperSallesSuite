@@ -19,7 +19,7 @@ type Message = {
 
 const InitialAssistantMessage = () => (
     <div>
-        <p className="font-semibold mb-2">Hello! I'm your AI co-pilot, the brain of your Super Seller Suite.</p>
+        <p className="font-semibold mb-2">Hello! I'm your AI co-pilot, the brain of selltoday.ai.</p>
         <p className="mb-2">You can command me to perform complex tasks, but first, you should train me. The more I know, the better I can help you.</p>
         <div className="p-3 bg-background rounded-lg border space-y-2">
             <div className="flex items-start gap-3">

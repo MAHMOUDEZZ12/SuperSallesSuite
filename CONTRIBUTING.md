@@ -1,4 +1,4 @@
-# Contributing to Super Sales Suite
+# Contributing to selltoday.ai
 
 First off, thank you for considering contributing! This project is designed to be a modular and extensible platform, and your contributions are welcome.
 
@@ -41,4 +41,4 @@ Adding a new tool is the most common way to contribute. The process is designed 
 
 That's it! The UI for the tool page (`/dashboard/tool/[toolId]`) is generated automatically from the `creationFields` you defined. When the user clicks "Generate", it will call your connected flow with the form data.
 
-Thank you for making Super Sales Suite even better!
+Thank you for making selltoday.ai even better!

@@ -18,11 +18,11 @@ const fontHeading = Poppins({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://supersellersuite.ai'),
-  title: 'Super Seller Suite — AI tools for ads, creatives, and sales',
+  metadataBase: new URL('https://selltoday.ai'),
+  title: 'selltoday.ai — AI tools for ads, creatives, and sales',
   description: 'Use AI tools for ads, rebranding, pages, posts, CRM, and reports—all in one sales suite.',
   openGraph: {
-    title: 'Super Seller Suite',
+    title: 'selltoday.ai',
     description: 'Create ads, pages, PDFs, emails, and reports from any brochure. Train your AI assistant.',
     // Replace with a URL to your actual OpenGraph image
     images: ['/og-image.png'],
