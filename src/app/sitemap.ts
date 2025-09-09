@@ -1,7 +1,72 @@
 
 import { MetadataRoute } from 'next';
-import { tools } from '@/lib/features';
-import { blogContent } from '@/lib/blog-content';
+
+// To prevent server/client import conflicts during build,
+// we define the necessary data directly in this file.
+
+const toolIds = [
+    'ai-video-presenter',
+    'chatbot-creator',
+    'keyword-planner',
+    'tiktok-editor',
+    'meta-auto-pilot',
+    'meta-ads-copilot',
+    'audience-creator',
+    'insta-ads-designer',
+    'reel-ads-ai',
+    'instagram-admin-ai',
+    'story-planner-ai',
+    'instagram-content-creator',
+    'email-creator',
+    'youtube-video-editor',
+    'landing-pages',
+    'rebranding',
+    'pdf-editor',
+    'brochure-translator',
+    'listing-manager',
+    'listing-performance',
+    'listing-generator',
+    'commission-calculator',
+    'payment-planner',
+    'investor-matching',
+    'offer-generator',
+    'whatsapp-campaigns',
+    'lead-investigator',
+    'market-reports',
+    'market-trends',
+    'projects-finder',
+    'ai-brand-creator',
+    'crm-assistant',
+    'ai-assistant',
+    'property-finder-sync',
+    'bayut-sync',
+    'creative-execution-terminal',
+];
+
+const blogSlugs = [
+    'ai-video-presenter',
+    'ai-brand-creator',
+    'insta-ads-designer',
+    'audience-creator',
+    'rebranding',
+    'story-planner-ai',
+    'instagram-admin-ai',
+    'email-creator',
+    'instagram-content-creator',
+    'market-reports',
+    'pdf-editor',
+    'landing-page-lead-gen',
+    'landing-page-campaign',
+    'landing-pages',
+    'investor-matching',
+    'bayut-listing-ai',
+    'meta-ads-copilot',
+    'meta-auto-pilot',
+    'payment-planner',
+    'brochure-translator',
+    'youtube-video-editor',
+];
+
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const siteUrl = 'https://supersellersuite.ai'; // Replace with your actual domain
@@ -28,14 +93,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: route === '/' ? 1.0 : 0.8,
   }));
 
-  const toolRoutes = tools.map((tool) => ({
-    url: `${siteUrl}/dashboard/tool/${tool.id}`,
+  const toolRoutes = toolIds.map((toolId) => ({
+    url: `${siteUrl}/dashboard/tool/${toolId}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.6,
   }));
   
-  const blogRoutes = Object.keys(blogContent).map((slug) => ({
+  const blogRoutes = blogSlugs.map((slug) => ({
     url: `${siteUrl}/blog/${slug}`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,
