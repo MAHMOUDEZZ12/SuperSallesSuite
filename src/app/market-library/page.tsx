@@ -15,10 +15,10 @@ import Link from 'next/link';
 import { ConnectedAppCard } from '@/components/ui/connected-app-card';
 import { ResponsiveContainer, Bar, XAxis, YAxis, Tooltip, BarChart as RechartsBarChart } from 'recharts';
 import Image from 'next/image';
+import { Badge } from '@/components/ui/badge';
 
-
-// Mock data to simulate a rich API response for "Emaar"
-const mockResults = {
+// --- MOCK DATA ---
+const developerResults = {
     overview: {
         summary: "Emaar Properties is one of the world's most valuable and admired real estate development companies. With proven competencies in properties, shopping malls & retail and hospitality & leisure, Emaar shapes new lifestyles with a focus on design excellence, build quality and timely delivery.",
         logoUrl: '/logos/emaar-logo.png',
@@ -65,12 +65,33 @@ const mockResults = {
     sources: [ "Dubai Land Department", "Bayut.com", "Property Finder", "Public News Archives" ]
 };
 
-const SearchResults = ({ query }: { query: string }) => {
-    const results = mockResults;
+const locationResults = {
+    locationName: "Jabal Ali",
+    overview: "Jabal Ali is a major commercial port and business hub in Dubai, but is rapidly growing as a residential area with new developments offering affordable living options with excellent connectivity.",
+    stats: {
+        avgPricePerSqft: "AED 850",
+        yearlyPriceChange: "+8.5%",
+        rentalYield: "6.2%",
+    },
+    projects: [
+        { id: 'ja-1', name: 'Azizi Venice', developer: 'Azizi', area: 'Jabal Ali', priceFrom: 'AED 1.1M', status: 'Off-plan' },
+        { id: 'ja-2', name: 'Gardenia Livings', developer: 'Safe Developers', area: 'Jabal Ali', priceFrom: 'AED 980k', status: 'Ready' },
+        { id: 'ja-3', name: 'The Community', developer: 'Aqua Properties', area: 'Jabal Ali', priceFrom: 'AED 750k', status: 'Ready' },
+    ]
+}
 
+const questionResults = {
+    question: "Is Nakheel a government company?",
+    answer: "Yes, Nakheel Properties is a Dubai-based, state-owned developer. It is a subsidiary of Dubai World and operates under the purview of the Government of Dubai.",
+    source: "Publicly available records and company information.",
+}
+
+// --- DYNAMIC RESULT COMPONENTS ---
+
+const DeveloperDashboard = ({ query }: { query: string }) => {
+    const results = developerResults;
     return (
         <div className="mt-12 space-y-12">
-            
             <Card className="bg-card/50 backdrop-blur-lg">
                 <CardHeader>
                     <div className="flex items-start justify-between">
@@ -165,7 +186,6 @@ const SearchResults = ({ query }: { query: string }) => {
                 </Card>
             </div>
 
-
             <Card className="relative p-0.5 bg-gradient-to-r from-primary/50 via-primary/20 to-primary/50 overflow-hidden group">
                  <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/50 to-primary/20 animate-[gradient-spin_5s_ease-in-out_infinite] opacity-50 group-hover:opacity-75 transition-opacity -z-10"/>
                  <div className="relative h-full bg-card/95 backdrop-blur-sm rounded-lg p-8">
@@ -209,6 +229,71 @@ const SearchResults = ({ query }: { query: string }) => {
     );
 };
 
+const LocationReport = ({ query }: { query: string }) => {
+    const results = locationResults;
+    return (
+         <div className="mt-12 space-y-8">
+            <Card className="bg-card/50 backdrop-blur-lg">
+                <CardHeader>
+                    <CardTitle className="text-2xl">Location Report: {results.locationName}</CardTitle>
+                    <CardDescription>{results.overview}</CardDescription>
+                </CardHeader>
+                <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <Card className="text-center"><CardHeader><CardTitle>{results.stats.avgPricePerSqft}</CardTitle><CardDescription>Avg. Price/sqft</CardDescription></CardHeader></Card>
+                    <Card className="text-center"><CardHeader><CardTitle>{results.stats.yearlyPriceChange}</CardTitle><CardDescription>Yearly Change</CardDescription></CardHeader></Card>
+                    <Card className="text-center"><CardHeader><CardTitle>{results.stats.rentalYield}</CardTitle><CardDescription>Est. Rental Yield</CardDescription></CardHeader></Card>
+                </CardContent>
+            </Card>
+
+            <div>
+                <h2 className="text-2xl font-bold mb-6">Active & Recent Projects in {results.locationName}</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {results.projects.map((project) => (
+                        <ProjectCard key={project.id} project={project} />
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const AnswerCard = ({ query }: { query: string }) => {
+    const results = questionResults;
+    return (
+         <div className="mt-12">
+            <Card className="bg-card/50 backdrop-blur-lg">
+                 <CardHeader>
+                    <CardTitle className="text-2xl">AI Answer</CardTitle>
+                    <CardDescription>For your question: "{results.question}"</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-lg text-foreground/90">{results.answer}</p>
+                    <p className="text-xs text-muted-foreground mt-4">Source: {results.source}</p>
+                </CardContent>
+            </Card>
+        </div>
+    );
+}
+
+const SearchResults = ({ query }: { query: string }) => {
+    // This is where a real app would have an API call with NLU to determine which result type to show.
+    // For this prototype, we'll use simple string matching.
+    const lowerQuery = query.toLowerCase();
+
+    if (lowerQuery.includes('emaar')) {
+        return <DeveloperDashboard query={query} />;
+    }
+    if (lowerQuery.includes('jabal ali')) {
+        return <LocationReport query={query} />;
+    }
+    if (lowerQuery.includes('?')) {
+        return <AnswerCard query={query} />;
+    }
+    
+    // Default fallback to a generic search result page or message
+    return <div className="mt-12 text-center text-muted-foreground">No specific dashboard type found for your query. Showing generic results...</div>;
+};
+
 function MarketLibrary() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -236,7 +321,7 @@ function MarketLibrary() {
             <form onSubmit={handleSearch} className="relative">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input
-                    placeholder="Search for a project, developer, area, or even a service charge..."
+                    placeholder="Search for a project, developer, area, or even ask a question..."
                     className="w-full rounded-full h-14 pl-12 pr-28 text-base"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
@@ -255,7 +340,6 @@ function MarketLibrary() {
                   <div className="w-full max-w-lg space-y-2 mb-4">
                       <p className="font-semibold text-lg text-center">Generating your intelligence dashboard...</p>
                       <div className="h-2.5 bg-primary/20 rounded-full w-full animate-pulse"></div>
-                      <div className="h-2.5 bg-primary/20 rounded-full w-3/4 animate-pulse"></div>
                   </div>
               </div>
             }>
@@ -265,9 +349,9 @@ function MarketLibrary() {
               <div className="text-center mt-8 text-sm text-muted-foreground">
                   <p>Or try an example search:</p>
                   <div className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-2">
-                      <button onClick={() => router.push('/market-library?q=Apartments%20in%20Downtown%20with%20rental%20yield')} className="hover:text-primary transition-colors">Apartments in Downtown with rental yield</button>
-                      <button onClick={() => router.push('/market-library?q=Top%20off-plan%20projects%20launching%20this%20month')} className="hover:text-primary transition-colors">Top off-plan projects</button>
-                      <button onClick={() => router.push('/market-library?q=Market%20trends%20for%20Business%20Bay%20offices')} className="hover:text-primary transition-colors">Market trends for Business Bay offices</button>
+                      <button onClick={() => router.push('/market-library?q=Emaar')} className="hover:text-primary transition-colors">Emaar</button>
+                      <button onClick={() => router.push('/market-library?q=what are the prices in Jabal Ali')} className="hover:text-primary transition-colors">Prices in Jabal Ali</button>
+                      <button onClick={() => router.push('/market-library?q=is Nakheel a government company?')} className="hover:text-primary transition-colors">Is Nakheel a government company?</button>
                   </div>
               </div>
           )}
