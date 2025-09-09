@@ -15,38 +15,13 @@
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import {
+  EditYouTubeVideoInputSchema,
+  EditYouTubeVideoOutputSchema,
+  type EditYouTubeVideoInput,
+  type EditYouTubeVideoOutput,
+} from '@/types';
 
-/**
- * Defines the schema for the input of the video editing flow.
- */
-const EditYouTubeVideoInputSchema = z.object({
-  sourceVideo: z
-    .string()
-    .describe(
-      "The source video file, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
-    ),
-  editingInstructions: z
-    .string()
-    .describe('The general instructions for editing the video (e.g., style, music, goal).'),
-  deepEditInstructions: z
-    .string()
-    .optional()
-    .describe('Optional specific instructions for fine-tuning the video (e.g., timestamps, text overlays).'),
-});
-export type EditYouTubeVideoInput = z.infer<typeof EditYouTubeVideoInputSchema>;
-
-/**
- * Defines the schema for the output of the video editing flow.
- */
-const EditYouTubeVideoOutputSchema = z.object({
-  editedVideoDataUri: z
-    .string()
-    .describe(
-      "The edited video file, as a data URI. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
-    ),
-});
-export type EditYouTubeVideoOutput = z.infer<typeof EditYouTubeVideoOutputSchema>;
 
 /**
  * An AI flow that edits a video for YouTube based on user instructions.

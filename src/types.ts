@@ -645,7 +645,7 @@ export const GetMarketTrendsOutputSchema = z.object({
     trend: z.string().describe('A specific emerging trend.'),
     description: z.string().describe('A brief description of the trend and its potential impact.'),
   })).describe('A list of 2-4 key emerging trends identified from the sources.'),
-  futureOutlook: z.string().describe('A forward-looking statement on what to expect based on the analyzed trends.'),
+  futureOutlook: z.string().describe('A forward-looking statement on what to expect in the coming months.'),
 });
 export type GetMarketTrendsOutput = z.infer<typeof GetMarketTrendsOutputSchema>;
 
@@ -778,3 +778,29 @@ export const TranslateBrochureOutputSchema = z.object({
     ),
 });
 export type TranslateBrochureOutput = z.infer<typeof TranslateBrochureOutputSchema>;
+
+// Schemas for Edit YouTube Video
+export const EditYouTubeVideoInputSchema = z.object({
+  sourceVideo: z
+    .string()
+    .describe(
+      "The source video file, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
+    ),
+  editingInstructions: z
+    .string()
+    .describe('The general instructions for editing the video (e.g., style, music, goal).'),
+  deepEditInstructions: z
+    .string()
+    .optional()
+    .describe('Optional specific instructions for fine-tuning the video (e.g., timestamps, text overlays).'),
+});
+export type EditYouTubeVideoInput = z.infer<typeof EditYouTubeVideoInputSchema>;
+
+export const EditYouTubeVideoOutputSchema = z.object({
+  editedVideoDataUri: z
+    .string()
+    .describe(
+      "The edited video file, as a data URI. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
+    ),
+});
+export type EditYouTubeVideoOutput = z.infer<typeof EditYouTubeVideoOutputSchema>;
