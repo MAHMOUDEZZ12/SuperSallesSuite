@@ -49,6 +49,7 @@ import { Tooltip, TooltipProvider, TooltipContent, TooltipTrigger } from '@/comp
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
 import { IconMap, IconProps } from '@/components/ui/icon-map';
+import { MarketSearchInput } from '@/components/ui/market-search-input';
 
 
 const filterCategories: FilterCategory[] = ['All', 'Marketing', 'Lead Gen', 'Creative', 'Sales Tools', 'Social & Comms', 'Web', 'Editing', 'Ads'];
@@ -180,7 +181,7 @@ const FeatureModal = ({ feature, onClose }: { feature: Omit<Feature, 'renderResu
                         return (
                         <div key={i} className="flex flex-col items-center text-center p-4 bg-card rounded-lg border">
                           <div className='p-3 bg-primary/10 rounded-full mb-3 text-primary'>
-                            <StepIcon className="h-6 w-6"/>
+                            <StepIcon className='h-6 w-6' />
                           </div>
                           <p className="font-semibold text-foreground">Step {i+1}</p>
                           <p className='text-sm text-foreground/70'>{step.text}</p>
@@ -303,13 +304,14 @@ export default function Home() {
     <div className="flex min-h-screen flex-col bg-background">
       <LandingHeader />
       <main className="flex-1 w-full max-w-full px-4 md:px-6 lg:px-8 py-12 md:py-20">
-        <div className="text-center mb-24 max-w-5xl mx-auto">
+        <div className="text-center mb-16 max-w-5xl mx-auto">
           <h1 className="text-4xl md:text-7xl font-bold font-heading tracking-tighter mb-4 text-foreground">
             From Agent to Super Agent.
           </h1>
-          <p className="text-lg md:text-xl text-foreground/60">
+          <p className="text-lg md:text-xl text-foreground/60 mb-8">
             Explore the tools. Train your assistant. Close faster.
           </p>
+          <MarketSearchInput />
         </div>
 
         <div className="sticky top-16 z-10 bg-background/80 backdrop-blur-lg py-4 mb-8">
