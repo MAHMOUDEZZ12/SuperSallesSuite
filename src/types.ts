@@ -550,15 +550,16 @@ export type GenerateReelOutput = z.infer<typeof GenerateReelOutputSchema>;
 
 // Schemas for Social Post Generator
 export const GenerateSocialPostInputSchema = z.object({
-  source: z
+  topic: z
     .string()
-    .describe('A URL or topic to generate the social media post from.'),
+    .describe('A topic or theme to generate the social media posts from.'),
   platform: z
     .string()
     .describe(
       'The social media platform (e.g., Twitter, LinkedIn, Facebook).'
     ),
   tone: z.string().describe('The desired tone of voice for the post.'),
+  dataStore: z.string().describe("The data store ID to use as a knowledge source."),
 });
 export type GenerateSocialPostInput = z.infer<
   typeof GenerateSocialPostInputSchema
@@ -567,6 +568,7 @@ export type GenerateSocialPostInput = z.infer<
 export const GenerateSocialPostOutputSchema = z.object({
   posts: z.array(z.object({
     day: z.string().describe("The day of the week for the post (e.g., 'Monday')."),
+    theme: z.string().describe("The theme for the day's post (e.g., 'Market Insight')."),
     postContent: z.string().describe('The generated social media post content for that day.'),
     imageSuggestion: z.string().describe('A suggestion for an accompanying image for that day\'s post.'),
   })).describe("A list of posts for a 7-day week."),

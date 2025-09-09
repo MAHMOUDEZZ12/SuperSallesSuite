@@ -22,7 +22,7 @@ import { generateReel } from '@/ai/flows/generate-reel';
 import { generateTikTokVideo } from '@/ai/flows/generate-tiktok-video';
 import { getCrmMemory } from '@/ai/flows/get-crm-memory';
 import { manageSocialPage } from '@/ai/flows/manage-social-page';
-import { generateMultiOffer } from '@/ai/flows/generate-multi-offer';
+import { generateMultiOffer } from '@/aiflows/generate-multi-offer';
 import { createEmailCampaign } from '@/ai/flows/create-email-campaign';
 import { manageWhatsAppCampaign } from '@/ai/flows/manage-whatsapp-campaign';
 import { createMetaCampaign } from '@/ai/flows/create-meta-campaign';
@@ -33,8 +33,8 @@ import { translateBrochure } from '@/ai/flows/translate-brochure';
 import { editYoutubeVideo } from '@/ai/flows/edit-youtube-video';
 import { investigateLead } from '@/ai/flows/investigate-lead';
 import { generateKeywordPlan } from '@/ai/flows/generate-keyword-plan';
-import { generateVideoPresenter } from '@/ai/flows/generate-video-presenter';
 import { createVm } from '@/ai/flows/create-vm';
+import { generateVideoPresenter } from '@/ai/flows/generate-video-presenter';
 import { generateUgcScript } from '@/ai/flows/generate-ugc-script';
 
 const runToolSchema = z.object({

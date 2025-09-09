@@ -510,22 +510,22 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
   },
   {
     id: 'instagram-content-creator',
-    title: 'Instagram Content Creator',
-    dashboardTitle: 'Instagram Content',
-    description: 'Generate a full week of social media content and a tiered hashtag strategy from a single topic or URL.',
+    title: 'Social Content Creator',
+    dashboardTitle: 'Social Content Creator',
+    description: 'Generate a 7-day social content plan from a single topic, powered by your data.',
     icon: 'Share2',
     color: '#ea580c',
     cta: 'Generate Content Strategy',
     categories: ['Marketing', 'Creative', 'Social & Comms'],
     mindMapCategory: 'Marketing',
-    badge: 'SOON',
+    isPage: false,
     href: '/dashboard/tool/instagram-content-creator',
     guideHref: '/blog/instagram-content-creator',
     details: {
         steps: [
-            { text: 'Enter a topic, URL, or project name', icon: 'PenTool' },
-            { text: 'AI generates a 7-day content plan', icon: 'ClipboardList' },
-            { text: 'Get image suggestions and a hashtag strategy', icon: 'Hash' },
+            { text: 'Choose a knowledge base (data store)', icon: 'Database' },
+            { text: 'Enter your content topic or theme', icon: 'PenTool' },
+            { text: 'Get a full 7-day plan with posts and hashtags', icon: 'ClipboardList' },
         ],
         aiVsManual: [
             { metric: 'Planning Time', manual: '2-3 hours per week', ai: 'Fast by default', icon: 'Clock2' },
@@ -538,12 +538,13 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
         ],
         faqs: [
             { question: "Can I edit the generated posts?", answer: "Yes, the generated content is a starting point. You can edit, remove, or add posts to the plan before you schedule them." },
-            { question: "Does it create the images for me?", answer: "The tool provides detailed *suggestions* for images that would complement the text. For full image creation, use the Insta Ads Designer or Reel Ads tools." },
+            { question: "What is a 'Data Store'?", answer: "It's a knowledge base you can create in Vertex AI. You can upload your own documents, websites, and data to it. When you select a data store, the AI will use that information as the primary source for generating content, making it highly relevant to your business." },
             { question: "How does it decide on the daily themes?", answer: "The AI uses a proven content marketing framework, mixing promotional content with educational, engaging, and behind-the-scenes posts to keep your audience interested and build community." }
         ]
     },
     creationFields: [
-        { id: 'source', name: 'Source', type: 'text', placeholder: 'Enter a URL or topic (e.g., "The benefits of living in Dubai Marina")', description: 'The core idea for your content plan.' },
+        { id: 'dataStore', name: 'Data Store', type: 'select', options: ['None (General Knowledge)', 'MarketMedia-Lib', 'Dev-Top-Properties'], placeholder: 'Select a data store', description: 'The knowledge base the AI will use to write content.' },
+        { id: 'topic', name: 'Topic or Theme', type: 'text', placeholder: 'e.g., "The benefits of living in Dubai Marina"', description: 'The core idea for your content plan.' },
         { id: 'platform', name: 'Platform', type: 'select', options: ['Instagram', 'Facebook', 'LinkedIn', 'Twitter'], placeholder: 'Select a platform', description: 'The platform you are creating content for.' },
         { id: 'tone', name: 'Tone of Voice', type: 'select', options: ['Professional', 'Friendly', 'Humorous', 'Authoritative'], placeholder: 'Select a tone', description: 'Set the tone for the generated posts.' },
     ],
@@ -806,7 +807,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
       faqs: [
         { question: "Which portals will this support?", answer: "The initial version will generate plans for Property Finder and Bayut, with more portals being added based on user demand." },
         { question: "What is a 'Rollflow Plan'?", answer: "It's a machine-readable code (JSON) that contains all the finalized data for your listing. You copy this plan and paste it into the specific 'Sync' tool (e.g., Bayut Pilot) to execute the listing." },
-        { question: "Why not just publish directly?", answer: "This 'Planner' -> 'Terminal' architecture is more powerful and secure. It allows us to have one smart app for content creation (the Manager) and separate, simple apps for the technical job of publishing, which is a more robust system." },
+        { question: "Why not just publish directly?", answer: "This 'Planner' -> 'Terminal' architecture is more powerful and secure. It allows us to have one smart app for content creation (the Manager) and separate, simple apps for the technical job of publishing, which is a more robust system." }
       ],
     },
     creationFields: [],
@@ -1429,7 +1430,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     cta: 'Go to Pilot',
     categories: ['Utilities', 'Web', 'Listing Intelligence AI'],
     mindMapCategory: 'Listing Intelligence AI',
-    isPage: true,
+isPage: true,
     badge: 'Pilot*',
     href: '/dashboard/tool/bayut-sync',
     details: {
