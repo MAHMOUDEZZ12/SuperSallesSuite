@@ -13,7 +13,6 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'zod';
-import wav from 'wav';
 import { googleAI } from '@genkit-ai/googleai';
 import { GenerateVideoPresenterInputSchema, GenerateVideoPresenterOutputSchema, GenerateVideoPresenterInput, GenerateVideoPresenterOutput } from '@/types';
 
