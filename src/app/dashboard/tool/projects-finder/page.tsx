@@ -14,7 +14,7 @@ import { useToast } from '@/hooks/use-toast';
 import { track } from '@/lib/events';
 import { Separator } from '@/components/ui/separator';
 
-export default function ProjectsFinderPage() {
+export default function MarketLibraryPage() {
   const { toast } = useToast();
   const [query, setQuery] = useState('');
   const [searchResults, setSearchResults] = useState<Project[]>([]);
@@ -56,26 +56,6 @@ export default function ProjectsFinderPage() {
       setIsLoading(false);
     }
   };
-
-  const handleNewProjectSubmit = (e: React.FormEvent) => {
-      e.preventDefault();
-      if (!newProjectName || !newProjectDeveloper) {
-          toast({ title: "Missing Information", description: "Please provide both a project name and a developer.", variant: "destructive" });
-          return;
-      }
-      setIsSubmitting(true);
-      setTimeout(() => {
-        toast({
-            title: "Screening Request Submitted!",
-            description: `We're now screening the market for "${newProjectName}". We'll notify you when it's verified and added to the Market Library.`,
-        });
-        track('project_submitted_for_screening', { projectName: newProjectName, developer: newProjectDeveloper });
-        setNewProjectName('');
-        setNewProjectDeveloper('');
-        setIsSubmitting(false);
-    }, 1500);
-
-  }
 
   const handleAddToLibrary = (project: Project) => {
     track('project_added_to_library', { projectId: project.id, projectName: project.name });
@@ -213,28 +193,6 @@ export default function ProjectsFinderPage() {
                     </CardFooter>
                 </form>
              </Card>
-             <Card>
-                <CardHeader>
-                    <CardTitle>3. Request a New Project</CardTitle>
-                    <CardDescription>Can't find a public project? Submit it for AI screening. We'll find it, verify it, and add it to the Market Library for everyone.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                     <form onSubmit={handleNewProjectSubmit} className="space-y-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="new-project-name-req">Project Name</Label>
-                                <Input id="new-project-name-req" value={newProjectName} onChange={e => setNewProjectName(e.target.value)} placeholder="e.g., Emaar South" required />
-                            </div>
-                             <div className="space-y-2">
-                                <Label htmlFor="new-project-developer-req">Developer</Label>
-                                <Input id="new-project-developer-req" value={newProjectDeveloper} onChange={e => setNewProjectDeveloper(e.target.value)} placeholder="e.g., Emaar" required />
-                            </div>
-                            <Button type="submit" className="w-full" variant="outline" disabled={isSubmitting}>
-                                {isSubmitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                                Submit for Screening
-                            </Button>
-                        </form>
-                </CardContent>
-            </Card>
         </div>
       </div>
     </main>

@@ -22,7 +22,7 @@ const TabManagerContext = createContext<TabManagerContextType | undefined>(undef
 const navMap: {[key: string]: string} = {
     '/dashboard': 'Home',
     '/dashboard/marketing': 'Apps',
-    '/dashboard/tool/projects-finder': 'Projects Library',
+    '/dashboard/tool/projects-finder': 'Market Library',
     '/dashboard/brand': 'Brand & Assets',
     '/dashboard/clients': 'Clients',
     '/dashboard/leads': 'Leads (CRM)',

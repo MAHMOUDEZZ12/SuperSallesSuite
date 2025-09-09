@@ -1206,7 +1206,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
    {
     id: 'projects-finder',
     title: 'Market Library',
-    dashboardTitle: 'Projects Finder',
+    dashboardTitle: 'Market Library',
     description: "Continuously scans public records and news to find off-market deals and development opportunities, feeding the central library.",
     icon: 'Search',
     color: '#fde047', 
