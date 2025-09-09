@@ -2,13 +2,9 @@
 import { Suspense } from 'react';
 import { LandingHeader } from '@/components/landing-header';
 import { LandingFooter } from '@/components/landing-footer';
-import { Search, Loader2, Sparkles, LineChart, Users2, Megaphone } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+import { Search, Loader2 } from 'lucide-react';
 import { ProjectCard } from '@/components/ui/project-card';
 import type { Project } from '@/types';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import Link from 'next/link';
 
 async function fetchSearchResults(query: string): Promise<Project[]> {
     // In a real app, this would be a direct database call for performance.
@@ -50,27 +46,6 @@ async function SearchResults({ query }: { query: string }) {
     );
 }
 
-const UpsellCard = ({ title, icon, href, children }: { title: string, icon: React.ReactNode, href: string, children: React.ReactNode }) => (
-    <Card className="h-full">
-        <CardHeader>
-            <CardTitle className="flex items-center gap-3">
-                 <div className="p-2 bg-primary/10 text-primary rounded-lg w-fit shrink-0">
-                    {icon}
-                 </div>
-                {title}
-            </CardTitle>
-        </CardHeader>
-        <CardContent>
-            <p className="text-muted-foreground">{children}</p>
-            <Link href={href} className="mt-4 block">
-                <Button variant="outline" className="w-full">
-                    Go to Tool
-                </Button>
-            </Link>
-        </CardContent>
-    </Card>
-);
-
 export default function SearchPage({ searchParams }: { searchParams?: { [key: string]: string | string[] | undefined } }) {
     const query = typeof searchParams?.q === 'string' ? searchParams.q : '';
 
@@ -87,31 +62,20 @@ export default function SearchPage({ searchParams }: { searchParams?: { [key: st
                      )}
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
-                    <div className="lg:col-span-3">
-                         <Suspense fallback={
-                            <div className="flex items-center justify-center h-64 text-muted-foreground">
-                                <Loader2 className="mr-2 h-8 w-8 animate-spin" />
-                                <span>Searching the market...</span>
-                            </div>
-                         }>
-                           {query && <SearchResults query={query} />}
-                        </Suspense>
+                <Suspense fallback={
+                    <div className="flex items-center justify-center h-64 text-muted-foreground">
+                        <Loader2 className="mr-2 h-8 w-8 animate-spin" />
+                        <span>Searching the market...</span>
                     </div>
-
-                    <div className="lg:col-span-1 space-y-6 sticky top-24">
-                        <h3 className="text-lg font-semibold text-center lg:text-left">Connected Apps</h3>
-                         <UpsellCard title="Generate Market Report" icon={<LineChart />} href="/dashboard/tool/market-reports">
-                            Get a full, data-rich report with interactive graphs for this specific search area.
-                        </UpsellCard>
-                        <UpsellCard title="Find Interested Investors" icon={<Users2 />} href="/dashboard/tool/investor-matching">
-                            Match these properties with clients from your database who are looking for this type of investment.
-                        </UpsellCard>
-                        <UpsellCard title="Promote a Property" icon={<Megaphone />} href="/dashboard/tool/meta-ads-copilot">
-                           Instantly create a targeted ad campaign for one of these projects.
-                        </UpsellCard>
-                    </div>
-                </div>
+                    }>
+                    {query ? (
+                        <SearchResults query={query} />
+                    ) : (
+                         <div className="text-center py-16 text-muted-foreground">
+                            <p>Please enter a search term on the homepage to begin.</p>
+                        </div>
+                    )}
+                </Suspense>
             </main>
             <LandingFooter />
         </div>
