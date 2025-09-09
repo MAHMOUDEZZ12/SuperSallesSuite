@@ -28,6 +28,7 @@ const navMap: {[key: string]: string} = {
     '/dashboard/leads': 'Leads (CRM)',
     '/dashboard/assistant': 'AI Assistant',
     '/dashboard/settings': 'Settings',
+    '/dashboard/tool/listing-performance': 'Performance',
 };
 
 const getLabelForPath = (path: string): string => {

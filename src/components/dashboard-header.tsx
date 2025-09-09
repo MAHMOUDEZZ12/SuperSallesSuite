@@ -13,7 +13,7 @@ import {
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Link from "next/link";
-import { LifeBuoy, LogOut, Settings, User, Search, Home, Building, Palette, Users, Bot, Menu, Puzzle } from "lucide-react";
+import { LifeBuoy, LogOut, Settings, User, Search, Home, Building, Palette, Users, Bot, Menu, Puzzle, BarChart, UserPlus } from "lucide-react";
 import React from "react";
 import { GlobalSearch } from "./ui/global-search";
 import { useTheme } from "./theme-switcher";
@@ -28,11 +28,13 @@ const mainNav = [
   { href: '/dashboard', label: 'Home', icon: Home },
   { href: '/dashboard/marketing', label: 'Apps', icon: Puzzle },
   { href: '/dashboard/tool/projects-finder', label: 'Market Library', icon: Building },
+  { href: '/dashboard/tool/listing-performance', label: 'Performance', icon: BarChart },
   { href: '/dashboard/assistant', label: 'AI Assistant', icon: Bot },
 ];
 
 const settingsNav = [
   { href: '/dashboard/brand', label: 'Brand & Assets', icon: Palette },
+  { href: '/dashboard/leads', label: 'Leads (CRM)', icon: UserPlus },
   { href: '/dashboard/clients', label: 'Clients', icon: Users },
   { href: '/dashboard/settings', label: 'Settings', icon: Settings },
 ];
