@@ -11,12 +11,9 @@
  */
 
 import { ai } from '@/ai/genkit';
-import { z } from 'genkit';
-import { config } from 'dotenv';
+import { z } from 'zod';
 import fetch from 'node-fetch';
 
-
-config(); // Load environment variables
 
 /**
  * Defines the schema for the input of the Bayut sync flow.
