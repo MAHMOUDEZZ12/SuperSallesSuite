@@ -16,31 +16,13 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import {
+  GenerateMarketReportInputSchema,
+  GenerateMarketReportOutputSchema,
+  type GenerateMarketReportInput,
+  type GenerateMarketReportOutput,
+} from '@/types';
 
-/**
- * Defines the schema for the input of the market report flow.
- */
-export const GenerateMarketReportInputSchema = z.object({
-  location: z.string().describe('The city or neighborhood for the report.'),
-  propertyType: z.string().describe('The specific property type to focus on (e.g., "luxury condos").'),
-  reportType: z.enum(['Investor', 'Home Buyer', 'Seller']).describe('The target audience for the report.'),
-});
-export type GenerateMarketReportInput = z.infer<typeof GenerateMarketReportInputSchema>;
-
-/**
- * Defines the schema for the output of the market report flow.
- */
-export const GenerateMarketReportOutputSchema = z.object({
-  reportTitle: z.string().describe('A compelling title for the report.'),
-  executiveSummary: z.string().describe('A brief, high-level summary of the key findings.'),
-  marketTrends: z.array(z.object({
-    trend: z.string().describe('A specific market trend.'),
-    analysis: z.string().describe('A brief analysis of the trend and its impact.'),
-  })).describe('A list of current market trends and their analysis.'),
-  pricingAnalysis: z.string().describe('An analysis of current pricing, including average prices and recent changes.'),
-  futureOutlook: z.string().describe('A forward-looking statement on what to expect in the coming months.'),
-});
-export type GenerateMarketReportOutput = z.infer<typeof GenerateMarketReportOutputSchema>;
 
 /**
  * An AI flow that generates a market report for a specific location.
@@ -93,3 +75,4 @@ const generateMarketReportFlow = ai.defineFlow(
     return output;
   }
 );
+

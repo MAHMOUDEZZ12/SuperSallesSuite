@@ -16,50 +16,13 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import {
+  CreateEmailCampaignInputSchema,
+  CreateEmailCampaignOutputSchema,
+  type CreateEmailCampaignInput,
+  type CreateEmailCampaignOutput,
+} from '@/types';
 
-/**
- * Defines the schema for the input of the email campaign creation flow.
- */
-export const CreateEmailCampaignInputSchema = z.object({
-  goal: z
-    .string()
-    .describe(
-      'The goal of the campaign (e.g., "New Listing Announcement", "Open House Follow-up").'
-    ),
-  source: z
-    .string()
-    .describe(
-      'A URL or topic to use as the content basis (e.g., a property listing page, a market report topic).'
-    ),
-  tone: z
-    .string()
-    .describe('The desired tone of voice for the emails (e.g., "Professional & Urgent").'),
-});
-export type CreateEmailCampaignInput = z.infer<
-  typeof CreateEmailCampaignInputSchema
->;
-
-/**
- * Defines the schema for the output of the email campaign creation flow.
- */
-export const CreateEmailCampaignOutputSchema = z.object({
-  emails: z
-    .array(
-      z.object({
-        subject: z.string().describe("The email's subject line."),
-        bodyHtml: z.string().describe('The full HTML content of the email.'),
-        sendDelayDays: z
-          .number()
-          .describe(
-            'The number of days to wait before sending this email (e.g., 0 for immediate, 2 for two days later).'
-          ),
-      })
-    )
-    .describe('A sequence of generated emails for the campaign.'),
-});
-export type CreateEmailCampaignOutput = z.infer<
-  typeof CreateEmailCampaignOutputSchema
->;
 
 const createEmailCampaignPrompt = ai.definePrompt({
   name: 'createEmailCampaignPrompt',
@@ -110,3 +73,4 @@ export async function createEmailCampaign(
 ): Promise<CreateEmailCampaignOutput> {
   return createEmailCampaignFlow(input);
 }
+

@@ -16,28 +16,13 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import {
+  GenerateListingInputSchema,
+  GenerateListingOutputSchema,
+  type GenerateListingInput,
+  type GenerateListingOutput,
+} from '@/types';
 
-/**
- * Defines the schema for the input of the listing generation flow.
- */
-export const GenerateListingInputSchema = z.object({
-  platform: z.string().describe("The listing platform (e.g., 'Property Finder', 'Bayut')."),
-  propertyAddress: z.string().describe('The full address of the property.'),
-  keyDetails: z.string().describe('Basic stats like beds, baths, and square footage.'),
-  uniqueFeatures: z.string().describe('What makes this property special. Separate features with a comma or newline.'),
-  tone: z.enum(['Luxury', 'Family-Friendly', 'Modern', 'Cozy', 'Urgent']).describe('The desired tone for the listing description.'),
-});
-export type GenerateListingInput = z.infer<typeof GenerateListingInputSchema>;
-
-/**
- * Defines the schema for the output of the listing generation flow.
- */
-export const GenerateListingOutputSchema = z.object({
-  title: z.string().describe("A compelling, SEO-friendly title for the listing."),
-  description: z.string().describe('The full, persuasive listing description.'),
-  keywords: z.array(z.string()).describe("A list of suggested keywords for the listing platform."),
-});
-export type GenerateListingOutput = z.infer<typeof GenerateListingOutputSchema>;
 
 /**
  * An AI flow that generates a real estate listing description.
@@ -83,3 +68,4 @@ const generateListingFlow = ai.defineFlow(
     return output!;
   }
 );
+

@@ -17,62 +17,12 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-
-/**
- * Defines the schema for the input of the PDF editing flow.
- */
-const EditPdfInputSchema = z.object({
-  /**
-   * The source PDF document, encoded as a Base64 data URI.
-   * @example "data:application/pdf;base64,..."
-   */
-  sourcePdf: z
-    .string()
-    .describe(
-      "The source PDF document, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
-    ),
-  /**
-   * Plain-text instructions describing the edits to be made.
-   */
-  editInstructions: z
-    .string()
-    .describe('The instructions for editing the PDF.'),
-  /**
-   * Optional new images to be used in the edited PDF, encoded as Base64 data URIs.
-   */
-  newImages: z
-    .array(z.string())
-    .optional()
-    .describe(
-      "An optional array of new images to be used, as data URIs. Expected format: 'data:<mimetype>;base64,<encoded_data>'. Only provide if your instructions reference replacing an image."
-    ),
-});
-
-export type EditPdfInput = z.infer<typeof EditPdfInputSchema>;
-
-/**
- * Defines the schema for a single step in the execution plan.
- */
-const ExecutionStepSchema = z.object({
-    description: z.string().describe("A human-readable description of the step."),
-    tool: z.string().describe("The name of the tool or API to be called."),
-    parameters: z.any().describe("The parameters to be passed to the tool."),
-});
-
-/**
- * Defines the schema for the output of the PDF editing plan generation flow.
- */
-const EditPdfOutputSchema = z.object({
-  /**
-   * A human-readable summary of the plan.
-   */
-  summary: z.string().describe("A brief summary of the planned edits."),
-  /**
-   * The structured execution plan.
-   */
-  executionPlan: z.array(ExecutionStepSchema).describe("An array of steps to be executed."),
-});
-export type EditPdfOutput = z.infer<typeof EditPdfOutputSchema>;
+import {
+  EditPdfInputSchema,
+  EditPdfOutputSchema,
+  type EditPdfInput,
+  type EditPdfOutput,
+} from '@/types';
 
 
 /**
@@ -127,3 +77,4 @@ const editPdfFlow = ai.defineFlow(
     return output;
   }
 );
+

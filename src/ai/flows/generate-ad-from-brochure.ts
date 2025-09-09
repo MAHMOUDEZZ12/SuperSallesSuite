@@ -15,69 +15,13 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import {
+  GenerateAdFromBrochureInputSchema,
+  GenerateAdFromBrochureOutputSchema,
+  type GenerateAdFromBrochureInput,
+  type GenerateAdFromBrochureOutput,
+} from '@/types';
 
-/**
- * Defines the schema for the input of the ad generation flow.
- */
-const GenerateAdFromBrochureInputSchema = z.object({
-  /**
-   * The project brochure file, encoded as a Base64 data URI. This is now optional.
-   * @example "data:application/pdf;base64,..."
-   */
-  brochureDataUri: z
-    .string()
-    .optional()
-    .describe(
-      "A project brochure, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
-    ),
-  /**
-   * The name of the project. Used if no brochure is provided.
-   */
-  projectName: z.string().optional().describe('The name of the project.'),
-  /**
-   * Additional information or key details about the project.
-   */
-  additionalInformation: z
-    .string()
-    .optional()
-    .describe('Additional key details about the project.'),
-  /**
-   * The specific aspect of the project the ad should highlight (e.g., luxury, family-friendly).
-   */
-  focusArea: z
-    .string()
-    .describe('The specific part of the project to focus on in the ad.'),
-  /**
-   * The desired tone of voice for the ad copy (e.g., professional, friendly, urgent).
-   */
-  toneOfVoice: z.string().describe('The desired tone of voice for the ad.'),
-});
-export type GenerateAdFromBrochureInput = z.infer<
-  typeof GenerateAdFromBrochureInputSchema
->;
-
-/**
- * Defines the schema for the output of the ad generation flow.
- */
-const GenerateAdFromBrochureOutputSchema = z.object({
-  /**
-   * The generated ad copy, tailored to the specified focus and tone.
-   */
-  adCopy: z.string().describe('The generated ad copy.'),
-  /**
-   * The generated ad design, returned as a Base64 data URI.
-   */
-  adDesign: z.string().describe('The data URI of the generated ad design.'),
-  /**
-   * The generated landing page design, returned as a Base64 data URI.
-   */
-  landingPage: z
-    .string()
-    .describe('The data URI of the generated landing page.'),
-});
-export type GenerateAdFromBrochureOutput = z.infer<
-  typeof GenerateAdFromBrochureOutputSchema
->;
 
 /**
  * An AI flow that generates ad copy and designs from a project brochure or name.
@@ -133,3 +77,5 @@ const generateAdFromBrochureFlow = ai.defineFlow(
     return output!;
   }
 );
+
+
