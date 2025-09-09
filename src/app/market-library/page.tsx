@@ -21,7 +21,7 @@ import Image from 'next/image';
 const mockResults = {
     overview: {
         summary: "Emaar Properties is one of the world's most valuable and admired real estate development companies. With proven competencies in properties, shopping malls & retail and hospitality & leisure, Emaar shapes new lifestyles with a focus on design excellence, build quality and timely delivery.",
-        logoUrl: '/emaar-logo.png', // Assume this path exists in /public
+        logoUrl: '/logos/emaar-logo.png',
         chartData: [ 
             { name: 'Q1 \'23', price: 4200 }, 
             { name: 'Q2 \'23', price: 4500 }, 
@@ -32,11 +32,12 @@ const mockResults = {
         ]
     },
     projects: [
-        { id: 'emaar-b-1', name: 'Emaar Beachfront', developer: 'Emaar', area: 'Dubai Harbour', priceFrom: 'AED 2.5M', status: 'Ready', developerLogoUrl: '/emaar-logo.png' },
-        { id: 'emaar-dh-1', name: 'Dubai Hills Estate', developer: 'Emaar', area: 'MBR City', priceFrom: 'AED 3.1M', status: 'Ready', developerLogoUrl: '/emaar-logo.png' },
-        { id: 'emaar-ar-3', name: 'Arabian Ranches III', developer: 'Emaar', area: 'Dubailand', priceFrom: 'AED 2.2M', status: 'Off-plan', developerLogoUrl: '/emaar-logo.png' },
+        { id: 'emaar-b-1', name: 'Emaar Beachfront', developer: 'Emaar', area: 'Dubai Harbour', priceFrom: 'AED 2.5M', status: 'Ready', developerLogoUrl: '/logos/emaar-logo.png' },
+        { id: 'emaar-dh-1', name: 'Dubai Hills Estate', developer: 'Emaar', area: 'MBR City', priceFrom: 'AED 3.1M', status: 'Ready', developerLogoUrl: '/logos/emaar-logo.png' },
+        { id: 'emaar-ar-3', name: 'Arabian Ranches III', developer: 'Emaar', area: 'Dubailand', priceFrom: 'AED 2.2M', status: 'Off-plan', developerLogoUrl: '/logos/emaar-logo.png' },
+        { id: 'emaar-oasis', name: 'The Oasis', developer: 'Emaar', area: 'Dubailand', priceFrom: 'AED 8.1M', status: 'New Launch', developerLogoUrl: '/logos/emaar-logo.png' },
     ],
-    latestProject: { id: 'emaar-oasis', name: 'The Oasis', developer: 'Emaar', area: 'Dubailand', priceFrom: 'AED 8.1M', status: 'New Launch', developerLogoUrl: '/emaar-logo.png' },
+    latestProject: { id: 'emaar-creek', name: 'Creek Waters 2', developer: 'Emaar', area: 'Dubai Creek Harbour', priceFrom: 'AED 1.7M', status: 'New Launch', developerLogoUrl: '/logos/emaar-logo.png' },
     media: [
         { type: 'image', url: 'https://picsum.photos/seed/emaar-gallery-1/600/400', caption: 'Downtown Dubai Skyline' },
         { type: 'image', url: 'https://picsum.photos/seed/emaar-gallery-2/600/400', caption: 'Dubai Hills Estate Villas' },
@@ -44,9 +45,9 @@ const mockResults = {
     ],
     reputation: { marketValue: '$15.8B', sentiment: 'Positive', mentions: 1240 },
     competitors: [
-        { name: 'DAMAC Properties', logoUrl: '/damac-logo.png' },
-        { name: 'Nakheel', logoUrl: '/nakheel-logo.png' },
-        { name: 'Meraas', logoUrl: '/meraas-logo.png' },
+        { name: 'DAMAC Properties', logoUrl: '/logos/damac-logo.png' },
+        { name: 'Nakheel', logoUrl: '/logos/nakheel-logo.png' },
+        { name: 'Meraas', logoUrl: '/logos/meraas-logo.png' },
     ],
     insights: {
         opportunities: [
@@ -66,7 +67,7 @@ const SearchResults = ({ query }: { query: string }) => {
     const results = mockResults;
 
     return (
-        <div className="mt-12 space-y-8">
+        <div className="mt-12 space-y-12">
             <Card className="bg-card/50 backdrop-blur-lg">
                 <CardHeader>
                     <div className="flex items-start justify-between">
@@ -178,17 +179,41 @@ const SearchResults = ({ query }: { query: string }) => {
                         </div>
                     </CardContent>
                 </Card>
-                <div className="p-4 rounded-xl relative bg-primary/10 overflow-hidden">
-                     <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/50 to-primary/20 animate-[gradient-spin_5s_ease-in-out_infinite] opacity-50"/>
+                <div className="p-1 rounded-xl relative bg-gradient-to-r from-primary/50 via-primary/20 to-primary/50 overflow-hidden group">
+                     <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/50 to-primary/20 animate-[gradient-spin_5s_ease-in-out_infinite] opacity-50 group-hover:opacity-75 transition-opacity"/>
                      <Card className="relative h-full bg-card/90">
                         <CardHeader>
-                            <CardTitle className="flex items-center gap-2"><BrainCircuit /> How to Use This Intelligence</CardTitle>
+                            <CardTitle className="flex items-center gap-2"><BrainCircuit /> Best Next Action</CardTitle>
                             <CardDescription>Turn these insights into action.</CardDescription>
                         </CardHeader>
-                        <CardContent className="space-y-3">
-                            <p className="text-sm"><strong className="text-primary">For Agents:</strong> Use the investor demand insights to target your next ad campaign. Promote the 'Latest Project' to your client list.</p>
-                            <p className="text-sm"><strong className="text-primary">For Investors:</strong> Analyze the 'Top Projects' against their market reputation and competitor landscape to identify undervalued opportunities.</p>
-                            <p className="text-sm"><strong className="text-primary">For Marketers:</strong> Leverage the 'Media Gallery' and competitor logos to create compelling comparison content or social media posts.</p>
+                        <CardContent className="space-y-4">
+                             <div>
+                                <h4 className="font-semibold text-primary mb-2">How Top Agents Monetize This</h4>
+                                <p className="text-sm text-foreground/80">Top agents use this dashboard to instantly identify undervalued assets, create targeted ad campaigns for high-demand projects, and arm themselves with expert-level knowledge before a client meeting.</p>
+                            </div>
+                            <div className="space-y-3">
+                                <ConnectedAppCard
+                                    title="Campaign Builder"
+                                    description="Promote the latest project release with a targeted ad campaign."
+                                    icon={<Megaphone />}
+                                    ctaText="Launch Campaign"
+                                    href="/dashboard/tool/meta-ads-copilot"
+                                />
+                                 <ConnectedAppCard
+                                    title="Market Reports"
+                                    description="Generate a professional, branded PDF report based on these insights for your clients."
+                                    icon={<FileText />}
+                                    ctaText="Generate Report"
+                                    href="/dashboard/tool/market-reports"
+                                />
+                                <ConnectedAppCard
+                                    title="Investor Matching"
+                                    description="Scan your private client list to find the perfect buyer for these opportunities."
+                                    icon={<Users2 />}
+                                    ctaText="Find Investors"
+                                    href="/dashboard/tool/investor-matching"
+                                />
+                            </div>
                         </CardContent>
                     </Card>
                 </div>
@@ -217,7 +242,7 @@ function MarketLibrary() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <LandingHeader />
-      <main className="flex-1 w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20">
+      <main className="flex-1 w-full max-w-[120rem] mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20">
         <div className="text-center mb-8">
             <h1 className="text-4xl md:text-5xl font-bold font-heading tracking-tighter mb-4 text-foreground">
              Search anything about Dubai’s real estate market
@@ -240,18 +265,27 @@ function MarketLibrary() {
             </form>
         </div>
         
-        {initialQuery && (
+        {initialQuery ? (
           <React.Suspense fallback={
             <div className="flex flex-col items-center justify-center h-96 text-muted-foreground">
-                <div className="w-full max-w-lg space-y-2 mb-4">
+                 <div className="w-full max-w-lg space-y-2 mb-4">
+                    <p className="font-semibold text-lg text-center">Generating your intelligence dashboard...</p>
                     <div className="h-2.5 bg-primary/20 rounded-full w-full animate-pulse"></div>
                     <div className="h-2.5 bg-primary/20 rounded-full w-3/4 animate-pulse"></div>
                 </div>
-                <p className="font-semibold">Generating your intelligence dashboard...</p>
             </div>
           }>
             <SearchResults query={initialQuery} />
           </React.Suspense>
+        ) : (
+            <div className="text-center mt-8 text-sm text-muted-foreground">
+                <p>Or try an example search:</p>
+                <div className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-2">
+                     <button onClick={() => router.push('/market-library?q=Apartments%20in%20Downtown%20with%20rental%20yield')} className="hover:text-primary transition-colors">Apartments in Downtown with rental yield</button>
+                    <button onClick={() => router.push('/market-library?q=Top%20off-plan%20projects%20launching%20this%20month')} className="hover:text-primary transition-colors">Top off-plan projects</button>
+                    <button onClick={() => router.push('/market-library?q=Market%20trends%20for%20Business%20Bay%20offices')} className="hover:text-primary transition-colors">Market trends for Business Bay offices</button>
+                </div>
+            </div>
         )}
 
       </main>
