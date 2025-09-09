@@ -42,7 +42,7 @@ const EditInCanvas = ({ brochureUri, onSave, onCancel }: { brochureUri: string; 
                 </div>
             </div>
             <Textarea 
-                placeholder={`Tell the AI what to change on this brochure...\n\ne.g., "Apply my new blue and gold color scheme. Replace the logo on the first page with the new one I uploaded to my brand kit.".`}
+                placeholder={`Tell the AI what to change on this brochure...\n\ne.g., "Apply my new blue and gold color scheme. Replace the logo on the first page with my company logo.".`}
                 value={instructions}
                 onChange={(e) => setInstructions(e.target.value)}
                 rows={6}
@@ -95,10 +95,10 @@ export default function RebrandingPage() {
             const brochureUri = await fileToDataUri(file);
             const payload = {
                 brochureDataUri: brochureUri,
-                contactDetails: "From Brand Kit",
-                companyName: "From Brand Kit",
-                toneOfVoice: "Professional",
-                colors: "From Brand Kit",
+                contactDetails: "From Brand Kit", // These would be pulled from a user context
+                companyName: "From Brand Kit", // These would be pulled from a user context
+                toneOfVoice: "Professional", // This could be a user setting
+                colors: "From Brand Kit", // This could be a user setting
                 deepEditInstructions: instructions,
             };
             

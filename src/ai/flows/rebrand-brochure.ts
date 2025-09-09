@@ -71,7 +71,7 @@ const rebrandBrochureFlow = ai.defineFlow(
     let generatedLogoUri: string | undefined;
 
     // If no logo is provided and the instructions mention a logo, generate one.
-    if (!logoToUse && input.deepEditInstructions?.includes("logo")) {
+    if (!logoToUse && input.deepEditInstructions?.toLowerCase().includes("logo")) {
       const { media } = await ai.generate({
         model: googleAI.model('imagen-4.0-fast-generate-001'),
         prompt: `Create a clean, professional, and minimalist logo for a real estate company named "${input.companyName}". The primary colors should be based on: ${input.colors}. The logo should be on a transparent background.`
