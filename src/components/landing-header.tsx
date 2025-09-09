@@ -22,6 +22,7 @@ import { useTheme } from './theme-switcher';
 
 const navLinks = [
     { name: 'Pricing', href: '/pricing' },
+    { name: 'Market Library', href: '/market-library' },
     { name: 'Handbook', href: '/blog' },
     { name: 'Mindmap', href: '/sx3-mindmap' },
     { name: 'Play', href: '/superfreetime' },
