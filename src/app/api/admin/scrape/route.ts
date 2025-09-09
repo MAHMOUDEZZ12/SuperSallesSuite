@@ -28,6 +28,7 @@ async function scrapeDxbOffplan() {
                 city: 'Dubai',
                 status: 'Off-plan', // Assuming most are off-plan from this site
                 tags: ['dxboffplan.com', 'scrape'],
+                 developerLogoUrl: `/logos/${developer.toLowerCase().replace(/\s+/g, '-')}-logo.png`,
             };
             projects.push(project);
         }
@@ -65,6 +66,7 @@ async function scrapePropertyFinder() {
                     city: 'Dubai',
                     status: 'New Launch', // Assuming these are new from this page
                     tags: ['propertyfinder.ae', 'scrape'],
+                    developerLogoUrl: `/logos/${developer.toLowerCase().replace(/\s+/g, '-')}-logo.png`,
                 };
                 projects.push(project);
             }
@@ -100,6 +102,7 @@ async function scrapeSafehold() {
                     city: 'Dubai',
                     status: 'Active Developer',
                     tags: ['safeholduae.com', 'scrape', 'developer'],
+                    developerLogoUrl: `/logos/${developer.toLowerCase().replace(/\s+/g, '-')}-logo.png`,
                 };
                 companies.push(company);
             }

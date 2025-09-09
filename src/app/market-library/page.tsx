@@ -22,6 +22,8 @@ const mockResults = {
     overview: {
         summary: "Emaar Properties is one of the world's most valuable and admired real estate development companies. With proven competencies in properties, shopping malls & retail and hospitality & leisure, Emaar shapes new lifestyles with a focus on design excellence, build quality and timely delivery.",
         logoUrl: '/logos/emaar-logo.png',
+        companySize: "10,001+ employees",
+        totalProjects: 78,
         chartData: [ 
             { name: 'Q1 \'23', price: 4200 }, 
             { name: 'Q2 \'23', price: 4500 }, 
@@ -67,66 +69,59 @@ const SearchResults = ({ query }: { query: string }) => {
     const results = mockResults;
 
     return (
-        <div className="mt-12 space-y-12">
-            <Card className="bg-card/50 backdrop-blur-lg">
-                <CardHeader>
-                    <div className="flex items-start justify-between">
-                         <div className="flex items-center gap-4">
-                            <Image src={results.overview.logoUrl} alt={`${query} Logo`} width={64} height={64} className="rounded-lg bg-white p-1" data-ai-hint="company logo" />
-                            <div>
-                                <CardTitle className="text-2xl">Market Overview: {query}</CardTitle>
-                                <CardDescription>An AI-generated summary of the current market landscape.</CardDescription>
-                            </div>
-                         </div>
-                    </div>
-                </CardHeader>
-                <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div className="md:col-span-2 space-y-4">
-                        <p className="text-foreground/80">{results.overview.summary}</p>
-                    </div>
-                    <div className="md:col-span-1 h-48 bg-muted/50 rounded-lg p-2">
-                         <ResponsiveContainer width="100%" height="100%">
-                            <RechartsBarChart data={results.overview.chartData}>
-                                <XAxis dataKey="name" stroke="#888888" fontSize={10} tickLine={false} axisLine={false}/>
-                                <YAxis stroke="#888888" fontSize={10} tickLine={false} axisLine={false} tickFormatter={(value) => `$${value/1000}k`}/>
-                                <Tooltip wrapperClassName="!bg-background !border-border" cursor={{fill: 'hsl(var(--muted))'}}/>
-                                <Bar dataKey="price" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
-                            </RechartsBarChart>
-                        </ResponsiveContainer>
-                    </div>
-                </CardContent>
-            </Card>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div className="space-y-4">
-                    <h2 className="text-2xl font-bold">Latest Project</h2>
-                    <ProjectCard project={results.latestProject} />
-                </div>
-                 <div className="space-y-4">
-                    <h2 className="text-2xl font-bold">Top Projects</h2>
-                     <div className="space-y-3">
-                        {results.projects.map((project) => (
-                            <Card key={project.id} className="hover:bg-muted/50 transition-colors">
-                                <CardContent className="p-3 flex items-center justify-between">
-                                    <div className="flex items-center gap-3">
-                                        <Image src={project.developerLogoUrl || ''} alt={`${project.developer} Logo`} width={24} height={24} className="rounded-full bg-white" data-ai-hint="company logo" />
-                                        <div>
-                                            <p className="font-semibold">{project.name}</p>
-                                            <p className="text-xs text-muted-foreground">{project.area}</p>
-                                        </div>
+        <div className="mt-12 space-y-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                <div className="lg:col-span-2 space-y-8">
+                    <Card className="bg-card/50 backdrop-blur-lg">
+                        <CardHeader>
+                            <div className="flex items-start justify-between">
+                                <div className="flex items-center gap-4">
+                                    <Image src={results.overview.logoUrl} alt={`${query} Logo`} width={64} height={64} className="rounded-lg bg-white p-1" data-ai-hint="company logo" />
+                                    <div>
+                                        <CardTitle className="text-2xl">Market Overview: {query}</CardTitle>
+                                        <CardDescription>An AI-generated summary of the current market landscape.</CardDescription>
                                     </div>
-                                    <Button size="sm" variant="ghost">View <ArrowRight className="ml-2 h-4 w-4"/></Button>
-                                </CardContent>
-                            </Card>
+                                </div>
+                            </div>
+                        </CardHeader>
+                        <CardContent className="space-y-6">
+                            <p className="text-foreground/80">{results.overview.summary}</p>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle>{results.overview.totalProjects}</CardTitle>
+                                        <CardDescription>Total Projects</CardDescription>
+                                    </CardHeader>
+                                </Card>
+                                 <Card>
+                                    <CardHeader>
+                                        <CardTitle>{results.overview.companySize}</CardTitle>
+                                        <CardDescription>Company Size</CardDescription>
+                                    </CardHeader>
+                                </Card>
+                                <Card className="h-24 bg-muted/50 p-2">
+                                     <ResponsiveContainer width="100%" height="100%">
+                                        <RechartsBarChart data={results.overview.chartData}>
+                                            <XAxis dataKey="name" stroke="#888888" fontSize={10} tickLine={false} axisLine={false}/>
+                                            <YAxis stroke="#888888" fontSize={10} tickLine={false} axisLine={false} tickFormatter={(value) => `$${value/1000}k`}/>
+                                            <Tooltip wrapperClassName="!bg-background !border-border" cursor={{fill: 'hsl(var(--muted))'}}/>
+                                            <Bar dataKey="price" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+                                        </RechartsBarChart>
+                                    </ResponsiveContainer>
+                                </Card>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <h2 className="text-2xl font-bold pt-4">Top Projects</h2>
+                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {results.projects.map((project) => (
+                            <ProjectCard key={project.id} project={project} />
                         ))}
                     </div>
-                 </div>
-            </div>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                 <div className="lg:col-span-2 space-y-4">
-                     <h2 className="text-2xl font-bold">Media Gallery</h2>
-                     <div className="grid grid-cols-3 gap-4">
+
+                     <h2 className="text-2xl font-bold pt-4">Media Gallery</h2>
+                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                         {results.media.map((item, index) => (
                             <div key={index} className="aspect-video relative rounded-lg overflow-hidden">
                                 <Image src={item.url} alt={item.caption} layout="fill" objectFit="cover" data-ai-hint="skyline city" />
@@ -134,88 +129,68 @@ const SearchResults = ({ query }: { query: string }) => {
                         ))}
                      </div>
                 </div>
-                <div className="space-y-4">
-                    <h2 className="text-2xl font-bold">Market Reputation</h2>
-                    <Card>
-                        <CardContent className="p-4 grid grid-cols-3 gap-2 text-center">
-                            <div><p className="text-sm text-muted-foreground">Market Value</p><p className="font-bold text-lg">{results.reputation.marketValue}</p></div>
-                            <div><p className="text-sm text-muted-foreground">Sentiment</p><p className="font-bold text-lg text-green-500">{results.reputation.sentiment}</p></div>
-                            <div><p className="text-sm text-muted-foreground">Mentions (30d)</p><p className="font-bold text-lg">{results.reputation.mentions}</p></div>
-                        </CardContent>
-                    </Card>
-                     <h2 className="text-2xl font-bold pt-4">Key Competitors</h2>
-                     <div className="flex gap-4">
-                        {results.competitors.map(c => (
-                            <Card key={c.name} className="flex-1 p-2 flex items-center justify-center">
-                                <Image src={c.logoUrl} alt={c.name} width={80} height={40} objectFit="contain" className="grayscale opacity-60" data-ai-hint="company logo" />
-                            </Card>
-                        ))}
-                     </div>
-                </div>
-            </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-2"><Lightbulb className="text-primary"/> AI Insights</CardTitle>
-                        <CardDescription>Key takeaways generated by our market intelligence model.</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <div>
-                            <h4 className="font-semibold flex items-center gap-2 mb-2"><ShieldCheck className="text-green-500"/> Top Opportunities</h4>
-                            <ul className="space-y-1 list-disc list-inside text-sm text-foreground/80">
-                                {results.insights.opportunities.map((item, i) => <li key={i}>{item}</li>)}
-                            </ul>
-                        </div>
-                         <div>
-                            <h4 className="font-semibold flex items-center gap-2 mb-2"><AlertTriangle className="text-amber-500"/> Potential Risks</h4>
-                            <ul className="space-y-1 list-disc list-inside text-sm text-foreground/80">
-                                {results.insights.risks.map((item, i) => <li key={i}>{item}</li>)}
-                            </ul>
-                        </div>
-                         <div>
-                            <h4 className="font-semibold flex items-center gap-2 mb-2"><Users2 className="text-blue-500"/> Investor Demand</h4>
-                            <p className="text-sm text-foreground/80">{results.insights.investorDemand}</p>
-                        </div>
-                    </CardContent>
-                </Card>
-                <div className="p-1 rounded-xl relative bg-gradient-to-r from-primary/50 via-primary/20 to-primary/50 overflow-hidden group">
-                     <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/50 to-primary/20 animate-[gradient-spin_5s_ease-in-out_infinite] opacity-50 group-hover:opacity-75 transition-opacity"/>
-                     <Card className="relative h-full bg-card/90">
+                <div className="lg:col-span-1 space-y-8">
+                     <Card>
                         <CardHeader>
-                            <CardTitle className="flex items-center gap-2"><BrainCircuit /> Best Next Action</CardTitle>
-                            <CardDescription>Turn these insights into action.</CardDescription>
+                            <CardTitle className="flex items-center gap-2"><Lightbulb className="text-primary"/> AI Insights</CardTitle>
+                            <CardDescription>Generated by our market intelligence model.</CardDescription>
                         </CardHeader>
-                        <CardContent className="space-y-4">
-                             <div>
-                                <h4 className="font-semibold text-primary mb-2">How Top Agents Monetize This</h4>
-                                <p className="text-sm text-foreground/80">Top agents use this dashboard to instantly identify undervalued assets, create targeted ad campaigns for high-demand projects, and arm themselves with expert-level knowledge before a client meeting.</p>
+                        <CardContent className="space-y-4 text-sm">
+                            <div>
+                                <h4 className="font-semibold flex items-center gap-2 mb-2"><ShieldCheck className="text-green-500"/> Top Opportunities</h4>
+                                <ul className="space-y-1 list-disc list-inside text-foreground/80">
+                                    {results.insights.opportunities.map((item, i) => <li key={i}>{item}</li>)}
+                                </ul>
                             </div>
-                            <div className="space-y-3">
-                                <ConnectedAppCard
-                                    title="Campaign Builder"
-                                    description="Promote the latest project release with a targeted ad campaign."
-                                    icon={<Megaphone />}
-                                    ctaText="Launch Campaign"
-                                    href="/dashboard/tool/meta-ads-copilot"
-                                />
-                                 <ConnectedAppCard
-                                    title="Market Reports"
-                                    description="Generate a professional, branded PDF report based on these insights for your clients."
-                                    icon={<FileText />}
-                                    ctaText="Generate Report"
-                                    href="/dashboard/tool/market-reports"
-                                />
-                                <ConnectedAppCard
-                                    title="Investor Matching"
-                                    description="Scan your private client list to find the perfect buyer for these opportunities."
-                                    icon={<Users2 />}
-                                    ctaText="Find Investors"
-                                    href="/dashboard/tool/investor-matching"
-                                />
+                             <div>
+                                <h4 className="font-semibold flex items-center gap-2 mb-2"><AlertTriangle className="text-amber-500"/> Potential Risks</h4>
+                                <ul className="space-y-1 list-disc list-inside text-foreground/80">
+                                    {results.insights.risks.map((item, i) => <li key={i}>{item}</li>)}
+                                </ul>
                             </div>
                         </CardContent>
                     </Card>
+
+                    <div className="p-1 rounded-xl relative bg-gradient-to-r from-primary/50 via-primary/20 to-primary/50 overflow-hidden group">
+                         <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/50 to-primary/20 animate-[gradient-spin_5s_ease-in-out_infinite] opacity-50 group-hover:opacity-75 transition-opacity"/>
+                         <Card className="relative h-full bg-card/90">
+                            <CardHeader>
+                                <CardTitle className="flex items-center gap-2"><BrainCircuit /> Best Next Action</CardTitle>
+                                <CardDescription>Turn these insights into action.</CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                 <div>
+                                    <h4 className="font-semibold text-primary mb-2">How Top Agents Monetize This</h4>
+                                    <p className="text-sm text-foreground/80">Top agents use this dashboard to instantly identify undervalued assets, create targeted ad campaigns for high-demand projects, and arm themselves with expert-level knowledge before a client meeting.</p>
+                                </div>
+                                <div className="space-y-3">
+                                    <ConnectedAppCard
+                                        title="Campaign Builder"
+                                        description="Promote the latest project release with a targeted ad campaign."
+                                        icon={<Megaphone />}
+                                        ctaText="Launch Campaign"
+                                        href="/dashboard/tool/meta-ads-copilot"
+                                    />
+                                     <ConnectedAppCard
+                                        title="Market Reports"
+                                        description="Generate a professional, branded PDF report based on these insights for your clients."
+                                        icon={<FileText />}
+                                        ctaText="Generate Report"
+                                        href="/dashboard/tool/market-reports"
+                                    />
+                                    <ConnectedAppCard
+                                        title="Investor Matching"
+                                        description="Scan your private client list to find the perfect buyer for these opportunities."
+                                        icon={<Users2 />}
+                                        ctaText="Find Investors"
+                                        href="/dashboard/tool/investor-matching"
+                                    />
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </div>
+                    
                 </div>
             </div>
             
@@ -267,8 +242,8 @@ function MarketLibrary() {
         
         {initialQuery ? (
           <React.Suspense fallback={
-            <div className="flex flex-col items-center justify-center h-96 text-muted-foreground">
-                 <div className="w-full max-w-lg space-y-2 mb-4">
+             <div className="flex flex-col items-center justify-center h-96 text-muted-foreground">
+                <div className="w-full max-w-lg space-y-2 mb-4">
                     <p className="font-semibold text-lg text-center">Generating your intelligence dashboard...</p>
                     <div className="h-2.5 bg-primary/20 rounded-full w-full animate-pulse"></div>
                     <div className="h-2.5 bg-primary/20 rounded-full w-3/4 animate-pulse"></div>
