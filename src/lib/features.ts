@@ -275,7 +275,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     id: 'meta-ads-copilot',
     title: 'Campaign Builder',
     dashboardTitle: 'Campaign Builder',
-    description: 'Your dedicated agent for Facebook &amp; Instagram advertising.',
+    description: 'Your dedicated agent for Facebook & Instagram advertising.',
     icon: 'Facebook',
     color: '#1d4ed8', 
     cta: 'Create Campaign',
@@ -293,11 +293,11 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
       ],
       aiVsManual: [
         { metric: 'Time Investment', manual: '10+ hours per week managing ads', ai: 'Set your goal and let the agent work', icon: 'Clock2' },
-        { metric: 'Cost &amp; Resources', manual: 'Requires a dedicated ad manager', ai: 'Included in your subscription', icon: 'Wallet' },
+        { metric: 'Cost & Resources', manual: 'Requires a dedicated ad manager', ai: 'Included in your subscription', icon: 'Wallet' },
         { metric: 'Optimization', manual: 'Reacts slowly to performance data', ai: 'Optimizes bids and creative in real-time', icon: 'LineChart' },
       ],
       synergy: [
-        { tool: "Insta Ads Designer", benefit: "The Campaign Builder can automatically use your best-performing AI-generated ads." },
+        { tool: "Audience Creator", benefit: "Use the high-intent audience you identified as the target for your new campaign." },
         { tool: "CRM Memory", benefit: "Feed campaign performance and lead data directly back into your CRM." }
       ],
        faqs: [
@@ -493,7 +493,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
         { metric: 'Consistency', manual: 'Different apps for each part', ai: 'One unified, professionally designed output', icon: 'BadgeCheck' },
       ],
       synergy: [
-        { tool: "Reel Ads", benefit: "Repurpose the best clips from your reel into an interactive story with polls and Q&amp;As." },
+        { tool: "Reel Ads", benefit: "Repurpose the best clips from your reel into an interactive story with polls and Q&As." },
         { tool: "Landing Page Builder", benefit: "End your story with a 'Swipe Up' link that goes directly to your newly generated landing page." },
       ],
       faqs: [
