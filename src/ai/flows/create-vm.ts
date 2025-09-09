@@ -90,7 +90,8 @@ const createVmFlow = ai.defineFlow(
       }
       
       if (op.error) {
-          throw new Error(JSON.stringify(op.error.errors?.map(e => e.message).join(', ')));
+          const errorMessage = op.error.errors?.map(e => e.message).join(', ') || 'An unknown error occurred during VM creation.';
+          throw new Error(errorMessage);
       }
 
       const [instance] = await compute.instances.get({
@@ -113,3 +114,4 @@ const createVmFlow = ai.defineFlow(
     }
   }
 );
+
