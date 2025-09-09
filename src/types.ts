@@ -804,3 +804,21 @@ export const EditYouTubeVideoOutputSchema = z.object({
     ),
 });
 export type EditYouTubeVideoOutput = z.infer<typeof EditYouTubeVideoOutputSchema>;
+
+// Schemas for VM Creator
+export const CreateVmInputSchema = z.object({
+  instanceName: z.string().describe('The name for the new VM instance.'),
+  zone: z.string().describe('The GCP zone to create the instance in, e.g., "us-central1-c".'),
+  machineType: z.string().describe('The machine type, e.g., "e2-medium".'),
+  sourceImageFamily: z.string().describe('The source image family, e.g., "debian-12".'),
+  diskSizeGb: z.number().describe('The size of the boot disk in GB.'),
+});
+export type CreateVmInput = z.infer<typeof CreateVmInputSchema>;
+
+export const CreateVmOutputSchema = z.object({
+  success: z.boolean().describe("Whether the VM creation was successful."),
+  message: z.string().describe("A summary message of the result."),
+  instanceName: z.string().optional().describe("The name of the created instance."),
+  selfLink: z.string().url().optional().describe("The self-link of the created instance."),
+});
+export type CreateVmOutput = z.infer<typeof CreateVmOutputSchema>;

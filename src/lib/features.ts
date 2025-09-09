@@ -1,3 +1,4 @@
+
 // This file is now a pure data file with no React/JSX dependencies.
 // It can be safely imported by both server and client components.
 
@@ -1331,6 +1332,46 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     },
     creationFields: [
        { id: 'assistant-redirect', name: 'Train Your Assistant', type: 'button', cta: 'Go to Assistant Training', description: 'Personalize your AI by giving it instructions and knowledge.' },
+    ],
+  },
+  {
+    id: 'vm-creator',
+    title: 'VM Creator',
+    dashboardTitle: 'VM Creator',
+    description: 'Provision Google Cloud virtual machines with an AI command.',
+    icon: 'Server',
+    color: '#4f46e5',
+    cta: 'Create VM',
+    categories: ['Utilities'],
+    mindMapCategory: 'Utilities',
+    badge: 'NEW',
+    isPage: false,
+    href: '/dashboard/tool/vm-creator',
+    details: {
+      steps: [
+        { text: 'Define instance parameters like name, zone, and machine type', icon: 'PenTool' },
+        { text: 'AI constructs and sends the request to the Google Cloud API', icon: 'Send' },
+        { text: 'Receive confirmation that your VM is running', icon: 'CheckCircle' },
+      ],
+      aiVsManual: [
+        { metric: 'Time to Provision', manual: '5-10 minutes navigating the GCP Console', ai: 'Seconds via a simple form', icon: 'Clock2' },
+        { metric: 'Complexity', manual: 'Requires knowledge of cloud infrastructure and console UI', ai: 'Abstracted into a few simple fields', icon: 'Sparkles' },
+        { metric: 'Repeatability', manual: 'Prone to misconfiguration on each new instance', ai: 'Consistent and error-free provisioning', icon: 'BadgeCheck' },
+      ],
+      synergy: [
+        { tool: "AI Assistant", benefit: "In the future, you could command the assistant: 'Create a new staging server for the Emaar project', and it would run this tool for you." },
+      ],
+      faqs: [
+        { question: "Is this secure?", answer: "Yes, this tool uses the securely configured server-side authentication (Application Default Credentials) to interact with the Google Cloud APIs. No keys are exposed to the client." },
+        { question: "What can I use this for?", answer: "This is a powerful utility for developers or technical users who need to quickly spin up cloud resources without leaving the application context, perfect for testing, staging, or running backend jobs." },
+      ],
+    },
+    creationFields: [
+      { id: 'instanceName', name: 'Instance Name', type: 'text', placeholder: 'e.g., my-test-instance', description: 'The name for your new virtual machine.' },
+      { id: 'zone', name: 'Zone', type: 'select', options: ['us-central1-a', 'us-central1-b', 'us-central1-c'], placeholder: 'Select a zone', description: 'The Google Cloud zone to create the VM in.' },
+      { id: 'machineType', name: 'Machine Type', type: 'select', options: ['e2-micro', 'e2-small', 'e2-medium', 'n1-standard-1'], placeholder: 'Select a machine type', description: 'The size and power of the VM.' },
+      { id: 'sourceImageFamily', name: 'Operating System', type: 'select', options: ['debian-12', 'debian-11', 'ubuntu-2204-lts', 'ubuntu-2004-lts'], placeholder: 'Select an OS', description: 'The operating system for the VM.' },
+      { id: 'diskSizeGb', name: 'Disk Size (GB)', type: 'number', placeholder: '10', description: 'The size of the boot disk in gigabytes.' },
     ],
   },
   {

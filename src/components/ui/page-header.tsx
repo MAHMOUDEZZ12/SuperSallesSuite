@@ -1,5 +1,4 @@
 
-
 import React from 'react';
 import { cn } from '@/lib/utils';
 
@@ -27,10 +26,7 @@ export function PageHeader({ title, description, icon, children, className }: Pa
           </p>
         </div>
       </div>
-      {children && <div className="flex-shrink-0">{children}</div>}
+      {children && <div className="flex-shrink-0 mt-4 md:mt-0">{children}</div>}
     </div>
   );
 }
-    
-
-    
