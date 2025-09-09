@@ -16,54 +16,13 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import {
+  GenerateSocialPostInputSchema,
+  GenerateSocialPostOutputSchema,
+  type GenerateSocialPostInput,
+  type GenerateSocialPostOutput,
+} from '@/types';
 
-/**
- * Defines the schema for the input of the social post generation flow.
- */
-const GenerateSocialPostInputSchema = z.object({
-  /**
-   * The source content for the post, which can be a URL or a simple topic description.
-   */
-  source: z
-    .string()
-    .describe('A URL or topic to generate the social media post from.'),
-  /**
-   * The target social media platform for the post.
-   * @example "Twitter", "LinkedIn", "Facebook"
-   */
-  platform: z
-    .string()
-    .describe(
-      'The social media platform (e.g., Twitter, LinkedIn, Facebook).'
-    ),
-  /**
-   * The desired tone of voice for the post.
-   * @example "Professional", "Humorous", "Urgent"
-   */
-  tone: z.string().describe('The desired tone of voice for the post.'),
-});
-export type GenerateSocialPostInput = z.infer<
-  typeof GenerateSocialPostInputSchema
->;
-
-/**
- * Defines the schema for the output of the social post generation flow.
- */
-const GenerateSocialPostOutputSchema = z.object({
-  posts: z.array(z.object({
-    day: z.string().describe("The day of the week for the post (e.g., 'Monday')."),
-    postContent: z.string().describe('The generated social media post content for that day.'),
-    imageSuggestion: z.string().describe('A suggestion for an accompanying image for that day\'s post.'),
-  })).describe("A list of posts for a 7-day week."),
-  hashtagStrategy: z.object({
-    primary: z.array(z.string()).describe("5-7 primary, high-volume hashtags."),
-    secondary: z.array(z.string()).describe("5-7 secondary, niche-specific hashtags."),
-    location: z.array(z.string()).describe("3-5 location-based hashtags."),
-  }).describe("A comprehensive hashtag strategy."),
-});
-export type GenerateSocialPostOutput = z.infer<
-  typeof GenerateSocialPostOutputSchema
->;
 
 /**
  * An AI flow that generates a social media post from a topic or URL.

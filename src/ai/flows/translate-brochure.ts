@@ -17,43 +17,12 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-
-/**
- * Defines the schema for the input of the brochure translation flow.
- */
-export const TranslateBrochureInputSchema = z.object({
-  /**
-   * The source brochure document, encoded as a Base64 data URI.
-   * @example "data:application/pdf;base64,..."
-   */
-  brochureDataUri: z
-    .string()
-    .describe(
-      "The source brochure document, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
-    ),
-  /**
-   * The target language for the translation.
-   */
-  targetLanguage: z
-    .string()
-    .describe('The language to translate the brochure into (e.g., "Arabic", "Chinese").'),
-});
-export type TranslateBrochureInput = z.infer<typeof TranslateBrochureInputSchema>;
-
-/**
- * Defines the schema for the output of the brochure translation flow.
- */
-export const TranslateBrochureOutputSchema = z.object({
-  /**
-   * The translated brochure document, returned as a Base64 data URI.
-   */
-  translatedBrochureDataUri: z
-    .string()
-    .describe(
-      "The translated brochure document, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
-    ),
-});
-export type TranslateBrochureOutput = z.infer<typeof TranslateBrochureOutputSchema>;
+import {
+  TranslateBrochureInputSchema,
+  TranslateBrochureOutputSchema,
+  type TranslateBrochureInput,
+  type TranslateBrochureOutput,
+} from '@/types';
 
 
 /**

@@ -16,85 +16,13 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import {
+  GenerateLandingPageInputSchema,
+  GenerateLandingPageOutputSchema,
+  type GenerateLandingPageInput,
+  type GenerateLandingPageOutput,
+} from '@/types';
 
-/**
- * Defines the schema for the input of the landing page generation flow.
- */
-const GenerateLandingPageInputSchema = z.object({
-  /**
-   * The name of the project.
-   */
-  projectName: z.string().describe('The name of the project.'),
-  /**
-   * Detailed information about the project.
-   */
-  projectDetails: z
-    .string()
-    .describe('Detailed information about the project.'),
-  /**
-   * The chosen visual style or template for the landing page.
-   */
-  brandingStyle: z
-    .string()
-    .optional()
-    .describe(
-      'A comma-separated string of chosen visual styles for the landing page (e.g., "Modern & Minimalist, Luxury & Elegant").'
-    ),
-  /**
-   * The number of content sections to include in the page.
-   */
-  numberOfSections: z.number().min(2).max(5).optional().describe('The number of content sections to generate (2-5).'),
-  /**
-   * An optional project brochure, encoded as a Base64 data URI.
-   * @example "data:application/pdf;base64,..."
-   */
-  projectBrochureDataUri: z
-    .string()
-    .optional()
-    .describe(
-      "A project brochure, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
-    ),
-  /**
-   * A flag to indicate if we should only generate headline strategies.
-   */
-  generateHeadlinesOnly: z.boolean().optional().describe('If true, only generate headline strategies.'),
-  /**
-   * The user's selected headline strategy.
-   */
-  selectedHeadline: z.string().optional().describe('The headline from the user-selected strategy.'),
-  /**
-   * The user's selected call-to-action strategy.
-   */
-  selectedCta: z.string().optional().describe('The call-to-action from the user-selected strategy.'),
-});
-export type GenerateLandingPageInput = z.infer<
-  typeof GenerateLandingPageInputSchema
->;
-
-/**
- * Defines the schema for the output of the landing page generation flow.
- */
-const GenerateLandingPageOutputSchema = z.object({
-  /**
-   * The generated HTML content for the landing page.
-   */
-  landingPageHtml: z
-    .string()
-    .optional()
-    .describe('The generated HTML content for the landing page.'),
-  /**
-   * A list of suggested headline strategies.
-   */
-  headlineOptions: z.array(z.object({
-      id: z.string(),
-      strategy: z.string().describe('The name of the strategy (e.g., "Urgency Focused").'),
-      headline: z.string().describe('The suggested headline.'),
-      cta: z.string().describe('The suggested call to action text.'),
-  })).optional(),
-});
-export type GenerateLandingPageOutput = z.infer<
-  typeof GenerateLandingPageOutputSchema
->;
 
 /**
  * An AI flow that generates the HTML for a landing page.

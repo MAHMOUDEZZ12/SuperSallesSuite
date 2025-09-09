@@ -13,38 +13,12 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-
-/**
- * Defines the schema for the input of the keyword plan generation flow.
- */
-export const GenerateKeywordPlanInputSchema = z.object({
-  topic: z.string().describe('The central topic or product for the keyword plan (e.g., "luxury villas in Dubai Hills").'),
-  targetLocation: z.string().describe('The geographical target for the ads (e.g., "Dubai, UAE").'),
-});
-export type GenerateKeywordPlanInput = z.infer<typeof GenerateKeywordPlanInputSchema>;
-
-
-const KeywordSchema = z.object({
-    keyword: z.string().describe('The specific keyword phrase.'),
-    matchType: z.enum(['Broad', 'Phrase', 'Exact']).describe('The match type for the keyword.'),
-    monthlySearches: z.number().describe('An estimated monthly search volume.'),
-    competition: z.enum(['Low', 'Medium', 'High']).describe('The estimated competition level.'),
-});
-
-const AdGroupSchema = z.object({
-    adGroupName: z.string().describe('The logical name for the ad group (e.g., "Branded Terms", "Location-Based Search").'),
-    keywords: z.array(KeywordSchema).describe('A list of keywords belonging to this ad group.'),
-});
-
-/**
- * Defines the schema for the output of the keyword plan generation flow.
- */
-export const GenerateKeywordPlanOutputSchema = z.object({
-  planTitle: z.string().describe('A descriptive title for the overall keyword plan.'),
-  adGroups: z.array(AdGroupSchema).describe('A list of logically grouped ad groups with their keywords.'),
-  negativeKeywords: z.array(z.string()).describe('A list of recommended negative keywords to exclude.'),
-});
-export type GenerateKeywordPlanOutput = z.infer<typeof GenerateKeywordPlanOutputSchema>;
+import {
+  GenerateKeywordPlanInputSchema,
+  GenerateKeywordPlanOutputSchema,
+  type GenerateKeywordPlanInput,
+  type GenerateKeywordPlanOutput,
+} from '@/types';
 
 
 const generateKeywordPlanPrompt = ai.definePrompt({

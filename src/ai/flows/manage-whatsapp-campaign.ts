@@ -15,49 +15,13 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import {
+  ManageWhatsAppCampaignInputSchema,
+  ManageWhatsAppCampaignOutputSchema,
+  type ManageWhatsAppCampaignInput,
+  type ManageWhatsAppCampaignOutput,
+} from '@/types';
 
-/**
- * Defines the schema for the input of the WhatsApp campaign management flow.
- */
-export const ManageWhatsAppCampaignInputSchema = z.object({
-  contactsDataUri: z
-    .string()
-    .describe(
-      "A CSV of contacts, as a data URI. It must include 'name' and 'phone' columns."
-    ),
-  campaignType: z
-    .string()
-    .describe(
-      'The type of campaign (e.g., "New Listing Announcement", "Open House Follow-up").'
-    ),
-  context: z
-    .string()
-    .describe(
-      'Provide the necessary context, like the property name or open house date.'
-    ),
-});
-export type ManageWhatsAppCampaignInput = z.infer<
-  typeof ManageWhatsAppCampaignInputSchema
->;
-
-/**
- * Defines the schema for the output of the WhatsApp campaign management flow.
- */
-export const ManageWhatsAppCampaignOutputSchema = z.object({
-  status: z
-    .string()
-    .describe(
-      'A status update on the campaign (e.g., "Message template generated and ready to send").'
-    ),
-  messageTemplate: z
-    .string()
-    .describe(
-      'The generated, personalized message template. Use [Name] to represent the contact\'s name.'
-    ),
-});
-export type ManageWhatsAppCampaignOutput = z.infer<
-  typeof ManageWhatsAppCampaignOutputSchema
->;
 
 const manageWhatsAppCampaignPrompt = ai.definePrompt({
   name: 'manageWhatsAppCampaignPrompt',

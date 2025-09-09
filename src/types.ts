@@ -407,3 +407,374 @@ export const GenerateMarketReportOutputSchema = z.object({
 });
 export type GenerateMarketReportOutput = z.infer<typeof GenerateMarketReportOutputSchema>;
 
+// Schemas for Keyword Planner
+export const GenerateKeywordPlanInputSchema = z.object({
+  topic: z.string().describe('The central topic or product for the keyword plan (e.g., "luxury villas in Dubai Hills").'),
+  targetLocation: z.string().describe('The geographical target for the ads (e.g., "Dubai, UAE").'),
+});
+export type GenerateKeywordPlanInput = z.infer<typeof GenerateKeywordPlanInputSchema>;
+
+
+const KeywordSchema = z.object({
+    keyword: z.string().describe('The specific keyword phrase.'),
+    matchType: z.enum(['Broad', 'Phrase', 'Exact']).describe('The match type for the keyword.'),
+    monthlySearches: z.number().describe('An estimated monthly search volume.'),
+    competition: z.enum(['Low', 'Medium', 'High']).describe('The estimated competition level.'),
+});
+
+const AdGroupSchema = z.object({
+    adGroupName: z.string().describe('The logical name for the ad group (e.g., "Branded Terms", "Location-Based Search").'),
+    keywords: z.array(KeywordSchema).describe('A list of keywords belonging to this ad group.'),
+});
+
+export const GenerateKeywordPlanOutputSchema = z.object({
+  planTitle: z.string().describe('A descriptive title for the overall keyword plan.'),
+  adGroups: z.array(AdGroupSchema).describe('A list of logically grouped ad groups with their keywords.'),
+  negativeKeywords: z.array(z.string()).describe('A list of recommended negative keywords to exclude.'),
+});
+export type GenerateKeywordPlanOutput = z.infer<typeof GenerateKeywordPlanOutputSchema>;
+
+// Schemas for Landing Page Generator
+export const GenerateLandingPageInputSchema = z.object({
+  projectName: z.string().describe('The name of the project.'),
+  projectDetails: z
+    .string()
+    .describe('Detailed information about the project.'),
+  brandingStyle: z
+    .string()
+    .optional()
+    .describe(
+      'A comma-separated string of chosen visual styles for the landing page (e.g., "Modern & Minimalist, Luxury & Elegant").'
+    ),
+  numberOfSections: z.number().min(2).max(5).optional().describe('The number of content sections to generate (2-5).'),
+  projectBrochureDataUri: z
+    .string()
+    .optional()
+    .describe(
+      "A project brochure, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
+    ),
+  generateHeadlinesOnly: z.boolean().optional().describe('If true, only generate headline strategies.'),
+  selectedHeadline: z.string().optional().describe('The headline from the user-selected strategy.'),
+  selectedCta: z.string().optional().describe('The call-to-action from the user-selected strategy.'),
+});
+export type GenerateLandingPageInput = z.infer<
+  typeof GenerateLandingPageInputSchema
+>;
+
+export const GenerateLandingPageOutputSchema = z.object({
+  landingPageHtml: z
+    .string()
+    .optional()
+    .describe('The generated HTML content for the landing page.'),
+  headlineOptions: z.array(z.object({
+      id: z.string(),
+      strategy: z.string().describe('The name of the strategy (e.g., "Urgency Focused").'),
+      headline: z.string().describe('The suggested headline.'),
+      cta: z.string().describe('The suggested call to action text.'),
+  })).optional(),
+});
+export type GenerateLandingPageOutput = z.infer<
+  typeof GenerateLandingPageOutputSchema
+>;
+
+// Schemas for Multi-Offer Generator
+export const GenerateMultiOfferInputSchema = z.object({
+  properties: z.string().describe('A list of property addresses, one per line.'),
+  clientInfo: z.string().describe('Basic information about the client (e.g., name, budget).'),
+  terms: z.string().describe('Key offer terms to include for comparison.'),
+});
+export type GenerateMultiOfferInput = z.infer<typeof GenerateMultiOfferInputSchema>;
+
+export const GenerateMultiOfferOutputSchema = z.object({
+  offerPackageDataUri: z
+    .string()
+    .describe(
+      "The generated offer comparison PDF, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
+    ),
+});
+export type GenerateMultiOfferOutput = z.infer<typeof GenerateMultiOfferOutputSchema>;
+
+// Schemas for Payment Plan Generator
+export const GeneratePaymentPlanInputSchema = z.object({
+  projectId: z
+    .string()
+    .describe('The ID of the project from the user\'s library.'),
+  totalPrice: z.number().positive().describe('The total price of the property in AED.'),
+  planType: z
+    .string()
+    .describe(
+      'The desired structure of the payment plan (e.g., "Standard", "Post-Handover").'
+    ),
+});
+export type GeneratePaymentPlanInput = z.infer<
+  typeof GeneratePaymentPlanInputSchema
+>;
+
+const MilestoneSchema = z.object({
+  milestone: z.string().describe('The name of the payment milestone (e.g., "Down Payment", "On Handover").'),
+  date: z.string().describe('The estimated date for the payment (e.g., "On Booking", "Dec 2025").'),
+  amount: z.number().describe('The amount due for this milestone in AED.'),
+  percentage: z.string().describe('The percentage of the total price for this milestone (e.g., "10%").'),
+});
+
+export const GeneratePaymentPlanOutputSchema = z.object({
+  planName: z.string().describe('A descriptive name for the generated plan.'),
+  planDescription: z
+    .string()
+    .describe('A brief, client-friendly description of how the plan works.'),
+  milestones: z
+    .array(MilestoneSchema)
+    .describe('A list of the payment milestones.'),
+});
+export type GeneratePaymentPlanOutput = z.infer<
+  typeof GeneratePaymentPlanOutputSchema
+>;
+
+
+// Schemas for Reel Generator
+export const GenerateReelInputSchema = z.object({
+  projectId: z.string().describe('The ID of the project to use for assets.'),
+  sellingPoints: z.string().describe('Key selling points for text overlays, separated by newlines.'),
+  vibe: z.string().describe('The desired vibe for the reel, influencing music and editing style.'),
+});
+export type GenerateReelInput = z.infer<typeof GenerateReelInputSchema>;
+
+export const GenerateReelOutputSchema = z.object({
+  reelVideoDataUri: z
+    .string()
+    .describe(
+      "The generated reel video, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
+    ),
+});
+export type GenerateReelOutput = z.infer<typeof GenerateReelOutputSchema>;
+
+// Schemas for Social Post Generator
+export const GenerateSocialPostInputSchema = z.object({
+  source: z
+    .string()
+    .describe('A URL or topic to generate the social media post from.'),
+  platform: z
+    .string()
+    .describe(
+      'The social media platform (e.g., Twitter, LinkedIn, Facebook).'
+    ),
+  tone: z.string().describe('The desired tone of voice for the post.'),
+});
+export type GenerateSocialPostInput = z.infer<
+  typeof GenerateSocialPostInputSchema
+>;
+
+export const GenerateSocialPostOutputSchema = z.object({
+  posts: z.array(z.object({
+    day: z.string().describe("The day of the week for the post (e.g., 'Monday')."),
+    postContent: z.string().describe('The generated social media post content for that day.'),
+    imageSuggestion: z.string().describe('A suggestion for an accompanying image for that day\'s post.'),
+  })).describe("A list of posts for a 7-day week."),
+  hashtagStrategy: z.object({
+    primary: z.array(z.string()).describe("5-7 primary, high-volume hashtags."),
+    secondary: z.array(z.string()).describe("5-7 secondary, niche-specific hashtags."),
+    location: z.array(z.string()).describe("3-5 location-based hashtags."),
+  }).describe("A comprehensive hashtag strategy."),
+});
+export type GenerateSocialPostOutput = z.infer<
+  typeof GenerateSocialPostOutputSchema
+>;
+
+// Schemas for Story Generator
+export const GenerateStoryInputSchema = z.object({
+  projectId: z.string().describe('The ID of the project to use for photo assets.'),
+  vibe: z.string().describe('The desired vibe for the story (e.g., "Modern", "Luxury").'),
+  callToAction: z.string().describe('The call to action text for the end of the story.'),
+});
+export type GenerateStoryInput = z.infer<typeof GenerateStoryInputSchema>;
+
+export const GenerateStoryOutputSchema = z.object({
+  storyVideoDataUri: z
+    .string()
+    .describe(
+      "The generated story video, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
+    ),
+});
+export type GenerateStoryOutput = z.infer<typeof GenerateStoryOutputSchema>;
+
+// Schemas for TikTok Video Generator
+export const GenerateTikTokVideoInputSchema = z.object({
+  projectId: z.string().describe('The ID of the project to use for visual assets.'),
+  sound: z.string().describe('The trending sound or vibe to use for the video.'),
+  textOverlays: z.string().describe('Engaging text to overlay on the video, separated by newlines.'),
+});
+export type GenerateTikTokVideoInput = z.infer<typeof GenerateTikTokVideoInputSchema>;
+
+export const GenerateTikTokVideoOutputSchema = z.object({
+  tiktokVideoDataUri: z
+    .string()
+    .describe(
+      "The generated TikTok video, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
+    ),
+});
+export type GenerateTikTokVideoOutput = z.infer<typeof GenerateTikTokVideoOutputSchema>;
+
+// Schemas for CRM Memory Getter
+export const GetCrmMemoryInputSchema = z.object({
+  clientName: z.string().describe('The name of the client to query.'),
+  query: z.string().describe('The specific question about the client.'),
+});
+export type GetCrmMemoryInput = z.infer<typeof GetCrmMemoryInputSchema>;
+
+export const GetCrmMemoryOutputSchema = z.object({
+  summary: z
+    .string()
+    .describe('A summary of the requested information about the client.'),
+  confidenceScore: z
+    .number()
+    .describe(
+      'A score from 0 to 1 indicating how confident the AI is in the answer based on the available (but unseen) data.'
+    ),
+});
+export type GetCrmMemoryOutput = z.infer<typeof GetCrmMemoryOutputSchema>;
+
+// Schemas for Market Trends Getter
+export const GetMarketTrendsInputSchema = z.object({
+  topic: z.string().describe('The real estate topic to analyze (e.g., "Dubai rental yields").'),
+});
+export type GetMarketTrendsInput = z.infer<typeof GetMarketTrendsInputSchema>;
+
+export const GetMarketTrendsOutputSchema = z.object({
+  overallSentiment: z.string().describe('A summary of the general market sentiment on the topic (e.g., "Optimistic," "Cautious").'),
+  emergingTrends: z.array(z.object({
+    trend: z.string().describe('A specific emerging trend.'),
+    description: z.string().describe('A brief description of the trend and its potential impact.'),
+  })).describe('A list of 2-4 key emerging trends identified from the sources.'),
+  futureOutlook: z.string().describe('A forward-looking statement on what to expect based on the analyzed trends.'),
+});
+export type GetMarketTrendsOutput = z.infer<typeof GetMarketTrendsOutputSchema>;
+
+// Schemas for Social Page Manager
+export const ManageSocialPageInputSchema = z.object({
+  task: z
+    .string()
+    .describe(
+      'The management task to perform (e.g., "Draft 3 engaging replies to a comment asking about price", "Create a content schedule for next week").'
+    ),
+  context: z
+    .string()
+    .optional()
+    .describe(
+      'Any relevant context, such as the text of a comment or the topic for a content schedule.'
+    ),
+});
+export type ManageSocialPageInput = z.infer<typeof ManageSocialPageInputSchema>;
+
+export const ManageSocialPageOutputSchema = z.object({
+  status: z.string().describe('A status update on the performed task.'),
+  result: z
+    .string()
+    .describe(
+      'The output of the task, such as drafted replies or a content schedule.'
+    ),
+});
+export type ManageSocialPageOutput = z.infer<typeof ManageSocialPageOutputSchema>;
+
+// Schemas for WhatsApp Campaign Manager
+export const ManageWhatsAppCampaignInputSchema = z.object({
+  contactsDataUri: z
+    .string()
+    .describe(
+      "A CSV of contacts, as a data URI. It must include 'name' and 'phone' columns."
+    ),
+  campaignType: z
+    .string()
+    .describe(
+      'The type of campaign (e.g., "New Listing Announcement", "Open House Follow-up").'
+    ),
+  context: z
+    .string()
+    .describe(
+      'Provide the necessary context, like the property name or open house date.'
+    ),
+});
+export type ManageWhatsAppCampaignInput = z.infer<
+  typeof ManageWhatsAppCampaignInputSchema
+>;
+
+export const ManageWhatsAppCampaignOutputSchema = z.object({
+  status: z
+    .string()
+    .describe(
+      'A status update on the campaign (e.g., "Message template generated and ready to send").'
+    ),
+  messageTemplate: z
+    .string()
+    .describe(
+      'The generated, personalized message template. Use [Name] to represent the contact\'s name.'
+    ),
+});
+export type ManageWhatsAppCampaignOutput = z.infer<
+  typeof ManageWhatsAppCampaignOutputSchema
+>;
+
+// Schemas for Investor Matcher
+export const MatchInvestorsInputSchema = z.object({
+  clientDatabase: z
+    .string()
+    .describe(
+      "A client database, as a data URI (likely CSV) that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
+    ),
+  propertyType: z
+    .string()
+    .describe('The type of property (e.g., Duplex, Commercial).'),
+  location: z.string().describe('The location of the property.'),
+  price: z.number().describe('The asking price of the property.'),
+  capRate: z.number().describe('The capitalization rate of the property.'),
+  investmentThesis: z
+    .string()
+    .describe(
+      'The primary strategy for this investment (e.g., Value-Add, Turnkey Rental).'
+    ),
+  keyFeatures: z
+    .string()
+    .describe('Key features or selling points of the property for investors.'),
+});
+export type MatchInvestorsInput = z.infer<typeof MatchInvestorsInputSchema>;
+
+export const MatchInvestorsOutputSchema = z.object({
+  matches: z.array(
+    z.object({
+      name: z.string().describe('The name of the matched investor.'),
+      email: z.string().email().describe('The email of the matched investor.'),
+      matchScore: z
+        .number()
+        .describe(
+          'A score from 0 to 100 indicating the strength of the match.'
+        ),
+      reasoning: z
+        .string()
+        .describe(
+          'A brief explanation for why this investor is a good match.'
+        ),
+    })
+  ),
+});
+export type MatchInvestorsOutput = z.infer<typeof MatchInvestorsOutputSchema>;
+
+// Schemas for Brochure Translator
+export const TranslateBrochureInputSchema = z.object({
+  brochureDataUri: z
+    .string()
+    .describe(
+      "The source brochure document, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
+    ),
+  targetLanguage: z
+    .string()
+    .describe('The language to translate the brochure into (e.g., "Arabic", "Chinese").'),
+});
+export type TranslateBrochureInput = z.infer<typeof TranslateBrochureInputSchema>;
+
+export const TranslateBrochureOutputSchema = z.object({
+  translatedBrochureDataUri: z
+    .string()
+    .describe(
+      "The translated brochure document, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
+    ),
+});
+export type TranslateBrochureOutput = z.infer<typeof TranslateBrochureOutputSchema>;

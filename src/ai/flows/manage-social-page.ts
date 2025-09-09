@@ -16,37 +16,13 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import {
+  ManageSocialPageInputSchema,
+  ManageSocialPageOutputSchema,
+  type ManageSocialPageInput,
+  type ManageSocialPageOutput,
+} from '@/types';
 
-/**
- * Defines the schema for the input of the page admin flow.
- */
-export const ManageSocialPageInputSchema = z.object({
-  task: z
-    .string()
-    .describe(
-      'The management task to perform (e.g., "Draft 3 engaging replies to a comment asking about price", "Create a content schedule for next week").'
-    ),
-  context: z
-    .string()
-    .optional()
-    .describe(
-      'Any relevant context, such as the text of a comment or the topic for a content schedule.'
-    ),
-});
-export type ManageSocialPageInput = z.infer<typeof ManageSocialPageInputSchema>;
-
-/**
- * Defines the schema for the output of the page admin flow.
- */
-export const ManageSocialPageOutputSchema = z.object({
-  status: z.string().describe('A status update on the performed task.'),
-  result: z
-    .string()
-    .describe(
-      'The output of the task, such as drafted replies or a content schedule.'
-    ),
-});
-export type ManageSocialPageOutput = z.infer<typeof ManageSocialPageOutputSchema>;
 
 const manageSocialPagePrompt = ai.definePrompt({
   name: 'manageSocialPagePrompt',

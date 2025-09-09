@@ -16,28 +16,12 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-
-/**
- * Defines the schema for the input of the multi-offer generation flow.
- */
-export const GenerateMultiOfferInputSchema = z.object({
-  properties: z.string().describe('A list of property addresses, one per line.'),
-  clientInfo: z.string().describe('Basic information about the client (e.g., name, budget).'),
-  terms: z.string().describe('Key offer terms to include for comparison.'),
-});
-export type GenerateMultiOfferInput = z.infer<typeof GenerateMultiOfferInputSchema>;
-
-/**
- * Defines the schema for the output of the multi-offer generation flow.
- */
-export const GenerateMultiOfferOutputSchema = z.object({
-  offerPackageDataUri: z
-    .string()
-    .describe(
-      "The generated offer comparison PDF, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
-    ),
-});
-export type GenerateMultiOfferOutput = z.infer<typeof GenerateMultiOfferOutputSchema>;
+import {
+  GenerateMultiOfferInputSchema,
+  GenerateMultiOfferOutputSchema,
+  type GenerateMultiOfferInput,
+  type GenerateMultiOfferOutput,
+} from '@/types';
 
 
 /**

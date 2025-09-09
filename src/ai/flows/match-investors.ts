@@ -16,56 +16,13 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import {
+  MatchInvestorsInputSchema,
+  MatchInvestorsOutputSchema,
+  type MatchInvestorsInput,
+  type MatchInvestorsOutput,
+} from '@/types';
 
-/**
- * Defines the schema for the input of the investor matching flow.
- */
-const MatchInvestorsInputSchema = z.object({
-  clientDatabase: z
-    .string()
-    .describe(
-      "A client database, as a data URI (likely CSV) that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
-    ),
-  propertyType: z
-    .string()
-    .describe('The type of property (e.g., Duplex, Commercial).'),
-  location: z.string().describe('The location of the property.'),
-  price: z.number().describe('The asking price of the property.'),
-  capRate: z.number().describe('The capitalization rate of the property.'),
-  investmentThesis: z
-    .string()
-    .describe(
-      'The primary strategy for this investment (e.g., Value-Add, Turnkey Rental).'
-    ),
-  keyFeatures: z
-    .string()
-    .describe('Key features or selling points of the property for investors.'),
-});
-
-export type MatchInvestorsInput = z.infer<typeof MatchInvestorsInputSchema>;
-
-/**
- * Defines the schema for the output of the investor matching flow.
- */
-const MatchInvestorsOutputSchema = z.object({
-  matches: z.array(
-    z.object({
-      name: z.string().describe('The name of the matched investor.'),
-      email: z.string().email().describe('The email of the matched investor.'),
-      matchScore: z
-        .number()
-        .describe(
-          'A score from 0 to 100 indicating the strength of the match.'
-        ),
-      reasoning: z
-        .string()
-        .describe(
-          'A brief explanation for why this investor is a good match.'
-        ),
-    })
-  ),
-});
-export type MatchInvestorsOutput = z.infer<typeof MatchInvestorsOutputSchema>;
 
 /**
  * An AI flow that matches an investment property with the best clients.

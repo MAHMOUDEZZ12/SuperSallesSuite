@@ -16,28 +16,12 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-
-/**
- * Defines the schema for the input of the reel generation flow.
- */
-export const GenerateReelInputSchema = z.object({
-  projectId: z.string().describe('The ID of the project to use for assets.'),
-  sellingPoints: z.string().describe('Key selling points for text overlays, separated by newlines.'),
-  vibe: z.string().describe('The desired vibe for the reel, influencing music and editing style.'),
-});
-export type GenerateReelInput = z.infer<typeof GenerateReelInputSchema>;
-
-/**
- * Defines the schema for the output of the reel generation flow.
- */
-export const GenerateReelOutputSchema = z.object({
-  reelVideoDataUri: z
-    .string()
-    .describe(
-      "The generated reel video, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
-    ),
-});
-export type GenerateReelOutput = z.infer<typeof GenerateReelOutputSchema>;
+import {
+  GenerateReelInputSchema,
+  GenerateReelOutputSchema,
+  type GenerateReelInput,
+  type GenerateReelOutput,
+} from '@/types';
 
 
 /**
@@ -65,4 +49,3 @@ const generateReelFlow = ai.defineFlow(
     return generateReel(input);
   }
 );
-

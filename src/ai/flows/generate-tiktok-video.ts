@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -15,28 +16,12 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-
-/**
- * Defines the schema for the input of the TikTok video generation flow.
- */
-export const GenerateTikTokVideoInputSchema = z.object({
-  projectId: z.string().describe('The ID of the project to use for visual assets.'),
-  sound: z.string().describe('The trending sound or vibe to use for the video.'),
-  textOverlays: z.string().describe('Engaging text to overlay on the video, separated by newlines.'),
-});
-export type GenerateTikTokVideoInput = z.infer<typeof GenerateTikTokVideoInputSchema>;
-
-/**
- * Defines the schema for the output of the TikTok video generation flow.
- */
-export const GenerateTikTokVideoOutputSchema = z.object({
-  tiktokVideoDataUri: z
-    .string()
-    .describe(
-      "The generated TikTok video, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
-    ),
-});
-export type GenerateTikTokVideoOutput = z.infer<typeof GenerateTikTokVideoOutputSchema>;
+import {
+  GenerateTikTokVideoInputSchema,
+  GenerateTikTokVideoOutputSchema,
+  type GenerateTikTokVideoInput,
+  type GenerateTikTokVideoOutput,
+} from '@/types';
 
 
 /**

@@ -16,27 +16,13 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import {
+  GetMarketTrendsInputSchema,
+  GetMarketTrendsOutputSchema,
+  type GetMarketTrendsInput,
+  type GetMarketTrendsOutput,
+} from '@/types';
 
-/**
- * Defines the schema for the input of the market trends flow.
- */
-export const GetMarketTrendsInputSchema = z.object({
-  topic: z.string().describe('The real estate topic to analyze (e.g., "Dubai rental yields").'),
-});
-export type GetMarketTrendsInput = z.infer<typeof GetMarketTrendsInputSchema>;
-
-/**
- * Defines the schema for the output of the market trends flow.
- */
-export const GetMarketTrendsOutputSchema = z.object({
-  overallSentiment: z.string().describe('A summary of the general market sentiment on the topic (e.g., "Optimistic," "Cautious").'),
-  emergingTrends: z.array(z.object({
-    trend: z.string().describe('A specific emerging trend.'),
-    description: z.string().describe('A brief description of the trend and its potential impact.'),
-  })).describe('A list of 2-4 key emerging trends identified from the sources.'),
-  futureOutlook: z.string().describe('A forward-looking statement on what to expect based on the analyzed trends.'),
-});
-export type GetMarketTrendsOutput = z.infer<typeof GetMarketTrendsOutputSchema>;
 
 /**
  * An AI flow that analyzes market trends for a specific topic.

@@ -16,30 +16,13 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import {
+  GetCrmMemoryInputSchema,
+  GetCrmMemoryOutputSchema,
+  type GetCrmMemoryInput,
+  type GetCrmMemoryOutput,
+} from '@/types';
 
-/**
- * Defines the schema for the input of the CRM memory flow.
- */
-export const GetCrmMemoryInputSchema = z.object({
-  clientName: z.string().describe('The name of the client to query.'),
-  query: z.string().describe('The specific question about the client.'),
-});
-export type GetCrmMemoryInput = z.infer<typeof GetCrmMemoryInputSchema>;
-
-/**
- * Defines the schema for the output of the CRM memory flow.
- */
-export const GetCrmMemoryOutputSchema = z.object({
-  summary: z
-    .string()
-    .describe('A summary of the requested information about the client.'),
-  confidenceScore: z
-    .number()
-    .describe(
-      'A score from 0 to 1 indicating how confident the AI is in the answer based on the available (but unseen) data.'
-    ),
-});
-export type GetCrmMemoryOutput = z.infer<typeof GetCrmMemoryOutputSchema>;
 
 const getCrmMemoryPrompt = ai.definePrompt({
   name: 'getCrmMemoryPrompt',

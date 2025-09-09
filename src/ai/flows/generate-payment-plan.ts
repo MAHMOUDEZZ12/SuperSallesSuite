@@ -16,50 +16,13 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import {
+  GeneratePaymentPlanInputSchema,
+  GeneratePaymentPlanOutputSchema,
+  type GeneratePaymentPlanInput,
+  type GeneratePaymentPlanOutput,
+} from '@/types';
 
-/**
- * Defines the schema for the input of the payment plan generation flow.
- */
-export const GeneratePaymentPlanInputSchema = z.object({
-  projectId: z
-    .string()
-    .describe('The ID of the project from the user\'s library.'),
-  totalPrice: z.number().positive().describe('The total price of the property in AED.'),
-  planType: z
-    .string()
-    .describe(
-      'The desired structure of the payment plan (e.g., "Standard", "Post-Handover").'
-    ),
-});
-export type GeneratePaymentPlanInput = z.infer<
-  typeof GeneratePaymentPlanInputSchema
->;
-
-/**
- * Defines the schema for a single payment milestone.
- */
-const MilestoneSchema = z.object({
-  milestone: z.string().describe('The name of the payment milestone (e.g., "Down Payment", "On Handover").'),
-  date: z.string().describe('The estimated date for the payment (e.g., "On Booking", "Dec 2025").'),
-  amount: z.number().describe('The amount due for this milestone in AED.'),
-  percentage: z.string().describe('The percentage of the total price for this milestone (e.g., "10%").'),
-});
-
-/**
- * Defines the schema for the output of the payment plan generation flow.
- */
-export const GeneratePaymentPlanOutputSchema = z.object({
-  planName: z.string().describe('A descriptive name for the generated plan.'),
-  planDescription: z
-    .string()
-    .describe('A brief, client-friendly description of how the plan works.'),
-  milestones: z
-    .array(MilestoneSchema)
-    .describe('A list of the payment milestones.'),
-});
-export type GeneratePaymentPlanOutput = z.infer<
-  typeof GeneratePaymentPlanOutputSchema
->;
 
 const generatePaymentPlanPrompt = ai.definePrompt({
   name: 'generatePaymentPlanPrompt',
