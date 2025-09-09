@@ -4,29 +4,17 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  apiKey: "AIzaSyC2AJDevhB98d-Gz6rC8N1FNyw_ISgWEZo",
+  authDomain: "leadbylead-b79ea.firebaseapp.com",
+  projectId: "leadbylead-b79ea",
+  storageBucket: "leadbylead-b79ea.appspot.com",
+  messagingSenderId: "432273508285",
+  appId: "1:432273508285:web:c19faae0c1af31639934d4",
+  measurementId: "G-0NMPCGWQ2F"
 };
 
-// Check if all required environment variables are set
-const isFirebaseConfigValid = firebaseConfig.apiKey &&
-                              firebaseConfig.authDomain &&
-                              firebaseConfig.projectId &&
-                              firebaseConfig.storageBucket &&
-                              firebaseConfig.messagingSenderId &&
-                              firebaseConfig.appId;
+// Initialize Firebase
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
-// Initialize Firebase only if the config is valid
-const app = isFirebaseConfigValid && !getApps().length ? initializeApp(firebaseConfig) : (getApps().length ? getApp() : null);
-
-// Export the instances only if the app was initialized
-export const db = app ? getFirestore(app) : null;
-export const auth = app ? getAuth(app) : null;
-
-if (!app) {
-    console.error("Firebase initialization failed: Missing environment variables. Please check your .env file.");
-}
+export const db = getFirestore(app);
+export const auth = getAuth(app);

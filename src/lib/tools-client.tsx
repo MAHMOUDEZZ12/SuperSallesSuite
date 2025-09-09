@@ -230,6 +230,7 @@ export const tools: Feature[] = [
     categories: ['Google AI Suite', 'Ads', 'Marketing'],
     mindMapCategory: 'Google AI Suite',
     badge: 'NEW',
+    isPage: true,
     href: '/dashboard/tool/keyword-planner',
     details: {
       steps: [
@@ -252,59 +253,7 @@ export const tools: Feature[] = [
         { question: "Can I use this for any industry?", answer: "Yes, while the suite is real estate-focused, this tool is versatile. Just provide any topic (e.g., 'handmade leather bags') and it will generate a relevant keyword plan." }
       ],
     },
-    creationFields: [
-       { id: 'topic', name: 'Topic or Product', type: 'text', placeholder: 'e.g., "Luxury villas in Dubai Hills"', description: 'The central theme for your keyword plan.' },
-       { id: 'targetLocation', name: 'Target Location', type: 'text', placeholder: 'e.g., "Dubai, UAE"', description: 'The geographical area you want to target.' },
-    ],
-    renderResult: (result, toast) => (
-      <div className="space-y-6">
-        <h3 className="text-2xl font-bold font-heading">{result.planTitle}</h3>
-        <Card>
-          <CardHeader>
-            <CardTitle>Negative Keywords</CardTitle>
-            <CardDescription>Add these to your campaign to avoid wasted ad spend.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="p-3 bg-muted rounded-md text-sm text-muted-foreground">
-              {result.negativeKeywords.join(', ')}
-            </div>
-          </CardContent>
-        </Card>
-        {result.adGroups.map((group: any) => (
-          <Card key={group.adGroupName}>
-            <CardHeader>
-              <CardTitle>{group.adGroupName}</CardTitle>
-            </CardHeader>
-            <CardContent>
-               <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Keyword</TableHead>
-                    <TableHead>Match Type</TableHead>
-                    <TableHead className="text-right">Est. Searches</TableHead>
-                    <TableHead className="text-right">Competition</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {group.keywords.map((kw: any, index: number) => (
-                    <TableRow key={index}>
-                      <TableCell className="font-medium">{kw.keyword}</TableCell>
-                      <TableCell>{kw.matchType}</TableCell>
-                      <TableCell className="text-right">{kw.monthlySearches.toLocaleString()}</TableCell>
-                      <TableCell className="text-right">
-                        <Badge variant={kw.competition === 'High' ? 'destructive' : kw.competition === 'Medium' ? 'secondary' : 'default'}>
-                          {kw.competition}
-                        </Badge>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    ),
+    creationFields: [],
   },
 
   // --- TIKTOK AI SUITE ---
@@ -1418,38 +1367,6 @@ export const tools: Feature[] = [
     isPage: true,
     href: '/dashboard/tool/market-reports',
     guideHref: '/blog/market-reports',
-    renderResult: (result, toast) => (
-      <div className="space-y-6 text-foreground">
-        <h3 className="text-2xl font-bold font-heading">{result.reportTitle}</h3>
-        <Separator />
-        <div>
-          <h4 className="font-semibold text-lg mb-1">Executive Summary</h4>
-          <p className="text-foreground/80">{result.executiveSummary}</p>
-        </div>
-        <Separator />
-        <div>
-          <h4 className="font-semibold text-lg mb-2">Key Market Trends</h4>
-          <ul className="space-y-3">
-            {result.marketTrends.map((item: any, index: number) => (
-              <li key={index} className="p-3 bg-muted/50 rounded-md">
-                <p className="font-semibold">{item.trend}</p>
-                <p className="text-sm text-muted-foreground">{item.analysis}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <Separator />
-        <div>
-          <h4 className="font-semibold text-lg mb-1">Pricing Analysis</h4>
-          <p className="text-foreground/80">{result.pricingAnalysis}</p>
-        </div>
-        <Separator />
-        <div>
-          <h4 className="font-semibold text-lg mb-1">Future Outlook</h4>
-          <p className="text-foreground/80">{result.futureOutlook}</p>
-        </div>
-      </div>
-    ),
     details: {
       steps: [
         { text: 'Enter a neighborhood or address', icon: <MapPin className="h-6 w-6" /> },
