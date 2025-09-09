@@ -59,6 +59,10 @@ const generateUgcScriptFlow = ai.defineFlow(
   },
   async ({ productDescription }) => {
     
+    // In a real-world scenario, you might have a dynamic way to get the analysis,
+    // but for this example, we use a few-shot approach where we provide the
+    // user's analysis request and the model's expected response as examples.
+    
     const { output } = await ai.generate({
       model: googleAI.model('gemini-1.5-flash-latest'),
       system: systemInstruction,
@@ -71,7 +75,8 @@ const generateUgcScriptFlow = ai.defineFlow(
         temperature: 1,
         topP: 0.95,
         maxOutputTokens: 8192,
-        safetySettings: [ // Safety settings from python script
+        // Safety settings from the user's provided context
+        safetySettings: [ 
           { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_NONE' },
           { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_NONE' },
           { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_NONE' },
