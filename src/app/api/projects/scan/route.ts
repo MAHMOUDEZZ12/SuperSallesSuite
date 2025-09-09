@@ -1,38 +1,69 @@
 
-import { adminDb } from "@/lib/firebaseAdmin";
 import { ok, fail } from "@/lib/api-helpers";
-import type { Project } from "@/types";
-import { cookies } from "next/headers";
+import { SearchServiceClient } from "@google-cloud/discoveryengine";
+import { NextRequest } from "next/server";
 
-export async function GET(req: Request) {
+const client = new SearchServiceClient();
+
+export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
-    const limit = Number(searchParams.get("limit") || 20);
-    const query = (searchParams.get("q") || "").toLowerCase().trim();
+    const query = searchParams.get("q");
 
-    const cookieStore = cookies();
-    const country = cookieStore.get("country")?.value || "AE";
-    const city = cookieStore.get("city")?.value || "Dubai";
-    
-    let q = adminDb.collection("projects_catalog")
-      .where("country", "==", country);
-
-    const snap = await q.get();
-    let all = snap.docs.map(d => ({ id: d.id, ...d.data() as any }))
-      .filter((p: Project) => p.city === city);
-
-    if (query) {
-      all = all.filter((p: Project) => 
-        p.name.toLowerCase().includes(query) ||
-        p.developer.toLowerCase().includes(query) ||
-        (p.area && p.area.toLowerCase().includes(query)) ||
-        (p.status && p.status.toLowerCase().includes(query)) ||
-        (p.unitTypes && p.unitTypes.some(u => u.toLowerCase().includes(query)))
-      );
+    if (!query) {
+      return fail("Query parameter 'q' is required.", 400);
     }
+    
+    const projectId = "supersellerae-4rzzy";
+    const location = "global"; 
+    const dataStoreId = "all-sites_1722002324355"; 
 
-    return ok(all.slice(0, limit));
-  } catch (e) {
-    return fail(e);
+    const request = {
+      pageSize: 20,
+      query: query,
+      servingConfig: `projects/${projectId}/locations/${location}/collections/default_collection/dataStores/${dataStoreId}/servingConfigs/default_search`,
+      contentSearchSpec: {
+        summarySpec: {
+          summaryResultCount: 3,
+          ignoreAdversarialQuery: true,
+        },
+        extractiveContentSpec: {
+          maxExtractiveAnswerCount: 3,
+        }
+      },
+    };
+
+    const [response] = await client.search(request);
+    
+    // Transform the Vertex AI Search results into our existing Project structure
+    const results = response.results?.map(result => {
+      const doc = result.document?.derivedStructData?.fields;
+      if (!doc) return null;
+      
+      const getVal = (key: string) => doc[key]?.stringValue || doc[key]?.numberValue || '';
+
+      return {
+        id: result.document?.id || `vertex-${Math.random()}`,
+        name: getVal('title') || getVal('name') || 'Untitled Project',
+        developer: getVal('developer') || 'N/A',
+        area: getVal('area') || getVal('location') || 'N/A',
+        city: getVal('city') || 'Dubai',
+        country: getVal('country') || 'AE',
+        priceFrom: getVal('priceFrom') || 'N/A',
+        status: getVal('status') || 'Varies',
+        thumbnailUrl: getVal('thumbnailUrl') || `https://picsum.photos/seed/${result.document?.id}/400/200`,
+        developerLogoUrl: getVal('developerLogoUrl') || '/logos/emaar-logo.png',
+        tags: [new URL(result.document?.uri || 'https://google.com').hostname],
+        // Add other fields as needed
+      };
+    }).filter(Boolean);
+
+
+    return ok(results);
+  } catch (e: any) {
+    console.error("Vertex AI Search Error:", e);
+    // Provide a more detailed error message if available
+    const errorMessage = e.details || e.message || 'An unknown error occurred while searching.';
+    return fail(errorMessage, 500);
   }
 }
