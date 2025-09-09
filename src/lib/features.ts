@@ -543,7 +543,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
         ]
     },
     creationFields: [
-        { id: 'dataStore', name: 'Data Store', type: 'select', options: ['None (General Knowledge)', 'MarketMedia-Lib', 'Dev-Top-Properties'], placeholder: 'Select a data store', description: 'The knowledge base the AI will use to write content.' },
+        { id: 'dataStore', name: 'Data Store', type: 'select', options: ['None (General Knowledge)', 'MarketMedia-Lib', 'SuperSeller', 'Watcher'], placeholder: 'Select a data store', description: 'The knowledge base the AI will use to write content.' },
         { id: 'topic', name: 'Topic or Theme', type: 'text', placeholder: 'e.g., "The benefits of living in Dubai Marina"', description: 'The core idea for your content plan.' },
         { id: 'platform', name: 'Platform', type: 'select', options: ['Instagram', 'Facebook', 'LinkedIn', 'Twitter'], placeholder: 'Select a platform', description: 'The platform you are creating content for.' },
         { id: 'tone', name: 'Tone of Voice', type: 'select', options: ['Professional', 'Friendly', 'Humorous', 'Authoritative'], placeholder: 'Select a tone', description: 'Set the tone for the generated posts.' },
