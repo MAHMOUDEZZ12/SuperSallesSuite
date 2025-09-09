@@ -289,9 +289,9 @@ export default function Home() {
   const handleSearch = (e: React.FormEvent) => {
       e.preventDefault();
       if (query.trim()) {
-          router.push(`/search?q=${encodeURIComponent(query)}`);
+          router.push(`/market-library?q=${encodeURIComponent(query)}`);
       } else {
-          router.push('/search');
+          router.push('/market-library');
       }
   };
 
@@ -334,9 +334,9 @@ export default function Home() {
             </form>
              <div className="mt-4 flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm">
                 <span className="text-muted-foreground">Try:</span>
-                <button onClick={() => router.push('/search?q=Apartments%20in%20Downtown%20with%20rental%20yield')} className="hover:text-primary transition-colors">Apartments in Downtown with rental yield</button>
-                <button onClick={() => router.push('/search?q=Top%20off-plan%20projects%20launching%20this%20month')} className="hover:text-primary transition-colors">Top off-plan projects</button>
-                <button onClick={() => router.push('/search?q=Market%20trends%20for%20Business%20Bay%20offices')} className="hover:text-primary transition-colors">Market trends for Business Bay offices</button>
+                <button onClick={() => router.push('/market-library?q=Apartments%20in%20Downtown%20with%20rental%20yield')} className="hover:text-primary transition-colors">Apartments in Downtown with rental yield</button>
+                <button onClick={() => router.push('/market-library?q=Top%20off-plan%20projects%20launching%20this%20month')} className="hover:text-primary transition-colors">Top off-plan projects</button>
+                <button onClick={() => router.push('/market-library?q=Market%20trends%20for%20Business%20Bay%20offices')} className="hover:text-primary transition-colors">Market trends for Business Bay offices</button>
             </div>
           </div>
         </div>
