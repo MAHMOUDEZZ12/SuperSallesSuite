@@ -45,7 +45,7 @@ function MarketLibrary() {
       <main className="flex-1 w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20">
         <div className="text-center mb-16">
             <h1 className="text-4xl md:text-6xl font-bold font-heading tracking-tighter mb-4 text-foreground">
-             Market Library
+             Search anything about Dubai’s real estate market
           </h1>
            <p className="text-lg md:text-xl text-foreground/60 max-w-3xl mx-auto">
             Your AI-powered gateway to Dubai real estate intelligence.
@@ -56,7 +56,7 @@ function MarketLibrary() {
             <form onSubmit={handleSearch} className="relative">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input
-                    placeholder="Search anything in the Dubai Real Estate Market..."
+                    placeholder="Search for project, developer, area, or even a service charge..."
                     className="w-full rounded-full h-14 pl-12 pr-28 text-base"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
