@@ -121,8 +121,8 @@ const SearchResults = ({ query }: { query: string }) => {
                 </div>
             </div>
             
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                 <div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                 <div className="lg:col-span-2">
                     <h2 className="text-2xl font-bold mb-6">News & Social Media Mentions</h2>
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {results.media.map((item, index) => (
@@ -225,8 +225,8 @@ function MarketLibrary() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <LandingHeader />
-      <main className="flex-1 w-full max-w-[90rem] mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20">
-        <div className="text-center mb-8">
+      <main className="flex-1 w-full px-4 md:px-6 lg:px-8 py-12 md:py-20">
+        <div className="text-center mb-8 max-w-4xl mx-auto">
             <h1 className="text-4xl md:text-5xl font-bold font-heading tracking-tighter mb-4 text-foreground">
              Search anything about Dubai’s real estate market
             </h1>
@@ -248,28 +248,30 @@ function MarketLibrary() {
             </form>
         </div>
         
-        {initialQuery ? (
-          <React.Suspense fallback={
-             <div className="flex flex-col items-center justify-center h-96 text-muted-foreground">
-                <div className="w-full max-w-lg space-y-2 mb-4">
-                    <p className="font-semibold text-lg text-center">Generating your intelligence dashboard...</p>
-                    <div className="h-2.5 bg-primary/20 rounded-full w-full animate-pulse"></div>
-                    <div className="h-2.5 bg-primary/20 rounded-full w-3/4 animate-pulse"></div>
-                </div>
-            </div>
-          }>
-            <SearchResults query={initialQuery} />
-          </React.Suspense>
-        ) : (
-            <div className="text-center mt-8 text-sm text-muted-foreground">
-                <p>Or try an example search:</p>
-                <div className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-2">
-                     <button onClick={() => router.push('/market-library?q=Apartments%20in%20Downtown%20with%20rental%20yield')} className="hover:text-primary transition-colors">Apartments in Downtown with rental yield</button>
-                    <button onClick={() => router.push('/market-library?q=Top%20off-plan%20projects%20launching%20this%20month')} className="hover:text-primary transition-colors">Top off-plan projects</button>
-                    <button onClick={() => router.push('/market-library?q=Market%20trends%20for%20Business%20Bay%20offices')} className="hover:text-primary transition-colors">Market trends for Business Bay offices</button>
-                </div>
-            </div>
-        )}
+        <div className="max-w-7xl mx-auto">
+          {initialQuery ? (
+            <React.Suspense fallback={
+              <div className="flex flex-col items-center justify-center h-96 text-muted-foreground">
+                  <div className="w-full max-w-lg space-y-2 mb-4">
+                      <p className="font-semibold text-lg text-center">Generating your intelligence dashboard...</p>
+                      <div className="h-2.5 bg-primary/20 rounded-full w-full animate-pulse"></div>
+                      <div className="h-2.5 bg-primary/20 rounded-full w-3/4 animate-pulse"></div>
+                  </div>
+              </div>
+            }>
+              <SearchResults query={initialQuery} />
+            </React.Suspense>
+          ) : (
+              <div className="text-center mt-8 text-sm text-muted-foreground">
+                  <p>Or try an example search:</p>
+                  <div className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-2">
+                      <button onClick={() => router.push('/market-library?q=Apartments%20in%20Downtown%20with%20rental%20yield')} className="hover:text-primary transition-colors">Apartments in Downtown with rental yield</button>
+                      <button onClick={() => router.push('/market-library?q=Top%20off-plan%20projects%20launching%20this%20month')} className="hover:text-primary transition-colors">Top off-plan projects</button>
+                      <button onClick={() => router.push('/market-library?q=Market%20trends%20for%20Business%20Bay%20offices')} className="hover:text-primary transition-colors">Market trends for Business Bay offices</button>
+                  </div>
+              </div>
+          )}
+        </div>
 
       </main>
       <LandingFooter />
