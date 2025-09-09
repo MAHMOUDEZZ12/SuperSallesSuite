@@ -77,6 +77,41 @@ async function scrapePropertyFinder() {
 }
 
 
+async function scrapeSafehold() {
+    const baseUrl = "https://safeholduae.com/top-100-real-estate-companies-in-dubai/";
+    const response = await fetch(baseUrl);
+    const html = await response.text();
+    const $ = cheerio.load(html);
+
+    const companies: any[] = [];
+    $('h3.wp-block-heading').each((i, el) => {
+        try {
+            const text = $(el).text().trim();
+            // Assuming format is "1. Company Name"
+            const match = text.match(/^\d+\.\s*(.*)/);
+            if (match && match[1]) {
+                const developer = match[1].trim();
+                const company = {
+                    id: `safehold-${developer.toLowerCase().replace(/\s+/g, '-')}`,
+                    name: `${developer} - Various Projects`, // Placeholder name
+                    developer: developer,
+                    area: 'Dubai',
+                    country: 'AE',
+                    city: 'Dubai',
+                    status: 'Active Developer',
+                    tags: ['safeholduae.com', 'scrape', 'developer'],
+                };
+                companies.push(company);
+            }
+        } catch (e) {
+            console.error("Error parsing a safehold company item:", e);
+        }
+    });
+
+    return companies;
+}
+
+
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
@@ -88,7 +123,10 @@ export async function GET(req: Request) {
         projects = await scrapeDxbOffplan();
     } else if (source === 'propertyfinder') {
         projects = await scrapePropertyFinder();
-    } else {
+    } else if (source === 'safehold') {
+        projects = await scrapeSafehold();
+    }
+    else {
         return fail("Invalid source parameter provided.", 400);
     }
     

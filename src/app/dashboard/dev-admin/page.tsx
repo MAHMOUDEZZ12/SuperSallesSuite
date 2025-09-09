@@ -220,9 +220,9 @@ export default function DevAdminPage() {
             const data = await response.json();
             if (!data.ok) throw new Error(data.error);
             
-            const successMessage = `Scraping from ${source} complete! Found and updated ${data.data.projectsAdded} projects.`;
+            const successMessage = `Scraping from ${source} complete! Found and updated ${data.data.projectsAdded} projects/developers.`;
             setChangeLog(prev => prev.map(l => l.id === newLogEntry.id ? {...l, status: 'Assured', comment: successMessage} : l));
-            toast({ title: 'Scraping Complete!', description: `Added/updated ${data.data.projectsAdded} projects from ${source} in the Market Library.`});
+            toast({ title: 'Scraping Complete!', description: `Added/updated ${data.data.projectsAdded} projects/developers from ${source} in the Market Library.`});
 
         } catch (e: any) {
             const errorMessage = `Error during scraping from ${source}: ${e.message}`;
@@ -386,6 +386,10 @@ export default function DevAdminPage() {
                                 {scrapingStates['propertyfinder'] ? <Loader2 className="mr-2 h-4 w-4 animate-spin"/> : <Database className="mr-2 h-4 w-4" />}
                                 {scrapingStates['propertyfinder'] ? 'Scraping...' : 'Scrape Property Finder'}
                             </Button>
+                             <Button onClick={() => handleScrape('safehold')} disabled={scrapingStates['safehold']}>
+                                {scrapingStates['safehold'] ? <Loader2 className="mr-2 h-4 w-4 animate-spin"/> : <Database className="mr-2 h-4 w-4" />}
+                                {scrapingStates['safehold'] ? 'Scraping...' : 'Scrape Safehold Developers'}
+                            </Button>
                         </div>
                     </CardContent>
                 </Card>
@@ -405,7 +409,7 @@ export default function DevAdminPage() {
                         </div>
                          <div className="p-4 bg-muted rounded-lg">
                            <p className="text-sm text-muted-foreground">Data Sources</p>
-                           <p className="text-2xl font-bold">2</p>
+                           <p className="text-2xl font-bold">3</p>
                         </div>
                          <div className="p-4 bg-muted rounded-lg">
                            <p className="text-sm text-muted-foreground">Last Updated</p>
