@@ -22,7 +22,7 @@ import { generateReel } from '@/ai/flows/generate-reel';
 import { generateTikTokVideo } from '@/ai/flows/generate-tiktok-video';
 import { getCrmMemory } from '@/ai/flows/get-crm-memory';
 import { manageSocialPage } from '@/ai/flows/manage-social-page';
-import { generateMultiOffer } from '@/aiflows/generate-multi-offer';
+import { generateMultiOffer } from '@/ai/flows/generate-multi-offer';
 import { createEmailCampaign } from '@/ai/flows/create-email-campaign';
 import { manageWhatsAppCampaign } from '@/ai/flows/manage-whatsapp-campaign';
 import { createMetaCampaign } from '@/ai/flows/create-meta-campaign';

@@ -220,7 +220,6 @@ export const GenerateVideoPresenterInputSchema = z.object({
   characterImageUri: z.string().optional().describe("A data URI of a pre-existing character image. If not provided, a new character will be generated based on the description."),
   characterDescription: z.string().optional().describe("A text description to generate a new character image if no image URI is provided."),
   script: z.string().describe("The script for the presenter to speak."),
-  projectId: z.string().optional().describe("An optional project ID to provide context for the speech."),
 });
 export type GenerateVideoPresenterInput = z.infer<typeof GenerateVideoPresenterInputSchema>;
 
