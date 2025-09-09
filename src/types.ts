@@ -179,3 +179,46 @@ export const SyncBayutListingOutputSchema = z.object({
     referenceNumber: z.string().optional().describe("The reference number of the synced listing."),
 });
 export type SyncBayutListingOutput = z.infer<typeof SyncBayutListingOutputSchema>;
+
+// Schemas for Rebrand Brochure
+export const RebrandBrochureInputSchema = z.object({
+  brochureDataUri: z
+    .string()
+    .describe(
+      "A brochure document, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
+    ),
+  contactDetails: z.string().describe('The contact details of the user.'),
+  companyName: z.string().describe('The name of the user or company.'),
+  companyLogoDataUri: z
+    .string()
+    .optional()
+    .describe(
+      "The company logo, as a data URI. If not provided, a logo will be generated."
+    ),
+  toneOfVoice: z
+    .string()
+    .describe('The desired tone of voice for the brochure.'),
+  colors: z.string().describe('The desired colors for the brochure.'),
+  deepEditInstructions: z
+    .string()
+    .optional()
+    .describe('Optional specific instructions for deep editing.'),
+});
+
+export type RebrandBrochureInput = z.infer<typeof RebrandBrochureInputSchema>;
+
+export const RebrandBrochureOutputSchema = z.object({
+  rebrandedBrochureDataUri: z
+    .string()
+    .describe(
+      "The rebranded brochure, as a data URI."
+    ),
+  logoDataUri: z
+    .string()
+    .optional()
+    .describe(
+      "The generated logo, as a data URI. Only present if a logo was generated."
+    ),
+});
+
+export type RebrandBrochureOutput = z.infer<typeof RebrandBrochureOutputSchema>;

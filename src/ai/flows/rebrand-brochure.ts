@@ -10,92 +10,13 @@
  * @module AI/Flows/RebrandBrochure
  *
  * @export {function} rebrandBrochure - The main function to rebrand a brochure.
- * @export {type} RebrandBrochureInput - The Zod schema for the input of the rebrandBrochure flow.
- * @export {type} RebrandBrochureOutput - The Zod schema for the output of the rebrandBrochure flow.
  */
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 import { googleAI } from '@genkit-ai/googleai';
+import { RebrandBrochureInputSchema, RebrandBrochureOutputSchema, RebrandBrochureInput, RebrandBrochureOutput } from '@/types';
 
-/**
- * Defines the schema for the input of the brochure rebranding flow.
- */
-const RebrandBrochureInputSchema = z.object({
-  /**
-   * The source brochure document, encoded as a Base64 data URI.
-   * @example "data:application/pdf;base64,..."
-   */
-  brochureDataUri: z
-    .string()
-    .describe(
-      "A brochure document, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
-    ),
-  /**
-   * The contact details to be added to the rebranded brochure.
-   */
-  contactDetails: z.string().describe('The contact details of the user.'),
-  /**
-   * The name of the user or company for the rebranding.
-   */
-  companyName: z.string().describe('The name of the user or company.'),
-  /**
-   * An optional company logo, encoded as a Base64 data URI. If not provided, a logo will be generated.
-   * @example "data:image/png;base64,..."
-   */
-  companyLogoDataUri: z
-    .string()
-    .optional()
-    .describe(
-      "The company logo, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'. If not provided, a logo will be generated."
-    ),
-  /**
-   * The desired tone of voice for the rebranded brochure.
-   * @example "Professional", "Friendly"
-   */
-  toneOfVoice: z
-    .string()
-    .describe('The desired tone of voice for the brochure.'),
-  /**
-   * The desired color palette for the rebranded brochure.
-   * @example "Blue and Silver"
-   */
-  colors: z.string().describe('The desired colors for the brochure.'),
-  /**
-   * Optional specific instructions for fine-tuning the rebranding.
-   */
-  deepEditInstructions: z
-    .string()
-    .optional()
-    .describe('Optional specific instructions for deep editing.'),
-});
-
-export type RebrandBrochureInput = z.infer<typeof RebrandBrochureInputSchema>;
-
-/**
- * Defines the schema for the output of the brochure rebranding flow.
- */
-const RebrandBrochureOutputSchema = z.object({
-  /**
-   * The rebranded brochure, returned as a Base64 data URI.
-   */
-  rebrandedBrochureDataUri: z
-    .string()
-    .describe(
-      "The rebranded brochure, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
-    ),
-  /**
-   * The generated logo, returned as a Base64 data URI. This field is only present if a logo was generated.
-   */
-  logoDataUri: z
-    .string()
-    .optional()
-    .describe(
-      "The generated logo, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'. Only present if a logo was generated."
-    ),
-});
-
-export type RebrandBrochureOutput = z.infer<typeof RebrandBrochureOutputSchema>;
 
 /**
  * An AI flow that rebrands a brochure with new branding elements.
