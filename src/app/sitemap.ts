@@ -1,5 +1,7 @@
+
 import { MetadataRoute } from 'next';
 import { tools } from '@/lib/features';
+import { blogContent } from '@/lib/blog-content';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const siteUrl = 'https://supersellersuite.ai'; // Replace with your actual domain
@@ -33,8 +35,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
   
-  const blogRoutes = tools.map((tool) => ({
-    url: `${siteUrl}/blog/${tool.id}`,
+  const blogRoutes = Object.keys(blogContent).map((slug) => ({
+    url: `${siteUrl}/blog/${slug}`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.7,
