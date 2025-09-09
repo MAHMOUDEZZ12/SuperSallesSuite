@@ -12,7 +12,7 @@
  */
 
 import { ai } from '@/ai/genkit';
-import { z } from 'genkit';
+import { z } from 'zod';
 import wav from 'wav';
 import { googleAI } from '@genkit-ai/googleai';
 import { GenerateVideoPresenterInputSchema, GenerateVideoPresenterOutputSchema, GenerateVideoPresenterInput, GenerateVideoPresenterOutput } from '@/types';
@@ -27,20 +27,6 @@ import { GenerateVideoPresenterInputSchema, GenerateVideoPresenterOutputSchema, 
 export async function generateVideoPresenter(input: GenerateVideoPresenterInput): Promise<GenerateVideoPresenterOutput> {
     return await generateVideoPresenterFlow(input);
 }
-
-
-async function toWav(pcmData: Buffer): Promise<string> {
-    return new Promise((resolve, reject) => {
-        const writer = new wav.Writer({ channels: 1, sampleRate: 24000, bitDepth: 16 });
-        const bufs: Buffer[] = [];
-        writer.on('error', reject);
-        writer.on('data', (d) => bufs.push(d));
-        writer.on('end', () => resolve(Buffer.concat(bufs).toString('base64')));
-        writer.write(pcmData);
-        writer.end();
-    });
-}
-
 
 const generateVideoPresenterFlow = ai.defineFlow(
   {
@@ -64,55 +50,72 @@ const generateVideoPresenterFlow = ai.defineFlow(
         characterImage = media.url;
     }
 
-    // 2. Generate the video in parallel with the audio
-    const [videoResult, audioResult] = await Promise.all([
-        // Generate Video using Veo
-        ai.generate({
-            model: googleAI.model('veo-2.0-generate-001'),
-            prompt: [
-                { media: { url: characterImage } },
-                { text: `Make this person speak the following script in a professional, engaging manner, as if presenting to a client. The person should have natural facial expressions and mouth movements that match the words. Do not add background music.\n\nScript: "${input.script}"` }
-            ],
-            config: {
-                durationSeconds: 8, // Adjust as needed
-                aspectRatio: "9:16",
-                personGeneration: 'allow_adult',
-            }
-        }),
-        // Generate Audio using TTS
-        ai.generate({
-            model: googleAI.model('gemini-2.5-flash-preview-tts'),
-            config: {
-                responseModalities: ['AUDIO'],
-                speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Algenib' } } },
-            },
-            prompt: input.script,
-        })
-    ]);
-    
-    // Process video result
-    if (!videoResult.operation) throw new Error("Video generation did not return an operation.");
-    let operation = videoResult.operation;
-    while(!operation.done) {
-        await new Promise(resolve => setTimeout(resolve, 5000));
+    // 2. Generate the video with sound using Veo 3
+    const videoGenerationPrompt = [
+        { media: { url: characterImage } },
+        { text: `Make this person speak the following script in a professional, engaging manner, as if presenting to a client. The person should have natural facial expressions and mouth movements that match the words. The generated video should have synchronized sound.\n\nScript: "${input.script}"` }
+    ];
+
+    let { operation } = await ai.generate({
+        model: googleAI.model('veo-3.0-generate-preview'),
+        prompt: videoGenerationPrompt,
+        config: {
+          personGeneration: 'allow_all',
+        }
+    });
+
+    if (!operation) {
+        throw new Error("Video generation did not return a long-running operation.");
+    }
+
+    // 3. Poll for video completion
+    while (!operation.done) {
+        console.log('Checking video generation status...');
+        await new Promise(resolve => setTimeout(resolve, 5000)); // Wait for 5 seconds before checking again
         operation = await ai.checkOperation(operation);
     }
-    if (operation.error) throw new Error(`Video generation failed: ${operation.error.message}`);
-    const video = operation.output?.message?.content.find(p => !!p.media);
-    if (!video || !video.media?.url) throw new Error("Generated video not found in operation result.");
-    const fetch = (await import('node-fetch')).default;
-    const videoDownloadResponse = await fetch(`${video.media!.url}&key=${process.env.GEMINI_API_KEY}`);
-    const videoBuffer = await videoDownloadResponse.arrayBuffer();
-    const videoDataUri = `data:video/mp4;base64,${Buffer.from(videoBuffer).toString('base64')}`;
 
-    // Process audio result
-    if (!audioResult.media) throw new Error("Audio generation failed to return media.");
-    const audioBuffer = Buffer.from(audioResult.media.url.substring(audioResult.media.url.indexOf(',') + 1), 'base64');
-    const wavBase64 = await toWav(audioBuffer);
+    if (operation.error) {
+        throw new Error(`Video generation failed: ${operation.error.message}`);
+    }
+    
+    // 4. Extract video and audio from the result
+    const video = operation.output?.message?.content.find(p => p.media?.contentType?.startsWith('video/'));
+    const audio = operation.output?.message?.content.find(p => p.media?.contentType?.startsWith('audio/'));
+
+    if (!video || !video.media?.url) {
+      throw new Error("Generated video not found in operation result.");
+    }
+    if (!audio || !audio.media?.url) {
+      throw new Error("Generated audio not found in operation result.");
+    }
+    
+    // 5. Download video and audio content and convert to data URIs
+    const fetch = (await import('node-fetch')).default;
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error("GEMINI_API_KEY environment variable is not set.");
+    }
+
+    const [videoResponse, audioResponse] = await Promise.all([
+      fetch(`${video.media.url}&key=${apiKey}`),
+      fetch(`${audio.media.url}&key=${apiKey}`)
+    ]);
+
+    if (!videoResponse.ok) throw new Error(`Failed to download video: ${videoResponse.statusText}`);
+    if (!audioResponse.ok) throw new Error(`Failed to download audio: ${audioResponse.statusText}`);
+
+    const [videoBuffer, audioBuffer] = await Promise.all([
+      videoResponse.arrayBuffer(),
+      audioResponse.arrayBuffer()
+    ]);
+    
+    const videoDataUri = `data:video/mp4;base64,${Buffer.from(videoBuffer).toString('base64')}`;
+    const audioDataUri = `data:audio/mpeg;base64,${Buffer.from(audioBuffer).toString('base64')}`;
 
     return {
       videoUrl: videoDataUri,
-      audioDataUri: `data:audio/wav;base64,${wavBase64}`,
+      audioDataUri: audioDataUri,
     };
   }
 );
