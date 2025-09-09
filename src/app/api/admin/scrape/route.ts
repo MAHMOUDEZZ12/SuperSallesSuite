@@ -114,6 +114,43 @@ async function scrapeSafehold() {
     return companies;
 }
 
+async function scrapeEmiratesEstate() {
+  const baseUrl = "https://emirates.estate/dubai-projects/";
+  const response = await fetch(baseUrl);
+  const html = await response.text();
+  const $ = cheerio.load(html);
+
+  const projects: any[] = [];
+  $('.project-card-v2').each((i, el) => {
+    try {
+        const name = $(el).find('.project-card-v2__title a').text().trim();
+        const developer = $(el).find('.project-card-v2__developer').text().trim();
+        const location = $(el).find('.project-card-v2__location').text().trim();
+        const priceText = $(el).find('.project-card-v2__price-value').text().trim();
+        
+        if (name && developer) {
+            const project = {
+                id: `ee-${name.toLowerCase().replace(/\s+/g, '-')}`,
+                name,
+                developer,
+                area: location,
+                priceFrom: priceText ? `AED ${priceText}` : 'N/A',
+                country: 'AE',
+                city: 'Dubai',
+                status: 'Varies', 
+                tags: ['emirates.estate', 'scrape'],
+                developerLogoUrl: `/logos/${developer.toLowerCase().replace(/\s+/g, '-')}-logo.png`,
+            };
+            projects.push(project);
+        }
+    } catch(e) {
+        console.error("Error parsing an Emirates.Estate project item:", e);
+    }
+  });
+  
+  return projects;
+}
+
 
 export async function GET(req: Request) {
   try {
@@ -128,6 +165,8 @@ export async function GET(req: Request) {
         projects = await scrapePropertyFinder();
     } else if (source === 'safehold') {
         projects = await scrapeSafehold();
+    } else if (source === 'emiratesestate') {
+        projects = await scrapeEmiratesEstate();
     }
     else {
         return fail("Invalid source parameter provided.", 400);

@@ -386,6 +386,10 @@ export function DevAdminClient({ initialCity, initialCountry }: DevAdminClientPr
                                 {scrapingStates['safehold'] ? <Loader2 className="mr-2 h-4 w-4 animate-spin"/> : <Database className="mr-2 h-4 w-4" />}
                                 {scrapingStates['safehold'] ? 'Scraping...' : 'Scrape Safehold Developers'}
                             </Button>
+                             <Button onClick={() => handleScrape('emiratesestate')} disabled={scrapingStates['emiratesestate']}>
+                                {scrapingStates['emiratesestate'] ? <Loader2 className="mr-2 h-4 w-4 animate-spin"/> : <Database className="mr-2 h-4 w-4" />}
+                                {scrapingStates['emiratesestate'] ? 'Scraping...' : 'Scrape Emirates.Estate'}
+                            </Button>
                         </div>
                     </CardContent>
                 </Card>
