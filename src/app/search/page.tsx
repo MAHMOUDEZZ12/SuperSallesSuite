@@ -11,13 +11,22 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
 
 async function fetchSearchResults(query: string): Promise<Project[]> {
-    const response = await fetch(`http://localhost:3000/api/projects/scan?q=${encodeURIComponent(query)}`);
-    if (!response.ok) {
-        console.error("Failed to fetch search results");
+    // In a real app, this would be a direct database call for performance.
+    // For now, we'll call our own API route.
+    // The NEXT_PUBLIC_HOST_URL should be set in environment variables.
+    const host = process.env.NEXT_PUBLIC_HOST_URL || 'http://localhost:3000';
+    try {
+        const response = await fetch(`${host}/api/projects/scan?q=${encodeURIComponent(query)}`);
+        if (!response.ok) {
+            console.error("Failed to fetch search results:", response.statusText);
+            return [];
+        }
+        const data = await response.json();
+        return data.data || [];
+    } catch (error) {
+        console.error("Error fetching search results:", error);
         return [];
     }
-    const data = await response.json();
-    return data.data || [];
 }
 
 async function SearchResults({ query }: { query: string }) {
@@ -62,16 +71,20 @@ const UpsellCard = ({ title, icon, href, children }: { title: string, icon: Reac
     </Card>
 );
 
-export default function SearchPage({ searchParams }: { searchParams: { q: string } }) {
-    const query = searchParams.q || '';
+export default function SearchPage({ searchParams }: { searchParams?: { [key: string]: string | string[] | undefined } }) {
+    const query = typeof searchParams?.q === 'string' ? searchParams.q : '';
 
     return (
         <div className="flex min-h-screen flex-col bg-background">
             <LandingHeader />
             <main className="flex-1 w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20">
                 <div className="mb-12">
-                    <h1 className="text-3xl md:text-4xl font-bold tracking-tighter">Search Results</h1>
-                    <p className="text-lg text-muted-foreground">Showing results for: <span className="text-primary font-semibold">&quot;{query}&quot;</span></p>
+                    <h1 className="text-3xl md:text-4xl font-bold tracking-tighter">Market Library Search</h1>
+                     {query ? (
+                        <p className="text-lg text-muted-foreground">Showing results for: <span className="text-primary font-semibold">&quot;{query}&quot;</span></p>
+                     ) : (
+                        <p className="text-lg text-muted-foreground">Search for projects, developers, areas, and market trends.</p>
+                     )}
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
@@ -82,7 +95,7 @@ export default function SearchPage({ searchParams }: { searchParams: { q: string
                                 <span>Searching the market...</span>
                             </div>
                          }>
-                           <SearchResults query={query} />
+                           {query && <SearchResults query={query} />}
                         </Suspense>
                     </div>
 
