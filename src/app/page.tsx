@@ -49,7 +49,6 @@ import { Tooltip, TooltipProvider, TooltipContent, TooltipTrigger } from '@/comp
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
 import { IconMap, IconProps } from '@/components/ui/icon-map';
-import { MarketSearchInput } from '@/components/ui/market-search-input';
 
 
 const filterCategories: FilterCategory[] = ['All', 'Marketing', 'Lead Gen', 'Creative', 'Sales Tools', 'Social & Comms', 'Web', 'Editing', 'Ads'];
@@ -58,6 +57,13 @@ const announcements = [
     "The new Meta Auto Pilot can now orchestrate your entire ad workflow!",
     "You can now connect your Bayut account to sync listings automatically.",
     "The Investor Matching tool now supports commercial properties.",
+];
+
+const suggestedPrompts = [
+    "Apartments in Downtown with rental yield",
+    "Top off-plan projects launching this month",
+    "Average villa prices in Palm Jumeirah 2025",
+    "Market trends for Business Bay offices",
 ];
 
 const faqItems = [
@@ -79,7 +85,7 @@ const faqItems = [
     {
         value: "faq-4",
         question: "How does the AI Assistant learn?",
-        answer: "The AI Assistant learns from the private documents you provide it in the 'Knowledge Base'. By uploading your brochures, market reports, and past project details, you create a personalized co-pilot with deep, contextual knowledge of *your* business."
+        answer: "The AI Assistant learns from the private documents you provide it in the 'Knowledge Base'. By uploading your brochures, market reports, and your client lists, you create a personalized co-pilot with deep, contextual knowledge of *your* business."
     },
     {
         value: "faq-5",
@@ -306,12 +312,26 @@ export default function Home() {
       <main className="flex-1 w-full max-w-full px-4 md:px-6 lg:px-8 py-12 md:py-20">
         <div className="text-center mb-16 max-w-5xl mx-auto">
           <h1 className="text-4xl md:text-7xl font-bold font-heading tracking-tighter mb-4 text-foreground">
-            From Agent to Super Agent.
+             Your AI-powered gateway to Dubai real estate intelligence.
           </h1>
           <p className="text-lg md:text-xl text-foreground/60 mb-8">
-            Explore the tools. Train your assistant. Close faster.
+            Search anything about Dubai’s property market. From projects to trends—and instantly act on insights with our integrated app suite.
           </p>
-          <MarketSearchInput />
+           <form className="max-w-2xl mx-auto">
+                <div className="relative">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <Input 
+                        placeholder="Search anything in the Dubai real estate market..."
+                        className="w-full rounded-full h-14 pl-12 pr-6 text-lg"
+                    />
+                </div>
+           </form>
+           <div className="mt-4 flex justify-center flex-wrap gap-x-4 gap-y-2 text-sm text-muted-foreground">
+                <span className="font-semibold text-foreground">AI Suggestions:</span>
+                {suggestedPrompts.map(prompt => (
+                    <button key={prompt} className="hover:text-primary transition-colors">{prompt}</button>
+                ))}
+           </div>
         </div>
 
         <div className="sticky top-16 z-10 bg-background/80 backdrop-blur-lg py-4 mb-8">
