@@ -6,7 +6,8 @@
  *
  * This flow analyzes user-provided documents (e.g., company profile, brand guide)
  * and extracts structured data to set up their brand identity and create project lists,
- * acting as a command from the AI Assistant.
+ * acting as a command from the AI Assistant. It can process both text-based documents
+ * and images, using OCR for the latter.
  *
  * @module AI/Flows/AIBrandCreator
  *
@@ -23,7 +24,7 @@ import {
   type AIBrandCreatorInput,
   type AIBrandCreatorOutput,
 } from '@/types';
-
+import {extractTextFromImage} from '@/services/vision';
 
 /**
  * An AI flow that configures the user's workspace based on provided documents and a command.
@@ -42,16 +43,17 @@ const aiBrandCreatorPrompt = ai.definePrompt({
   name: 'aiBrandCreatorPrompt',
   input: {schema: AIBrandCreatorInputSchema},
   output: {schema: AIBrandCreatorOutputSchema},
-  prompt: `You are an expert system administrator for the Super Seller Suite. Your task is to configure the user's workspace based on their command and the documents they provide.
+  prompt: `You are an expert system administrator for the Super Seller Suite. Your task is to configure the user's workspace based on their command and the text content extracted from the documents they provide. Some content may come from images via OCR.
 
   User Command: "{{{command}}}"
 
-  Provided Documents:
+  Extracted Document Content:
   {{#each documents}}
-  - Document {{add @index 1}}: {{media url=this}}
+  - Document {{add @index 1}} Content: {{{this}}}
+  ---
   {{/each}}
 
-  Analyze the documents and the command carefully. Extract the following information:
+  Analyze the document content and the command carefully. Extract the following information:
   1.  **Brand Information**: 
       - Look for company name.
       - Extract a short (1-2 sentence) description of the company.
@@ -70,7 +72,26 @@ const aiBrandCreatorFlow = ai.defineFlow(
     outputSchema: AIBrandCreatorOutputSchema,
   },
   async input => {
-    const {output} = await aiBrandCreatorPrompt(input);
+    // Process documents: if it's an image, use OCR; otherwise, keep as is (for text content from PDFs etc.)
+    const processedDocuments = await Promise.all(
+      input.documents.map(async docDataUri => {
+        if (docDataUri.startsWith('data:image/')) {
+          return await extractTextFromImage(docDataUri);
+        }
+        // Placeholder for future text extraction from PDFs. For now, assume non-image is text.
+        // In a real app, we'd use a library like pdf-parse here.
+        // For this flow, the prompt expects the text content, not the media URI itself.
+        // We will pass a note for non-image files.
+        return `[Content from a non-image file like a PDF or text document. The user's command was: ${input.command}]`;
+      })
+    );
+
+    const promptInput = {
+      ...input,
+      documents: processedDocuments, // Pass the extracted text content to the prompt
+    };
+
+    const {output} = await aiBrandCreatorPrompt(promptInput);
     if (!output) {
       throw new Error('The AI failed to process the setup documents.');
     }

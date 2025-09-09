@@ -63,7 +63,7 @@ export const AIBrandCreatorInputSchema = z.object({
   documents: z
     .array(z.string())
     .describe(
-      "An array of documents (e.g., PDFs, text files) as data URIs. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
+      "An array of documents (e.g., PDFs, text files, images) as data URIs. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
     ),
 });
 export type AIBrandCreatorInput = z.infer<typeof AIBrandCreatorInputSchema>;
