@@ -16,7 +16,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import wav from 'wav';
+import { googleAI } from '@genkit-ai/googleai';
 
 /**
  * Defines the schema for the input of the brochure rebranding flow.
@@ -139,31 +139,6 @@ Output the rebranded brochure as a data URI.
 `,
 });
 
-const generateLogoFlow = ai.defineFlow(
-  {
-    name: 'generateLogo',
-    inputSchema: z.object({
-      companyName: z.string().describe('The name of the company.'),
-      colors: z.string().describe('The desired colors for the brochure.'),
-    }),
-    outputSchema: z.object({
-      logoDataUri: z.string().describe(
-        "The generated logo, as a data URI."
-      ),
-    }),
-  },
-  async input => {
-    console.log(`Simulating logo generation for: ${input.companyName}`);
-    // In a real implementation, you would use a text-to-image model.
-    // For now, we return a placeholder data URI to demonstrate the feature.
-    const response = await fetch(`https://placehold.co/400x200/png?text=${encodeURIComponent(input.companyName)}`);
-    const buffer = await response.arrayBuffer();
-    const b64 = Buffer.from(buffer).toString('base64');
-    return { logoDataUri: `data:image/png;base64,${b64}` };
-  }
-);
-
-
 const rebrandBrochureFlow = ai.defineFlow(
   {
     name: 'rebrandBrochureFlow',
@@ -171,25 +146,32 @@ const rebrandBrochureFlow = ai.defineFlow(
     outputSchema: RebrandBrochureOutputSchema,
   },
   async input => {
-    // This flow is now simplified. In a real scenario, it would contain
-    // the logic to interpret instructions and apply them to the brochure.
-    // For now, it acts as a placeholder that returns the original brochure.
-    console.log("Simulating brochure rebranding with instructions:", input.deepEditInstructions);
-    
+    let logoToUse = input.companyLogoDataUri;
     let generatedLogoUri: string | undefined;
-    if (!input.companyLogoDataUri && input.deepEditInstructions?.includes("logo")) {
-      const logoResult = await generateLogoFlow({
-          companyName: input.companyName,
-          colors: input.colors,
-      });
-      generatedLogoUri = logoResult.logoDataUri;
-    }
 
-    // Simulate returning the rebranded brochure
-    // In a real case, you'd use a model to apply changes.
+    // If no logo is provided and the instructions mention a logo, generate one.
+    if (!logoToUse && input.deepEditInstructions?.includes("logo")) {
+      const { media } = await ai.generate({
+        model: googleAI.model('imagen-4.0-fast-generate-001'),
+        prompt: `Create a clean, professional, and minimalist logo for a real estate company named "${input.companyName}". The primary colors should be based on: ${input.colors}. The logo should be on a transparent background.`
+      });
+      if (media) {
+        generatedLogoUri = media.url;
+        logoToUse = generatedLogoUri; // Use the newly generated logo for the main rebranding task.
+      }
+    }
+    
+    // In a real implementation, you would pass the logoToUse to the model
+    // that actually edits the brochure. For now, we simulate this process.
+    console.log("Simulating brochure rebranding with instructions:", input.deepEditInstructions);
+    console.log("Using logo:", logoToUse ? "Provided or Generated Logo" : "No Logo");
+
+    // The main prompt call is now just a placeholder for the actual brochure modification
+    // which would happen here using another model or tool.
+    // For this simulation, we return the original brochure URI.
     return {
       rebrandedBrochureDataUri: input.brochureDataUri,
-      logoDataUri: generatedLogoUri,
+      logoDataUri: generatedLogoUri, // Return the generated logo if one was created
     };
   }
 );

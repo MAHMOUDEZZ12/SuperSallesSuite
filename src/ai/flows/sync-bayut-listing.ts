@@ -13,32 +13,8 @@
 import { ai } from '@/ai/genkit';
 import { z } from 'zod';
 import fetch from 'node-fetch';
+import { SyncBayutListingInputSchema, SyncBayutListingOutputSchema, SyncBayutListingInput, SyncBayutListingOutput } from '@/types';
 
-
-/**
- * Defines the schema for the input of the Bayut sync flow.
- * This mirrors the fields required by the Bayut API.
- */
-export const SyncBayutListingInputSchema = z.object({
-    listingReferenceNo: z.string().describe("The unique reference number for the listing."),
-    propertyTitle: z.string().describe("The title of the property listing."),
-    propertyDescription: z.string().describe("The detailed description of the property."),
-    price: z.number().positive().describe("The price of the property."),
-    imageUrls: z.array(z.string().url()).describe("An array of URLs for the property images."),
-});
-
-export type SyncBayutListingInput = z.infer<typeof SyncBayutListingInputSchema>;
-
-/**
- * Defines the schema for the output of the sync flow.
- */
-export const SyncBayutListingOutputSchema = z.object({
-    success: z.boolean().describe("Whether the API call was successful."),
-    message: z.string().describe("A message from the API response."),
-    referenceNumber: z.string().optional().describe("The reference number of the synced listing."),
-});
-
-export type SyncBayutListingOutput = z.infer<typeof SyncBayutListingOutputSchema>;
 
 /**
  * The main exported function that wraps the Genkit flow.

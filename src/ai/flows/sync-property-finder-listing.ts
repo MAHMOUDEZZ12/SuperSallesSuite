@@ -13,38 +13,8 @@
 import { ai } from '@/ai/genkit';
 import { z } from 'zod';
 import { Builder } from 'xml2js';
+import { SyncPropertyFinderListingInputSchema, SyncPropertyFinderListingOutputSchema, SyncPropertyFinderListingInput, SyncPropertyFinderListingOutput } from '@/types';
 
-/**
- * Zod schema for a single image URL.
- */
-const ImageSchema = z.object({
-    url: z.string().url().describe("A single URL for a property image.")
-});
-
-/**
- * Defines the schema for the input of the Property Finder sync flow.
- * This mirrors the fields required by the Property Finder XML structure.
- */
-export const SyncPropertyFinderListingInputSchema = z.object({
-    listingReferenceNo: z.string().describe("The unique reference number for the listing."),
-    propertyTitle: z.string().describe("The title of the property listing."),
-    propertyDescription: z.string().describe("The detailed description of the property."),
-    price: z.number().positive().describe("The price of the property."),
-    imageUrls: z.array(z.string().url()).describe("An array of URLs for the property images."),
-});
-
-export type SyncPropertyFinderListingInput = z.infer<typeof SyncPropertyFinderListingInputSchema>;
-
-/**
- * Defines the schema for the output of the sync flow.
- */
-export const SyncPropertyFinderListingOutputSchema = z.object({
-    success: z.boolean().describe("Whether the API call was successful."),
-    message: z.string().describe("A message from the API response."),
-    referenceNumber: z.string().optional().describe("The reference number of the synced listing."),
-});
-
-export type SyncPropertyFinderListingOutput = z.infer<typeof SyncPropertyFinderListingOutputSchema>;
 
 /**
  * The main exported function that wraps the Genkit flow.
