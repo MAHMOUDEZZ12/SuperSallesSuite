@@ -84,6 +84,7 @@ const flowRunnerMap: { [key: string]: (payload: any) => Promise<any> } = {
     'ai-video-presenter': generateVideoPresenter,
     'vm-creator': createVm,
     'ugc-script-writer': generateUgcScript,
+    'chatbot-creator': marketChatAssistantFlow,
 };
 
 export async function POST(req: NextRequest) {
