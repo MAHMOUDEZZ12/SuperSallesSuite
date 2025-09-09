@@ -1,4 +1,3 @@
-
 'use client';
 
 import React from 'react';
@@ -6,7 +5,7 @@ import { LandingHeader } from '@/components/landing-header';
 import { LandingFooter } from '@/components/landing-footer';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Loader2, ArrowRight, Lightbulb, AlertTriangle, ShieldCheck, Megaphone, FileText, Users2, BarChart, Tv, Building, Star, BrainCircuit } from 'lucide-react';
+import { Search, Loader2, ArrowRight, Lightbulb, AlertTriangle, ShieldCheck, Megaphone, FileText, Users2, BarChart, Tv, Building, Star, BrainCircuit, Twitter, Newspaper } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { ProjectCard } from '@/components/ui/project-card';
@@ -39,11 +38,11 @@ const mockResults = {
         { id: 'emaar-ar-3', name: 'Arabian Ranches III', developer: 'Emaar', area: 'Dubailand', priceFrom: 'AED 2.2M', status: 'Off-plan', developerLogoUrl: '/logos/emaar-logo.png' },
         { id: 'emaar-oasis', name: 'The Oasis', developer: 'Emaar', area: 'Dubailand', priceFrom: 'AED 8.1M', status: 'New Launch', developerLogoUrl: '/logos/emaar-logo.png' },
     ],
-    latestProject: { id: 'emaar-creek', name: 'Creek Waters 2', developer: 'Emaar', area: 'Dubai Creek Harbour', priceFrom: 'AED 1.7M', status: 'New Launch', developerLogoUrl: '/logos/emaar-logo.png' },
     media: [
-        { type: 'image', url: 'https://picsum.photos/seed/emaar-gallery-1/600/400', caption: 'Downtown Dubai Skyline' },
-        { type: 'image', url: 'https://picsum.photos/seed/emaar-gallery-2/600/400', caption: 'Dubai Hills Estate Villas' },
-        { type: 'image', url: 'https://picsum.photos/seed/emaar-gallery-3/600/400', caption: 'Emaar Beachfront Residences' },
+      { type: 'news', source: 'Bloomberg', text: 'Emaar Properties posts record profits as Dubai luxury market booms.', url: '#' },
+      { type: 'social', source: 'Twitter', text: 'Just visited the new Emaar Beachfront project. The views are breathtaking! #DubaiRealEstate', url: '#' },
+      { type: 'news', source: 'Gulf News', text: 'New Emaar development "The Oasis" to feature crystal lagoons and wellness centers.', url: '#' },
+      { type: 'social', source: 'LinkedIn', text: 'Great analysis by Emaar on the future of branded residences in the Middle East. A must-read for investors.', url: '#' }
     ],
     reputation: { marketValue: '$15.8B', sentiment: 'Positive', mentions: 1240 },
     competitors: [
@@ -113,24 +112,34 @@ const SearchResults = ({ query }: { query: string }) => {
                         </CardContent>
                     </Card>
 
-                    <h2 className="text-2xl font-bold pt-4">Top Projects</h2>
+                    <h2 className="text-2xl font-bold pt-4">Top Projects by {query}</h2>
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {results.projects.map((project) => (
                             <ProjectCard key={project.id} project={project} />
                         ))}
                     </div>
 
-                     <h2 className="text-2xl font-bold pt-4">Media Gallery</h2>
-                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <h2 className="text-2xl font-bold pt-4">News & Social Media Mentions</h2>
+                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {results.media.map((item, index) => (
-                            <div key={index} className="aspect-video relative rounded-lg overflow-hidden">
-                                <Image src={item.url} alt={item.caption} layout="fill" objectFit="cover" data-ai-hint="skyline city" />
-                            </div>
+                           <Card key={index} className="bg-card/50 hover:bg-muted/50 transition-colors">
+                              <CardContent className="p-4 flex items-start gap-4">
+                                <div className="p-2 bg-primary/10 text-primary rounded-lg mt-1">
+                                  {item.type === 'news' ? <Newspaper className="h-5 w-5" /> : <Twitter className="h-5 w-5" />}
+                                </div>
+                                <div>
+                                  <p className="text-xs text-muted-foreground font-semibold uppercase">{item.source}</p>
+                                  <a href={item.url} target="_blank" rel="noopener noreferrer" className="font-medium text-foreground hover:underline">
+                                    {item.text}
+                                  </a>
+                                </div>
+                              </CardContent>
+                           </Card>
                         ))}
                      </div>
                 </div>
 
-                <div className="lg:col-span-1 space-y-8">
+                <div className="lg:col-span-1 space-y-8 sticky top-24">
                      <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2"><Lightbulb className="text-primary"/> AI Insights</CardTitle>
@@ -152,9 +161,9 @@ const SearchResults = ({ query }: { query: string }) => {
                         </CardContent>
                     </Card>
 
-                    <div className="p-1 rounded-xl relative bg-gradient-to-r from-primary/50 via-primary/20 to-primary/50 overflow-hidden group">
-                         <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/50 to-primary/20 animate-[gradient-spin_5s_ease-in-out_infinite] opacity-50 group-hover:opacity-75 transition-opacity"/>
-                         <Card className="relative h-full bg-card/90">
+                    <Card className="relative p-0.5 bg-gradient-to-r from-primary/50 via-primary/20 to-primary/50 overflow-hidden group">
+                         <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/50 to-primary/20 animate-[gradient-spin_5s_ease-in-out_infinite] opacity-50 group-hover:opacity-75 transition-opacity -z-10"/>
+                         <div className="relative h-full bg-card/95 backdrop-blur-sm rounded-lg">
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2"><BrainCircuit /> Best Next Action</CardTitle>
                                 <CardDescription>Turn these insights into action.</CardDescription>
@@ -188,8 +197,8 @@ const SearchResults = ({ query }: { query: string }) => {
                                     />
                                 </div>
                             </CardContent>
-                        </Card>
-                    </div>
+                         </div>
+                    </Card>
                     
                 </div>
             </div>
@@ -276,3 +285,4 @@ export default function MarketLibraryPage() {
         </React.Suspense>
     )
 }
+
