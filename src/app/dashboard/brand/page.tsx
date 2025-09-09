@@ -197,7 +197,7 @@ export default function BrandPage() {
             variant: "destructive"
          });
       } finally {
-        setIsLoading(false);
+        setIsTraining(false);
         setSelectedFiles([]);
       }
   }
