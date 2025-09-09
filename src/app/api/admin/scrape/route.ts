@@ -1,6 +1,4 @@
 
-'use server';
-
 import { adminDb } from "@/lib/firebaseAdmin";
 import { ok, fail } from "@/lib/api-helpers";
 import * as cheerio from 'cheerio';
