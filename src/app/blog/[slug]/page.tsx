@@ -13,6 +13,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ShinyButton } from '@/components/ui/shiny-button';
 import { cn } from '@/lib/utils';
+import { IconMap } from '@/components/ui/icon-map';
 
 export default function BlogPage() {
     const { slug } = useParams<{ slug: string }>();
@@ -34,7 +35,7 @@ export default function BlogPage() {
         );
     }
     
-    const Icon = feature.icon;
+    const Icon = IconMap[feature.icon as keyof typeof IconMap];
 
     return (
         <div className="flex min-h-screen flex-col bg-background">

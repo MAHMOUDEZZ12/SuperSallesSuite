@@ -41,13 +41,14 @@ import {
 } from '@/components/ui/accordion';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { type Feature, type FilterCategory } from '@/lib/tools-client';
-import { tools as features } from '@/lib/features';
+import { type FilterCategory } from '@/lib/features';
+import { tools as features, type Feature } from '@/lib/features';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { ShinyButton } from '@/components/ui/shiny-button';
 import { Tooltip, TooltipProvider, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
+import { IconMap, IconProps } from '@/components/ui/icon-map';
 
 
 const filterCategories: FilterCategory[] = ['All', 'Marketing', 'Lead Gen', 'Creative', 'Sales Tools', 'Social & Comms', 'Web', 'Editing', 'Ads'];
@@ -91,10 +92,10 @@ const FeatureCard = ({
   feature,
   onClick,
 }: {
-  feature: Feature;
-  onClick: (feature: Feature) => void;
+  feature: Omit<Feature, 'renderResult'>;
+  onClick: (feature: Omit<Feature, 'renderResult'>) => void;
 }) => {
-  const Icon = feature.icon;
+  const Icon = IconMap[feature.icon as keyof typeof IconMap] || Sparkles;
   return (
     <Card 
         className="group flex flex-col bg-card/50 backdrop-blur-lg border-border hover:border-primary/30 transition-all duration-300 cursor-pointer hover:-translate-y-1 shadow-xl shadow-primary/10"
@@ -139,9 +140,9 @@ const FeatureCard = ({
   );
 };
 
-const FeatureModal = ({ feature, onClose }: { feature: Feature | null, onClose: () => void }) => {
+const FeatureModal = ({ feature, onClose }: { feature: Omit<Feature, 'renderResult'> | null, onClose: () => void }) => {
   if (!feature) return null;
-  const Icon = feature.icon;
+  const Icon = IconMap[feature.icon as keyof typeof IconMap] || Sparkles;
 
   return (
     <Dialog open={!!feature} onOpenChange={(open) => !open && onClose()}>
@@ -174,15 +175,17 @@ const FeatureModal = ({ feature, onClose }: { feature: Feature | null, onClose: 
                 
                 <TabsContent value="overview" className="space-y-6 text-foreground/90">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      {feature.details.steps.map((step, i) => (
+                      {feature.details.steps.map((step, i) => {
+                        const StepIcon = IconMap[step.icon as keyof typeof IconMap] || Sparkles;
+                        return (
                         <div key={i} className="flex flex-col items-center text-center p-4 bg-card rounded-lg border">
                           <div className='p-3 bg-primary/10 rounded-full mb-3 text-primary'>
-                            {step.icon}
+                            <StepIcon className="h-6 w-6"/>
                           </div>
                           <p className="font-semibold text-foreground">Step {i+1}</p>
                           <p className='text-sm text-foreground/70'>{step.text}</p>
                         </div>
-                      ))}
+                      )})}
                     </div>
                 </TabsContent>
                 
@@ -190,27 +193,31 @@ const FeatureModal = ({ feature, onClose }: { feature: Feature | null, onClose: 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                     <div className="space-y-4">
                       <h3 className="text-2xl font-semibold font-heading text-center text-foreground/80">Manual</h3>
-                       {feature.details.aiVsManual.map((item, index) => (
+                       {feature.details.aiVsManual.map((item, index) => {
+                        const ItemIcon = IconMap[item.icon as keyof typeof IconMap] || Sparkles;
+                        return (
                         <div key={index} className="p-4 bg-card rounded-lg border">
                            <div className="flex items-center gap-3 mb-2">
-                            {React.cloneElement(item.icon, { className: "h-5 w-5 text-muted-foreground" })}
+                            <ItemIcon className="h-5 w-5 text-muted-foreground" />
                             <h4 className="font-semibold text-foreground">{item.metric}</h4>
                           </div>
                           <p className="text-foreground/80 pl-8">{item.manual}</p>
                         </div>
-                      ))}
+                       )})}
                     </div>
                      <div className="space-y-4">
                       <h3 className="text-2xl font-semibold font-heading text-center text-primary">Super Seller Suite</h3>
-                       {feature.details.aiVsManual.map((item, index) => (
+                       {feature.details.aiVsManual.map((item, index) => {
+                        const ItemIcon = IconMap[item.icon as keyof typeof IconMap] || Sparkles;
+                        return (
                         <div key={index} className="p-4 bg-card rounded-lg border border-primary/20 shadow-lg shadow-primary/5">
                            <div className="flex items-center gap-3 mb-2">
-                             {React.cloneElement(item.icon, { className: "h-5 w-5 text-primary" })}
+                             <ItemIcon className="h-5 w-5 text-primary" />
                             <h4 className="font-semibold text-primary">{item.metric}</h4>
                           </div>
                           <p className="text-foreground/80 pl-8">{item.ai}</p>
                         </div>
-                      ))}
+                       )})}
                     </div>
                   </div>
                 </TabsContent>
@@ -267,7 +274,7 @@ const FeatureModal = ({ feature, onClose }: { feature: Feature | null, onClose: 
 
 
 export default function Home() {
-  const [selectedFeature, setSelectedFeature] = React.useState<Feature | null>(null);
+  const [selectedFeature, setSelectedFeature] = React.useState<Omit<Feature, 'renderResult'> | null>(null);
   const [activeFilter, setActiveFilter] = React.useState<FilterCategory>('All');
   const [currentAnnouncement, setCurrentAnnouncement] = React.useState(announcements[0]);
 
@@ -277,7 +284,7 @@ export default function Home() {
   }, []);
 
 
-  const handleCardClick = (feature: Feature) => {
+  const handleCardClick = (feature: Omit<Feature, 'renderResult'>) => {
     setSelectedFeature(feature);
   };
 

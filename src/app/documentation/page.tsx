@@ -4,11 +4,12 @@ import React from 'react';
 import { LandingHeader } from '@/components/landing-header';
 import { LandingFooter } from '@/components/landing-footer';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Code, GitBranch, Cpu, Component, Wind, BrainCircuit, Network } from 'lucide-react';
+import { Code, GitBranch, Cpu, Component, Wind, BrainCircuit, Network, Sparkles } from 'lucide-react';
 import { tools } from '@/lib/features';
 import { Badge } from '@/components/ui/badge';
 import { CodeBlock } from '@/components/code-block';
 import { PageHeader } from '@/components/ui/page-header';
+import { IconMap } from '@/components/ui/icon-map';
 
 
 const technologies = [
@@ -81,6 +82,7 @@ export default function DocumentationPage() {
           <h2 className="text-3xl font-bold mb-8 text-center">AI Flows & Features</h2>
           <div className="space-y-12">
             {tools.map((tool) => {
+              const Icon = IconMap[tool.icon as keyof typeof IconMap] || Sparkles;
               // Schemas would need to be imported or passed in a different way
               // For now, this will render without schemas
               const inputSchema = undefined;
@@ -90,7 +92,7 @@ export default function DocumentationPage() {
               <Card key={tool.id} className="bg-card/50 backdrop-blur-lg border-primary/10 overflow-hidden">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-3 text-2xl text-primary">
-                    <GitBranch />
+                    <Icon />
                     {tool.id}
                   </CardTitle>
                   <p className="text-foreground/70 pt-2">{tool.description}</p>

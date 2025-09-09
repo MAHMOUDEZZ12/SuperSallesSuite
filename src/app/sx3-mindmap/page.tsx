@@ -4,8 +4,7 @@
 import React from 'react';
 import { LandingHeader } from '@/components/landing-header';
 import { LandingFooter } from '@/components/landing-footer';
-import { type Feature } from '@/lib/tools-client';
-import { tools } from '@/lib/features';
+import { type Feature, tools } from '@/lib/features';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { ArrowRight, BookOpen, BrainCircuit, Check, MessageCircle, Plus, Sparkles, Upload } from 'lucide-react';
@@ -17,6 +16,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Card, CardDescription, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Tooltip, TooltipProvider, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { motion, AnimatePresence } from 'framer-motion';
+import { IconMap } from '@/components/ui/icon-map';
 
 const MindMapNode = ({
   title,
@@ -52,8 +52,8 @@ const MindMapNode = ({
   );
 };
 
-const ToolLeaf = ({ tool, onClick, className }: { tool: Feature; onClick: (tool: Feature) => void; className?: string }) => {
-    const Icon = tool.icon;
+const ToolLeaf = ({ tool, onClick, className }: { tool: Omit<Feature, 'renderResult'>; onClick: (tool: Omit<Feature, 'renderResult'>) => void; className?: string }) => {
+    const Icon = IconMap[tool.icon as keyof typeof IconMap];
     return (
     <div className={cn("group w-full max-w-xs flex justify-center", className)}>
         <button onClick={() => onClick(tool)} className="w-full text-left h-full">
@@ -105,9 +105,9 @@ const ToolLeaf = ({ tool, onClick, className }: { tool: Feature; onClick: (tool:
     </div>
 )};
 
-const FeatureModal = ({ feature, onClose }: { feature: Feature | null, onClose: () => void }) => {
+const FeatureModal = ({ feature, onClose }: { feature: Omit<Feature, 'renderResult'> | null, onClose: () => void }) => {
   if (!feature) return null;
-  const Icon = feature.icon;
+  const Icon = IconMap[feature.icon as keyof typeof IconMap];
 
   return (
     <Dialog open={!!feature} onOpenChange={(open) => !open && onClose()}>
@@ -140,15 +140,17 @@ const FeatureModal = ({ feature, onClose }: { feature: Feature | null, onClose: 
                 
                 <TabsContent value="overview" className="space-y-6 text-foreground/90">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      {feature.details.steps.map((step, i) => (
+                      {feature.details.steps.map((step, i) => {
+                        const StepIcon = IconMap[step.icon as keyof typeof IconMap];
+                        return (
                         <div key={i} className="flex flex-col items-center text-center p-4 bg-card rounded-lg border">
                           <div className='p-3 bg-primary/10 rounded-full mb-3 text-primary'>
-                            {step.icon}
+                            <StepIcon className='h-6 w-6' />
                           </div>
                           <p className="font-semibold text-foreground">Step {i+1}</p>
                           <p className='text-sm text-foreground/70'>{step.text}</p>
                         </div>
-                      ))}
+                      )})}
                     </div>
                 </TabsContent>
                 
@@ -156,27 +158,31 @@ const FeatureModal = ({ feature, onClose }: { feature: Feature | null, onClose: 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                     <div className="space-y-4">
                       <h3 className="text-2xl font-semibold font-heading text-center text-foreground/80">Manual</h3>
-                       {feature.details.aiVsManual.map((item, index) => (
+                       {feature.details.aiVsManual.map((item, index) => {
+                        const ItemIcon = IconMap[item.icon as keyof typeof IconMap];
+                        return (
                         <div key={index} className="p-4 bg-card rounded-lg border">
                            <div className="flex items-center gap-3 mb-2">
-                            {React.cloneElement(item.icon, { className: "h-5 w-5 text-muted-foreground" })}
+                            <ItemIcon className="h-5 w-5 text-muted-foreground" />
                             <h4 className="font-semibold text-foreground">{item.metric}</h4>
                           </div>
                           <p className="text-foreground/80 pl-8">{item.manual}</p>
                         </div>
-                      ))}
+                       )})}
                     </div>
                      <div className="space-y-4">
                       <h3 className="text-2xl font-semibold font-heading text-center text-primary">Super Seller Suite</h3>
-                       {feature.details.aiVsManual.map((item, index) => (
+                       {feature.details.aiVsManual.map((item, index) => {
+                        const ItemIcon = IconMap[item.icon as keyof typeof IconMap];
+                        return (
                         <div key={index} className="p-4 bg-card rounded-lg border border-primary/20 shadow-lg shadow-primary/5">
                            <div className="flex items-center gap-3 mb-2">
-                             {React.cloneElement(item.icon, { className: "h-5 w-5 text-primary" })}
+                             <ItemIcon className="h-5 w-5 text-primary" />
                             <h4 className="font-semibold text-primary">{item.metric}</h4>
                           </div>
                           <p className="text-foreground/80 pl-8">{item.ai}</p>
                         </div>
-                      ))}
+                       )})}
                     </div>
                   </div>
                 </TabsContent>
@@ -233,7 +239,7 @@ const FeatureModal = ({ feature, onClose }: { feature: Feature | null, onClose: 
 
 
 export default function SX3MindmapPage() {
-    const [selectedFeature, setSelectedFeature] = React.useState<Feature | null>(null);
+    const [selectedFeature, setSelectedFeature] = React.useState<Omit<Feature, 'renderResult'> | null>(null);
     const languages = ['مرحبا', 'Hello', 'Hola', 'こんにちは', '你好', 'Bonjour'];
     const [currentLang, setCurrentLang] = React.useState(0);
 

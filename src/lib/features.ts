@@ -1,81 +1,8 @@
+// This file is now a pure data file with no React/JSX dependencies.
+// It can be safely imported by both server and client components.
 
-'use client';
-
-import React from 'react';
-import {
-  ArrowRight,
-  Bot,
-  FileUp,
-  LayoutTemplate,
-  Palette,
-  Target,
-  Share2,
-  Sparkles,
-  Clock,
-  Briefcase,
-  PenTool,
-  MessageCircle,
-  Mail,
-  Wallet,
-  MapPin,
-  ClipboardList,
-  FilePlus,
-  Network,
-  Building,
-  Video,
-  FileText,
-  Search,
-  Contact,
-  UserPlus,
-  Film,
-  UserCog,
-  Database,
-  Clapperboard,
-  Link as LinkIcon,
-  Users2,
-  Clock2,
-  BadgeCheck,
-  Phone,
-  Upload,
-  Copy,
-  Download,
-  Binoculars,
-  LineChart,
-  BrainCircuit,
-  Wrench,
-  Key,
-  Facebook,
-  Instagram,
-  BarChart,
-  Hash,
-  Star,
-  Loader2,
-  ArrowLeft,
-  Crown,
-  TrendingUp,
-  CheckCircle,
-  Percent,
-  Calendar,
-  Languages,
-  Youtube,
-  Terminal,
-  Edit,
-  Server,
-  Globe,
-  UserCheck,
-  User,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { CodeBlock } from '@/components/code-block';
-import Image from 'next/image';
+import type { ReactNode } from 'react';
+import type { LucideIcon } from 'lucide-react';
 
 export type Field = {
   id: string;
@@ -97,7 +24,7 @@ export type Feature = {
   title: string;
   dashboardTitle?: string;
   description: string;
-  icon: React.ElementType;
+  icon: string; // Changed from React.ElementType to string
   color: string;
   cta: string;
   categories: FilterCategory[];
@@ -107,18 +34,18 @@ export type Feature = {
   href: string;
   guideHref?: string;
   details: {
-    steps: { text: string; icon: React.ReactElement }[];
+    steps: { text: string; icon: string }[]; // Changed icon to string
     aiVsManual: {
       metric: string;
       manual: string;
       ai: string;
-      icon: React.ReactElement;
+      icon: string; // Changed icon to string
     }[];
     synergy: { tool: string; benefit: string }[];
     faqs: { question: string; answer: string }[];
   };
   creationFields: Field[];
-  renderResult?: (result: any, toast: any) => React.ReactNode;
+  renderResult?: (result: any, toast: any) => ReactNode;
 };
 
 const copyToClipboard = (text: string, toast: any) => {
@@ -129,13 +56,13 @@ const copyToClipboard = (text: string, toast: any) => {
     });
 };
 
-export const tools: Feature[] = [
+export const tools: Omit<Feature, 'renderResult'>[] = [
     {
     id: 'ai-video-presenter',
     title: 'AI Video Presenter',
     dashboardTitle: 'AI Video Presenter',
     description: 'Create a lifelike AI presenter to deliver your project pitch.',
-    icon: UserCheck,
+    icon: 'UserCheck',
     color: '#f43f5e', // rose-500
     cta: 'Generate Video',
     categories: ['Creative', 'Video', 'Marketing', 'Ads'],
@@ -145,14 +72,14 @@ export const tools: Feature[] = [
     href: '/dashboard/tool/ai-video-presenter',
     details: {
       steps: [
-        { text: 'Select or create a character', icon: <User /> },
-        { text: 'Provide a script for them to speak', icon: <PenTool /> },
-        { text: 'Generate a high-quality video of the presenter', icon: <Video /> },
+        { text: 'Select or create a character', icon: 'User' },
+        { text: 'Provide a script for them to speak', icon: 'PenTool' },
+        { text: 'Generate a high-quality video of the presenter', icon: 'Video' },
       ],
       aiVsManual: [
-        { metric: 'Production Time', manual: 'Days of filming and editing', ai: 'Minutes to generate', icon: <Clock2 /> },
-        { metric: 'Cost', manual: 'Thousands of dollars for actors and crew', ai: 'Included in your subscription', icon: <Wallet /> },
-        { metric: 'Revisions', manual: 'Expensive and time-consuming reshoots', ai: 'Simply edit the script and regenerate', icon: <Sparkles /> },
+        { metric: 'Production Time', manual: 'Days of filming and editing', ai: 'Minutes to generate', icon: 'Clock2' },
+        { metric: 'Cost', manual: 'Thousands of dollars for actors and crew', ai: 'Included in your subscription', icon: 'Wallet' },
+        { metric: 'Revisions', manual: 'Expensive and time-consuming reshoots', ai: 'Simply edit the script and regenerate', icon: 'Sparkles' },
       ],
       synergy: [
         { tool: 'Landing Page Builder', benefit: 'Embed your video presenter directly into your AI-generated landing pages for a highly engaging experience.' },
@@ -166,14 +93,13 @@ export const tools: Feature[] = [
     },
     creationFields: [],
   },
-  // --- CHATBOT ---
   {
     id: 'chatbot-creator',
     title: 'Embeddable Site Assistant',
     dashboardTitle: 'Embeddable Assistant',
     description: 'Add a market-aware AI chatbot to any website.',
-    icon: Bot,
-    color: '#6366f1', // a mix of others
+    icon: 'Bot',
+    color: '#6366f1',
     cta: 'Get Embed Code',
     categories: ['Web', 'Lead Gen', 'Sales Tools', 'Utilities'],
     mindMapCategory: 'Utilities',
@@ -182,14 +108,14 @@ export const tools: Feature[] = [
     href: '/dashboard/tool/chatbot-creator',
     details: {
         steps: [
-            { text: 'The AI is pre-trained on real estate market data', icon: <Database /> },
-            { text: 'Copy the provided JavaScript snippet', icon: <Copy /> },
-            { text: 'Paste it into your website\'s HTML (e.g., WordPress)', icon: <Share2 /> },
+            { text: 'The AI is pre-trained on real estate market data', icon: 'Database' },
+            { text: 'Copy the provided JavaScript snippet', icon: 'Copy' },
+            { text: 'Paste it into your website\'s HTML (e.g., WordPress)', icon: 'Share2' },
         ],
         aiVsManual: [
-            { metric: 'Availability', manual: 'You, during business hours', ai: '24/7 instant answers for your visitors', icon: <Clock2 /> },
-            { metric: 'Lead Capture', manual: 'Hoping visitors use a contact form', ai: 'Engages users and can prompt for contact info', icon: <UserPlus /> },
-            { metric: 'Knowledge', manual: 'Your personal expertise', ai: 'Broad market data combined with your specific info', icon: <BrainCircuit /> },
+            { metric: 'Availability', manual: 'You, during business hours', ai: '24/7 instant answers for your visitors', icon: 'Clock2' },
+            { metric: 'Lead Capture', manual: 'Hoping visitors use a contact form', ai: 'Engages users and can prompt for contact info', icon: 'UserPlus' },
+            { metric: 'Knowledge', manual: 'Your personal expertise', ai: 'Broad market data combined with your specific info', icon: 'BrainCircuit' },
         ],
         synergy: [
             { tool: "Landing Page Builder", benefit: "Embed the chatbot onto your AI-generated landing pages to answer visitor questions instantly." },
@@ -201,16 +127,15 @@ export const tools: Feature[] = [
             { question: "Where does the 'market knowledge' come from?", answer: "The AI is prompted to act as a real estate market expert for the UAE region, using its vast training data. For even better results, upload your own project documents to the 'Brand & Assets' page, and the chatbot can reference that specific knowledge as well." }
         ],
     },
-    creationFields: [], // This tool has a custom page
+    creationFields: [],
   },
-  // --- GOOGLE AI SUITE ---
   {
     id: 'keyword-planner',
     title: 'AI Keyword Planner',
     dashboardTitle: 'AI Keyword Planner',
     description: 'Generate a strategic keyword plan for Google Ads.',
-    icon: Search,
-    color: '#34A853', // Google Green
+    icon: 'Search',
+    color: '#34A853',
     cta: 'Generate Keyword Plan',
     categories: ['Google AI Suite', 'Ads', 'Marketing'],
     mindMapCategory: 'Google AI Suite',
@@ -219,14 +144,14 @@ export const tools: Feature[] = [
     href: '/dashboard/tool/keyword-planner',
     details: {
       steps: [
-        { text: 'Provide a topic and target location', icon: <PenTool /> },
-        { text: 'AI generates ad groups and keywords', icon: <Sparkles /> },
-        { text: 'Get a full plan with match types and negative keywords', icon: <ClipboardList /> },
+        { text: 'Provide a topic and target location', icon: 'PenTool' },
+        { text: 'AI generates ad groups and keywords', icon: 'Sparkles' },
+        { text: 'Get a full plan with match types and negative keywords', icon: 'ClipboardList' },
       ],
       aiVsManual: [
-        { metric: 'Research Time', manual: 'Hours in Google Keyword Planner', ai: 'Seconds to generate a full strategy', icon: <Clock2 /> },
-        { metric: 'Strategy', manual: 'A flat list of keywords', ai: 'Logically structured ad groups and match types', icon: <BrainCircuit /> },
-        { metric: 'Completeness', manual: 'Often overlooks negative keywords', ai: 'Includes a list of negative keywords to save budget', icon: <BadgeCheck /> },
+        { metric: 'Research Time', manual: 'Hours in Google Keyword Planner', ai: 'Seconds to generate a full strategy', icon: 'Clock2' },
+        { metric: 'Strategy', manual: 'A flat list of keywords', ai: 'Logically structured ad groups and match types', icon: 'BrainCircuit' },
+        { metric: 'Completeness', manual: 'Often overlooks negative keywords', ai: 'Includes a list of negative keywords to save budget', icon: 'BadgeCheck' },
       ],
       synergy: [
         { tool: "Google Search Ads Tool", benefit: "Use the generated plan as the direct input to create a new search campaign instantly." },
@@ -240,14 +165,12 @@ export const tools: Feature[] = [
     },
     creationFields: [],
   },
-
-  // --- TIKTOK AI SUITE ---
   {
     id: 'tiktok-editor',
     title: 'AI TikTok Video Editor',
     dashboardTitle: 'TikTok Video Editor',
     description: 'Create on-trend, engaging videos for TikTok.',
-    icon: Video,
+    icon: 'Video',
     color: '#000000',
     cta: 'Generate TikTok',
     categories: ['TikTok AI Suite', 'Ads', 'Creative', 'Social & Comms'],
@@ -257,14 +180,14 @@ export const tools: Feature[] = [
     guideHref: '/blog/tiktok-editor',
     details: {
       steps: [
-        { text: 'Provide your project assets (images, videos)', icon: <Upload /> },
-        { text: 'AI suggests trending sounds and text styles', icon: <Sparkles /> },
-        { text: 'Generate a ready-to-post TikTok video', icon: <CheckCircle /> },
+        { text: 'Provide your project assets (images, videos)', icon: 'Upload' },
+        { text: 'AI suggests trending sounds and text styles', icon: 'Sparkles' },
+        { text: 'Generate a ready-to-post TikTok video', icon: 'CheckCircle' },
       ],
       aiVsManual: [
-        { metric: 'Time to Create', manual: 'Hours editing in CapCut', ai: 'Seconds to generate a draft', icon: <Clock2 /> },
-        { metric: 'Trend Analysis', manual: 'Manually scrolling the For You Page', ai: 'Data-driven insights on what\'s currently working', icon: <TrendingUp /> },
-        { metric: 'Engagement', manual: 'Hit-or-miss engagement', ai: 'Optimized for the TikTok algorithm', icon: <LineChart /> },
+        { metric: 'Time to Create', manual: 'Hours editing in CapCut', ai: 'Seconds to generate a draft', icon: 'Clock2' },
+        { metric: 'Trend Analysis', manual: 'Manually scrolling the For You Page', ai: 'Data-driven insights on what\'s currently working', icon: 'TrendingUp' },
+        { metric: 'Engagement', manual: 'Hit-or-miss engagement', ai: 'Optimized for the TikTok algorithm', icon: 'LineChart' },
       ],
       synergy: [
         { tool: "Reel Ads", benefit: "Easily reformat your best-performing Instagram Reels for a native TikTok experience." },
@@ -282,14 +205,13 @@ export const tools: Feature[] = [
       { id: 'textOverlays', name: 'Text Overlays', type: 'textarea', placeholder: 'e.g., "You won\'t believe this view...\\nWait for the end!"', description: 'Key text to display on screen. One idea per line.' },
     ],
   },
-  // --- META ADS AI SUITE ---
    {
     id: 'meta-auto-pilot',
     title: 'Meta Auto Pilot',
     dashboardTitle: 'Meta Auto Pilot',
     description: 'The single-click manager for your entire Meta suite.',
-    icon: Star,
-    color: '#fbbf24', // amber-400
+    icon: 'Star',
+    color: '#fbbf24', 
     cta: 'Run Workflow',
     categories: ['Marketing', 'Ads', 'Lead Gen'],
     mindMapCategory: 'Meta Ads AI Suite',
@@ -299,14 +221,14 @@ export const tools: Feature[] = [
     guideHref: '/blog/meta-auto-pilot',
     details: {
       steps: [
-          { text: 'Connect all your Meta ad tools', icon: <LinkIcon className="h-6 w-6" /> },
-          { text: 'Define a high-level goal and budget', icon: <Target className="h-6 w-6" /> },
-          { text: 'The Pilot runs and optimizes the entire workflow', icon: <Sparkles className="h-6 w-6" /> },
+          { text: 'Connect all your Meta ad tools', icon: 'Link' },
+          { text: 'Define a high-level goal and budget', icon: 'Target' },
+          { text: 'The Pilot runs and optimizes the entire workflow', icon: 'Sparkles' },
       ],
       aiVsManual: [
-        { metric: 'Time Investment', manual: '10+ hours per week managing ads', ai: 'Set a goal, let the Pilot work', icon: <Clock2 /> },
-        { metric: 'Strategy', manual: 'Reacts slowly to performance data', ai: 'Proactively shifts budget and creative', icon: <LineChart /> },
-        { metric: 'Complexity', manual: 'Juggling multiple tools and platforms', ai: 'One command controls everything', icon: <Bot /> },
+        { metric: 'Time Investment', manual: '10+ hours per week managing ads', ai: 'Set a goal, let the Pilot work', icon: 'Clock2' },
+        { metric: 'Strategy', manual: 'Reacts slowly to performance data', ai: 'Proactively shifts budget and creative', icon: 'LineChart' },
+        { metric: 'Complexity', manual: 'Juggling multiple tools and platforms', ai: 'One command controls everything', icon: 'Bot' },
       ],
       synergy: [
         { tool: "All Meta Tools", benefit: "The Pilot is the orchestrator, using all other tools in the suite to execute a complete strategy." },
@@ -324,8 +246,8 @@ export const tools: Feature[] = [
     title: 'Campaign Builder',
     dashboardTitle: 'Campaign Builder',
     description: 'Your dedicated agent for Facebook &amp; Instagram advertising.',
-    icon: Facebook,
-    color: '#1d4ed8', // blue-700
+    icon: 'Facebook',
+    color: '#1d4ed8', 
     cta: 'Create Campaign',
     categories: ['Marketing', 'Ads', 'Lead Gen'],
     mindMapCategory: 'Meta Ads AI Suite',
@@ -335,14 +257,14 @@ export const tools: Feature[] = [
     guideHref: '/blog/meta-ads-copilot',
     details: {
       steps: [
-          { text: 'Connect your Meta Business account', icon: <LinkIcon className="h-6 w-6" /> },
-          { text: 'Define your campaign goal and budget', icon: <Target className="h-6 w-6" /> },
-          { text: 'The agent creates, manages, and optimizes the campaign', icon: <Sparkles className="h-6 w-6" /> },
+          { text: 'Connect your Meta Business account', icon: 'Link' },
+          { text: 'Define your campaign goal and budget', icon: 'Target' },
+          { text: 'The agent creates, manages, and optimizes the campaign', icon: 'Sparkles' },
       ],
       aiVsManual: [
-        { metric: 'Time Investment', manual: '10+ hours per week managing ads', ai: 'Set your goal and let the agent work', icon: <Clock2 /> },
-        { metric: 'Cost &amp; Resources', manual: 'Requires a dedicated ad manager', ai: 'Included in your subscription', icon: <Wallet /> },
-        { metric: 'Optimization', manual: 'Reacts slowly to performance data', ai: 'Optimizes bids and creative in real-time', icon: <LineChart /> },
+        { metric: 'Time Investment', manual: '10+ hours per week managing ads', ai: 'Set your goal and let the agent work', icon: 'Clock2' },
+        { metric: 'Cost &amp; Resources', manual: 'Requires a dedicated ad manager', ai: 'Included in your subscription', icon: 'Wallet' },
+        { metric: 'Optimization', manual: 'Reacts slowly to performance data', ai: 'Optimizes bids and creative in real-time', icon: 'LineChart' },
       ],
       synergy: [
         { tool: "Insta Ads Designer", benefit: "The Campaign Builder can automatically use your best-performing AI-generated ads." },
@@ -361,8 +283,8 @@ export const tools: Feature[] = [
     title: 'Audience Creator',
     dashboardTitle: 'Audience Creator',
     description: 'Find high-intent buyers before they search.',
-    icon: Binoculars,
-    color: '#3b82f6', // blue-600
+    icon: 'Binoculars',
+    color: '#3b82f6', 
     cta: 'Generate Strategies',
     categories: ['Marketing', 'Lead Gen', 'Ads'],
     mindMapCategory: 'Meta Ads AI Suite',
@@ -372,14 +294,14 @@ export const tools: Feature[] = [
     guideHref: '/blog/audience-creator',
     details: {
       steps: [
-        { text: 'Select a project from your library', icon: <Briefcase className="h-6 w-6" /> },
-        { text: 'The AI analyzes project data and market signals', icon: <BrainCircuit className="h-6 w-6" /> },
-        { text: 'Get multiple targeting strategies to choose from', icon: <ClipboardList className="h-6 w-6" /> },
+        { text: 'Select a project from your library', icon: 'Briefcase' },
+        { text: 'The AI analyzes project data and market signals', icon: 'BrainCircuit' },
+        { text: 'Get multiple targeting strategies to choose from', icon: 'ClipboardList' },
       ],
       aiVsManual: [
-        { metric: 'Audience Discovery', manual: 'Broad guessing (e.g., "Age 30-50")', ai: 'Niche, high-intent segments based on real data', icon: <Users2 /> },
-        { metric: 'Time to Research', manual: 'Hours of market research', ai: 'Instantaneous generation', icon: <Clock2 /> },
-        { metric: 'Budget Efficiency', manual: 'High waste on wrong audiences', ai: 'Optimized ad spend, higher ROI', icon: <Wallet /> },
+        { metric: 'Audience Discovery', manual: 'Broad guessing (e.g., "Age 30-50")', ai: 'Niche, high-intent segments based on real data', icon: 'Users2' },
+        { metric: 'Time to Research', manual: 'Hours of market research', ai: 'Instantaneous generation', icon: 'Clock2' },
+        { metric: 'Budget Efficiency', manual: 'High waste on wrong audiences', ai: 'Optimized ad spend, higher ROI', icon: 'Wallet' },
       ],
       synergy: [
         { tool: "Campaign Builder", benefit: "Design the perfect ad for the high-intent audience you've just identified." },
@@ -400,65 +322,24 @@ export const tools: Feature[] = [
     title: 'Insta Ads Designer',
     dashboardTitle: 'Insta Ads Designer',
     description: 'Create perfect ads for Instagram Stories &amp; Feed.',
-    icon: Instagram,
-    color: '#ec4899', // pink-500
+    icon: 'Instagram',
+    color: '#ec4899', 
     cta: 'Generate Ad',
     categories: ['Ads', 'Creative', 'Social & Comms'],
     mindMapCategory: 'Meta Ads AI Suite',
     isPage: false,
     href: '/dashboard/tool/insta-ads-designer',
     guideHref: '/blog/insta-ads-designer',
-    renderResult: (result, toast) => (
-       <div className="space-y-6">
-          <Card>
-            <CardHeader>
-                <CardTitle>Generated Ad Copy</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <div className="p-4 bg-muted rounded-md relative group">
-                    <p className="whitespace-pre-wrap">{result.adCopy}</p>
-                    <Button variant="ghost" size="icon" className="absolute top-2 right-2 opacity-0 group-hover:opacity-100" onClick={() => copyToClipboard(result.adCopy, toast)}><Copy className="h-4 w-4" /></Button>
-                </div>
-            </CardContent>
-          </Card>
-           <Card>
-            <CardHeader>
-                <CardTitle>Generated Ad Design (Brochure)</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <div className="border rounded-lg overflow-hidden">
-                    <iframe src={`${result.adDesign}#view=fitH`} className="w-full h-[600px]"/>
-                </div>
-                 <a href={result.adDesign} download="brochure.pdf" className="mt-4 inline-block">
-                    <Button variant="outline"><Download className="mr-2"/> Download PDF</Button>
-                </a>
-            </CardContent>
-          </Card>
-           <Card>
-            <CardHeader>
-                <CardTitle>Generated Landing Page Preview</CardTitle>
-            </CardHeader>
-            <CardContent>
-                 <div className="border rounded-lg overflow-hidden w-fit">
-                    <Image src={result.landingPage} alt="Generated landing page" width={800} height={600} className="object-contain" />
-                    </div>
-                    <a href={result.landingPage} download="landing-page.png" className="mt-4 inline-block">
-                        <Button variant="outline"><Download className="mr-2"/> Download Image</Button>
-                    </a>
-            </CardContent>
-          </Card>
-        </div>
-    ),
     details: {
       steps: [
-          { text: 'Upload a project brochure', icon: <Upload className="h-6 w-6" /> },
-          { text: 'Select a focus (e.g., "luxury", "family")', icon: <Target className="h-6 w-6" /> },
-          { text: 'Generate multiple ad variants instantly', icon: <Sparkles className="h-6 w-6" /> },
+          { text: 'Upload a project brochure', icon: 'Upload' },
+          { text: 'Select a focus (e.g., "luxury", "family")', icon: 'Target' },
+          { text: 'Generate multiple ad variants instantly', icon: 'Sparkles' },
       ],
       aiVsManual: [
-        { metric: 'Time Investment', manual: '5-10 hours per campaign', ai: 'Fast by default', icon: <Clock2 /> },
-        { metric: 'Cost &amp; Resources', manual: 'Requires copywriter &amp; designer', ai: 'Included in your subscription', icon: <Wallet /> },
-        { metric: 'Quality &amp; Testing', manual: 'Relies on guesswork, 1-2 variations', ai: 'Data-driven, 5+ variations to test', icon: <BadgeCheck /> },
+        { metric: 'Time Investment', manual: '5-10 hours per campaign', ai: 'Fast by default', icon: 'Clock2' },
+        { metric: 'Cost &amp; Resources', manual: 'Requires copywriter &amp; designer', ai: 'Included in your subscription', icon: 'Wallet' },
+        { metric: 'Quality &amp; Testing', manual: 'Relies on guesswork, 1-2 variations', ai: 'Data-driven, 5+ variations to test', icon: 'BadgeCheck' },
       ],
       synergy: [
         { tool: "Audience Creator", benefit: "Ensure your perfect ads are seen by people ready to buy." },
@@ -483,24 +364,24 @@ export const tools: Feature[] = [
     title: 'Reel Ads',
     dashboardTitle: 'Reel Ads',
     description: 'Generate engaging video ads for Instagram Reels.',
-    icon: Clapperboard,
+    icon: 'Clapperboard',
     color: '#7c3aed',
     cta: 'Generate Reel Ad',
     categories: ['Ads', 'Creative', 'Social & Comms'],
     mindMapCategory: 'Meta Ads AI Suite',
     badge: 'SOON',
     href: '/dashboard/tool/reel-ads-ai',
-    guideHref: '/blog/instagram-content-creator', // Placeholder, should be reel-ads-ai
+    guideHref: '/blog/instagram-content-creator', 
     details: {
       steps: [
-        { text: 'Select a project to source images/videos', icon: <Briefcase /> },
-        { text: 'Provide key selling points for captions', icon: <PenTool /> },
-        { text: 'AI generates a video with captions & music', icon: <Sparkles /> },
+        { text: 'Select a project to source images/videos', icon: 'Briefcase' },
+        { text: 'Provide key selling points for captions', icon: 'PenTool' },
+        { text: 'AI generates a video with captions & music', icon: 'Sparkles' },
       ],
       aiVsManual: [
-        { metric: 'Video Editing Time', manual: '2-5 hours per reel', ai: 'Seconds to generate', icon: <Clock2 /> },
-        { metric: 'Software Cost', manual: 'Requires Adobe Premiere/CapCut Pro', ai: 'Included in your subscription', icon: <Wallet /> },
-        { metric: 'Trendiness', manual: 'Hard to keep up with trending audio/styles', ai: 'AI suggests current, popular formats', icon: <TrendingUp /> },
+        { metric: 'Video Editing Time', manual: '2-5 hours per reel', ai: 'Seconds to generate', icon: 'Clock2' },
+        { metric: 'Software Cost', manual: 'Requires Adobe Premiere/CapCut Pro', ai: 'Included in your subscription', icon: 'Wallet' },
+        { metric: 'Trendiness', manual: 'Hard to keep up with trending audio/styles', ai: 'AI suggests current, popular formats', icon: 'TrendingUp' },
       ],
       synergy: [
         { tool: "Insta Ads Designer", benefit: "Use the text and themes from your best-performing static ads as input for a new video reel." },
@@ -523,7 +404,7 @@ export const tools: Feature[] = [
     title: 'Instagram Admin',
     dashboardTitle: 'Instagram Admin',
     description: 'Schedules posts and handles replies on Instagram.',
-    icon: UserCog,
+    icon: 'UserCog',
     color: '#c026d3',
     cta: 'Run Admin Task',
     categories: ['Sales Tools', 'Social & Comms'],
@@ -531,25 +412,16 @@ export const tools: Feature[] = [
     badge: 'NEW',
     href: '/dashboard/tool/instagram-admin-ai',
     guideHref: '/blog/instagram-admin-ai',
-    renderResult: (result, toast) => (
-      <div className="space-y-4">
-        <h3 className="font-semibold text-lg">{result.status}</h3>
-        <div className="p-4 bg-muted rounded-md relative group">
-          <p className="whitespace-pre-wrap">{result.result}</p>
-          <Button variant="ghost" size="icon" className="absolute top-2 right-2 opacity-0 group-hover:opacity-100" onClick={() => copyToClipboard(result.result, toast)}><Copy className="h-4 w-4" /></Button>
-        </div>
-      </div>
-    ),
     details: {
       steps: [
-        { text: 'Connect your Instagram account securely', icon: <Network /> },
-        { text: 'Provide a task (e.g., "Draft replies to this comment")', icon: <PenTool /> },
-        { text: 'AI executes the task and waits for your approval', icon: <CheckCircle /> },
+        { text: 'Connect your Instagram account securely', icon: 'Network' },
+        { text: 'Provide a task (e.g., "Draft replies to this comment")', icon: 'PenTool' },
+        { text: 'AI executes the task and waits for your approval', icon: 'CheckCircle' },
       ],
       aiVsManual: [
-        { metric: 'Response Time', manual: 'Hours or days', ai: 'Instant, 24/7 monitoring', icon: <Clock2 /> },
-        { metric: 'Content Scheduling', manual: 'Requires manual posting or third-party tools', ai: 'Integrated, intelligent scheduling', icon: <Briefcase /> },
-        { metric: 'Lead Capture', manual: 'Manually identifying promising comments', ai: 'Flags high-intent comments for follow-up', icon: <Sparkles /> },
+        { metric: 'Response Time', manual: 'Hours or days', ai: 'Instant, 24/7 monitoring', icon: 'Clock2' },
+        { metric: 'Content Scheduling', manual: 'Requires manual posting or third-party tools', ai: 'Integrated, intelligent scheduling', icon: 'Briefcase' },
+        { metric: 'Lead Capture', manual: 'Manually identifying promising comments', ai: 'Flags high-intent comments for follow-up', icon: 'Sparkles' },
       ],
       synergy: [
         { tool: "Instagram Content Creator", benefit: "Automatically schedule the 7-day content plan generated by the creator tool." },
@@ -571,7 +443,7 @@ export const tools: Feature[] = [
     title: 'Story Planner',
     dashboardTitle: 'Story Planner',
     description: 'Plan and design animated Instagram stories.',
-    icon: Film,
+    icon: 'Film',
     color: '#a855f7',
     cta: 'Generate Story',
     categories: ['Creative', 'Social & Comms'],
@@ -581,14 +453,14 @@ export const tools: Feature[] = [
     guideHref: '/blog/story-planner-ai',
     details: {
       steps: [
-        { text: 'Select a project to source photos', icon: <Briefcase /> },
-        { text: 'Choose a vibe and a call to action', icon: <Palette /> },
-        { text: 'AI generates an animated, multi-slide story', icon: <Sparkles /> },
+        { text: 'Select a project to source photos', icon: 'Briefcase' },
+        { text: 'Choose a vibe and a call to action', icon: 'Palette' },
+        { text: 'AI generates an animated, multi-slide story', icon: 'Sparkles' },
       ],
       aiVsManual: [
-        { metric: 'Design Time', manual: '30-60 minutes in Canva/etc.', ai: 'Seconds to generate', icon: <Clock2 /> },
-        { metric: 'Storyboarding', manual: 'Requires creative planning', ai: 'Generates a coherent narrative sequence', icon: <BrainCircuit /> },
-        { metric: 'Consistency', manual: 'Different apps for each part', ai: 'One unified, professionally designed output', icon: <BadgeCheck /> },
+        { metric: 'Design Time', manual: '30-60 minutes in Canva/etc.', ai: 'Seconds to generate', icon: 'Clock2' },
+        { metric: 'Storyboarding', manual: 'Requires creative planning', ai: 'Generates a coherent narrative sequence', icon: 'BrainCircuit' },
+        { metric: 'Consistency', manual: 'Different apps for each part', ai: 'One unified, professionally designed output', icon: 'BadgeCheck' },
       ],
       synergy: [
         { tool: "Reel Ads", benefit: "Repurpose the best clips from your reel into an interactive story with polls and Q&amp;As." },
@@ -606,14 +478,12 @@ export const tools: Feature[] = [
        { id: 'callToAction', name: 'Call to Action', type: 'text', placeholder: 'e.g., "Swipe up to book a viewing!"', description: 'The final message for your story.' },
     ],
   },
-  
-  // --- MARKETING ---
   {
     id: 'instagram-content-creator',
     title: 'Instagram Content Creator',
     dashboardTitle: 'Instagram Content',
     description: 'Generate a full week of social media content and a tiered hashtag strategy from a single topic or URL.',
-    icon: Share2,
+    icon: 'Share2',
     color: '#ea580c',
     cta: 'Generate Content Strategy',
     categories: ['Marketing', 'Creative', 'Social & Comms'],
@@ -623,14 +493,14 @@ export const tools: Feature[] = [
     guideHref: '/blog/instagram-content-creator',
     details: {
         steps: [
-            { text: 'Enter a topic, URL, or project name', icon: <PenTool className="h-6 w-6" /> },
-            { text: 'AI generates a 7-day content plan', icon: <ClipboardList className="h-6 w-6" /> },
-            { text: 'Get image suggestions and a hashtag strategy', icon: <Hash className="h-6 w-6" /> },
+            { text: 'Enter a topic, URL, or project name', icon: 'PenTool' },
+            { text: 'AI generates a 7-day content plan', icon: 'ClipboardList' },
+            { text: 'Get image suggestions and a hashtag strategy', icon: 'Hash' },
         ],
         aiVsManual: [
-            { metric: 'Planning Time', manual: '2-3 hours per week', ai: 'Fast by default', icon: <Clock2 /> },
-            { metric: 'Content Variety', manual: 'Tends to be repetitive', ai: 'Generates diverse daily themes and angles', icon: <Sparkles /> },
-            { metric: 'Hashtag Research', manual: 'Time-consuming and often ineffective', ai: 'Creates a tiered, data-driven strategy', icon: <LineChart /> },
+            { metric: 'Planning Time', manual: '2-3 hours per week', ai: 'Fast by default', icon: 'Clock2' },
+            { metric: 'Content Variety', manual: 'Tends to be repetitive', ai: 'Generates diverse daily themes and angles', icon: 'Sparkles' },
+            { metric: 'Hashtag Research', manual: 'Time-consuming and often ineffective', ai: 'Creates a tiered, data-driven strategy', icon: 'LineChart' },
         ],
         synergy: [
             { tool: "Landing Page Builder", benefit: "Create posts that drive traffic directly to your newly generated landing page." },
@@ -653,8 +523,8 @@ export const tools: Feature[] = [
     title: 'Email Campaigns',
     dashboardTitle: 'Email Campaigns',
     description: 'Design, write, and schedule.',
-    icon: Mail,
-    color: '#0ea5e9', // sky-500
+    icon: 'Mail',
+    color: '#0ea5e9', 
     cta: 'Send Email Campaign',
     categories: ['Marketing', 'Social & Comms', 'Sales Tools'],
     mindMapCategory: 'Marketing',
@@ -663,14 +533,14 @@ export const tools: Feature[] = [
     guideHref: '/blog/email-creator',
     details: {
       steps: [
-        { text: 'Define your campaign goal (e.g., New Listing)', icon: <Target className="h-6 w-6" /> },
-        { text: 'Provide a link or topic for content', icon: <PenTool className="h-6 w-6" /> },
-        { text: 'Generate a sequence of emails instantly', icon: <Mail className="h-6 w-6" /> },
+        { text: 'Define your campaign goal (e.g., New Listing)', icon: 'Target' },
+        { text: 'Provide a link or topic for content', icon: 'PenTool' },
+        { text: 'Generate a sequence of emails instantly', icon: 'Mail' },
       ],
       aiVsManual: [
-        { metric: 'Writing Time', manual: '2-4 hours for a 3-part sequence', ai: 'Fast by default', icon: <Clock2 /> },
-        { metric: 'Design & Layout', manual: 'Requires knowledge of email builders', ai: 'Generates clean, mobile-friendly HTML', icon: <Sparkles /> },
-        { metric: 'Subject Lines', manual: 'Guesswork, low open rates', ai: 'A/B tested variations for high engagement', icon: <BadgeCheck /> },
+        { metric: 'Writing Time', manual: '2-4 hours for a 3-part sequence', ai: 'Fast by default', icon: 'Clock2' },
+        { metric: 'Design & Layout', manual: 'Requires knowledge of email builders', ai: 'Generates clean, mobile-friendly HTML', icon: 'Sparkles' },
+        { metric: 'Subject Lines', manual: 'Guesswork, low open rates', ai: 'A/B tested variations for high engagement', icon: 'BadgeCheck' },
       ],
       synergy: [
         { tool: "Market Reports", benefit: "Generate a local report, then use this tool to create an email campaign to share it with your list." },
@@ -688,15 +558,13 @@ export const tools: Feature[] = [
       { id: 'tone', name: 'Tone of Voice', type: 'select', options: ['Professional', 'Friendly', 'Urgent', 'Humorous', 'Informative'], placeholder: 'Select a tone', description: 'Set the mood for your emails.' },
     ],
   },
-  
-  // --- CREATIVE SUITE ---
   {
     id: 'youtube-video-editor',
     title: 'AI YouTube Video Editor',
     dashboardTitle: 'YouTube Video Editor',
     description: 'Edit any video to be YouTube-ready.',
-    icon: Youtube,
-    color: '#ef4444', // red-500
+    icon: 'Youtube',
+    color: '#ef4444', 
     cta: 'Edit YouTube Video',
     categories: ['Creative', 'Editing', 'Social & Comms'],
     mindMapCategory: 'Creative Suite',
@@ -706,14 +574,14 @@ export const tools: Feature[] = [
     guideHref: '/blog/youtube-video-editor',
     details: {
       steps: [
-        { text: 'Upload your source video file', icon: <Upload className="h-6 w-6" /> },
-        { text: 'Provide instructions for editing', icon: <PenTool className="h-6 w-6" /> },
-        { text: 'AI generates a new, edited video file', icon: <Sparkles className="h-6 w-6" /> },
+        { text: 'Upload your source video file', icon: 'Upload' },
+        { text: 'Provide instructions for editing', icon: 'PenTool' },
+        { text: 'AI generates a new, edited video file', icon: 'Sparkles' },
       ],
       aiVsManual: [
-        { metric: 'Editing Time', manual: 'Hours in complex software like Final Cut', ai: 'Minutes, based on your instructions', icon: <Clock2 /> },
-        { metric: 'Software Cost', manual: 'Expensive video editing software', ai: 'Included in your subscription', icon: <Wallet /> },
-        { metric: 'Ease of Use', manual: 'Steep learning curve', ai: 'As simple as writing an email', icon: <Sparkles /> },
+        { metric: 'Editing Time', manual: 'Hours in complex software like Final Cut', ai: 'Minutes, based on your instructions', icon: 'Clock2' },
+        { metric: 'Software Cost', manual: 'Expensive video editing software', ai: 'Included in your subscription', icon: 'Wallet' },
+        { metric: 'Ease of Use', manual: 'Steep learning curve', ai: 'As simple as writing an email', icon: 'Sparkles' },
       ],
       synergy: [
         { tool: "Reel Ads", benefit: "Combine your best-performing short-form reels into a longer YouTube video tour." },
@@ -732,8 +600,8 @@ export const tools: Feature[] = [
     title: 'Landing Page Builder',
     dashboardTitle: 'Landing Pages',
     description: 'Launch a high-converting page in minutes.',
-    icon: LayoutTemplate,
-    color: '#22c55e', // green-500
+    icon: 'LayoutTemplate',
+    color: '#22c55e', 
     cta: 'Create Landing Page',
     categories: ['Creative', 'Web'],
     mindMapCategory: 'Creative Suite',
@@ -742,14 +610,14 @@ export const tools: Feature[] = [
     guideHref: '/blog/landing-pages',
     details: {
       steps: [
-        { text: 'Provide project details', icon: <PenTool className="h-6 w-6" /> },
-        { text: 'Choose a style or provide inspiration', icon: <Palette className="h-6 w-6" /> },
-        { text: 'Generate a complete landing page with a lead form', icon: <LayoutTemplate className="h-6 w-6" /> },
+        { text: 'Provide project details', icon: 'PenTool' },
+        { text: 'Choose a style or provide inspiration', icon: 'Palette' },
+        { text: 'Generate a complete landing page with a lead form', icon: 'LayoutTemplate' },
       ],
       aiVsManual: [
-         { metric: 'Time to Build', manual: '1-2 days using a website builder', ai: 'Fast by default', icon: <Clock2 /> },
-         { metric: 'Technical Skill', manual: 'Requires web design &amp; dev knowledge', ai: 'None. Just provide the source.', icon: <Sparkles /> },
-         { metric: 'Features', manual: 'Lead forms, galleries added manually', ai: 'All features included automatically', icon: <BadgeCheck /> },
+         { metric: 'Time to Build', manual: '1-2 days using a website builder', ai: 'Fast by default', icon: 'Clock2' },
+         { metric: 'Technical Skill', manual: 'Requires web design &amp; dev knowledge', ai: 'None. Just provide the source.', icon: 'Sparkles' },
+         { metric: 'Features', manual: 'Lead forms, galleries added manually', ai: 'All features included automatically', icon: 'BadgeCheck' },
       ],
       synergy: [
         { tool: "Social Writer", benefit: "Generate promotional posts to drive traffic to your new landing page." },
@@ -768,8 +636,8 @@ export const tools: Feature[] = [
     title: 'Automated Rebranding',
     dashboardTitle: 'Rebranding',
     description: 'Upload any brochure and apply your brand identity with text-based commands in the Creative Canvas.',
-    icon: Palette,
-    color: '#f97316', // orange-600
+    icon: 'Palette',
+    color: '#f97316', 
     cta: 'Rebrand a Document',
     categories: ['Creative', 'Editing'],
     mindMapCategory: 'Creative Suite',
@@ -779,14 +647,14 @@ export const tools: Feature[] = [
     guideHref: '/blog/rebranding',
     details: {
       steps: [
-        { text: 'Upload any developer\'s brochure (PDF)', icon: <Upload className="h-6 w-6" /> },
-        { text: 'The AI applies your saved brand settings', icon: <UserCog className="h-6 w-6" /> },
-        { text: 'Download the rebranded brochure instantly', icon: <FileText className="h-6 w-6" /> },
+        { text: 'Upload any developer\'s brochure (PDF)', icon: 'Upload' },
+        { text: 'The AI applies your saved brand settings', icon: 'UserCog' },
+        { text: 'Download the rebranded brochure instantly', icon: 'FileText' },
       ],
       aiVsManual: [
-         { metric: 'Time to Rebrand', manual: '2-4 hours in design software', ai: 'Fast by default', icon: <Clock2 /> },
-         { metric: 'Required Skill', manual: 'Proficiency in Adobe InDesign/Canva', ai: 'Ability to upload a file', icon: <Sparkles /> },
-         { metric: 'Consistency', manual: 'Prone to human error and typos', ai: 'Perfectly consistent every time', icon: <BadgeCheck /> },
+         { metric: 'Time to Rebrand', manual: '2-4 hours in design software', ai: 'Fast by default', icon: 'Clock2' },
+         { metric: 'Required Skill', manual: 'Proficiency in Adobe InDesign/Canva', ai: 'Ability to upload a file', icon: 'Sparkles' },
+         { metric: 'Consistency', manual: 'Prone to human error and typos', ai: 'Perfectly consistent every time', icon: 'BadgeCheck' },
       ],
       synergy: [
         { tool: "Ad Creator", benefit: "Use your newly rebranded brochure to power an ad campaign." },
@@ -805,8 +673,8 @@ export const tools: Feature[] = [
     title: 'Visual PDF Editor',
     dashboardTitle: 'PDF Editor',
     description: 'This tool is deprecated. Use the new Rebranding tool instead.',
-    icon: Edit,
-    color: '#eab308', // yellow-500
+    icon: 'Edit',
+    color: '#eab308', 
     cta: 'Edit a PDF',
     categories: ['Creative', 'Editing'],
     mindMapCategory: 'Creative Suite',
@@ -816,14 +684,14 @@ export const tools: Feature[] = [
     guideHref: '/blog/pdf-editor',
     details: {
       steps: [
-        { text: 'Upload your PDF document', icon: <Upload className="h-6 w-6" /> },
-        { text: 'Pages are displayed as interactive cards', icon: <LayoutTemplate className="h-6 w-6" /> },
-        { text: 'Click a page to edit it in the Creative Canvas', icon: <Sparkles className="h-6 w-6" /> },
+        { text: 'Upload your PDF document', icon: 'Upload' },
+        { text: 'Pages are displayed as interactive cards', icon: 'LayoutTemplate' },
+        { text: 'Click a page to edit it in the Creative Canvas', icon: 'Sparkles' },
       ],
       aiVsManual: [
-         { metric: 'Time to Edit', manual: 'Hours finding source files or using clunky editors', ai: 'Fast, intuitive, and visual', icon: <Clock2 /> },
-         { metric: 'Software Cost', manual: 'Requires expensive Acrobat Pro subscription', ai: 'Included in your suite', icon: <Wallet /> },
-         { metric: 'Ease of Use', manual: 'Complex tools and formatting issues', ai: 'As easy as clicking on a page', icon: <Sparkles /> },
+         { metric: 'Time to Edit', manual: 'Hours finding source files or using clunky editors', ai: 'Fast, intuitive, and visual', icon: 'Clock2' },
+         { metric: 'Software Cost', manual: 'Requires expensive Acrobat Pro subscription', ai: 'Included in your suite', icon: 'Wallet' },
+         { metric: 'Ease of Use', manual: 'Complex tools and formatting issues', ai: 'As easy as clicking on a page', icon: 'Sparkles' },
       ],
       synergy: [
         { tool: "Rebranding", benefit: "After rebranding a brochure, use the editor to make final visual tweaks to pricing or contact info." },
@@ -835,44 +703,31 @@ export const tools: Feature[] = [
         { question: "What is the 'Creative Canvas'?", answer: "It's a slide-out panel that provides a focused workspace for editing a specific asset, like a single page of a PDF, without leaving your main workflow." }
       ],
     },
-    creationFields: [], // This tool now has a custom page, so it doesn't use the generic form.
+    creationFields: [], 
   },
   {
     id: 'brochure-translator',
     title: 'Brochure Translator',
     dashboardTitle: 'Brochure Translator',
     description: 'Translate brochures to multiple languages.',
-    icon: Languages,
-    color: '#8b5cf6', // violet-500
+    icon: 'Languages',
+    color: '#8b5cf6', 
     cta: 'Translate Brochure',
     categories: ['Creative', 'Editing', 'Sales Tools'],
     mindMapCategory: 'Creative Suite',
     badge: 'SOON',
     href: '/dashboard/tool/brochure-translator',
     guideHref: '/blog/brochure-translator',
-    renderResult: (result, toast) => (
-      <div className="space-y-6">
-        <div>
-          <h3 className="font-semibold text-lg mb-2">Translated Brochure</h3>
-          <div className="border rounded-lg overflow-hidden">
-            <iframe src={`${result.translatedBrochureDataUri}#view=fitH`} className="w-full h-[600px]"/>
-          </div>
-          <a href={result.translatedBrochureDataUri} download="translated-brochure.pdf" className="mt-4 inline-block">
-            <Button variant="outline"><Download className="mr-2"/> Download PDF</Button>
-          </a>
-        </div>
-      </div>
-    ),
     details: {
       steps: [
-        { text: 'Upload your PDF brochure', icon: <Upload className="h-6 w-6" /> },
-        { text: 'Select the target language', icon: <Languages className="h-6 w-6" /> },
-        { text: 'AI generates a new, translated PDF', icon: <FileText className="h-6 w-6" /> },
+        { text: 'Upload your PDF brochure', icon: 'Upload' },
+        { text: 'Select the target language', icon: 'Languages' },
+        { text: 'AI generates a new, translated PDF', icon: 'FileText' },
       ],
       aiVsManual: [
-        { metric: 'Time to Translate', manual: 'Days or weeks with translators & designers', ai: 'Minutes', icon: <Clock2 /> },
-        { metric: 'Cost', manual: 'Hundreds of dollars per document', ai: 'Included in your subscription', icon: <Wallet /> },
-        { metric: 'Layout Preservation', manual: 'Designer must re-layout the entire document', ai: 'AI attempts to preserve the original design', icon: <Sparkles /> },
+        { metric: 'Time to Translate', manual: 'Days or weeks with translators & designers', ai: 'Minutes', icon: 'Clock2' },
+        { metric: 'Cost', manual: 'Hundreds of dollars per document', ai: 'Included in your subscription', icon: 'Wallet' },
+        { metric: 'Layout Preservation', manual: 'Designer must re-layout the entire document', ai: 'AI attempts to preserve the original design', icon: 'Sparkles' },
       ],
       synergy: [
         { tool: "Landing Page Builder", benefit: "Create a landing page in the same language as your translated brochure for a fully localized campaign." },
@@ -889,14 +744,12 @@ export const tools: Feature[] = [
       { id: 'targetLanguage', name: 'Target Language', type: 'select', options: ['Arabic', 'English', 'Chinese', 'Russian', 'French', 'Italian', 'Spanish', 'Japanese'], placeholder: 'Select a language', description: 'Choose the language to translate into.' },
     ],
   },
-
-  // --- SALES ENABLEMENT & LISTING INTELLIGENCE AI ---
   {
     id: 'listing-manager',
     title: 'Listing Manager',
     dashboardTitle: 'Listing Manager',
     description: 'Your central hub to create, manage, and syndicate your property listings to all major portals.',
-    icon: Building,
+    icon: 'Building',
     color: '#0891b2',
     cta: 'Manage Listings',
     categories: ['Listing Intelligence AI', 'Sales Tools', 'Editing', 'Web'],
@@ -907,14 +760,14 @@ export const tools: Feature[] = [
     guideHref: '/blog/listing-manager',
     details: {
       steps: [
-        { text: 'Select a project from your library', icon: <Briefcase /> },
-        { text: 'AI pre-fills all listing details', icon: <Sparkles /> },
-        { text: 'Customize for each portal & generate a "Rollflow Plan"', icon: <PenTool /> },
+        { text: 'Select a project from your library', icon: 'Briefcase' },
+        { text: 'AI pre-fills all listing details', icon: 'Sparkles' },
+        { text: 'Customize for each portal & generate a "Rollflow Plan"', icon: 'PenTool' },
       ],
       aiVsManual: [
-        { metric: 'Listing Creation', manual: 'Manually entering data into multiple portals', ai: 'Create once, customize, then syndicate everywhere', icon: <Clock2 /> },
-        { metric: 'Consistency', manual: 'Risk of different data on different portals', ai: 'A single source of truth for each listing', icon: <BadgeCheck /> },
-        { metric: 'Updating Listings', manual: 'Logging in to each portal to make one change', ai: 'Update in the manager, then re-sync to all portals', icon: <Network /> },
+        { metric: 'Listing Creation', manual: 'Manually entering data into multiple portals', ai: 'Create once, customize, then syndicate everywhere', icon: 'Clock2' },
+        { metric: 'Consistency', manual: 'Risk of different data on different portals', ai: 'A single source of truth for each listing', icon: 'BadgeCheck' },
+        { metric: 'Updating Listings', manual: 'Logging in to each portal to make one change', ai: 'Update in the manager, then re-sync to all portals', icon: 'Network' },
       ],
       synergy: [
         { tool: "Property Finder Sync & Bayut Sync", benefit: "The Listing Manager generates the plans that these 'Pilot' tools execute, creating a seamless workflow." },
@@ -933,7 +786,7 @@ export const tools: Feature[] = [
     title: 'Listing Performance',
     dashboardTitle: 'Listing Performance',
     description: 'Track listing views and performance.',
-    icon: BarChart,
+    icon: 'BarChart',
     color: '#ef4444',
     cta: 'View Performance',
     categories: ['Listing Intelligence AI', 'Sales Tools', 'Lead Gen', 'Ads'],
@@ -943,14 +796,14 @@ export const tools: Feature[] = [
     guideHref: '/blog/listing-performance',
     details: {
       steps: [
-        { text: 'Connect your listings portals (e.g. Google Search Console)', icon: <LinkIcon /> },
-        { text: 'The tool tracks views and visitor types', icon: <Users2 /> },
-        { text: 'Get reports to optimize your listings and ads', icon: <LineChart /> },
+        { text: 'Connect your listings portals (e.g. Google Search Console)', icon: 'Link' },
+        { text: 'The tool tracks views and visitor types', icon: 'Users2' },
+        { text: 'Get reports to optimize your listings and ads', icon: 'LineChart' },
       ],
       aiVsManual: [
-        { metric: 'Performance Insight', manual: 'Guessing which listings are popular', ai: 'Hard data on what buyers are looking at', icon: <Sparkles /> },
-        { metric: 'Bot Filtering', manual: 'Unable to distinguish bot traffic', ai: 'Advanced filtering for true visitor counts', icon: <BadgeCheck /> },
-        { metric: 'Ad Strategy', manual: 'Boosting listings based on intuition', ai: 'Promoting listings with proven organic interest', icon: <BrainCircuit /> },
+        { metric: 'Performance Insight', manual: 'Guessing which listings are popular', ai: 'Hard data on what buyers are looking at', icon: 'Sparkles' },
+        { metric: 'Bot Filtering', manual: 'Unable to distinguish bot traffic', ai: 'Advanced filtering for true visitor counts', icon: 'BadgeCheck' },
+        { metric: 'Ad Strategy', manual: 'Boosting listings based on intuition', ai: 'Promoting listings with proven organic interest', icon: 'BrainCircuit' },
       ],
       synergy: [
         { tool: "Campaign Builder", benefit: "Create ad campaigns that specifically boost your top-performing organic listings for maximum ROI." },
@@ -969,7 +822,7 @@ export const tools: Feature[] = [
     title: 'Listing Generator',
     dashboardTitle: 'Listing Generator',
     description: 'Craft perfect listings for portals like Property Finder, Bayut, and Dubizzle.',
-    icon: Building,
+    icon: 'Building',
     color: '#10b981',
     cta: 'Create Listing',
     categories: ['Listing Intelligence AI', 'Sales Tools', 'Editing', 'Web'],
@@ -977,40 +830,16 @@ export const tools: Feature[] = [
     badge: 'SOON',
     href: '/dashboard/tool/listing-generator',
     guideHref: '/blog/bayut-listing-ai',
-    renderResult: (result, toast) => (
-       <div className="space-y-6">
-        <div>
-          <h3 className="font-semibold text-lg mb-2">Generated Title</h3>
-          <div className="p-4 bg-muted rounded-md relative group">
-            <p className="whitespace-pre-wrap">{result.title}</p>
-            <Button variant="ghost" size="icon" className="absolute top-2 right-2 opacity-0 group-hover:opacity-100" onClick={() => copyToClipboard(result.title, toast)}><Copy className="h-4 w-4" /></Button>
-          </div>
-        </div>
-        <div>
-          <h3 className="font-semibold text-lg mb-2">Generated Description</h3>
-          <div className="p-4 bg-muted rounded-md relative group">
-            <p className="whitespace-pre-wrap">{result.description}</p>
-            <Button variant="ghost" size="icon" className="absolute top-2 right-2 opacity-0 group-hover:opacity-100" onClick={() => copyToClipboard(result.description, toast)}><Copy className="h-4 w-4" /></Button>
-          </div>
-        </div>
-        <div>
-          <h3 className="font-semibold text-lg mb-2">Suggested Keywords</h3>
-          <div className="p-4 bg-muted rounded-md">
-            <p className="text-sm text-muted-foreground">{result.keywords.join(', ')}</p>
-          </div>
-        </div>
-      </div>
-    ),
     details: {
       steps: [
-        { text: 'Enter key property details (address, beds, baths)', icon: <PenTool className="h-6 w-6" /> },
-        { text: 'Mention 1-2 unique features', icon: <Sparkles className="h-6 w-6" /> },
-        { text: 'Generate a full, persuasive listing description', icon: <FileText className="h-6 w-6" /> },
+        { text: 'Enter key property details (address, beds, baths)', icon: 'PenTool' },
+        { text: 'Mention 1-2 unique features', icon: 'Sparkles' },
+        { text: 'Generate a full, persuasive listing description', icon: 'FileText' },
       ],
       aiVsManual: [
-        { metric: 'Writing Time', manual: '30-60 minutes of creative writing', ai: 'Fast by default', icon: <Clock2 /> },
-        { metric: 'SEO &amp; Keywords', manual: 'Guesswork on what terms to use', ai: 'Automatically includes relevant local keywords', icon: <Sparkles /> },
-        { metric: 'Completeness', manual: 'Often forgets key selling points', ai: 'Structured to include all critical information', icon: <BadgeCheck /> },
+        { metric: 'Writing Time', manual: '30-60 minutes of creative writing', ai: 'Fast by default', icon: 'Clock2' },
+        { metric: 'SEO &amp; Keywords', manual: 'Guesswork on what terms to use', ai: 'Automatically includes relevant local keywords', icon: 'Sparkles' },
+        { metric: 'Completeness', manual: 'Often forgets key selling points', ai: 'Structured to include all critical information', icon: 'BadgeCheck' },
       ],
       synergy: [
         { tool: "Ad Creator", benefit: "Use your new listing description as the source material for a targeted ad campaign." },
@@ -1035,7 +864,7 @@ export const tools: Feature[] = [
     title: 'Commission Calculator',
     dashboardTitle: 'Commission Calculator',
     description: 'Instantly calculate your 5% sales commission.',
-    icon: Percent,
+    icon: 'Percent',
     color: '#16a34a',
     cta: 'Calculate Commission',
     categories: ['Sales Tools'],
@@ -1044,14 +873,14 @@ export const tools: Feature[] = [
     href: '/dashboard/tool/commission-calculator',
     details: {
       steps: [
-        { text: 'Enter the final sale price of the property', icon: <Wallet /> },
-        { text: 'The tool instantly calculates your gross commission', icon: <Sparkles /> },
-        { text: 'View the breakdown for clarity', icon: <ClipboardList /> },
+        { text: 'Enter the final sale price of the property', icon: 'Wallet' },
+        { text: 'The tool instantly calculates your gross commission', icon: 'Sparkles' },
+        { text: 'View the breakdown for clarity', icon: 'ClipboardList' },
       ],
       aiVsManual: [
-        { metric: 'Calculation Speed', manual: 'Seconds on a calculator app', ai: 'Instantaneous within your workflow', icon: <Clock2 /> },
-        { metric: 'Accuracy', manual: 'Potential for typos', ai: 'Always accurate', icon: <BadgeCheck /> },
-        { metric: 'Integration', manual: 'Requires switching apps', ai: 'Integrated directly into your sales suite', icon: <Network /> },
+        { metric: 'Calculation Speed', manual: 'Seconds on a calculator app', ai: 'Instantaneous within your workflow', icon: 'Clock2' },
+        { metric: 'Accuracy', manual: 'Potential for typos', ai: 'Always accurate', icon: 'BadgeCheck' },
+        { metric: 'Integration', manual: 'Requires switching apps', ai: 'Integrated directly into your sales suite', icon: 'Network' },
       ],
       synergy: [
         { tool: "CRM Memory", benefit: "Log the final commission amount directly to the client's deal record in your CRM." },
@@ -1065,34 +894,13 @@ export const tools: Feature[] = [
     creationFields: [
       { id: 'salePrice', name: 'Sale Price (AED)', type: 'number', placeholder: 'e.g., 2500000', description: 'The final sale price of the property.' },
     ],
-    renderResult: (result, toast) => {
-      const salePrice = Number(result.salePrice);
-      const commission = salePrice * 0.05;
-      return (
-        <div className="space-y-4">
-          <Card className="text-center">
-            <CardHeader>
-              <CardDescription>Total Commission (5%)</CardDescription>
-              <CardTitle className="text-4xl text-primary">
-                AED {commission.toLocaleString()}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">
-                Based on a sale price of AED {salePrice.toLocaleString()}
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-      );
-    },
   },
   {
     id: 'payment-planner',
     title: 'Payment Planner',
     dashboardTitle: 'Payment Planner',
     description: 'Generate tailored payment plans for clients.',
-    icon: Calendar,
+    icon: 'Calendar',
     color: '#0ea5e9',
     cta: 'Generate Plan',
     categories: ['Sales Tools'],
@@ -1102,14 +910,14 @@ export const tools: Feature[] = [
     guideHref: '/blog/payment-planner',
     details: {
       steps: [
-        { text: 'Select a project from your library', icon: <Briefcase /> },
-        { text: 'Enter the total property price', icon: <Wallet /> },
-        { text: 'AI generates a clear, milestone-based payment plan', icon: <Sparkles /> },
+        { text: 'Select a project from your library', icon: 'Briefcase' },
+        { text: 'Enter the total property price', icon: 'Wallet' },
+        { text: 'AI generates a clear, milestone-based payment plan', icon: 'Sparkles' },
       ],
       aiVsManual: [
-        { metric: 'Plan Creation Time', manual: '30-60 minutes in a spreadsheet', ai: 'Seconds to generate', icon: <Clock2 /> },
-        { metric: 'Clarity', manual: 'Can be confusing for clients', ai: 'Generates a simple, easy-to-read schedule', icon: <BadgeCheck /> },
-        { metric: 'Customization', manual: 'Rigid spreadsheet formulas', ai: 'Can create multiple flexible options', icon: <Wrench /> },
+        { metric: 'Plan Creation Time', manual: '30-60 minutes in a spreadsheet', ai: 'Seconds to generate', icon: 'Clock2' },
+        { metric: 'Clarity', manual: 'Can be confusing for clients', ai: 'Generates a simple, easy-to-read schedule', icon: 'BadgeCheck' },
+        { metric: 'Customization', manual: 'Rigid spreadsheet formulas', ai: 'Can create multiple flexible options', icon: 'Wrench' },
       ],
       synergy: [
         { tool: "Offer Generator", benefit: "Include the AI-generated payment plan directly in your offer package to the client." },
@@ -1125,80 +933,30 @@ export const tools: Feature[] = [
       { id: 'totalPrice', name: 'Total Property Price (AED)', type: 'number', placeholder: 'e.g., 3000000', description: 'The full price of the unit.' },
       { id: 'planType', name: 'Payment Plan Type', type: 'select', options: ['Standard (e.g., 20/80)', 'Post-Handover', 'Construction-Linked', 'Flexible (AI Suggestion)'], placeholder: 'Select a plan type', description: 'The structure of the payment plan.' },
     ],
-    renderResult: (result, toast) => (
-      <div className="space-y-4">
-        <h3 className="font-semibold text-lg">{result.planName}</h3>
-        <p className="text-sm text-muted-foreground">{result.planDescription}</p>
-        <div className="border rounded-md">
-          <table className="w-full">
-            <thead className="bg-muted/50">
-              <tr>
-                <th className="p-2 text-left text-sm font-medium">Milestone</th>
-                <th className="p-2 text-left text-sm font-medium">Date</th>
-                <th className="p-2 text-right text-sm font-medium">Amount (AED)</th>
-                <th className="p-2 text-right text-sm font-medium">Percentage</th>
-              </tr>
-            </thead>
-            <tbody>
-              {result.milestones.map((item: any, index: number) => (
-                <tr key={index} className="border-t">
-                  <td className="p-2 font-medium">{item.milestone}</td>
-                  <td className="p-2 text-muted-foreground">{item.date}</td>
-                  <td className="p-2 text-right font-mono">{item.amount.toLocaleString()}</td>
-                  <td className="p-2 text-right font-mono text-primary">{item.percentage}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <Button onClick={() => toast({ title: "Plan Saved!", description: "The payment plan has been saved to the project." })}>
-          Save Plan to Project
-        </Button>
-      </div>
-    ),
   },
   {
     id: 'investor-matching',
     title: 'Investor Matching',
     dashboardTitle: 'Investor Matching',
     description: 'Pair budgets with the right projects.',
-    icon: Users2,
-    color: '#6366f1', // indigo-500
+    icon: 'Users2',
+    color: '#6366f1', 
     cta: 'Generate Investor Match',
     categories: ['Sales Tools', 'Lead Gen'],
     mindMapCategory: 'Sales Enablement',
     badge: 'SOON',
     href: '/dashboard/tool/investor-matching',
     guideHref: '/blog/investor-matching',
-    renderResult: (result, toast) => (
-       <div className="space-y-4">
-            <h3 className="font-semibold text-lg mb-2">Top Investor Matches</h3>
-            <ul className="space-y-3">
-            {result.matches.map((match: any, index: number) => (
-                <li key={index} className="p-4 bg-muted rounded-md border">
-                    <div className="flex justify-between items-start">
-                        <div>
-                            <p className="font-semibold text-primary">{match.name}</p>
-                            <p className="text-sm text-muted-foreground">Match Score: {match.matchScore}/100</p>
-                        </div>
-                        <Button variant="outline" size="sm" onClick={() => copyToClipboard(match.email, toast)}>Copy Email</Button>
-                    </div>
-                    <p className="text-sm mt-2">{match.reasoning}</p>
-                </li>
-            ))}
-            </ul>
-      </div>
-    ),
     details: {
       steps: [
-        { text: 'Provide details on a new investment property', icon: <Building className="h-6 w-6" /> },
-        { text: 'The AI scans your client database for matches', icon: <Search className="h-6 w-6" /> },
-        { text: 'Get a ranked list of best-fit investors', icon: <ClipboardList className="h-6 w-6" /> },
+        { text: 'Provide details on a new investment property', icon: 'Building' },
+        { text: 'The AI scans your client database for matches', icon: 'Search' },
+        { text: 'Get a ranked list of best-fit investors', icon: 'ClipboardList' },
       ],
       aiVsManual: [
-        { metric: 'Time to Match', manual: 'Hours reviewing CRM and spreadsheets', ai: 'Fast by default', icon: <Clock2 /> },
-        { metric: 'Match Accuracy', manual: 'Relies on memory, may miss clients', ai: 'Data-driven, based on past deals &amp; stated goals', icon: <Sparkles /> },
-        { metric: 'Personalization', manual: 'Generic email blast to all investors', ai: 'Generates personalized outreach for each match', icon: <BadgeCheck /> },
+        { metric: 'Time to Match', manual: 'Hours reviewing CRM and spreadsheets', ai: 'Fast by default', icon: 'Clock2' },
+        { metric: 'Match Accuracy', manual: 'Relies on memory, may miss clients', ai: 'Data-driven, based on past deals &amp; stated goals', icon: 'Sparkles' },
+        { metric: 'Personalization', manual: 'Generic email blast to all investors', ai: 'Generates personalized outreach for each match', icon: 'BadgeCheck' },
       ],
       synergy: [
         { tool: "CRM Memory", benefit: "The investor matcher uses the deep client knowledge from the CRM assistant to find non-obvious matches based on past conversations." },
@@ -1225,8 +983,8 @@ export const tools: Feature[] = [
     title: 'Multi-Offer Builder',
     dashboardTitle: 'Multi-Offer Builder',
     description: 'Compare options side-by-side.',
-    icon: Briefcase,
-    color: '#78716c', // stone-500
+    icon: 'Briefcase',
+    color: '#78716c', 
     cta: 'Create Offer Package',
     categories: ['Sales Tools', 'Editing'],
     mindMapCategory: 'Sales Enablement',
@@ -1235,14 +993,14 @@ export const tools: Feature[] = [
     guideHref: '/blog/email-creator',
     details: {
       steps: [
-        { text: 'Select multiple properties for the client', icon: <Building className="h-6 w-6" /> },
-        { text: 'Input the client\'s budget and terms', icon: <Wallet className="h-6 w-6" /> },
-        { text: 'Generate a professional offer comparison PDF', icon: <FileText className="h-6 w-6" /> },
+        { text: 'Select multiple properties for the client', icon: 'Building' },
+        { text: 'Input the client\'s budget and terms', icon: 'Wallet' },
+        { text: 'Generate a professional offer comparison PDF', icon: 'FileText' },
       ],
       aiVsManual: [
-        { metric: 'Document Creation Time', manual: '1-2 hours in Word or Excel', ai: 'Fast by default', icon: <Clock2 /> },
-        { metric: 'Accuracy', manual: 'Prone to copy-paste errors and typos', ai: 'Calculations and details are always accurate', icon: <BadgeCheck /> },
-        { metric: 'Professionalism', manual: 'Inconsistent formatting', ai: 'Generates a clean, branded, client-ready document', icon: <Sparkles /> },
+        { metric: 'Document Creation Time', manual: '1-2 hours in Word or Excel', ai: 'Fast by default', icon: 'Clock2' },
+        { metric: 'Accuracy', manual: 'Prone to copy-paste errors and typos', ai: 'Calculations and details are always accurate', icon: 'BadgeCheck' },
+        { metric: 'Professionalism', manual: 'Inconsistent formatting', ai: 'Generates a clean, branded, client-ready document', icon: 'Sparkles' },
       ],
       synergy: [
         { tool: "Investor Matching", benefit: "After finding the top properties for an investor, use this tool to present them in a professional package." },
@@ -1265,8 +1023,8 @@ export const tools: Feature[] = [
     title: 'WhatsApp Manager',
     dashboardTitle: 'WhatsApp Manager',
     description: 'Personalized broadcasts + drips.',
-    icon: Phone,
-    color: '#16a34a', // green-600
+    icon: 'Phone',
+    color: '#16a34a', 
     cta: 'Send WhatsApp Campaign',
     categories: ['Sales Tools', 'Social & Comms', 'Lead Gen'],
     mindMapCategory: 'Sales Enablement',
@@ -1275,14 +1033,14 @@ export const tools: Feature[] = [
     guideHref: '/blog/instagram-admin-ai',
     details: {
       steps: [
-        { text: 'Upload your client contact list', icon: <Upload className="h-6 w-6" /> },
-        { text: 'Draft your message or follow-up sequence', icon: <PenTool className="h-6 w-6" /> },
-        { text: 'Send or schedule your campaign instantly', icon: <Sparkles className="h-6 w-6" /> },
+        { text: 'Upload your client contact list', icon: 'Upload' },
+        { text: 'Draft your message or follow-up sequence', icon: 'PenTool' },
+        { text: 'Send or schedule your campaign instantly', icon: 'Sparkles' },
       ],
       aiVsManual: [
-        { metric: 'Time to Contact 100 Clients', manual: 'Hours of manual copy-pasting', ai: 'Fast by default', icon: <Clock2 /> },
-        { metric: 'Personalization', manual: 'Generic, prone to errors', ai: 'Personalized with [Name], [Property], etc.', icon: <Sparkles /> },
-        { metric: 'Follow-up Consistency', manual: 'Easy to forget or miss someone', ai: 'Automated sequences ensure no lead is lost', icon: <BadgeCheck /> },
+        { metric: 'Time to Contact 100 Clients', manual: 'Hours of manual copy-pasting', ai: 'Fast by default', icon: 'Clock2' },
+        { metric: 'Personalization', manual: 'Generic, prone to errors', ai: 'Personalized with [Name], [Property], etc.', icon: 'Sparkles' },
+        { metric: 'Follow-up Consistency', manual: 'Easy to forget or miss someone', ai: 'Automated sequences ensure no lead is lost', icon: 'BadgeCheck' },
       ],
       synergy: [
         { tool: "Social Leads", benefit: "Directly import new leads and add them to an automated welcome message sequence on WhatsApp." },
@@ -1305,8 +1063,8 @@ export const tools: Feature[] = [
     title: 'Lead Investigator AI',
     dashboardTitle: 'Lead Investigator',
     description: 'Investigate any lead. Find their social profiles and professional history.',
-    icon: Search,
-    color: '#0284c7', // sky-600
+    icon: 'Search',
+    color: '#0284c7',
     cta: 'Investigate Lead',
     categories: ['Sales Tools', 'Lead Gen'],
     mindMapCategory: 'Sales Enablement',
@@ -1315,14 +1073,14 @@ export const tools: Feature[] = [
     href: '/dashboard/tool/lead-investigator',
     details: {
       steps: [
-        { text: 'Provide a name, email, or company', icon: <PenTool /> },
-        { text: 'AI scans public sources like LinkedIn, social media, etc.', icon: <Network /> },
-        { text: 'Get a report with potential matches and profile links', icon: <FileText /> },
+        { text: 'Provide a name, email, or company', icon: 'PenTool' },
+        { text: 'AI scans public sources like LinkedIn, social media, etc.', icon: 'Network' },
+        { text: 'Get a report with potential matches and profile links', icon: 'FileText' },
       ],
       aiVsManual: [
-        { metric: 'Time to Research', manual: '15-30 minutes per lead', ai: 'Seconds', icon: <Clock2 /> },
-        { metric: 'Information Scope', manual: 'Limited to what you can find on Google', ai: 'Scans multiple platforms simultaneously', icon: <Sparkles /> },
-        { metric: 'Accuracy', manual: 'Easy to find the wrong "John Smith"', ai: 'Uses multiple data points to increase match confidence', icon: <BadgeCheck /> },
+        { metric: 'Time to Research', manual: '15-30 minutes per lead', ai: 'Seconds', icon: 'Clock2' },
+        { metric: 'Information Scope', manual: 'Limited to what you can find on Google', ai: 'Scans multiple platforms simultaneously', icon: 'Sparkles' },
+        { metric: 'Accuracy', manual: 'Easy to find the wrong "John Smith"', ai: 'Uses multiple data points to increase match confidence', icon: 'BadgeCheck' },
       ],
       synergy: [
         { tool: "CRM Memory", benefit: "Enrich your CRM profiles with the data found by the investigator, giving your AI Assistant more context." },
@@ -1336,15 +1094,13 @@ export const tools: Feature[] = [
     },
     creationFields: [],
   },
-  
-  // --- CORE INTELLIGENCE ---
     {
     id: 'market-reports',
     title: 'Market Reports',
     dashboardTitle: 'Market Reports',
     description: 'Generates PDF reports on market trends, pricing, and sentiment, turning raw data into client-ready insights.',
-    icon: LineChart,
-    color: '#f59e0b', // amber-500
+    icon: 'LineChart',
+    color: '#f59e0b', 
     cta: 'Generate Market Report',
     categories: ['Market Library', 'Sales Tools', 'Editing'],
     mindMapCategory: 'Core Intelligence',
@@ -1354,14 +1110,14 @@ export const tools: Feature[] = [
     guideHref: '/blog/market-reports',
     details: {
       steps: [
-        { text: 'Enter a neighborhood or address', icon: <MapPin className="h-6 w-6" /> },
-        { text: 'Select report type (e.g., buyer, seller, investor)', icon: <Search className="h-6 w-6" /> },
-        { text: 'Generate a branded, data-rich PDF report', icon: <FileText className="h-6 w-6" /> },
+        { text: 'Enter a neighborhood or address', icon: 'MapPin' },
+        { text: 'Select report type (e.g., buyer, seller, investor)', icon: 'Search' },
+        { text: 'Generate a branded, data-rich PDF report', icon: 'FileText' },
       ],
       aiVsManual: [
-        { metric: 'Time to Create', manual: 'Hours pulling MLS data and designing', ai: 'Fast by default', icon: <Clock2 /> },
-        { metric: 'Data Scope', manual: 'Limited to basic MLS stats', ai: 'Includes supply/demand, price trends, sentiment', icon: <Sparkles /> },
-        { metric: 'Branding', manual: 'Requires manual design work', ai: 'Automatically branded with your logo &amp; colors', icon: <BadgeCheck /> },
+        { metric: 'Time to Create', manual: 'Hours pulling MLS data and designing', ai: 'Fast by default', icon: 'Clock2' },
+        { metric: 'Data Scope', manual: 'Limited to basic MLS stats', ai: 'Includes supply/demand, price trends, sentiment', icon: 'Sparkles' },
+        { metric: 'Branding', manual: 'Requires manual design work', ai: 'Automatically branded with your logo &amp; colors', icon: 'BadgeCheck' },
       ],
       synergy: [
         { tool: "Landing Page Builder", benefit: "Create a landing page with a lead form to download your hyper-local market report." },
@@ -1384,8 +1140,8 @@ export const tools: Feature[] = [
     title: 'Market Trends',
     dashboardTitle: 'Market Trends Watcher',
     description: 'Acts as a "Watcher" agent, synthesizing news and data to identify emerging market trends and sentiment before they become mainstream.',
-    icon: TrendingUp,
-    color: '#14b8a6', // teal-500
+    icon: 'TrendingUp',
+    color: '#14b8a6', 
     cta: 'Analyze Trends',
     categories: ['Market Library', 'Sales Tools', 'Lead Gen'],
     mindMapCategory: 'Core Intelligence',
@@ -1395,14 +1151,14 @@ export const tools: Feature[] = [
     guideHref: '/blog/market-reports',
     details: {
       steps: [
-        { text: 'Define a location or market segment', icon: <MapPin /> },
-        { text: 'AI analyzes news, social media, and data feeds', icon: <BrainCircuit /> },
-        { text: 'Get a report on emerging trends and sentiment', icon: <FileText /> },
+        { text: 'Define a location or market segment', icon: 'MapPin' },
+        { text: 'AI analyzes news, social media, and data feeds', icon: 'BrainCircuit' },
+        { text: 'Get a report on emerging trends and sentiment', icon: 'FileText' },
       ],
       aiVsManual: [
-        { metric: 'Trend Spotting', manual: 'Reactive, based on news articles', ai: 'Proactive, identifies patterns before they are news', icon: <Sparkles /> },
-        { metric: 'Time Investment', manual: 'Hours of reading and research', ai: 'Automated and continuous monitoring', icon: <Clock2 /> },
-        { metric: 'Competitive Edge', manual: 'Acting on old information', ai: 'First-mover advantage on new opportunities', icon: <BadgeCheck /> },
+        { metric: 'Trend Spotting', manual: 'Reactive, based on news articles', ai: 'Proactive, identifies patterns before they are news', icon: 'Sparkles' },
+        { metric: 'Time Investment', manual: 'Hours of reading and research', ai: 'Automated and continuous monitoring', icon: 'Clock2' },
+        { metric: 'Competitive Edge', manual: 'Acting on old information', ai: 'First-mover advantage on new opportunities', icon: 'BadgeCheck' },
       ],
       synergy: [
         { tool: "Market Reports", benefit: "Incorporate the latest trends into your market reports to show you're on the cutting edge." },
@@ -1421,8 +1177,8 @@ export const tools: Feature[] = [
     title: 'Market Library',
     dashboardTitle: 'Projects Finder',
     description: "Continuously scans public records and news to find off-market deals and development opportunities, feeding the central library.",
-    icon: Search,
-    color: '#fde047', // yellow-300
+    icon: 'Search',
+    color: '#fde047', 
     cta: 'Search Market Library',
     categories: ['Market Library', 'Sales Tools', 'Lead Gen'],
     mindMapCategory: 'Core Intelligence',
@@ -1432,14 +1188,14 @@ export const tools: Feature[] = [
     guideHref: '/blog/ai-brand-creator',
     details: {
       steps: [
-        { text: 'Define your target area and criteria', icon: <MapPin className="h-6 w-6" /> },
-        { text: 'AI scans public records and news for signals', icon: <BrainCircuit className="h-6 w-6" /> },
-        { text: 'Get a report of potential off-market deals', icon: <FileText className="h-6 w-6" /> },
+        { text: 'Define your target area and criteria', icon: 'MapPin' },
+        { text: 'AI scans public records and news for signals', icon: 'BrainCircuit' },
+        { text: 'Get a report of potential off-market deals', icon: 'FileText' },
       ],
       aiVsManual: [
-        { metric: 'Opportunity Sourcing', manual: 'Relies on word-of-mouth and existing network', ai: 'Scans thousands of data points continuously', icon: <Network /> },
-        { metric: 'Time Investment', manual: 'Hours of manual research per week', ai: 'Automated, on-demand reports', icon: <Clock2 /> },
-        { metric: 'Deal Flow', manual: 'Limited and sporadic', ai: 'Consistent, proactive deal sourcing', icon: <Sparkles /> },
+        { metric: 'Opportunity Sourcing', manual: 'Relies on word-of-mouth and existing network', ai: 'Scans thousands of data points continuously', icon: 'Network' },
+        { metric: 'Time Investment', manual: 'Hours of manual research per week', ai: 'Automated, on-demand reports', icon: 'Clock2' },
+        { metric: 'Deal Flow', manual: 'Limited and sporadic', ai: 'Consistent, proactive deal sourcing', icon: 'Sparkles' },
       ],
       synergy: [
         { tool: "Investor Matching", benefit: "Once a potential project is found, instantly match it with the right clients from your database." },
@@ -1466,8 +1222,8 @@ export const tools: Feature[] = [
     title: 'Brand Creator',
     dashboardTitle: 'Brand Creator',
     description: "Configures your entire brand kit and project library by analyzing uploaded documents with a single command.",
-    icon: Wrench,
-    color: '#10b981', // emerald-500
+    icon: 'Wrench',
+    color: '#10b981', 
     cta: 'Create Brand Kit',
     categories: ['Sales Tools', 'Creative'],
     mindMapCategory: 'Core Intelligence',
@@ -1476,14 +1232,14 @@ export const tools: Feature[] = [
     guideHref: '/blog/ai-brand-creator',
     details: {
       steps: [
-        { text: 'Upload documents (brand guide, project lists)', icon: <Upload /> },
-        { text: "Tell the assistant to set up your workspace", icon: <Bot /> },
-        { text: 'The AI configures your brand, projects &amp; more', icon: <Sparkles /> },
+        { text: 'Upload documents (brand guide, project lists)', icon: 'Upload' },
+        { text: "Tell the assistant to set up your workspace", icon: 'Bot' },
+        { text: 'The AI configures your brand, projects &amp; more', icon: 'Sparkles' },
       ],
       aiVsManual: [
-        { metric: 'Setup Time', manual: '1-2 hours of manual data entry', ai: 'Under 5 minutes', icon: <Clock2 /> },
-        { metric: 'Accuracy', manual: 'Prone to typos and copy-paste errors', ai: 'Extracts data directly from source documents', icon: <BadgeCheck /> },
-        { metric: 'Completeness', manual: 'Easy to forget details or projects', ai: 'Comprehensive setup from all provided files', icon: <Sparkles /> },
+        { metric: 'Setup Time', manual: '1-2 hours of manual data entry', ai: 'Under 5 minutes', icon: 'Clock2' },
+        { metric: 'Accuracy', manual: 'Prone to typos and copy-paste errors', ai: 'Extracts data directly from source documents', icon: 'BadgeCheck' },
+        { metric: 'Completeness', manual: 'Easy to forget details or projects', ai: 'Comprehensive setup from all provided files', icon: 'Sparkles' },
       ],
       synergy: [
         { tool: "AI Assistant", benefit: "This tool is a command for the AI assistant, showcasing its ability to perform administrative tasks." },
@@ -1505,8 +1261,8 @@ export const tools: Feature[] = [
     title: 'CRM Memory',
     dashboardTitle: 'CRM Memory',
     description: 'The core data store of the "Brain". It remembers every client interaction, preference, and detail, making all other tools smarter.',
-    icon: Database,
-    color: '#0d9488', // teal-600
+    icon: 'Database',
+    color: '#0d9488', 
     cta: 'Get Client Record',
     categories: ['Sales Tools', 'Lead Gen'],
     mindMapCategory: 'Core Intelligence',
@@ -1515,14 +1271,14 @@ export const tools: Feature[] = [
     guideHref: '/blog/ai-brand-creator',
     details: {
       steps: [
-        { text: 'Connect your contacts or calendar', icon: <Network className="h-6 w-6" /> },
-        { text: 'Ask about any client (e.g., "What did I promise Jane?")', icon: <Search className="h-6 w-6" /> },
-        { text: 'Get instant summaries, reminders, and insights', icon: <FileText className="h-6 w-6" /> },
+        { text: 'Connect your contacts or calendar', icon: 'Network' },
+        { text: 'Ask about any client (e.g., "What did I promise Jane?")', icon: 'Search' },
+        { text: 'Get instant summaries, reminders, and insights', icon: 'FileText' },
       ],
       aiVsManual: [
-        { metric: 'Recall Speed', manual: 'Minutes searching notes/emails', ai: 'Instantaneous', icon: <Clock2 /> },
-        { metric: 'Data Points', manual: 'Relies on what you remember to write down', ai: 'Catches every detail from calls, emails, texts', icon: <Sparkles /> },
-        { metric: 'Proactive Reminders', manual: 'You have to set them yourself', ai: 'Nudges you about birthdays, follow-ups', icon: <BadgeCheck /> },
+        { metric: 'Recall Speed', manual: 'Minutes searching notes/emails', ai: 'Instantaneous', icon: 'Clock2' },
+        { metric: 'Data Points', manual: 'Relies on what you remember to write down', ai: 'Catches every detail from calls, emails, texts', icon: 'Sparkles' },
+        { metric: 'Proactive Reminders', manual: 'You have to set them yourself', ai: 'Nudges you about birthdays, follow-ups', icon: 'BadgeCheck' },
       ],
       synergy: [
         { tool: "AI Sales Dialer", benefit: "Get a full client brief from the assistant moments before the AI places the call." },
@@ -1544,8 +1300,8 @@ export const tools: Feature[] = [
     title: 'Assistant',
     dashboardTitle: 'Assistant',
     description: 'Your personal, trainable AI partner.',
-    icon: BrainCircuit,
-    color: '#84cc16', // lime-500
+    icon: 'BrainCircuit',
+    color: '#84cc16', 
     cta: 'Train Assistant',
     categories: ['Sales Tools'],
     mindMapCategory: 'Core Intelligence',
@@ -1554,14 +1310,14 @@ export const tools: Feature[] = [
     guideHref: '/blog/ai-brand-creator',
     details: {
       steps: [
-        { text: 'Give your assistant core instructions', icon: <PenTool className="h-6 w-6" /> },
-        { text: 'Upload documents to its knowledge base', icon: <Upload className="h-6 w-6" /> },
-        { text: 'Chat with it anywhere in the app', icon: <MessageCircle className="h-6 w-6" /> },
+        { text: 'Give your assistant core instructions', icon: 'PenTool' },
+        { text: 'Upload documents to its knowledge base', icon: 'Upload' },
+        { text: 'Chat with it anywhere in the app', icon: 'MessageCircle' },
       ],
       aiVsManual: [
-        { metric: 'Knowledge Recall', manual: 'Limited to your own memory and notes', ai: 'Instantly recalls every detail from every file', icon: <Database /> },
-        { metric: 'Task Execution', manual: 'You have to do everything yourself', ai: 'Can summarize, draft, compare, and role-play', icon: <Sparkles /> },
-        { metric: 'Availability', manual: 'You need sleep and breaks', ai: 'Always on, always ready to assist 24/7', icon: <Clock2 /> },
+        { metric: 'Knowledge Recall', manual: 'Limited to your own memory and notes', ai: 'Instantly recalls every detail from every file', icon: 'Database' },
+        { metric: 'Task Execution', manual: 'You have to do everything yourself', ai: 'Can summarize, draft, compare, and role-play', icon: 'Sparkles' },
+        { metric: 'Availability', manual: 'You need sleep and breaks', ai: 'Always on, always ready to assist 24/7', icon: 'Clock2' },
       ],
       synergy: [
         { tool: "CRM Memory", benefit: "The Assistant is the user-facing interface for the powerful memory stored in the CRM." },
@@ -1577,13 +1333,11 @@ export const tools: Feature[] = [
        { id: 'assistant-redirect', name: 'Train Your Assistant', type: 'button', cta: 'Go to Assistant Training', description: 'Personalize your AI by giving it instructions and knowledge.' },
     ],
   },
-  
-  // --- UTILITIES ---
   {
     id: 'property-finder-sync',
     title: 'Property Finder Pilot',
     description: 'PULL data from Property Finder, or PUSH listing plans to it.',
-    icon: Server,
+    icon: 'Server',
     color: '#6b7280',
     cta: 'Go to Pilot',
     categories: ['Utilities', 'Web', 'Listing Intelligence AI'],
@@ -1600,7 +1354,7 @@ export const tools: Feature[] = [
     id: 'bayut-sync',
     title: 'Bayut Pilot',
     description: 'PULL data from Bayut, or PUSH listing plans to it.',
-    icon: Server,
+    icon: 'Server',
     color: '#6b7280',
     cta: 'Go to Pilot',
     categories: ['Utilities', 'Web', 'Listing Intelligence AI'],
@@ -1617,8 +1371,8 @@ export const tools: Feature[] = [
     id: 'creative-execution-terminal',
     title: 'Creative Execution Terminal',
     description: 'The execution engine for your creative tasks. Paste a plan and watch it run.',
-    icon: Terminal,
-    color: '#64748b', // slate-500
+    icon: 'Terminal',
+    color: '#64748b', 
     cta: 'Go to Terminal',
     categories: ['Utilities'],
     mindMapCategory: 'Utilities',
@@ -1627,14 +1381,14 @@ export const tools: Feature[] = [
     href: '/dashboard/tool/creative-execution-terminal',
     details: {
       steps: [
-          { text: 'Generate a plan from a creator tool (e.g., PDF Editor)', icon: <FileText className="h-6 w-6" /> },
-          { text: 'Paste the machine-readable plan into the terminal', icon: <ClipboardList className="h-6 w-6" /> },
-          { text: 'Watch as the AI executes each step of your plan', icon: <Sparkles className="h-6 w-6" /> },
+          { text: 'Generate a plan from a creator tool (e.g., PDF Editor)', icon: 'FileText' },
+          { text: 'Paste the machine-readable plan into the terminal', icon: 'ClipboardList' },
+          { text: 'Watch as the AI executes each step of your plan', icon: 'Sparkles' },
       ],
       aiVsManual: [
-        { metric: 'Workflow', manual: 'Each tool works in isolation', ai: 'A unified workflow of planning and execution', icon: <Network /> },
-        { metric: 'Transparency', manual: 'The AI\'s process is a "black box"', ai: 'Every step of the execution is visible and logged', icon: <CheckCircle /> },
-        { metric: 'Control', manual: 'You can only approve the final output', ai: 'You approve the plan *before* the AI does the heavy lifting', icon: <UserCog /> },
+        { metric: 'Workflow', manual: 'Each tool works in isolation', ai: 'A unified workflow of planning and execution', icon: 'Network' },
+        { metric: 'Transparency', manual: 'The AI\'s process is a "black box"', ai: 'Every step of the execution is visible and logged', icon: 'CheckCircle' },
+        { metric: 'Control', manual: 'You can only approve the final output', ai: 'You approve the plan *before* the AI does the heavy lifting', icon: 'UserCog' },
       ],
       synergy: [
         { tool: "PDF Editor", benefit: "The PDF Editor generates a plan that this terminal can execute." },
@@ -1648,22 +1402,20 @@ export const tools: Feature[] = [
     },
     creationFields: [],
   },
-
-  // --- INTERNAL & HIDDEN ---
   {
     id: 'superfreetime',
     title: 'SuperFreeTime Game',
     description: 'A hidden mini-game to find a secret key and win a prize.',
-    icon: Key,
-    color: '#a1a1aa', // zinc-400
+    icon: 'Key',
+    color: '#a1a1aa',
     cta: 'Play Game',
     categories: ['All'],
     mindMapCategory: 'Internal',
     href: '/superfreetime',
     guideHref: '/superfreetime',
     details: {
-      steps: [{ text: 'It is a secret.', icon: <Sparkles /> }],
-      aiVsManual: [{ metric: 'Fun', manual: 'Work, work, work.', ai: 'A delightful surprise.', icon: <Sparkles /> }],
+      steps: [{ text: 'It is a secret.', icon: 'Sparkles' }],
+      aiVsManual: [{ metric: 'Fun', manual: 'Work, work, work.', ai: 'A delightful surprise.', icon: 'Sparkles' }],
       synergy: [{ tool: 'AI Assistant', benefit: 'Winning the game gives you a secret code to unlock a reward from the Assistant.' }],
       faqs: [{ question: "What is this?", answer: "It's a secret game for you to enjoy. Have fun!" }],
     },

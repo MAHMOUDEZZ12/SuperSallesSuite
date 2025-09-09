@@ -5,7 +5,7 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, BookOpen, Plus, Check, Loader2, CreditCard } from 'lucide-react';
+import { ArrowRight, BookOpen, Plus, Check, Loader2, CreditCard, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   AlertDialog,
@@ -20,11 +20,12 @@ import {
 } from "@/components/ui/alert-dialog"
 import { useToast } from '@/hooks/use-toast';
 import { track } from '@/lib/events';
-import { Feature } from '@/lib/tools-client';
+import { type Feature } from '@/lib/features';
+import { IconMap } from './icon-map';
 
 
 interface DashboardServiceCardProps {
-  tool: Feature;
+  tool: Omit<Feature, 'renderResult'>;
   isAdded: boolean;
   setIsAdded: (isAdded: boolean) => void;
   connectionRequired?: string; // e.g., "Facebook"
@@ -41,7 +42,8 @@ export function DashboardServiceCard({
   const { toast } = useToast();
   const [isConnecting, setIsConnecting] = useState(false);
   
-  const { title, description, icon: Icon, href, guideHref, color, dashboardTitle } = tool;
+  const { title, description, icon: iconName, href, guideHref, color, dashboardTitle } = tool;
+  const Icon = IconMap[iconName as keyof typeof IconMap] || Sparkles;
 
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault();

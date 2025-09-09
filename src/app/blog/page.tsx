@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { BookOpen, Check, ExternalLink, ArrowRight } from 'lucide-react';
-import { type FilterCategory } from '@/lib/tools-client';
+import { type FilterCategory } from '@/lib/features';
 import { tools } from '@/lib/features';
 import { blogContent } from '@/lib/blog-content';
 import { Button } from '@/components/ui/button';
@@ -13,6 +13,7 @@ import { LandingFooter } from '@/components/landing-footer';
 import { cn } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { IconMap } from '@/components/ui/icon-map';
 
 const blogCategories: FilterCategory[] = ['All', 'Marketing', 'Lead Gen', 'Creative', 'Sales Tools', 'Social & Comms', 'Web', 'Editing', 'Ads'];
 
@@ -23,7 +24,7 @@ const allHacks = Object.keys(blogContent).map(slug => {
         title: blogContent[slug].title,
         intro: blogContent[slug].intro,
         categories: tool?.categories || [],
-        Icon: tool?.icon,
+        Icon: tool ? IconMap[tool.icon as keyof typeof IconMap] : null,
         color: tool?.color,
         toolTitle: tool?.title || 'General',
     };
