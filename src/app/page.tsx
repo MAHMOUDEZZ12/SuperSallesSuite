@@ -41,7 +41,8 @@ import {
 } from '@/components/ui/accordion';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Feature, tools as features, FilterCategory } from '@/lib/tools-client.tsx';
+import { type Feature, type FilterCategory } from '@/lib/tools-client.tsx';
+import { tools as features } from '@/lib/features';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { ShinyButton } from '@/components/ui/shiny-button';
 import { Tooltip, TooltipProvider, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';

@@ -4,7 +4,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { BookOpen, Check, ExternalLink, ArrowRight } from 'lucide-react';
-import { tools, FilterCategory } from '@/lib/tools-client';
+import { type FilterCategory } from '@/lib/tools-client';
+import { tools } from '@/lib/features';
 import { blogContent } from '@/lib/blog-content';
 import { Button } from '@/components/ui/button';
 import { LandingHeader } from '@/components/landing-header';

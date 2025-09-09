@@ -16,7 +16,7 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Target, Palette, LineChart, Briefcase, Bot, Home, Building, Megaphone, Users, PlusCircle, MoreHorizontal, Loader2, BookOpen, GanttChartSquare } from 'lucide-react';
 import Link from 'next/link';
 import { PageHeader } from '@/components/ui/page-header';
-import { tools } from '@/lib/tools-client';
+import { tools } from '@/lib/features';
 import {
   Dialog,
   DialogContent,
@@ -293,5 +293,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-
-    

@@ -5,7 +5,8 @@ import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Search, X } from 'lucide-react';
-import { tools, FilterCategory } from '@/lib/tools-client';
+import { type FilterCategory } from '@/lib/tools-client';
+import { tools } from '@/lib/features';
 import Link from 'next/link';
 
 interface GlobalSearchProps {

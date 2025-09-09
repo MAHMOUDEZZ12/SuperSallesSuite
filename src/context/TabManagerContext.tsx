@@ -3,7 +3,7 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { tools } from '@/lib/tools-client';
+import { tools } from '@/lib/features';
 
 interface Tab {
   href: string;
@@ -102,5 +102,3 @@ export const useTabManager = () => {
   }
   return context;
 };
-
-    

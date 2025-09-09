@@ -4,7 +4,8 @@
 import React, { useState, useEffect } from 'react';
 import { PageHeader } from '@/components/ui/page-header';
 import { Puzzle, Star, BarChart } from 'lucide-react';
-import { tools, Feature } from '@/lib/tools-client';
+import { type Feature } from '@/lib/tools-client';
+import { tools } from '@/lib/features';
 import { DashboardServiceCard } from '@/components/ui/dashboard-service-card';
 import { Separator } from '@/components/ui/separator';
 

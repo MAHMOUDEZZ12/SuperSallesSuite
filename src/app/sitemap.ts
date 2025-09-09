@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { tools } from '@/lib/tools-client';
+import { tools } from '@/lib/features';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const siteUrl = 'https://supersellersuite.ai'; // Replace with your actual domain

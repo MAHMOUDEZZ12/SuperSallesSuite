@@ -4,7 +4,8 @@
 import React from 'react';
 import { LandingHeader } from '@/components/landing-header';
 import { LandingFooter } from '@/components/landing-footer';
-import { tools, Feature } from '@/lib/tools-client';
+import { type Feature } from '@/lib/tools-client';
+import { tools } from '@/lib/features';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { ArrowRight, BookOpen, BrainCircuit, Check, MessageCircle, Plus, Sparkles, Upload } from 'lucide-react';
