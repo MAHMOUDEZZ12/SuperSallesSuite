@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -206,7 +207,7 @@ const FeatureModal = ({ feature, onClose }: { feature: Omit<Feature, 'renderResu
                        )})}
                     </div>
                      <div className="space-y-4">
-                      <h3 className="text-2xl font-semibold font-heading text-center text-primary">Super Seller Suite</h3>
+                      <h3 className="text-2xl font-semibold font-heading text-center text-primary">selltoday.ai</h3>
                        {feature.details.aiVsManual.map((item, index) => {
                         const ItemIcon = IconMap[item.icon as keyof typeof IconMap] || Sparkles;
                         return (

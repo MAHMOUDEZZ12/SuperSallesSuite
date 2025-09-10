@@ -22,8 +22,6 @@ export async function GET(req: NextRequest) {
       pageSize: 20,
       query: query,
       servingConfig: `projects/${projectId}/locations/${location}/collections/default_collection/dataStores/${dataStoreId}/servingConfigs/default_search`,
-      // This filter is now less restrictive and will boost results where the developer matches.
-      filter: `developer: ANY("${query}") OR searchable_text: CONTAINS("${query}")`,
       contentSearchSpec: {
         summarySpec: {
           summaryResultCount: 3,
