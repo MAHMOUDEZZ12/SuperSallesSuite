@@ -225,8 +225,8 @@ export type GenerateVideoPresenterInput = z.infer<typeof GenerateVideoPresenterI
 
 
 export const GenerateVideoPresenterOutputSchema = z.object({
-  videoUrl: z.string().describe("The URL of the generated presenter video."),
-  audioDataUri: z.string().describe("A data URI of the generated speech audio in WAV format."),
+  videoUrl: z.string().describe("A data URI of the generated presenter video, in mp4 format."),
+  audioDataUri: z.string().describe("A data URI of the generated speech audio, in mp3 or wav format."),
 });
 export type GenerateVideoPresenterOutput = z.infer<typeof GenerateVideoPresenterOutputSchema>;
 
