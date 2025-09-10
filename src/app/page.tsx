@@ -280,19 +280,11 @@ export default function Home() {
   const [selectedFeature, setSelectedFeature] = React.useState<Omit<Feature, 'renderResult'> | null>(null);
   const [activeFilter, setActiveFilter] = React.useState<FilterCategory>('All');
   const [currentAnnouncement, setCurrentAnnouncement] = React.useState(announcements[0]);
-  const [query, setQuery] = React.useState('');
-
+  
   React.useEffect(() => {
     const randomIndex = Math.floor(Math.random() * announcements.length);
     setCurrentAnnouncement(announcements[randomIndex]);
   }, []);
-
-  const handleSearch = (e: React.FormEvent) => {
-      e.preventDefault();
-      if (query.trim()) {
-          router.push(`/search?q=${encodeURIComponent(query)}`);
-      }
-  };
 
   const handleCardClick = (feature: Omit<Feature, 'renderResult'>) => {
     setSelectedFeature(feature);
