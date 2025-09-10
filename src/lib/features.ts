@@ -923,7 +923,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
       ],
     },
     creationFields: [
-      { id: 'location', name: 'Location', type: 'text', placeholder: 'e.g., Dubai Marina', description: 'The neighborhood or community of the property.' },
+      { id: 'location', name: 'Location', type: 'text', placeholder: 'e.g., Dubai Marina', description: 'The neighborhood or area of the property.' },
       { id: 'propertyType', name: 'Property Type', type: 'select', options: ['Apartment', 'Villa', 'Townhouse', 'Penthouse'], placeholder: 'Select property type', description: 'The type of property.' },
       { id: 'bedrooms', name: 'Bedrooms', type: 'number', placeholder: 'e.g., 2', description: 'Number of bedrooms (0 for studio).' },
       { id: 'bathrooms', name: 'Bathrooms', type: 'number', placeholder: 'e.g., 3', description: 'Number of bathrooms.' },
@@ -1435,7 +1435,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
       ],
       faqs: [
         { question: "Is this secure?", answer: "Yes, this tool uses the securely configured server-side authentication (Application Default Credentials) to interact with the Google Cloud APIs. No keys are exposed to the client." },
-        { question: "What can I use this for?", answer: "This is a powerful utility for developers or technical users who need to quickly spin up cloud resources without leaving the application context, perfect for testing, staging, or running backend jobs." },
+        { question: "What can I use this for?", answer: "This is a powerful utility for developers or technical users who need to quickly spin up cloud resources without leaving the application context, perfect for testing, staging, or running backend jobs." }
       ],
     },
     creationFields: [
