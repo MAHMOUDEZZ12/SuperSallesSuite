@@ -35,3 +35,5 @@ export function IntegrationCard({ title, description, icon, connected, onConnect
     </div>
   );
 }
+
+    
