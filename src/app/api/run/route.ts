@@ -36,6 +36,7 @@ import { generateKeywordPlan } from '@/ai/flows/generate-keyword-plan';
 import { createVm } from '@/ai/flows/create-vm';
 import { generateVideoPresenter } from '@/ai/flows/generate-video-presenter';
 import { generateUgcScript } from '@/ai/flows/generate-ugc-script';
+import { estimatePrice } from '@/ai/flows/estimate-price';
 
 const runToolSchema = z.object({
   toolId: z.string(),
@@ -85,6 +86,7 @@ const flowRunnerMap: { [key: string]: (payload: any) => Promise<any> } = {
     'vm-creator': createVm,
     'ugc-script-writer': generateUgcScript,
     'chatbot-creator': marketChatAssistantFlow,
+    'price-estimator': estimatePrice,
 };
 
 export async function POST(req: NextRequest) {

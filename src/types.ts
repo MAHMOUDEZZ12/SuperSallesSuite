@@ -841,3 +841,25 @@ export const GenerateUgcScriptOutputSchema = z.object({
   "Script": z.array(UgcSceneSchema),
 });
 export type GenerateUgcScriptOutput = z.infer<typeof GenerateUgcScriptOutputSchema>;
+
+// Schemas for AI Price Estimator
+export const EstimatePriceInputSchema = z.object({
+    location: z.string().describe('The neighborhood or area of the property.'),
+    propertyType: z.enum(['Apartment', 'Villa', 'Townhouse', 'Penthouse']).describe('The type of property.'),
+    bedrooms: z.number().int().min(0).describe('The number of bedrooms (0 for studio).'),
+    bathrooms: z.number().int().min(1).describe('The number of bathrooms.'),
+    squareFootage: z.number().int().positive().describe('The total square footage of the property.'),
+    age: z.number().int().min(0).describe('The age of the property in years.'),
+    condition: z.enum(['New', 'Upgraded', 'Standard']).describe('The condition of the property.'),
+});
+export type EstimatePriceInput = z.infer<typeof EstimatePriceInputSchema>;
+
+export const EstimatePriceOutputSchema = z.object({
+    estimatedPrice: z.number().describe('The AI-predicted market value of the property in AED.'),
+    confidenceRange: z.object({
+        lowerBound: z.number().describe('The lower bound of the 90% confidence interval.'),
+        upperBound: z.number().describe('The upper bound of the 90% confidence interval.'),
+    }).describe('The likely price range for the property.'),
+    comparableSales: z.array(z.string()).describe('A list of 2-3 recent comparable sales used for the estimation.'),
+});
+export type EstimatePriceOutput = z.infer<typeof EstimatePriceOutputSchema>;

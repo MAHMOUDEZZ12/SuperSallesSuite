@@ -890,6 +890,49 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     ],
   },
   {
+    id: 'price-estimator',
+    title: 'AI Price Estimator',
+    dashboardTitle: 'AI Price Estimator',
+    description: 'Get an AI-powered price estimate for any property.',
+    icon: 'Wallet',
+    color: '#16a34a',
+    cta: 'Estimate Price',
+    categories: ['Sales Tools', 'Utilities', 'Market Library'],
+    mindMapCategory: 'Sales Enablement',
+    badge: 'NEW',
+    href: '/dashboard/tool/price-estimator',
+    details: {
+      steps: [
+        { text: 'Enter property details like location, size, and beds/baths', icon: 'PenTool' },
+        { text: 'AI compares it to thousands of recent sales using an ML model', icon: 'BrainCircuit' },
+        { text: 'Receive an estimated price and a likely confidence range', icon: 'ClipboardList' },
+      ],
+      aiVsManual: [
+        { metric: 'Time to Value', manual: 'Hours searching portals for comps', ai: 'Instantaneous estimation', icon: 'Clock2' },
+        { metric: 'Accuracy', manual: 'Based on a few manually selected comps', ai: 'Analyzes a vast dataset of comparable sales', icon: 'BadgeCheck' },
+        { metric: 'Client Trust', manual: 'Appears subjective', ai: 'A data-driven estimate builds client confidence', icon: 'Sparkles' },
+      ],
+      synergy: [
+        { tool: 'Market Reports', benefit: 'Include the price estimation directly in your market reports to provide a complete picture.' },
+        { tool: 'Offer Generator', benefit: 'Use the AI estimate to justify your offer price in the multi-offer comparison document.' },
+      ],
+      faqs: [
+        { question: "Where does the data come from?", answer: "The AI model is trained on a massive dataset of historical property transactions from public records (like the DLD) and data from major listing portals." },
+        { question: "How accurate is the estimate?", answer: "It's a highly educated estimate, not a formal appraisal. It's designed to give you a strong starting point for your own comparative market analysis (CMA) and to help manage client expectations." },
+        { question: "Can I use this for any city?", answer: "The initial version of the model is fine-tuned for the Dubai real estate market. Support for other major international markets is on our roadmap." }
+      ],
+    },
+    creationFields: [
+      { id: 'location', name: 'Location', type: 'text', placeholder: 'e.g., Dubai Marina', description: 'The neighborhood or community of the property.' },
+      { id: 'propertyType', name: 'Property Type', type: 'select', options: ['Apartment', 'Villa', 'Townhouse', 'Penthouse'], placeholder: 'Select property type', description: 'The type of property.' },
+      { id: 'bedrooms', name: 'Bedrooms', type: 'number', placeholder: 'e.g., 2', description: 'Number of bedrooms (0 for studio).' },
+      { id: 'bathrooms', name: 'Bathrooms', type: 'number', placeholder: 'e.g., 3', description: 'Number of bathrooms.' },
+      { id: 'squareFootage', name: 'Square Footage', type: 'number', placeholder: 'e.g., 1500', description: 'Total area in sq. ft.' },
+      { id: 'age', name: 'Property Age (years)', type: 'number', placeholder: 'e.g., 5', description: 'How old is the building?' },
+      { id: 'condition', name: 'Condition', type: 'select', options: ['New', 'Upgraded', 'Standard'], placeholder: 'Select condition', description: 'The condition of the property\'s interior.' },
+    ],
+  },
+  {
     id: 'commission-calculator',
     title: 'Commission Calculator',
     dashboardTitle: 'Commission Calculator',
