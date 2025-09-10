@@ -22,6 +22,7 @@ export async function GET(req: NextRequest) {
       pageSize: 20,
       query: query,
       servingConfig: `projects/${projectId}/locations/${location}/collections/default_collection/dataStores/${dataStoreId}/servingConfigs/default_search`,
+      filter: `developer: ANY("${query}")`,
       contentSearchSpec: {
         summarySpec: {
           summaryResultCount: 3,
