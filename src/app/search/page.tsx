@@ -2,16 +2,16 @@
 'use client';
 
 import React, { Suspense } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Search, Loader2 } from 'lucide-react';
 import { ProjectCard } from '@/components/ui/project-card';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Project } from '@/types';
 import { PageHeader } from '@/components/ui/page-header';
-import { DashboardFooter } from '@/components/dashboard-footer';
-import { DashboardHeader } from '@/components/dashboard-header';
+import DashboardLayout from '@/app/dashboard/layout';
+import { useRouter } from 'next/navigation';
+
 
 function SearchResults() {
   const searchParams = useSearchParams();
@@ -70,9 +70,7 @@ function SearchPageClient() {
   };
 
   return (
-     <div className="flex flex-col min-h-screen">
-      <DashboardHeader />
-        <main className="flex-1 p-4 md:p-10 space-y-8">
+        <main className="p-4 md:p-10 space-y-8">
         <PageHeader
             title="Search Market Library"
             description="Search the live market library for verified projects. Find your next opportunity."
@@ -95,16 +93,16 @@ function SearchPageClient() {
             </Suspense>
         </div>
         </main>
-      <DashboardFooter />
-    </div>
   );
 }
 
 
 export default function SearchPage() {
     return (
-        <Suspense fallback={<div className="flex justify-center items-center h-screen"><Loader2 className="h-12 w-12 animate-spin" /></div>}>
-            <SearchPageClient />
-        </Suspense>
+       <DashboardLayout>
+            <Suspense fallback={<div className="flex justify-center items-center h-screen"><Loader2 className="h-12 w-12 animate-spin" /></div>}>
+                <SearchPageClient />
+            </Suspense>
+        </DashboardLayout>
     )
 }
