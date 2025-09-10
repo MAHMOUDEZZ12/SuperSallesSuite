@@ -8,9 +8,9 @@ import { Button } from '@/components/ui/button';
 import { Search, Loader2 } from 'lucide-react';
 import { ProjectCard } from '@/components/ui/project-card';
 import type { Project } from '@/types';
-import { PageHeader } from '@/components/ui/page-header';
-import DashboardLayout from '@/app/dashboard/layout';
 import { useRouter } from 'next/navigation';
+import { LandingHeader } from '@/components/landing-header';
+import { LandingFooter } from '@/components/landing-footer';
 
 
 function SearchResults() {
@@ -71,11 +71,10 @@ function SearchPageClient() {
 
   return (
         <main className="p-4 md:p-10 space-y-8">
-        <PageHeader
-            title="Search Market Library"
-            description="Search the live market library for verified projects. Find your next opportunity."
-            icon={<Search />}
-        />
+            <div className="text-center">
+                <h1 className="text-3xl font-bold tracking-tight">Market Library Search</h1>
+                <p className="text-muted-foreground">Search results for the live market library.</p>
+            </div>
         <div className="max-w-xl mx-auto">
             <form onSubmit={handleSearch} className="flex gap-2">
             <Input
@@ -99,10 +98,14 @@ function SearchPageClient() {
 
 export default function SearchPage() {
     return (
-       <DashboardLayout>
-            <Suspense fallback={<div className="flex justify-center items-center h-screen"><Loader2 className="h-12 w-12 animate-spin" /></div>}>
-                <SearchPageClient />
-            </Suspense>
-        </DashboardLayout>
+        <div className="flex min-h-screen flex-col bg-background">
+            <LandingHeader />
+            <div className="flex-1 w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20">
+                <Suspense fallback={<div className="flex justify-center items-center h-screen"><Loader2 className="h-12 w-12 animate-spin" /></div>}>
+                    <SearchPageClient />
+                </Suspense>
+            </div>
+            <LandingFooter />
+        </div>
     )
 }
