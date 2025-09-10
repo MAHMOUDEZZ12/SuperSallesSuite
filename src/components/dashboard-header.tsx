@@ -141,7 +141,7 @@ export function DashboardHeader() {
                             </DropdownMenuGroup>
 
                             <DropdownMenuSeparator />
-                             <a href="mailto:support@supersalessuite.com">
+                             <a href="mailto:support@selltoday.ai">
                                 <DropdownMenuItem>
                                     <LifeBuoy className="mr-2 h-4 w-4" />
                                     Support
