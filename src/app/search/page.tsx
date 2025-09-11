@@ -23,13 +23,14 @@ interface SearchResult {
 
 const ProjectCardSkeleton = () => (
     <div className="relative overflow-hidden rounded-lg p-px shadow-lg">
-        <div className="relative rounded-lg bg-gray-900 p-4 space-y-2">
-            <Skeleton className="h-40 w-full bg-gray-700" />
-            <Skeleton className="h-4 w-3/4 bg-gray-700" />
-            <Skeleton className="h-4 w-1/2 bg-gray-700" />
-        </div>
+       <div className="relative rounded-lg bg-gray-900 p-4 space-y-2 h-full">
+         <Skeleton className="h-40 w-full bg-gray-700" />
+         <Skeleton className="h-4 w-3/4 bg-gray-700" />
+         <Skeleton className="h-4 w-1/2 bg-gray-700" />
+       </div>
     </div>
 );
+
 
 function SearchResults() {
   const searchParams = useSearchParams();
@@ -195,7 +196,7 @@ function SearchPageClient() {
                     <p className="text-lg text-gray-400 mt-2">An insightful detailed flow about anything in the market</p>
                 </motion.div>
                 <form onSubmit={handleSearch} className="relative group">
-                    <div className="relative p-px rounded-xl bg-gradient-to-r from-blue-500/20 to-cyan-400/20 group-hover:from-blue-500/50 group-hover:to-cyan-400/50 transition-all duration-300">
+                    <div className="relative p-px rounded-xl bg-gradient-to-r group-hover:from-blue-500/50 group-hover:to-cyan-400/50 from-blue-500/20 to-cyan-400/20 transition-all duration-300">
                         <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                         <Input
                             placeholder="Search for projects, developers, or market trends..."
@@ -241,7 +242,7 @@ export default function SearchPage() {
                 background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.15), transparent 70%)',
               }}
             />
-            <div className="flex-1 w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20 flex z-10">
+            <div className="flex-1 w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20 flex items-center z-10">
                 <Suspense fallback={<div className="flex justify-center items-center h-screen w-full"><Loader2 className="h-12 w-12 animate-spin" /></div>}>
                     <SearchPageClient />
                 </Suspense>
