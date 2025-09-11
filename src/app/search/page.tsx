@@ -125,10 +125,12 @@ const ClarificationResult = ({ query, onFollowUp }: { query: string, onFollowUp:
     );
 }
 
-const ComparisonView = ({ items: initialItems }: { items: string[] }) => {
+const ComparisonView = ({ items: initialItems, query }: { items: string[]; query: string; }) => {
     const [comparisonItems, setComparisonItems] = useState<any[]>([]);
     const [newItem, setNewItem] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+
+    const isMismatchedComparison = query.toLowerCase().includes('azizi') && query.toLowerCase().includes('damac');
 
     const fetchItemData = async (itemName: string) => {
         const response = await fetch(`/api/projects/scan?q=${encodeURIComponent(itemName)}`);
@@ -153,11 +155,15 @@ const ComparisonView = ({ items: initialItems }: { items: string[] }) => {
         fetchInitialData();
     }, [initialItems]);
 
-    const handleAddItem = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!newItem.trim()) return;
+    const handleAddItem = async (e: React.FormEvent | string) => {
+        if (typeof e !== 'string') {
+            e.preventDefault();
+        }
+        const itemToAdd = typeof e === 'string' ? e : newItem.trim();
+        if (!itemToAdd) return;
+        
         setIsLoading(true);
-        const data = await fetchItemData(newItem);
+        const data = await fetchItemData(itemToAdd);
         setComparisonItems(prev => [...prev, data]);
         setNewItem('');
         setIsLoading(false);
@@ -165,6 +171,14 @@ const ComparisonView = ({ items: initialItems }: { items: string[] }) => {
 
     return (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
+            {isMismatchedComparison && (
+                <div className="p-4 rounded-lg bg-blue-900/50 border border-blue-500/50 text-blue-200 text-sm">
+                    <p><b>Expert Insight:</b> You're comparing Azizi and Damac. While I can show you that, it's worth noting they generally cater to different market segments. For a more direct comparison to a luxury developer like Damac, you might consider adding Emaar to the mix.</p>
+                     <Button variant="outline" size="sm" className="mt-2 bg-blue-500/20 border-blue-500/50 hover:bg-blue-500/30 text-white" onClick={() => handleAddItem('Emaar')}>
+                        <Plus className="mr-2 h-4 w-4" /> Add Emaar to Comparison
+                    </Button>
+                </div>
+            )}
             <div className={`grid grid-cols-1 md:grid-cols-${comparisonItems.length > 2 ? '3' : '2'} lg:grid-cols-${comparisonItems.length + 1} gap-6 items-start`}>
                 {comparisonItems.map((item, index) => (
                     <Card key={index} className="bg-gray-900/50 border-gray-700/50 text-gray-300 h-full">
@@ -293,7 +307,7 @@ function SearchResults() {
 
   if (isComparisonQuery) {
       const items = query.split(/vs|versus|compare/i).map(s => s.trim()).filter(Boolean);
-      return <ComparisonView items={items.slice(0, 2)} />;
+      return <ComparisonView items={items.slice(0, 2)} query={query} />;
   }
   
   if (!result || (result.projects.length === 0 && !result.summary && result.extractiveAnswers.length === 0)) {
