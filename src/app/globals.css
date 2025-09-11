@@ -97,3 +97,7 @@
 html {
   scroll-behavior: smooth;
 }
+
+.market-library-bg {
+  background-color: #1f1f1f;
+}

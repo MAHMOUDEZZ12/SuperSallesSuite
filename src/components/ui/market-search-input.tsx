@@ -5,7 +5,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search } from 'lucide-react';
+import { Search, Mic, ArrowUp } from 'lucide-react';
 
 export default function MarketSearchInput() {
     const router = useRouter();
@@ -21,20 +21,36 @@ export default function MarketSearchInput() {
     return (
         <div className="max-w-3xl mx-auto">
             <form onSubmit={handleSearch} className="relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                <Input
-                    placeholder="Search anything in the Dubai real estate market..."
-                    className="w-full rounded-full h-14 pl-12 pr-28 text-base"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                />
-                <Button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full h-10 w-24">Search</Button>
+                <div className="relative">
+                    <Input
+                        placeholder="Ask anything"
+                        className="w-full rounded-full h-14 pl-6 pr-28 text-base bg-[#303134] border-none text-white placeholder:text-neutral-400"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                    />
+                    <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                         <Button type="button" variant="ghost" size="icon" className="text-neutral-400 hover:text-white rounded-full">
+                            <Mic className="h-5 w-5" />
+                        </Button>
+                        <Button type="submit" size="icon" className="bg-blue-600 hover:bg-blue-500 rounded-full h-10 w-10">
+                            <ArrowUp className="h-5 w-5" />
+                        </Button>
+                    </div>
+                </div>
             </form>
-            <div className="mt-4 flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm">
-                <span className="text-muted-foreground">Try:</span>
-                <button onClick={() => router.push('/search?q=Apartments%20in%20Downtown%20with%20rental%20yield')} className="hover:text-primary transition-colors">Apartments in Downtown with rental yield</button>
-                <button onClick={() => router.push('/search?q=Top%20off-plan%20projects%20launching%20this%20month')} className="hover:text-primary transition-colors">Top off-plan projects</button>
-                <button onClick={() => router.push('/search?q=Market%20trends%20for%20Business%20Bay%20offices')} className="hover:text-primary transition-colors">Market trends for Business Bay offices</button>
+            <div className="mt-8 flex flex-col items-start gap-4 text-sm text-neutral-400 w-full max-w-xl mx-auto">
+                <button onClick={() => router.push('/search?q=Free local events happening this week')} className="flex items-center gap-2 hover:text-white transition-colors">
+                    <Search className="h-4 w-4" />
+                    <span>Free local events happening this week</span>
+                </button>
+                <button onClick={() => router.push('/search?q=Make a table comparing memory foam vs hybrid mattresses')} className="flex items-center gap-2 hover:text-white transition-colors">
+                     <Search className="h-4 w-4" />
+                    <span>Make a table comparing memory foam vs hybrid mattresses</span>
+                </button>
+                 <button onClick={() => router.push('/search?q=How do I get started playing padel?')} className="flex items-center gap-2 hover:text-white transition-colors">
+                     <Search className="h-4 w-4" />
+                    <span>How do I get started playing padel?</span>
+                </button>
             </div>
         </div>
     );

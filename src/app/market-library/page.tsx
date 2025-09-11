@@ -2,66 +2,57 @@
 'use client';
 
 import React, { Suspense } from 'react';
-import { LandingHeader } from '@/components/landing-header';
-import { LandingFooter } from '@/components/landing-footer';
-import { Input } from '@/components/ui/input';
+import { Loader2 } from 'lucide-react';
+import MarketSearchInput from '@/components/ui/market-search-input';
+import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
-import { Search, Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { User } from 'lucide-react';
+import Link from 'next/link';
 
 function MarketLibrary() {
-  const router = useRouter();
-  const [query, setQuery] = React.useState('');
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (query.trim()) {
-      router.push(`/search?q=${encodeURIComponent(query)}`);
-    }
-  };
-
   return (
-    <div className="flex min-h-screen flex-col bg-background">
-      <LandingHeader />
-      <main className="flex-1 w-full px-4 md:px-6 lg:px-8 py-12 md:py-20 flex flex-col items-center justify-center">
-        <div className="text-center mb-8 max-w-4xl mx-auto">
-            <h1 className="text-4xl md:text-5xl font-bold font-heading tracking-tighter mb-4 text-foreground">
-             Search anything about Dubai’s real estate market
-            </h1>
+    <div className="flex min-h-screen flex-col market-library-bg text-white">
+      <header className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center p-4">
+        <div className="flex items-center gap-6">
+          <Logo />
+          <nav className="hidden md:flex items-center gap-4 text-sm">
+            <Button variant="link" className="text-white">AI Mode</Button>
+            <Button variant="link" className="text-neutral-400">All</Button>
+            <Button variant="link" className="text-neutral-400">Short videos</Button>
+            <Button variant="link" className="text-neutral-400">Flights</Button>
+            <Button variant="link" className="text-neutral-400">Finance</Button>
+          </nav>
         </div>
-
-        <div className="max-w-3xl mx-auto w-full">
-            <form onSubmit={handleSearch} className="relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                <Input
-                    placeholder="Search for a project, developer, area, or even ask a question..."
-                    className="w-full rounded-full h-14 pl-12 pr-28 text-base"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    autoFocus
-                />
-                <Button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full h-10 w-24">
-                    Search
+        <div className="flex items-center gap-4">
+            <Link href="/login">
+                <Button variant="ghost" className="text-white rounded-full p-2">
+                    <User />
                 </Button>
-            </form>
+            </Link>
         </div>
-         <div className="text-center mt-8 text-sm text-muted-foreground">
-              <p>Or try an example search:</p>
-              <div className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-2">
-                  <button onClick={() => router.push('/search?q=Emaar')} className="hover:text-primary transition-colors">Emaar</button>
-                  <button onClick={() => router.push('/search?q=what are the prices in Jabal Ali')} className="hover:text-primary transition-colors">Prices in Jabal Ali</button>
-                  <button onClick={() => router.push('/search?q=is Nakheel a government company?')} className="hover:text-primary transition-colors">Is Nakheel a government company?</button>
-              </div>
-          </div>
+      </header>
+      <main className="flex-1 flex flex-col items-center justify-center px-4">
+        <div className="text-center mb-8 max-w-4xl mx-auto">
+            <h1 className="text-5xl md:text-6xl font-bold font-heading tracking-tight mb-4 text-white">
+             Meet AI Mode
+            </h1>
+            <p className="text-lg md:text-xl text-neutral-300">
+                Ask detailed questions for better responses
+            </p>
+        </div>
+        <div className="w-full max-w-3xl">
+            <Suspense fallback={<Loader2 className="h-12 w-12 animate-spin text-white" />}>
+                <MarketSearchInput />
+            </Suspense>
+        </div>
       </main>
-      <LandingFooter />
     </div>
   );
 }
 
 export default function MarketLibraryPage() {
     return (
-        <Suspense fallback={<div className="flex justify-center items-center h-screen"><Loader2 className="h-12 w-12 animate-spin" /></div>}>
+        <Suspense fallback={<div className="flex justify-center items-center h-screen bg-[#1f1f1f]"><Loader2 className="h-12 w-12 animate-spin text-white" /></div>}>
             <MarketLibrary />
         </Suspense>
     )
