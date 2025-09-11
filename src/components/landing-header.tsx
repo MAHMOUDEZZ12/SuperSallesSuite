@@ -18,7 +18,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useTheme } from './theme-switcher';
+import { useTheme } from '@/components/theme-switcher';
 
 const navLinks = [
     { name: 'Pricing', href: '/pricing' },
