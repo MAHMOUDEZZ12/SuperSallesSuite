@@ -5,26 +5,37 @@ import React, { Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Loader2 } from 'lucide-react';
+import { Search, Loader2, Sparkles } from 'lucide-react';
 import { ProjectCard } from '@/components/ui/project-card';
 import type { Project } from '@/types';
 import { LandingHeader } from '@/components/landing-header';
 import { LandingFooter } from '@/components/landing-footer';
+import { Card, CardContent } from '@/components/ui/card';
+
+interface SearchResult {
+    summary: string | null;
+    projects: Project[];
+    extractiveAnswers: any[];
+}
 
 function SearchResults() {
   const searchParams = useSearchParams();
   const query = searchParams.get('q');
-  const [results, setResults] = React.useState<Project[]>([]);
+  const [result, setResult] = React.useState<SearchResult | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     if (query) {
       setIsLoading(true);
+      setError(null);
       fetch(`/api/projects/scan?q=${encodeURIComponent(query)}`)
         .then(res => res.json())
         .then(data => {
           if (data.ok) {
-            setResults(data.data);
+            setResult(data.data);
+          } else {
+            setError(data.error || 'An unknown error occurred.');
           }
         })
         .finally(() => setIsLoading(false));
@@ -37,24 +48,72 @@ function SearchResults() {
     return (
       <div className="flex flex-col items-center justify-center h-64 text-muted-foreground">
         <Loader2 className="h-10 w-10 animate-spin text-primary mb-4" />
-        <p className="font-semibold">Searching the market for &quot;{query}&quot;...</p>
+        <p className="font-semibold">AI is analyzing your query...</p>
+        <p className="text-sm">Searching for &quot;{query}&quot; in our market library.</p>
       </div>
     );
   }
 
-  return (
-    <div>
-        {results.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {results.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
+  if (error) {
+     return (
+          <div className="text-center py-16 text-destructive">
+            <p>An error occurred: {error}</p>
           </div>
-        ) : (
+        );
+  }
+  
+  if (!result || (result.projects.length === 0 && !result.summary)) {
+     return (
           <div className="text-center py-16 text-muted-foreground">
             <p>No results found for &quot;{query}&quot;.</p>
           </div>
+        );
+  }
+
+  return (
+    <div className="space-y-8">
+        {result.summary && (
+            <Card className="bg-primary/10 border-primary/20">
+                <CardContent className="p-6">
+                     <h2 className="text-lg font-semibold text-primary flex items-center gap-2 mb-2">
+                        <Sparkles className="h-5 w-5"/> AI Summary
+                    </h2>
+                    <p className="text-foreground/90">{result.summary}</p>
+                </CardContent>
+            </Card>
         )}
+        
+        {result.extractiveAnswers && result.extractiveAnswers.length > 0 && (
+            <Card>
+                <CardContent className="p-6">
+                    <h2 className="text-lg font-semibold flex items-center gap-2 mb-2">
+                        Key Insights
+                    </h2>
+                     <div className="space-y-2 text-sm text-foreground/80">
+                        {result.extractiveAnswers.map((answer, index) => (
+                           <blockquote key={index} className="border-l-2 border-primary pl-3 italic">
+                             "{answer.content}"
+                           </blockquote>
+                        ))}
+                    </div>
+                </CardContent>
+            </Card>
+        )}
+
+        <div>
+          <h2 className="text-2xl font-bold tracking-tight mb-4">Relevant Projects</h2>
+          {result.projects.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {result.projects.map((project) => (
+                <ProjectCard key={project.id} project={project} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-16 text-muted-foreground">
+              <p>No specific projects found matching your query.</p>
+            </div>
+          )}
+        </div>
     </div>
   );
 }
@@ -75,7 +134,6 @@ function SearchPageClient() {
         <main className="space-y-8">
             <div className="text-center">
                 <h1 className="text-3xl font-bold tracking-tight">Market Library Search</h1>
-                <p className="text-muted-foreground">Search results for the live market library.</p>
             </div>
             <div className="max-w-xl mx-auto">
                 <form onSubmit={handleSearch} className="relative">

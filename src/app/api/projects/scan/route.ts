@@ -26,6 +26,7 @@ export async function GET(req: NextRequest) {
         summarySpec: {
           summaryResultCount: 3,
           ignoreAdversarialQuery: true,
+          modelSpec: { version: "preview" },
         },
         extractiveContentSpec: {
           maxExtractiveAnswerCount: 3,
@@ -36,7 +37,7 @@ export async function GET(req: NextRequest) {
     const [response] = await client.search(request);
     
     // Transform the Vertex AI Search results into our existing Project structure
-    const results = response.results?.map(result => {
+    const projects = response.results?.map(result => {
       const doc = result.document?.derivedStructData?.fields;
       if (!doc) return null;
       
@@ -54,12 +55,16 @@ export async function GET(req: NextRequest) {
         thumbnailUrl: getVal('thumbnailUrl') || `https://picsum.photos/seed/${result.document?.id}/400/200`,
         developerLogoUrl: getVal('developerLogoUrl') || '/logos/emaar-logo.png',
         tags: [new URL(result.document?.uri || 'https://google.com').hostname],
-        // Add other fields as needed
       };
     }).filter(Boolean);
 
+    const searchResult = {
+        summary: response.summary?.summaryText || null,
+        projects: projects,
+        extractiveAnswers: response.summary?.summaryWithMetadata?.summary,
+    }
 
-    return ok(results);
+    return ok(searchResult);
   } catch (e: any) {
     console.error("Vertex AI Search Error:", e);
     // Provide a more detailed error message if available
