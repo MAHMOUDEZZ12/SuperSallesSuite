@@ -5,7 +5,7 @@ import React, { Suspense, useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Loader2, Sparkles, Mic, PlusCircle, ArrowUp } from 'lucide-react';
+import { Search, Loader2, Sparkles, Mic, ArrowUp } from 'lucide-react';
 import type { Project } from '@/types';
 import { ProjectCard } from '@/components/ui/project-card';
 import { Separator } from '@/components/ui/separator';
@@ -175,8 +175,6 @@ function SearchPageClient() {
   const searchParams = useSearchParams();
   const [query, setQuery] = React.useState(searchParams.get('q') || '');
   
-  const hasQuery = !!searchParams.get('q');
-
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (query.trim()) {
@@ -211,7 +209,7 @@ function SearchPageClient() {
                              <Button type="button" variant="ghost" size="icon" className="text-neutral-400 hover:text-white rounded-md">
                                 <Mic className="h-5 w-5" />
                             </Button>
-                            <Button type="submit" size="icon" className="bg-primary hover:bg-primary/90 rounded-md h-10 w-10">
+                            <Button type="submit" variant="ghost" size="icon" className="text-neutral-400 hover:text-white rounded-md h-10 w-10">
                                 <ArrowUp className="h-5 w-5" />
                             </Button>
                         </div>
