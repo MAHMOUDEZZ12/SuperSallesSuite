@@ -1,4 +1,5 @@
 
+
 import { z } from 'zod';
 
 // Core market identity
@@ -845,13 +846,13 @@ export type GenerateUgcScriptOutput = z.infer<typeof GenerateUgcScriptOutputSche
 
 // Schemas for Price Estimator
 export const EstimatePriceInputSchema = z.object({
-    location: z.string().describe("The neighborhood or area of the property."),
-    propertyType: z.string().describe("The type of property (e.g., 'Apartment', 'Villa')."),
-    bedrooms: z.number().int().min(0).describe("The number of bedrooms."),
-    bathrooms: z.number().int().min(1).describe("The number of bathrooms."),
-    squareFootage: z.number().positive().describe("The total area in square feet."),
-    age: z.number().int().min(0).describe("The age of the property in years."),
-    condition: z.string().describe("The condition of the property (e.g., 'New', 'Upgraded', 'Standard')."),
+    location: z.string().min(1, { message: 'Location is required.' }).describe("The neighborhood or area of the property."),
+    propertyType: z.string({ required_error: 'Property type is required.' }).min(1, { message: 'Property type is required.' }).describe("The type of property (e.g., 'Apartment', 'Villa')."),
+    bedrooms: z.number().int().min(0, { message: 'Bedrooms must be 0 or more.' }).describe("The number of bedrooms."),
+    bathrooms: z.number().int().min(1, { message: 'Bathrooms must be 1 or more.' }).describe("The number of bathrooms."),
+    squareFootage: z.number().positive({ message: 'Square footage must be a positive number.' }).describe("The total area in square feet."),
+    age: z.number().int().min(0, { message: 'Age must be 0 or more.' }).describe("The age of the property in years."),
+    condition: z.string({ required_error: 'Condition is required.' }).min(1, { message: 'Condition is required.' }).describe("The condition of the property (e.g., 'New', 'Upgraded', 'Standard')."),
 });
 export type EstimatePriceInput = z.infer<typeof EstimatePriceInputSchema>;
 
@@ -864,3 +865,15 @@ export const EstimatePriceOutputSchema = z.object({
     comparableSales: z.array(z.string()).describe("A list of 2-3 fictional but realistic comparable sales used for the estimation."),
 });
 export type EstimatePriceOutput = z.infer<typeof EstimatePriceOutputSchema>;
+
+// Schemas for Aerial View Generator
+export const GenerateAerialViewInputSchema = z.object({
+  address: z.string().describe("The full address of the property to generate a view for."),
+});
+export type GenerateAerialViewInput = z.infer<typeof GenerateAerialViewInputSchema>;
+
+export const GenerateAerialViewOutputSchema = z.object({
+  videoDataUri: z.string().url().describe("A data URI of the generated aerial video, in mp4 format."),
+  analysis: z.string().describe("A brief AI analysis of the location and what the video showcases."),
+});
+export type GenerateAerialViewOutput = z.infer<typeof GenerateAerialViewOutputSchema>;

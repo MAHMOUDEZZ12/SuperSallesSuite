@@ -69,13 +69,12 @@ const blogSlugs = [
 
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const siteUrl = 'https://selltoday.ai'; // Replace with your actual domain
+  const siteUrl = 'https://whatsmap.ai'; // Replace with your actual domain
 
   const staticRoutes = [
     '/',
     '/dashboard',
     '/pricing',
-    '/sx3-mindmap',
     '/login',
     '/signup',
     '/privacy',

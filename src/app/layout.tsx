@@ -1,4 +1,5 @@
 
+
 import type { Metadata } from 'next';
 import { Toaster } from "@/components/ui/toaster";
 import './globals.css';
@@ -18,7 +19,7 @@ const fontHeading = Poppins({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://whatsap.ai'),
+  metadataBase: new URL('https://whatsmap.ai'),
   title: 'WhatsMAP — Your AI Co-Pilot for Real Estate',
   description: 'An AI-powered real estate platform that can tell, think, plan, calculate, review, estimate, and co-invest. Your partner for smarter property decisions.',
   openGraph: {
