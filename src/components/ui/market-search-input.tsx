@@ -38,20 +38,6 @@ export default function MarketSearchInput() {
                     </div>
                 </div>
             </form>
-            <div className="mt-8 flex flex-col items-start gap-4 text-sm text-neutral-400 w-full max-w-xl mx-auto">
-                <button onClick={() => router.push('/search?q=Compare Emaar and Damac properties')} className="flex items-center gap-2 hover:text-white transition-colors">
-                    <Search className="h-4 w-4" />
-                    <span>Compare Emaar and Damac properties</span>
-                </button>
-                <button onClick={() => router.push('/search?q=What are the latest trends for villas in Dubai Hills?')} className="flex items-center gap-2 hover:text-white transition-colors">
-                     <Search className="h-4 w-4" />
-                    <span>What are the latest trends for villas in Dubai Hills?</span>
-                </button>
-                 <button onClick={() => router.push('/search?q=Show me off-plan projects with a post-handover payment plan')} className="flex items-center gap-2 hover:text-white transition-colors">
-                     <Search className="h-4 w-4" />
-                    <span>Show me off-plan projects with a post-handover payment plan</span>
-                </button>
-            </div>
         </div>
     );
 }
