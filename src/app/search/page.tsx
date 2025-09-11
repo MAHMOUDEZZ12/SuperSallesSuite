@@ -189,7 +189,7 @@ function SearchPageClient() {
              <motion.div 
                 layout
                 transition={{ duration: 0.5, type: 'spring', stiffness: 50 }}
-                className="w-full max-w-4xl text-center"
+                className="w-full max-w-3xl text-center"
              >
                 <motion.h1 
                     layout="position"
@@ -241,17 +241,9 @@ export default function SearchPage() {
               className="absolute inset-0 z-0 opacity-20" 
               style={{
                 background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.15), transparent 70%)',
-                animation: 'pulse 10s infinite'
               }}
             />
-             <style jsx global>{`
-                @keyframes pulse {
-                    0% { transform: scale(1); opacity: 0.15; }
-                    50% { transform: scale(1.2); opacity: 0.25; }
-                    100% { transform: scale(1); opacity: 0.15; }
-                }
-            `}</style>
-            <div className="flex-1 w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20 flex z-10">
+            <div className="flex-1 w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20 flex z-10">
                 <Suspense fallback={<div className="flex justify-center items-center h-screen w-full"><Loader2 className="h-12 w-12 animate-spin" /></div>}>
                     <SearchPageClient />
                 </Suspense>
