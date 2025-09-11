@@ -22,7 +22,7 @@ interface SearchResult {
 }
 
 const ProjectCardSkeleton = () => (
-    <div className="relative overflow-hidden rounded-lg p-px shadow-lg bg-gradient-to-r from-blue-500/50 to-cyan-400/50">
+    <div className="relative overflow-hidden rounded-lg p-px shadow-lg bg-gradient-to-r from-blue-500/20 to-cyan-400/20">
        <div className="relative rounded-lg bg-gray-900 p-4 space-y-2 h-full">
          <Skeleton className="h-40 w-full bg-gray-700" />
          <Skeleton className="h-4 w-3/4 bg-gray-700" />
@@ -183,7 +183,7 @@ function SearchPageClient() {
   };
 
   return (
-        <div className="flex-1 flex flex-col w-full transition-all duration-500">
+        <div className="flex-1 flex flex-col w-full transition-all duration-500 pt-0.5">
              <motion.div 
                 layout
                 transition={{ duration: 0.5, type: 'spring', stiffness: 50 }}
