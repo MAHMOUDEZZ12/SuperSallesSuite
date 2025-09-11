@@ -816,7 +816,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     id: 'listing-manager',
     title: 'Listing Manager',
     dashboardTitle: 'Listing Manager',
-    description: 'Your central hub to create, manage, and syndicate your property listings to all major portals.',
+    description: 'Your central hub to prepare and syndicate listings to major portals.',
     icon: 'Building',
     color: '#0891b2',
     cta: 'Manage Listings',
