@@ -8,6 +8,11 @@ import { motion } from 'framer-motion';
 import { MindMapNode, ToolLeaf } from '@/components/ui/mind-map-components';
 import { tools, type Feature } from '@/lib/features';
 import { FeatureModal } from '@/components/feature-modal';
+import MarketSearchInput from '@/components/ui/market-search-input';
+import { Logo } from '@/components/logo';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { User } from 'lucide-react';
 
 function MindMapHome() {
   const [selectedTool, setSelectedTool] = React.useState<Omit<Feature, 'renderResult'> | null>(null);
@@ -79,10 +84,31 @@ function MindMapHome() {
 
 
 function SearchDxbHome() {
-    // This component can be built out for the searchdxb.ai experience
+  // This component is the dedicated homepage for the searchdxb.ai experience
     return (
-        <div>
-            <h1>Welcome to searchdxb.ai</h1>
+        <div className="flex min-h-screen flex-col market-library-bg text-white">
+            <header className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center p-4">
+                <div className="flex items-center gap-6">
+                    <Logo />
+                </div>
+                 <div className="flex items-center gap-4">
+                    <Link href="/login">
+                        <Button variant="ghost" className="text-white rounded-full p-2">
+                            <User />
+                        </Button>
+                    </Link>
+                </div>
+            </header>
+            <main className="flex-1 flex flex-col items-center justify-center px-4">
+                <div className="text-center mb-8 max-w-4xl mx-auto">
+                    <h1 className="text-5xl md:text-6xl font-bold font-heading tracking-tight mb-4 text-white">
+                        Search anything Real Estate Dubai
+                    </h1>
+                </div>
+                <div className="w-full max-w-3xl">
+                    <MarketSearchInput useSearchPage={true} />
+                </div>
+            </main>
         </div>
     );
 }
@@ -112,7 +138,13 @@ export default function Home() {
     React.useEffect(() => {
         const hostname = window.location.hostname;
         if (hostname.includes('selltoday.ai') || hostname.includes('localhost')) {
-            setDomainComponent(<MindMapHome />);
+            setDomainComponent(
+                <div className="flex min-h-screen flex-col bg-background">
+                    <LandingHeader />
+                    <MindMapHome />
+                    <LandingFooter />
+                </div>
+            );
         } else if (hostname.includes('searchdxb')) {
             setDomainComponent(<SearchDxbHome />);
         } else if (hostname.includes('video')) {
@@ -120,15 +152,15 @@ export default function Home() {
         } else if (hostname.includes('chat')) {
             setDomainComponent(<ChatHome />);
         } else {
-            setDomainComponent(<MindMapHome />);
+             setDomainComponent(
+                <div className="flex min-h-screen flex-col bg-background">
+                    <LandingHeader />
+                    <MindMapHome />
+                    <LandingFooter />
+                </div>
+            );
         }
     }, []);
 
-    return (
-       <div className="flex min-h-screen flex-col bg-background">
-        <LandingHeader />
-        {domainComponent}
-        <LandingFooter />
-       </div>
-    );
+    return domainComponent;
 }
