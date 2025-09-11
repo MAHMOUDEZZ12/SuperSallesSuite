@@ -262,7 +262,7 @@ function SearchResults() {
 
   const handleAddToLibrary = (project: Project) => {
     track('project_added_to_library', { projectId: project.id, projectName: project.name });
-    const currentProjects = JSON.parse(localStorage.getItem('myProjects') || '[]'`);
+    const currentProjects = JSON.parse(localStorage.getItem('myProjects') || '[]');
     const newProjects = [...currentProjects, project];
     localStorage.setItem('myProjects', JSON.stringify(newProjects));
     setMyProjects(prev => [...prev, project.id]);
