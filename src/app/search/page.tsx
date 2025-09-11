@@ -23,9 +23,9 @@ interface SearchResult {
 
 const ProjectCardSkeleton = () => (
     <div className="space-y-2">
-        <Skeleton className="h-40 w-full" />
-        <Skeleton className="h-4 w-3/4" />
-        <Skeleton className="h-4 w-1/2" />
+        <Skeleton className="h-40 w-full bg-gray-700" />
+        <Skeleton className="h-4 w-3/4 bg-gray-700" />
+        <Skeleton className="h-4 w-1/2 bg-gray-700" />
     </div>
 );
 
@@ -75,20 +75,20 @@ function SearchResults() {
   }
 
   if (!query) {
-    return null; // Don't render anything if there's no query
+    return null;
   }
   
   if (isLoading) {
     return (
         <div className="space-y-8 mt-8">
              <div className="space-y-6">
-                <Skeleton className="h-8 w-2/3" />
-                <Skeleton className="h-5 w-full" />
-                <Skeleton className="h-5 w-5/6" />
+                <Skeleton className="h-8 w-2/3 bg-gray-700" />
+                <Skeleton className="h-5 w-full bg-gray-700" />
+                <Skeleton className="h-5 w-5/6 bg-gray-700" />
              </div>
-             <Separator />
+             <Separator className="bg-gray-700" />
             <div>
-                 <Skeleton className="h-6 w-1/4 mb-4" />
+                 <Skeleton className="h-6 w-1/4 mb-4 bg-gray-700" />
                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     <ProjectCardSkeleton />
                     <ProjectCardSkeleton />
@@ -101,7 +101,7 @@ function SearchResults() {
 
   if (error) {
      return (
-          <div className="text-center py-16 text-destructive">
+          <div className="text-center py-16 text-red-400">
             <p>An error occurred: {error}</p>
           </div>
         );
@@ -109,7 +109,7 @@ function SearchResults() {
   
   if (!result || (result.projects.length === 0 && !result.summary)) {
      return (
-          <div className="text-center py-16 text-muted-foreground">
+          <div className="text-center py-16 text-gray-400">
             <p>No results found for &quot;{query}&quot;.</p>
           </div>
         );
@@ -124,17 +124,17 @@ function SearchResults() {
     >
         <div className="space-y-6">
             {result.summary && (
-                <div className="prose prose-lg dark:prose-invert max-w-none text-foreground/90">
+                <div className="prose prose-lg prose-invert max-w-none text-gray-200">
                     <p>{result.summary}</p>
                 </div>
             )}
             
             {result.extractiveAnswers && result.extractiveAnswers.length > 0 && (
                 <div className="space-y-4">
-                    <h2 className="text-xl font-semibold font-heading">Key Insights</h2>
+                    <h2 className="text-xl font-semibold font-heading text-gray-100">Key Insights</h2>
                     <div className="space-y-3">
                         {result.extractiveAnswers.map((answer, index) => (
-                           <blockquote key={index} className="border-l-2 border-primary pl-4 italic text-foreground/80">
+                           <blockquote key={index} className="border-l-2 border-primary pl-4 italic text-gray-300">
                              &quot;{answer.content}&quot;
                            </blockquote>
                         ))}
@@ -143,10 +143,10 @@ function SearchResults() {
             )}
         </div>
 
-        {result.projects.length > 0 && <Separator />}
+        {result.projects.length > 0 && <Separator className="bg-gray-700" />}
 
         <div>
-            {result.projects.length > 0 && <h2 className="text-xl font-semibold font-heading mb-4">Relevant Projects</h2>}
+            {result.projects.length > 0 && <h2 className="text-xl font-semibold font-heading mb-4 text-gray-100">Relevant Projects</h2>}
              {result.projects.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {result.projects.map((project) => (
@@ -154,7 +154,7 @@ function SearchResults() {
                           key={project.id} 
                           project={project}
                           actions={
-                            <Button size="sm" onClick={() => handleAddToLibrary(project)} disabled={myProjects.includes(project.id)}>
+                            <Button size="sm" variant="secondary" onClick={() => handleAddToLibrary(project)} disabled={myProjects.includes(project.id)}>
                                 <PlusCircle className="mr-2 h-4 w-4" />
                                 {myProjects.includes(project.id) ? 'Added' : 'Add to Library'}
                             </Button>
@@ -163,7 +163,7 @@ function SearchResults() {
                     ))}
                 </div>
             ) : (
-                !result.summary && <p className="text-muted-foreground text-center">No specific projects found related to your query.</p>
+                !result.summary && <p className="text-gray-400 text-center">No specific projects found related to your query.</p>
             )}
         </div>
     </motion.div>
@@ -185,48 +185,59 @@ function SearchPageClient() {
   };
 
   return (
-        <main className="space-y-8 flex-1 flex flex-col w-full items-center transition-all duration-500 justify-center">
-             <div className="max-w-4xl w-full text-center">
+        <div className="flex-1 flex flex-col w-full items-center transition-all duration-500">
+             <motion.div 
+                layout
+                transition={{ duration: 0.5, type: 'spring', stiffness: 50 }}
+                className="w-full max-w-4xl text-center"
+             >
                 <motion.h1 
-                    layout 
-                    className="text-3xl md:text-5xl font-bold font-heading tracking-tighter mb-6 text-foreground"
+                    layout="position"
+                    className="text-3xl md:text-5xl font-bold font-heading tracking-tighter mb-6 text-white"
                 >
                     Search anything Real Estate Dubai
                 </motion.h1>
                 <form onSubmit={handleSearch} className="relative">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                     <Input
                         placeholder="Search for projects, developers, or market trends..."
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
-                        className="w-full h-14 pl-12 pr-4 text-base bg-background/50 border-border rounded-full shadow-lg backdrop-blur-sm"
+                        className="w-full h-14 pl-12 pr-4 text-base bg-gray-800/50 border-gray-700 text-white rounded-full shadow-lg backdrop-blur-sm placeholder:text-gray-500"
                     />
                 </form>
-            </div>
-            <div className="mt-8 flex-1 w-full">
-                <Suspense fallback={<div className="flex justify-center items-center h-64"><Loader2 className="h-8 w-8 animate-spin" /></div>}>
-                    <SearchResults />
-                </Suspense>
-            </div>
-        </main>
+            </motion.div>
+            <AnimatePresence>
+                <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="mt-8 flex-1 w-full"
+                >
+                    <Suspense fallback={<div className="flex justify-center items-center h-64"><Loader2 className="h-8 w-8 animate-spin" /></div>}>
+                        <SearchResults />
+                    </Suspense>
+                </motion.div>
+            </AnimatePresence>
+        </div>
   );
 }
 
 export default function SearchPage() {
     return (
-        <div className="flex min-h-screen flex-col bg-background relative overflow-hidden">
+        <div className="flex min-h-screen flex-col bg-gray-950 relative overflow-hidden">
             <div 
               className="absolute inset-0 z-0 opacity-20" 
               style={{
-                background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.1), transparent 70%)',
+                background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.15), transparent 70%)',
                 animation: 'pulse 10s infinite'
               }}
             />
              <style jsx global>{`
                 @keyframes pulse {
-                    0% { transform: scale(1); }
-                    50% { transform: scale(1.2); }
-                    100% { transform: scale(1); }
+                    0% { transform: scale(1); opacity: 0.15; }
+                    50% { transform: scale(1.2); opacity: 0.25; }
+                    100% { transform: scale(1); opacity: 0.15; }
                 }
             `}</style>
             <div className="flex-1 w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20 flex z-10">

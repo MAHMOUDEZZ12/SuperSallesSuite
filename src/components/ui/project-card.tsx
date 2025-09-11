@@ -20,19 +20,19 @@ export function ProjectCard({
 }) {
   const CardBody = (
      <div className={cn(
-        "rounded-lg border bg-card text-card-foreground overflow-hidden h-full flex flex-col justify-between hover:border-primary/50 transition-all duration-300",
+        "rounded-lg border bg-gray-900/50 border-gray-700/50 text-gray-200 overflow-hidden h-full flex flex-col justify-between hover:border-primary/50 transition-all duration-300",
         selected && "border-primary ring-2 ring-primary/50"
       )}>
       <div>
-        <div className="relative h-40 w-full bg-muted">
+        <div className="relative h-40 w-full bg-gray-800">
            <Image src={`https://picsum.photos/seed/${project.id}/400/200`} alt={project.name} layout="fill" objectFit="cover" data-ai-hint="building exterior" />
-            {project.badge && <span className="absolute top-2 left-2 text-xs rounded-full border px-2 py-0.5 bg-background/70 backdrop-blur-sm text-foreground">{project.badge}</span>}
+            {project.badge && <span className="absolute top-2 left-2 text-xs rounded-full border border-gray-600 px-2 py-0.5 bg-gray-900/70 backdrop-blur-sm text-gray-200">{project.badge}</span>}
             {selectable && <div className="absolute top-2 right-2"><Checkbox checked={selected} readOnly aria-label={`Select project ${project.name}`} /></div>}
              {project.developerLogoUrl && <Image src={project.developerLogoUrl} alt={`${project.developer} Logo`} width={32} height={32} className="absolute bottom-2 right-2 rounded-md bg-white/80 p-1" data-ai-hint="company logo" />}
         </div>
         <div className="p-4">
-            <h4 className="font-semibold truncate">{project.name}</h4>
-            <p className="text-sm text-muted-foreground">{project.developer} • {project.area}</p>
+            <h4 className="font-semibold truncate text-gray-50">{project.name}</h4>
+            <p className="text-sm text-gray-400">{project.developer} • {project.area}</p>
             {project.priceFrom && <p className="mt-1 text-sm font-bold text-primary">{project.priceFrom}</p>}
         </div>
       </div>
