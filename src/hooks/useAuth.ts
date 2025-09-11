@@ -22,10 +22,14 @@ export function useAuth() {
       setUser(user);
       setLoading(false);
 
-      const isAuthPage = pathname === '/login' || pathname === '/signup' || pathname === '/onboarding';
-      
-      if (!user && !isAuthPage) {
-        // If user is not logged in and not on an auth page, redirect to login
+      const isAuthPage = pathname === '/login' || pathname === '/signup';
+      const isOnboardingPage = pathname === '/onboarding';
+
+      if (user && isAuthPage) {
+        // If user is logged in and on login/signup, redirect to dashboard
+        router.push('/dashboard');
+      } else if (!user && !isAuthPage && !isOnboardingPage) {
+        // If user is not logged in and not on an auth/onboarding page, redirect to login
         router.push('/login');
       }
     });
