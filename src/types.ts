@@ -841,3 +841,25 @@ export const GenerateUgcScriptOutputSchema = z.object({
   "Script": z.array(UgcSceneSchema),
 });
 export type GenerateUgcScriptOutput = z.infer<typeof GenerateUgcScriptOutputSchema>;
+
+// Schemas for Price Estimator
+export const EstimatePriceInputSchema = z.object({
+    location: z.string().describe("The neighborhood or area of the property."),
+    propertyType: z.string().describe("The type of property (e.g., 'Apartment', 'Villa')."),
+    bedrooms: z.number().int().min(0).describe("The number of bedrooms."),
+    bathrooms: z.number().int().min(1).describe("The number of bathrooms."),
+    squareFootage: z.number().positive().describe("The total area in square feet."),
+    age: z.number().int().min(0).describe("The age of the property in years."),
+    condition: z.string().describe("The condition of the property (e.g., 'New', 'Upgraded', 'Standard')."),
+});
+export type EstimatePriceInput = z.infer<typeof EstimatePriceInputSchema>;
+
+export const EstimatePriceOutputSchema = z.object({
+    estimatedPrice: z.number().describe("The AI-estimated market value of the property in AED."),
+    confidenceRange: z.object({
+        lowerBound: z.number(),
+        upperBound: z.number(),
+    }).describe("The likely price range for the property."),
+    comparableSales: z.array(z.string()).describe("A list of 2-3 fictional but realistic comparable sales used for the estimation."),
+});
+export type EstimatePriceOutput = z.infer<typeof EstimatePriceOutputSchema>;
