@@ -42,7 +42,7 @@ export default function MarketLibraryPage() {
       const response = await fetch(`/api/projects/scan?q=${encodeURIComponent(query)}`);
       const data = await response.json();
       if (data.ok) {
-        setSearchResults(data.data);
+        setSearchResults(data.data.projects || []);
       } else {
         toast({ title: "Search Failed", description: data.error, variant: "destructive" });
       }

@@ -54,7 +54,7 @@ export async function GET(req: NextRequest) {
         status: getVal('status') || 'Varies',
         thumbnailUrl: getVal('thumbnailUrl') || `https://picsum.photos/seed/${result.document?.id}/400/200`,
         developerLogoUrl: getVal('developerLogoUrl') || '/logos/emaar-logo.png',
-        tags: [new URL(result.document?.uri || 'https://google.com').hostname],
+        tags: [result.document?.uri ? new URL(result.document.uri).hostname : 'selltoday.ai'],
       };
     }).filter(Boolean);
 
