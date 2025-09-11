@@ -17,8 +17,6 @@ export function LandingFooter() {
     resources: [
         { name: 'Handbook', href: '/blog' },
         { name: 'Documentation', href: '/documentation' },
-        { name: 'Mindmap', href: '/sx3-mindmap' },
-        { name: 'Technology', href: '/technology' },
     ],
     legal: [
         { name: 'Data Privacy', href: '/privacy' },
