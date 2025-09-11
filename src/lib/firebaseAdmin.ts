@@ -7,31 +7,16 @@ import {
   App,
 } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
+import { firebaseConfig } from './firebase-config';
 
 let app: App;
 
 if (getApps().length === 0) {
-  try {
-    const serviceAccountString = process.env.FIREBASE_SERVICE_ACCOUNT;
-    if (serviceAccountString) {
-      const serviceAccount = JSON.parse(serviceAccountString);
-      app = initializeApp({
-        credential: cert(serviceAccount),
-      });
-      console.log('Firebase Admin SDK initialized successfully with service account credentials.');
-    } else {
-      // Fallback if service account string is not available
-      console.log('Service account string not found, falling back to application default credentials.');
-      app = initializeApp({
-        credential: applicationDefault(),
-      });
-    }
-  } catch (error: any) {
-    console.warn(`Firebase Admin SDK initialization with service account failed: ${error.message}. Falling back to application default credentials. This is expected in a managed cloud environment.`);
     app = initializeApp({
-      credential: applicationDefault(),
+        credential: applicationDefault(),
+        projectId: firebaseConfig.projectId,
     });
-  }
+    console.log('Firebase Admin SDK initialized with Application Default Credentials.');
 } else {
   app = getApps()[0];
 }
