@@ -18,7 +18,7 @@ export const IconMap: { [key: string]: React.FC<LucideProps> } = {
   Upload, Copy, Download, Binoculars, LineChart, BrainCircuit, Wrench, Key, Facebook, Instagram, BarChart, Hash,
   Star, Loader2, ArrowLeft, Crown, TrendingUp, CheckCircle, Percent, Calendar, Languages, Youtube, Terminal,
   Edit, Server, Globe, UserCheck, User, Plus, Check, BookOpen, GitBranch, Component, Wind, ShieldQuestion,
-  Cpu, GanttChartSquare, X, Sun, Moon, Laptop, Menu, Home, Puzzle, LifeBuoy, LogOut, Scissors, Text, Music,
+  Cpu, Gantt-ChartSquare: GanttChartSquare, X, Sun, Moon, Laptop, Menu, Home, Puzzle, LifeBuoy, LogOut, Scissors, Text, Music,
   Mic, Lightbulb, Bomb, PenSquare
 };
 
