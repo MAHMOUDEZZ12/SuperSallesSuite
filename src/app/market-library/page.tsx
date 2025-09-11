@@ -37,7 +37,7 @@ function MarketLibrary() {
              Meet AI Mode
             </h1>
             <p className="text-lg md:text-xl text-neutral-300">
-                Ask detailed questions for better responses
+                Ask anything about Dubai Real Estate
             </p>
         </div>
         <div className="w-full max-w-3xl">

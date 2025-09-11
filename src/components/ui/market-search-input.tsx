@@ -23,7 +23,7 @@ export default function MarketSearchInput() {
             <form onSubmit={handleSearch} className="relative">
                 <div className="relative">
                     <Input
-                        placeholder="Ask anything"
+                        placeholder="Search for projects, developers, market trends..."
                         className="w-full rounded-full h-14 pl-6 pr-28 text-base bg-[#303134] border-none text-white placeholder:text-neutral-400"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
@@ -39,17 +39,17 @@ export default function MarketSearchInput() {
                 </div>
             </form>
             <div className="mt-8 flex flex-col items-start gap-4 text-sm text-neutral-400 w-full max-w-xl mx-auto">
-                <button onClick={() => router.push('/search?q=Free local events happening this week')} className="flex items-center gap-2 hover:text-white transition-colors">
+                <button onClick={() => router.push('/search?q=Compare Emaar and Damac properties')} className="flex items-center gap-2 hover:text-white transition-colors">
                     <Search className="h-4 w-4" />
-                    <span>Free local events happening this week</span>
+                    <span>Compare Emaar and Damac properties</span>
                 </button>
-                <button onClick={() => router.push('/search?q=Make a table comparing memory foam vs hybrid mattresses')} className="flex items-center gap-2 hover:text-white transition-colors">
+                <button onClick={() => router.push('/search?q=What are the latest trends for villas in Dubai Hills?')} className="flex items-center gap-2 hover:text-white transition-colors">
                      <Search className="h-4 w-4" />
-                    <span>Make a table comparing memory foam vs hybrid mattresses</span>
+                    <span>What are the latest trends for villas in Dubai Hills?</span>
                 </button>
-                 <button onClick={() => router.push('/search?q=How do I get started playing padel?')} className="flex items-center gap-2 hover:text-white transition-colors">
+                 <button onClick={() => router.push('/search?q=Show me off-plan projects with a post-handover payment plan')} className="flex items-center gap-2 hover:text-white transition-colors">
                      <Search className="h-4 w-4" />
-                    <span>How do I get started playing padel?</span>
+                    <span>Show me off-plan projects with a post-handover payment plan</span>
                 </button>
             </div>
         </div>
