@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from '@/components/ui/badge';
-import { PlusCircle, Bot, GitCommit, AlertTriangle, GanttChartSquare, RotateCw, Loader2, Sparkles, CheckCircle, MessageSquare, Undo, Copy, Database, BrainCircuit, Activity, BarChart2, Users, MoreHorizontal } from 'lucide-react';
+import { PlusCircle, Bot, GitCommit, AlertTriangle, GanttChartSquare, RotateCw, Loader2, Sparkles, CheckCircle, MessageSquare, Undo, Copy, Database, BrainCircuit, Activity, BarChart2, Users, MoreHorizontal, Search } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
@@ -21,6 +21,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGr
 import { tools } from '@/lib/features';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Input } from './input';
 
 
 type TaskStatus = 'New' | 'Planned' | 'Coded' | 'Implemented' | 'Assured' | 'Issue Reported';
@@ -107,6 +108,10 @@ export function DevAdminClient({ initialCity, initialCountry }: DevAdminClientPr
     const [changeLog, setChangeLog] = useState<ChangeLogEntry[]>([]);
     
     const [scrapingStates, setScrapingStates] = useState<{ [key: string]: boolean }>({});
+    const [deepScrapeQuery, setDeepScrapeQuery] = useState('');
+    const [isDeepScraping, setIsDeepScraping] = useState(false);
+    const [deepScrapeResult, setDeepScrapeResult] = useState<any>(null);
+
 
     useEffect(() => {
         // Load changelog from localStorage on mount
@@ -246,6 +251,27 @@ export function DevAdminClient({ initialCity, initialCountry }: DevAdminClientPr
         }
     };
     
+    const handleDeepScrape = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!deepScrapeQuery) return;
+        
+        setIsDeepScraping(true);
+        setDeepScrapeResult(null);
+        toast({ title: 'Deep Scrape Started', description: `Searching for '${deepScrapeQuery}' and analyzing content...` });
+
+        try {
+             const response = await fetch(`/api/admin/deep-scrape?q=${encodeURIComponent(deepScrapeQuery)}`);
+             const data = await response.json();
+             if (!data.ok) throw new Error(data.error);
+             setDeepScrapeResult(data.data);
+             toast({ title: 'Deep Scrape Complete!', description: `Found ${data.data.highQualityCount} high-quality links.` });
+        } catch(e: any) {
+            toast({ title: 'Deep Scrape Failed', description: e.message, variant: 'destructive' });
+        } finally {
+            setIsDeepScraping(false);
+        }
+    }
+    
     const handleUserAction = (userId: string, action: string) => {
         toast({ title: 'Action Initiated', description: `Performing action "${action}" for user ${userId}.` });
     }
@@ -378,8 +404,8 @@ export function DevAdminClient({ initialCity, initialCountry }: DevAdminClientPr
             <TabsContent value="data" className="mt-6 space-y-6">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Data Ingestion</CardTitle>
-                        <CardDescription>Update the Market Library by scraping various sources.</CardDescription>
+                        <CardTitle>Surface Scraping</CardTitle>
+                        <CardDescription>Update the Market Library by scraping known, reliable sources for project data.</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <div className="flex items-center gap-4 flex-wrap">
@@ -404,27 +430,40 @@ export function DevAdminClient({ initialCity, initialCountry }: DevAdminClientPr
                 </Card>
                 <Card>
                     <CardHeader>
-                        <CardTitle>Knowledge Base Status</CardTitle>
-                        <CardDescription>An overview of the data currently training the AI models.</CardDescription>
+                        <CardTitle>Deep Scrape & Analysis</CardTitle>
+                        <CardDescription>Use AI to discover and vet new, high-quality data sources from the web for training.</CardDescription>
                     </CardHeader>
-                    <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                        <div className="p-4 bg-muted rounded-lg">
-                           <p className="text-sm text-muted-foreground">Projects in Library</p>
-                           <p className="text-2xl font-bold">1,248</p>
-                        </div>
-                         <div className="p-4 bg-muted rounded-lg">
-                           <p className="text-sm text-muted-foreground">User Documents</p>
-                           <p className="text-2xl font-bold">352</p>
-                        </div>
-                         <div className="p-4 bg-muted rounded-lg">
-                           <p className="text-sm text-muted-foreground">Data Sources</p>
-                           <p className="text-2xl font-bold">3</p>
-                        </div>
-                         <div className="p-4 bg-muted rounded-lg">
-                           <p className="text-sm text-muted-foreground">Last Updated</p>
-                           <p className="text-2xl font-bold">Live</p>
-                        </div>
-                    </CardContent>
+                     <form onSubmit={handleDeepScrape}>
+                        <CardContent>
+                            <div className="flex flex-col sm:flex-row gap-4">
+                                <Input 
+                                    placeholder="Enter a search query, e.g., 'Dubai real estate market trends 2024'"
+                                    value={deepScrapeQuery}
+                                    onChange={(e) => setDeepScrapeQuery(e.target.value)}
+                                    className="flex-grow"
+                                />
+                                <Button type="submit" disabled={isDeepScraping || !deepScrapeQuery}>
+                                    {isDeepScraping ? <Loader2 className="mr-2 h-4 w-4 animate-spin"/> : <Search className="mr-2 h-4 w-4" />}
+                                    {isDeepScraping ? 'Analyzing...' : 'Deep Scrape & Analyze'}
+                                </Button>
+                            </div>
+                        </CardContent>
+                    </form>
+                    {deepScrapeResult && (
+                        <CardFooter>
+                           <div className="text-sm w-full">
+                                <p>Found {deepScrapeResult.highQualityCount} high-quality links out of {deepScrapeResult.resultsFound} results for "{deepScrapeResult.query}".</p>
+                                <ul className="list-disc pl-5 mt-2 space-y-1">
+                                    {deepScrapeResult.highQualityLinks.map((item: any) => (
+                                        <li key={item.url}>
+                                            <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">{item.url}</a>
+                                            <p className="text-xs text-muted-foreground">{item.analysis.reasoning} (Trust: {Math.round(item.analysis.trustworthinessScore * 100)}%)</p>
+                                        </li>
+                                    ))}
+                                </ul>
+                           </div>
+                        </CardFooter>
+                    )}
                 </Card>
             </TabsContent>
             
