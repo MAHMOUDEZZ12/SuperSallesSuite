@@ -12,8 +12,11 @@ export const Logo = ({ className }: { className?: string }) => {
   useEffect(() => {
     // This effect runs only on the client, where window is available
     if (typeof window !== 'undefined') {
-      if (window.location.hostname.includes('searchdxb.ai')) {
+      const hostname = window.location.hostname;
+      if (hostname.includes('searchdxb.ai')) {
         setLogoText('searchdxb.ai');
+      } else if (hostname.includes('dxbbook.ai') || hostname.includes('dubaibook.ai')) {
+        setLogoText('dxbbook.ai');
       }
     }
   }, []);
