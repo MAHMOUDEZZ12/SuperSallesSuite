@@ -85,7 +85,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/documentation',
     '/cookies',
     '/superfreetime',
-    '/blog'
+    '/blog',
+    '/ai-presenter'
   ].map((route) => ({
     url: `${siteUrl}${route}`,
     lastModified: new Date(),
