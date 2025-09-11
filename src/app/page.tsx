@@ -69,13 +69,13 @@ const faqItems = [
     },
     {
         value: "faq-2",
-        question: "What's included in the free trial?",
-        answer: "The free trial gives you access to a selection of our core tools with a limited number of AI generations. It's the perfect way to experience the power of the suite and see how it can fit into your workflow before committing to a plan."
+        question: "Is this really free?",
+        answer: "Yes. The core Market Library and AI-powered search are completely free to use. We plan to introduce premium app suites and membership plans in the future for advanced features, but the core intelligence tool will remain free."
     },
     {
         value: "faq-3",
-        question: "Can I use my own branding?",
-        answer: "Yes! The entire suite is built around your brand. In the 'Brand & Assets' section, you can upload your logo and define your color palette. The AI will then use these assets to ensure everything it creates is perfectly on-brand."
+        question: "Can I save projects or searches?",
+        answer: "Yes! When you sign up for a free account, you can create your own personal project library, save searches, and begin to train your own private AI assistant with your brand and assets."
     },
     {
         value: "faq-4",
@@ -180,42 +180,14 @@ export default function Home() {
           <React.Suspense fallback={<div>Loading...</div>}>
             <MarketSearchInput />
           </React.Suspense>
-        </div>
-
-        <div className="sticky top-16 z-10 bg-background/80 backdrop-blur-lg py-4 mb-8">
-            <div className="flex justify-center overflow-x-auto pb-4 no-scrollbar">
-                <div className="flex gap-2 md:gap-4 flex-nowrap">
-                  {filterCategories.map(category => (
-                    <Button
-                      key={category}
-                      variant={activeFilter === category ? 'default' : 'outline'}
-                      onClick={() => setActiveFilter(category)}
-                      className={cn(
-                        'rounded-full px-4 py-2 text-sm md:text-base transition-all duration-200 shrink-0',
-                        activeFilter === category && 'shadow-lg shadow-primary/20'
-                      )}
-                    >
-                      {category} <span className="hidden md:inline-block ml-1">({getCategoryCount(category)})</span>
-                    </Button>
-                  ))}
-                </div>
-            </div>
-            <div className="text-center text-sm text-muted-foreground mt-2 flex items-center justify-center gap-2">
-                <Sparkles className="h-4 w-4 text-primary" />
-                <span className="font-semibold text-primary">What's New?</span> {currentAnnouncement}
-            </div>
-        </div>
-
-        <div 
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8 lg:gap-12 max-w-[120rem] mx-auto"
-        >
-          {filteredFeatures.map((feature) => (
-            <FeatureCard 
-                key={feature.id} 
-                feature={feature} 
-                onClick={handleCardClick}
-            />
-          ))}
+           <div className="mt-8">
+            <Link href="/signup">
+                <ShinyButton>
+                   Sign Up Free & Build Your Library
+                   <ArrowRight />
+                </ShinyButton>
+            </Link>
+           </div>
         </div>
         
          <section className="mt-32 max-w-6xl mx-auto">

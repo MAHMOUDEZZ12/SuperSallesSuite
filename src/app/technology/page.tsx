@@ -4,7 +4,7 @@
 import React from 'react';
 import { LandingHeader } from '@/components/landing-header';
 import { LandingFooter } from '@/components/landing-footer';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { BrainCircuit, Check, Cpu, Globe, Instagram, MessageCircle, Network, Bot, Send, Loader2, Sparkles, Upload, ArrowRight, Share2, FileText, Link as LinkIcon, File, Plus, Video, Phone, Users2, Facebook, ClipboardList, PenTool, Mic } from 'lucide-react';
 import { PageHeader } from '@/components/ui/page-header';
 import { Button } from '@/components/ui/button';
@@ -46,7 +46,7 @@ export default function AIHostPage() {
                 />
                  <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
                      <Link href="/signup">
-                        <ShinyButton>Get Your AI Presenter Now</ShinyButton>
+                        <ShinyButton>Get Started Free</ShinyButton>
                     </Link>
                  </div>
             </div>

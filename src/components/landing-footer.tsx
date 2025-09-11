@@ -11,7 +11,6 @@ export function LandingFooter() {
   const footerLinks = {
     app: [
         { name: 'About', href: '/about' },
-        { name: 'Pricing', href: '/pricing' },
         { name: 'System Status', href: '/status' },
         { name: 'SuperFreeTime', href: '/superfreetime' },
     ],
