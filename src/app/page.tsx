@@ -114,58 +114,6 @@ export default function Home() {
     : features.filter(feature => feature.categories.includes(activeFilter))
   ).filter(feature => feature.id !== 'superfreetime');
 
-  const FeatureCard = ({
-    feature,
-    onClick,
-  }: {
-    feature: Omit<Feature, 'renderResult'>;
-    onClick: (feature: Omit<Feature, 'renderResult'>) => void;
-  }) => {
-    const Icon = IconMap[feature.icon as keyof typeof IconMap] || Sparkles;
-    return (
-      <Card 
-          className="group flex flex-col bg-card/50 backdrop-blur-lg border-border hover:border-primary/30 transition-all duration-300 cursor-pointer hover:-translate-y-1 shadow-xl shadow-primary/10"
-          onClick={() => onClick(feature)}
-      >
-        <CardContent className="flex flex-col flex-grow p-6">
-          <div className='flex items-center justify-between mb-4'>
-              <div 
-                className="p-3 rounded-lg w-fit text-white"
-                style={{ backgroundColor: feature.color }}
-              >
-                  <Icon className="h-8 w-8" />
-              </div>
-               {(feature.badge) && (
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                       <span className={cn(
-                          `px-2 py-0.5 text-xs font-semibold text-white rounded-full transition-all duration-200`,
-                           feature.badge === 'NEW' ? 'bg-blue-500' : 'bg-amber-400'
-                       )}>
-                          {feature.badge}
-                      </span>
-                    </TooltipTrigger>
-                    <TooltipContent side="top">
-                      <p>{feature.badge === 'NEW' ? 'This is a brand new feature!' : 'This is an automated workflow pilot.'}</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              )}
-          </div>
-          <h2 className="text-2xl font-bold font-heading text-foreground mb-2">{feature.title}</h2>
-          <p className="text-lg text-foreground/70 flex-grow">{feature.description}</p>
-           <div className="mt-6">
-              <Button variant="link" className="p-0 text-base text-primary">
-                  {feature.cta}
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </Button>
-           </div>
-        </CardContent>
-      </Card>
-    );
-  };
-
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <LandingHeader />
@@ -175,7 +123,7 @@ export default function Home() {
              Your AI-powered gateway to Dubai real estate intelligence.
           </h1>
           <p className="text-lg md:text-xl text-foreground/60 mb-8">
-            Search anything about Dubai’s property market. From projects to trends—and instantly act on insights with our integrated app suite.
+            Search anything about Dubai’s property market. From projects to trends—and instantly act on insights with the selltoday.ai suite.
           </p>
           <React.Suspense fallback={<div>Loading...</div>}>
             <MarketSearchInput />
@@ -183,118 +131,12 @@ export default function Home() {
            <div className="mt-8">
             <Link href="/signup">
                 <ShinyButton>
-                   Sign Up Free & Build Your Library
+                   Sign Up Free & Unlock The Suite
                    <ArrowRight />
                 </ShinyButton>
             </Link>
            </div>
         </div>
-        
-         <section className="mt-32 max-w-6xl mx-auto">
-            <Card className="bg-card/50 backdrop-blur-lg border-border shadow-xl shadow-primary/10 overflow-hidden">
-                <div className="grid grid-cols-1 lg:grid-cols-2 items-center">
-                    <div className="p-8 md:p-12">
-                         <div className="p-3 bg-primary/10 text-primary rounded-full w-fit mb-4">
-                            <Bot className="h-8 w-8" />
-                        </div>
-                        <h2 className="text-4xl font-bold font-heading tracking-tight mb-4">Your AI Agent, Supercharged</h2>
-                        <p className="text-lg text-foreground/70 mb-6">
-                           Your assistant is more than a chatbot. It's a command center for your entire suite. Train it, command it, and let it run entire campaigns for you.
-                        </p>
-                        <div className="space-y-6 mb-8">
-                            <div className="flex items-start gap-4">
-                                <div className="p-2 bg-primary/10 text-primary rounded-md mt-1"><BrainCircuit className="h-6 w-6" /></div>
-                                <div>
-                                    <h4 className="font-semibold text-lg">Trainable Intelligence</h4>
-                                    <p className="text-md text-foreground/60">Upload your brochures, market reports, and client lists. Your assistant learns from your private data to give hyper-relevant answers that public AIs can't match.</p>
-                                </div>
-                            </div>
-                             <div className="flex items-start gap-4">
-                                <div className="p-2 bg-primary/10 text-primary rounded-md mt-1"><Sparkles className="h-6 w-6" /></div>
-                                <div>
-                                    <h4 className="font-semibold text-lg">Text-to-Action Commands</h4>
-                                    <p className="text-md text-foreground/60">Issue direct orders. Instead of just asking for ideas, tell your assistant: "Rebrand the Emaar Beachfront brochure with my logo" or "Find three investors for this property from my list."</p>
-                                </div>
-                            </div>
-                              <div className="flex items-start gap-4">
-                                <div className="p-2 bg-primary/10 text-primary rounded-md mt-1"><Megaphone className="h-6 w-6" /></div>
-                                <div>
-                                    <h4 className="font-semibold text-lg">Cross-Tool Workflows</h4>
-                                    <p className="text-md text-foreground/60">Orchestrate multi-step campaigns. Command the assistant: "Create a new project for 'Sobha Hartland', generate a promotional video, and save the final video to my drive."</p>
-                                </div>
-                            </div>
-                        </div>
-                         <div className="mt-12 lg:w-full">
-                            <Link href="/dashboard/assistant">
-                                <Button size="lg" variant="outline" className="w-full py-6 text-lg">
-                                    Your assistant is ready. Are you?
-                                </Button>
-                            </Link>
-                        </div>
-                    </div>
-                    <div className="p-8 md:p-12 bg-muted/50 h-full flex flex-col justify-center min-h-[500px]">
-                        <div className="w-full max-w-lg mx-auto space-y-6">
-                            <div className="flex items-start gap-3 justify-end">
-                                <div className="bg-primary text-primary-foreground p-4 rounded-2xl rounded-br-none max-w-sm shadow-md">
-                                    <p>Create a new project for 'Emaar Beachfront', generate a promotional video, and save it to my library.</p>
-                                </div>
-                                <Avatar className="w-10 h-10">
-                                    <AvatarFallback>U</AvatarFallback>
-                                </Avatar>
-                            </div>
-                            <div className="flex items-start gap-3">
-                                <Avatar className="w-10 h-10">
-                                    <AvatarFallback className="bg-primary/20 text-primary"><Bot className="h-6 w-6"/></AvatarFallback>
-                                </Avatar>
-                                <div className="bg-background border p-4 rounded-2xl rounded-bl-none max-w-sm shadow-md">
-                                    <p>Of course. I've initiated the following workflow:</p>
-                                    <ul className="mt-2 space-y-1 list-inside">
-                                        <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500" /> 1. Project Created: 'Emaar Beachfront'</li>
-                                        <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500" /> 2. Video Generation: In progress...</li>
-                                        <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500" /> 3. File Saved: Pending</li>
-                                    </ul>
-                                    <p className="text-xs text-muted-foreground mt-2">I will notify you when the video is ready.</p>
-                                </div>
-                            </div>
-                            <div className="flex items-start gap-3">
-                                <Avatar className="w-10 h-10">
-                                    <AvatarFallback className="bg-primary/20 text-primary"><Bot className="h-6 w-6"/></AvatarFallback>
-                                </Avatar>
-                                <div className="bg-background border p-4 rounded-2xl rounded-bl-none max-w-sm shadow-md">
-                                    <p>Update: The video for 'Emaar Beachfront' is ready. You can <Link href="#" className="underline">preview it here</Link>. It's also been saved to your asset library.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </Card>
-        </section>
-
-        <section className="mt-32 max-w-5xl mx-auto">
-            <div className="text-center mb-12">
-                 <div className="inline-block p-4 mb-6 text-white rounded-2xl bg-gradient-to-br from-primary to-accent">
-                    <ShieldQuestion className="h-10 w-10" />
-                </div>
-                <h2 className="text-4xl md:text-5xl font-bold font-heading tracking-tight mb-4">Frequently Asked Questions</h2>
-                <p className="text-lg text-foreground/60">
-                    Clear, simple answers to your most common questions.
-                </p>
-            </div>
-
-             <Accordion type="single" collapsible className="w-full space-y-4">
-                {faqItems.map((item) => (
-                    <AccordionItem value={item.value} key={item.value} className="bg-card/50 backdrop-blur-lg border rounded-2xl shadow-lg shadow-primary/10">
-                        <AccordionTrigger className="text-left text-lg p-6 hover:no-underline">
-                            {item.question}
-                        </AccordionTrigger>
-                        <AccordionContent className="px-6 pb-6 text-base text-foreground/80">
-                            {item.answer}
-                        </AccordionContent>
-                    </AccordionItem>
-                ))}
-            </Accordion>
-        </section>
-
       </main>
       <FeatureModal feature={selectedFeature} onClose={() => setSelectedFeature(null)} />
       <LandingFooter />
