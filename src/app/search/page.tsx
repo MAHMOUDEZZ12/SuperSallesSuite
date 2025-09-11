@@ -193,10 +193,11 @@ function SearchPageClient() {
              >
                 <motion.h1 
                     layout="position"
-                    className="text-3xl md:text-5xl font-bold font-heading tracking-tighter mb-6 text-white"
+                    className="text-3xl md:text-5xl font-bold font-heading tracking-tighter text-white"
                 >
-                    Search anything Real Estate Dubai
+                    Dubai Realestate Search
                 </motion.h1>
+                 <p className="text-lg text-gray-400 mt-2 mb-6">An insightful detailed flow about anything</p>
                 <form onSubmit={handleSearch} className="relative">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                     <Input
@@ -240,7 +241,7 @@ export default function SearchPage() {
                     100% { transform: scale(1); opacity: 0.15; }
                 }
             `}</style>
-            <div className="flex-1 w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20 flex z-10">
+            <div className="flex-1 w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20 flex z-10">
                 <Suspense fallback={<div className="flex justify-center items-center h-screen w-full"><Loader2 className="h-12 w-12 animate-spin" /></div>}>
                     <SearchPageClient />
                 </Suspense>
