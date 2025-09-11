@@ -22,8 +22,6 @@ export const metadata: Metadata = {
   title: 'selltoday.ai — AI tools for ads, creatives, and sales',
   description: 'Use AI tools for ads, rebranding, pages, posts, CRM, and reports—all in one sales suite.',
   openGraph: {
-    title: 'selltoday.ai',
-    description: 'Create ads, pages, PDFs, emails, and reports from any brochure. Train your AI assistant.',
     // Replace with a URL to your actual OpenGraph image
     images: ['/og-image.png'],
   },

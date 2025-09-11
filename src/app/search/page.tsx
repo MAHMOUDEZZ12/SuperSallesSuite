@@ -5,12 +5,12 @@ import React, { Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Loader2, Sparkles } from 'lucide-react';
-import { ProjectCard } from '@/components/ui/project-card';
+import { Search, Loader2, Sparkles, Mic, Link as LinkIcon, MoreHorizontal } from 'lucide-react';
 import type { Project } from '@/types';
 import { LandingHeader } from '@/components/landing-header';
 import { LandingFooter } from '@/components/landing-footer';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import Image from 'next/image';
 
 interface SearchResult {
     summary: string | null;
@@ -71,48 +71,50 @@ function SearchResults() {
   }
 
   return (
-    <div className="space-y-8">
-        {result.summary && (
-            <Card className="bg-primary/10 border-primary/20">
-                <CardContent className="p-6">
-                     <h2 className="text-lg font-semibold text-primary flex items-center gap-2 mb-2">
-                        <Sparkles className="h-5 w-5"/> AI Summary
-                    </h2>
-                    <p className="text-foreground/90">{result.summary}</p>
-                </CardContent>
-            </Card>
-        )}
-        
-        {result.extractiveAnswers && result.extractiveAnswers.length > 0 && (
-            <Card>
-                <CardContent className="p-6">
-                    <h2 className="text-lg font-semibold flex items-center gap-2 mb-2">
-                        Key Insights
-                    </h2>
-                     <div className="space-y-2 text-sm text-foreground/80">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+        <div className="lg:col-span-2 space-y-6">
+            <h1 className="text-2xl font-semibold font-heading">{query}</h1>
+            {result.summary && (
+                <div className="prose prose-lg dark:prose-invert max-w-none text-foreground/90">
+                    <p>{result.summary}</p>
+                </div>
+            )}
+            
+            {result.extractiveAnswers && result.extractiveAnswers.length > 0 && (
+                <div className="space-y-4">
+                    <h2 className="text-xl font-semibold font-heading">Key Insights</h2>
+                    <div className="space-y-3">
                         {result.extractiveAnswers.map((answer, index) => (
-                           <blockquote key={index} className="border-l-2 border-primary pl-3 italic">
+                           <blockquote key={index} className="border-l-2 border-primary pl-4 italic text-foreground/80">
                              &quot;{answer.content}&quot;
                            </blockquote>
                         ))}
                     </div>
-                </CardContent>
-            </Card>
-        )}
+                </div>
+            )}
+        </div>
 
-        <div>
-          <h2 className="text-2xl font-bold tracking-tight mb-4">Relevant Projects</h2>
-          {result.projects.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {result.projects.map((project) => (
-                <ProjectCard key={project.id} project={project} />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-16 text-muted-foreground">
-              <p>No specific projects found matching your query.</p>
-            </div>
-          )}
+        <div className="lg:col-span-1 space-y-4">
+             <Card className="bg-muted/50">
+                <CardHeader>
+                    <CardTitle className="text-sm font-semibold">Sources</CardTitle>
+                </CardHeader>
+                 <CardContent className="space-y-3">
+                     {result.projects.slice(0, 3).map((project) => (
+                        <div key={project.id} className="text-sm">
+                            <p className="font-semibold truncate text-primary">{project.name}</p>
+                            <div className="flex items-center gap-1 text-muted-foreground text-xs">
+                                <LinkIcon className="h-3 w-3" />
+                                <span>{project.tags?.[0] || 'selltoday.ai'}</span>
+                            </div>
+                            <p className="text-muted-foreground mt-1 text-xs">{project.developer}</p>
+                        </div>
+                    ))}
+                    {result.projects.length > 3 && (
+                        <Button variant="link" size="sm" className="p-0">Show all</Button>
+                    )}
+                 </CardContent>
+             </Card>
         </div>
     </div>
   );
@@ -122,6 +124,7 @@ function SearchPageClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [query, setQuery] = React.useState(searchParams.get('q') || '');
+  const [followUp, setFollowUp] = React.useState('');
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -131,26 +134,40 @@ function SearchPageClient() {
   };
 
   return (
-        <main className="space-y-8">
-            <div className="text-center">
-                <h1 className="text-3xl font-bold tracking-tight">Market Library Search</h1>
-            </div>
-            <div className="max-w-xl mx-auto">
+        <main className="space-y-8 flex-1 flex flex-col">
+             <div className="max-w-4xl mx-auto w-full">
                 <form onSubmit={handleSearch} className="relative">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                     <Input
                         placeholder="Search by project name, developer, or area..."
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
-                        className="w-full rounded-full h-12 pl-12 pr-28 text-base"
+                        className="w-full h-12 pl-12 pr-4 text-base bg-muted/50 border-border"
                     />
-                     <Button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full h-8 w-24">Search</Button>
                 </form>
             </div>
-            <div className="mt-8">
+            <div className="mt-8 flex-1">
                 <Suspense fallback={<div className="flex justify-center items-center h-64"><Loader2 className="h-8 w-8 animate-spin" /></div>}>
                     <SearchResults />
                 </Suspense>
+            </div>
+             <div className="sticky bottom-6 mt-auto">
+                 <div className="relative max-w-4xl mx-auto">
+                    <Input
+                        placeholder="Ask anything..."
+                        value={followUp}
+                        onChange={(e) => setFollowUp(e.target.value)}
+                        className="w-full rounded-full h-12 pl-6 pr-24 text-base bg-muted/80 backdrop-blur-sm border-border shadow-lg"
+                    />
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                        <Button type="button" variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground rounded-full">
+                            <Mic className="h-5 w-5" />
+                        </Button>
+                         <Button type="button" variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground rounded-full">
+                            <Sparkles className="h-5 w-5" />
+                        </Button>
+                    </div>
+                </div>
             </div>
         </main>
   );
@@ -160,12 +177,11 @@ export default function SearchPage() {
     return (
         <div className="flex min-h-screen flex-col bg-background">
             <LandingHeader />
-            <div className="flex-1 w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20">
-                <Suspense fallback={<div className="flex justify-center items-center h-screen"><Loader2 className="h-12 w-12 animate-spin" /></div>}>
+            <div className="flex-1 w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20 flex">
+                <Suspense fallback={<div className="flex justify-center items-center h-screen w-full"><Loader2 className="h-12 w-12 animate-spin" /></div>}>
                     <SearchPageClient />
                 </Suspense>
             </div>
-            <LandingFooter />
         </div>
     )
 }
