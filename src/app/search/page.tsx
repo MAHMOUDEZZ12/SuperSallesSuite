@@ -5,7 +5,7 @@ import React,  { Suspense, useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Loader2, Mic, ArrowUp, Lightbulb, Sparkles, Home, DollarSign, Sun, Briefcase } from 'lucide-react';
+import { Search, Loader2, Mic, ArrowUp, Lightbulb, Sparkles, Home, DollarSign, Sun, Briefcase, Plus } from 'lucide-react';
 import type { Project } from '@/types';
 import { ProjectCard } from '@/components/ui/project-card';
 import { Separator } from '@/components/ui/separator';
@@ -13,6 +13,7 @@ import { useToast } from '@/hooks/use-toast';
 import { track } from '@/lib/events';
 import { Skeleton } from '@/components/ui/skeleton';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
 
 interface SearchResult {
@@ -54,7 +55,8 @@ const SecondChanceResult = ({ result, query, onFollowUp }: { result: SearchResul
         }
 
         if (lowerQuery.includes('vs') || lowerQuery.includes('compare')) {
-            if (lowerQuery.includes('azizi') && lowerQuery.includes('damac')) {
+            const competitors = lowerQuery.split(/vs|versus|compare/).map(s => s.trim());
+            if (competitors.length >= 2 && competitors.some(c => c.includes('azizi')) && competitors.some(c => c.includes('damac'))) {
                  return {
                     suggestion: `To give you a clearer picture, what if we add a premium developer like Emaar to the comparison?`,
                     reason: `Adding a different tier of developer provides a better benchmark for the entire market.`,
@@ -123,6 +125,80 @@ const ClarificationResult = ({ query, onFollowUp }: { query: string, onFollowUp:
     );
 }
 
+const ComparisonView = ({ items: initialItems }: { items: string[] }) => {
+    const [comparisonItems, setComparisonItems] = useState<any[]>([]);
+    const [newItem, setNewItem] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+
+    const fetchItemData = async (itemName: string) => {
+        const response = await fetch(`/api/projects/scan?q=${encodeURIComponent(itemName)}`);
+        const data = await response.json();
+        if (data.ok) {
+            return {
+                name: itemName,
+                summary: data.data.summary || (data.data.extractiveAnswers[0] && data.data.extractiveAnswers[0].content) || "No summary available.",
+                projects: data.data.projects.slice(0, 3) // Take top 3 projects as examples
+            };
+        }
+        return { name: itemName, summary: "Could not fetch data.", projects: [] };
+    };
+
+    useEffect(() => {
+        const fetchInitialData = async () => {
+            setIsLoading(true);
+            const initialData = await Promise.all(initialItems.map(fetchItemData));
+            setComparisonItems(initialData);
+            setIsLoading(false);
+        };
+        fetchInitialData();
+    }, [initialItems]);
+
+    const handleAddItem = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!newItem.trim()) return;
+        setIsLoading(true);
+        const data = await fetchItemData(newItem);
+        setComparisonItems(prev => [...prev, data]);
+        setNewItem('');
+        setIsLoading(false);
+    };
+
+    return (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
+            <div className={`grid grid-cols-1 md:grid-cols-${comparisonItems.length > 2 ? '3' : '2'} lg:grid-cols-${comparisonItems.length + 1} gap-6 items-start`}>
+                {comparisonItems.map((item, index) => (
+                    <Card key={index} className="bg-gray-900/50 border-gray-700/50 text-gray-300 h-full">
+                        <CardHeader>
+                            <CardTitle className="text-primary capitalize">{item.name}</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <p className="text-sm border-l-2 border-primary/50 pl-2 mb-4">{item.summary}</p>
+                            <h4 className="font-semibold text-xs uppercase text-gray-400 mb-2">Top Projects</h4>
+                            <div className="space-y-2">
+                                {item.projects.map((p: Project) => <p key={p.id} className="text-sm bg-black/30 p-1.5 rounded-md">{p.name}</p>)}
+                            </div>
+                        </CardContent>
+                    </Card>
+                ))}
+                <div className="p-4 rounded-lg border-2 border-dashed border-gray-600 flex flex-col gap-2 h-full">
+                    <h4 className="font-semibold text-gray-200">Add to Comparison</h4>
+                    <form onSubmit={handleAddItem} className="flex flex-col gap-2">
+                        <Input 
+                            value={newItem} 
+                            onChange={e => setNewItem(e.target.value)} 
+                            placeholder="e.g. 'Nakheel'"
+                            className="bg-black/50 border-gray-600 text-white"
+                        />
+                        <Button type="submit" variant="secondary" size="sm" disabled={isLoading}>
+                            {isLoading ? <Loader2 className="h-4 w-4 animate-spin"/> : <Plus className="h-4 w-4"/>} Add
+                        </Button>
+                    </form>
+                </div>
+            </div>
+        </motion.div>
+    );
+};
+
 
 function SearchResults() {
   const router = useRouter();
@@ -182,7 +258,9 @@ function SearchResults() {
     return null;
   }
   
-  const isBroadQuery = ['dubai', 'london', 'new york', 'paris'].includes(query.toLowerCase());
+  const lowerQuery = query.toLowerCase();
+  const isBroadQuery = ['dubai', 'london', 'new york', 'paris'].includes(lowerQuery);
+  const isComparisonQuery = lowerQuery.includes('vs') || lowerQuery.includes('versus') || lowerQuery.includes('compare');
 
   if (isLoading) {
     return (
@@ -211,6 +289,11 @@ function SearchResults() {
             <p>An error occurred: {error}</p>
           </div>
         );
+  }
+
+  if (isComparisonQuery) {
+      const items = query.split(/vs|versus|compare/i).map(s => s.trim()).filter(Boolean);
+      return <ComparisonView items={items.slice(0, 2)} />;
   }
   
   if (!result || (result.projects.length === 0 && !result.summary && result.extractiveAnswers.length === 0)) {
