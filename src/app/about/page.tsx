@@ -5,12 +5,13 @@ import React from 'react';
 import { LandingHeader } from '@/components/landing-header';
 import { LandingFooter } from '@/components/landing-footer';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { BrainCircuit, Rocket, Zap, Puzzle, Copy } from 'lucide-react';
+import { BrainCircuit, Rocket, Zap, Puzzle } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import { secretCodes } from '@/lib/codes';
+import { Copy } from 'lucide-react';
 
 const principles = [
   {
@@ -28,12 +29,6 @@ const principles = [
     description: 'The world of AI and real estate is moving at lightning speed. We are committed to staying on the cutting edge, continuously updating the suite with new tools, more powerful models, and smarter automations. Your subscription is an investment in a platform that grows with you and keeps you ahead of the curve.',
     icon: <Rocket className="h-8 w-8" />,
   },
-];
-
-const roadmapItems = [
-    { name: 'S3 API Network', description: 'Directly connect to and process documents from your own S3-compatible storage solutions.' },
-    { name: 'Meta Ads AI Co-Expert', description: 'An AI agent dedicated to managing, optimizing, and reporting on your Facebook & Instagram ad campaigns.' },
-    { name: 'Gemini For Google Ads', description: 'Leverage the power of Gemini to create and manage high-performance search and display ad campaigns.' },
 ];
 
 export default function AboutPage() {
@@ -83,31 +78,6 @@ export default function AboutPage() {
               </Card>
             ))}
           </div>
-        </section>
-
-        <Separator className="my-24" />
-
-        <section>
-          <h2 className="text-3xl font-bold mb-8 text-center">Roadmap: The Future of WhatsMAP</h2>
-           <div className="max-w-2xl mx-auto">
-                <Card className="bg-card/50 backdrop-blur-lg border-primary/10">
-                    <CardContent className="p-8 space-y-6">
-                         {roadmapItems.map((item) => (
-                            <div key={item.name} className="flex items-start gap-4">
-                                <div className="p-2 bg-primary/10 text-primary rounded-full mt-1">
-                                    <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h4 className="font-semibold text-lg text-foreground">{item.name}</h4>
-                                    <p className="text-foreground/70">{item.description}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </CardContent>
-                </Card>
-           </div>
         </section>
         
         <Separator className="my-24" />
