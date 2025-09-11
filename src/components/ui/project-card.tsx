@@ -36,7 +36,7 @@ export function ProjectCard({
       )}>
       <div>
         <div className="relative h-40 w-full bg-gray-800">
-           <Image src={`https://picsum.photos/seed/${project.id}/400/200`} alt={project.name} fill={true} objectFit="cover" data-ai-hint="building exterior" />
+           <Image src={`https://picsum.photos/seed/${project.id}/400/200`} alt={project.name} fill={true} style={{objectFit:"cover"}} data-ai-hint="building exterior" />
             {project.badge && <span className="absolute top-2 left-2 text-xs rounded-full border border-gray-600 px-2 py-0.5 bg-gray-900/70 backdrop-blur-sm text-gray-200">{project.badge}</span>}
             {selectable && <div className="absolute top-2 right-2"><Checkbox checked={selected} readOnly aria-label={`Select project ${project.name}`} /></div>}
              {project.developerLogoUrl && <Image src={project.developerLogoUrl} alt={`${project.developer} Logo`} width={32} height={32} className="absolute bottom-2 right-2 rounded-md bg-white/80 p-1" data-ai-hint="company logo" />}

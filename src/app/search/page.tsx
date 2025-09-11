@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { Suspense, useState, useEffect } from 'react';
+import React,  { Suspense, useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -22,10 +22,12 @@ interface SearchResult {
 }
 
 const ProjectCardSkeleton = () => (
-    <div className="space-y-2 p-4 bg-gray-900 rounded-lg">
-        <Skeleton className="h-40 w-full bg-gray-700" />
-        <Skeleton className="h-4 w-3/4 bg-gray-700" />
-        <Skeleton className="h-4 w-1/2 bg-gray-700" />
+    <div className="relative overflow-hidden rounded-lg p-px shadow-lg">
+        <div className="relative rounded-lg bg-gray-900 p-4 space-y-2">
+            <Skeleton className="h-40 w-full bg-gray-700" />
+            <Skeleton className="h-4 w-3/4 bg-gray-700" />
+            <Skeleton className="h-4 w-1/2 bg-gray-700" />
+        </div>
     </div>
 );
 
