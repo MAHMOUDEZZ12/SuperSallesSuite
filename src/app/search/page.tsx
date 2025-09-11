@@ -262,7 +262,7 @@ function SearchResults() {
 
   const handleAddToLibrary = (project: Project) => {
     track('project_added_to_library', { projectId: project.id, projectName: project.name });
-    const currentProjects = JSON.parse(localStorage.getItem('myProjects') || '[]');
+    const currentProjects = JSON.parse(localStorage.getItem('myProjects') || '[]'`);
     const newProjects = [...currentProjects, project];
     localStorage.setItem('myProjects', JSON.stringify(newProjects));
     setMyProjects(prev => [...prev, project.id]);
@@ -411,9 +411,9 @@ function SearchPageClient() {
             transition={{ delay: 0.2 }}
             >
             <h1 className="text-3xl md:text-5xl font-bold font-heading tracking-tight text-white">
-                Search anything Real Estate Dubai
+                Whatsmap
             </h1>
-            <p className="text-lg text-gray-400 mt-2">An insightful detailed flow about anything in the market</p>
+            <p className="text-lg text-gray-400 mt-2">Search anything in real estate.</p>
         </motion.div>
         <form onSubmit={handleSearch} className="relative group w-full">
             <motion.div 

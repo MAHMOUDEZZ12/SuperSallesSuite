@@ -14,8 +14,8 @@ export const Logo = ({ className }: { className?: string }) => {
     // This effect runs only on the client, where window is available
     if (typeof window !== 'undefined') {
       const hostname = window.location.hostname;
-      if (hostname.includes('searchdxb.ai') || hostname.includes('searchdxb.com') || hostname.includes('searchdxb.ae')) {
-        setLogoText('searchdxb.ai');
+      if (hostname.includes('whatsmap.ai') || hostname.includes('whatsmap.com') || hostname.includes('whatsmap.ae') || hostname.includes('searchdxb')) {
+        setLogoText('whatsmap.ai');
         setLogoHref('/'); // Keep user on the search page
       } else if (hostname.includes('dxbbook.ai') || hostname.includes('dubaibook.ai') || hostname.includes('dxbbook.com') || hostname.includes('dxbbook.ae')) {
         setLogoText('dxbbook.ai');
