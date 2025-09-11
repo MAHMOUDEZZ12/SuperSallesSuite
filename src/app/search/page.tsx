@@ -413,7 +413,7 @@ function SearchPageClient() {
             <h1 className="text-3xl md:text-5xl font-bold font-heading tracking-tight text-white">
                 WhatsMAP
             </h1>
-            <p className="text-lg text-gray-400 mt-2">Search anything in real estate.</p>
+            <p className="text-lg text-gray-400 mt-2">An AI system designed to answer people's questions about homes, and empower those who do.</p>
         </motion.div>
         <form onSubmit={handleSearch} className="relative group w-full">
             <motion.div 
