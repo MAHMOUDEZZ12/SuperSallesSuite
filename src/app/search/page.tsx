@@ -193,7 +193,7 @@ function SearchPageClient() {
                     <p className="text-lg text-gray-400 mt-2">An insightful detailed flow about anything in the market</p>
                 </motion.div>
                 <form onSubmit={handleSearch} className="relative group">
-                    <div className="relative p-px rounded-xl bg-gradient-to-r from-primary/20 to-primary/50 group-hover:from-primary/40 group-hover:to-primary transition-all duration-300">
+                    <div className="relative p-px rounded-xl bg-gradient-to-r from-blue-500/20 to-cyan-400/20 group-hover:from-blue-500/50 group-hover:to-cyan-400/50 transition-all duration-300">
                         <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                         <Input
                             placeholder="Search for projects, developers, or market trends..."
