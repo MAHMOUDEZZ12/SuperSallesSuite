@@ -16,7 +16,7 @@ if (getApps().length === 0) {
         credential: applicationDefault(),
         projectId: firebaseConfig.projectId,
     });
-    console.log('Firebase Admin SDK initialized with Application Default Credentials.');
+    console.log('Firebase Admin SDK initialized with Application Default Credentials for project:', firebaseConfig.projectId);
 } else {
   app = getApps()[0];
 }

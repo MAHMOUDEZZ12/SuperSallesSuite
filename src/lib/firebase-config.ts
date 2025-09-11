@@ -2,11 +2,12 @@
 // It does not contain any sensitive information.
 // See: https://firebase.google.com/docs/web/setup#config-object
 export const firebaseConfig = {
-  apiKey: "AIzaSyC2AJDevhB98d-Gz6rC8N1FNyw_ISgWEZo",
-  authDomain: "leadbylead-b79ea.firebaseapp.com",
-  projectId: "leadbylead-b79ea",
-  storageBucket: "leadbylead-b79ea.appspot.com",
-  messagingSenderId: "432273508285",
-  appId: "1:432273508285:web:c19faae0c1af31639934d4",
-  measurementId: "G-0NMPCGWQ2F"
+  apiKey: "AIzaSyAyAk-Zep4hE5hpyUxmOK2Adhm66Ph-An0",
+  authDomain: "supersellerae-4rzzy.firebaseapp.com",
+  databaseURL: "https://supersellerae-4rzzy-default-rtdb.firebaseio.com",
+  projectId: "supersellerae-4rzzy",
+  storageBucket: "supersellerae-4rzzy.appspot.com",
+  messagingSenderId: "992035961888",
+  appId: "1:992035961888:web:44938d76ea4f3c5e4a5045",
+  measurementId: "G-T4E4P9FRVK"
 };
