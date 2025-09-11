@@ -5,7 +5,7 @@ import React, { Suspense, useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Loader2, Sparkles, Mic, PlusCircle } from 'lucide-react';
+import { Search, Loader2, Sparkles, Mic, PlusCircle, ArrowUp } from 'lucide-react';
 import type { Project } from '@/types';
 import { ProjectCard } from '@/components/ui/project-card';
 import { Separator } from '@/components/ui/separator';
@@ -199,13 +199,23 @@ function SearchPageClient() {
                 </motion.h1>
                  <p className="text-lg text-gray-400 mt-2 mb-6">An insightful detailed flow about anything in the market</p>
                 <form onSubmit={handleSearch} className="relative">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-                    <Input
-                        placeholder="Search for projects, developers, or market trends..."
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                        className="w-full h-14 pl-12 pr-4 text-base bg-gray-800/50 border-gray-700 text-white rounded-full shadow-lg backdrop-blur-sm placeholder:text-gray-500"
-                    />
+                    <div className="relative">
+                        <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                        <Input
+                            placeholder="Search for projects, developers, or market trends..."
+                            value={query}
+                            onChange={(e) => setQuery(e.target.value)}
+                            className="w-full h-16 pl-14 pr-28 text-base bg-gray-800/50 border border-gray-700 text-white rounded-full shadow-lg backdrop-blur-sm placeholder:text-gray-500 focus-visible:ring-primary/50"
+                        />
+                         <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                             <Button type="button" variant="ghost" size="icon" className="text-neutral-400 hover:text-white rounded-full">
+                                <Mic className="h-5 w-5" />
+                            </Button>
+                            <Button type="submit" size="icon" className="bg-primary hover:bg-primary/90 rounded-full h-10 w-10">
+                                <ArrowUp className="h-5 w-5" />
+                            </Button>
+                        </div>
+                    </div>
                 </form>
             </motion.div>
             <AnimatePresence>
