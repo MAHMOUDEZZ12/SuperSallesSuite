@@ -113,9 +113,9 @@ const ClarificationResult = ({ query, onFollowUp, summary }: { query: string, on
         >
             <div>
               <p className="text-gray-300">
-                {summary ? summary : `Dubai is a major real estate hub with active developers like Emaar and Damac, and popular areas including Dubai Marina and Downtown.`}
+                {summary ? summary : `That's a broad query. To give you the best results, what aspect of ${query} are you most interested in?`}
               </p>
-              <p className="font-semibold text-white mt-2">To give you the best results, which of these are you most interested in?</p>
+              <p className="font-semibold text-white mt-2">Select an option below to refine your search.</p>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {options.map(opt => (
@@ -413,7 +413,7 @@ function SearchPageClient() {
             <h1 className="text-3xl md:text-5xl font-bold font-heading tracking-tight text-white">
                 WhatsMAP
             </h1>
-            <p className="text-lg text-gray-400 mt-2">An AI system designed to answer people's questions about homes, and empower those who do.</p>
+            <p className="text-lg text-gray-400 mt-2">A learning AI that maps the world's real estate, answering any question to empower your decisions.</p>
         </motion.div>
         <form onSubmit={handleSearch} className="relative group w-full">
             <motion.div 
@@ -421,7 +421,7 @@ function SearchPageClient() {
                 className="relative p-px rounded-xl bg-gradient-to-r group-hover:from-blue-500/50 group-hover:to-cyan-400/50 from-blue-500/20 to-cyan-400/20 transition-all duration-300">
                 <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <Input
-                    placeholder="Search for projects, developers, or market trends..."
+                    placeholder="Search for projects, market trends, or compare developers..."
                     value={query}
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}

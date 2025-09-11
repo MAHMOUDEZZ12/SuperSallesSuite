@@ -105,7 +105,7 @@ function WhatsMAPHome() {
                         WhatsMAP
                     </h1>
                      <p className="text-lg text-gray-400 mt-2">
-                        An AI system designed to answer people's questions about homes, and empower those who do.
+                        A learning AI that maps the world's real estate, answering any question to empower your decisions.
                     </p>
                 </div>
                 <div className="w-full max-w-3xl">

@@ -7,7 +7,7 @@ import { track } from '@/lib/events';
 import type { Project } from '@/types';
 import { useRouter } from 'next/navigation';
 
-export const MOCK_DEVELOPERS = ['Emaar', 'Damac', 'Sobha', 'Nakheel', 'Meraas', 'Aldar'];
+export const MOCK_DEVELOPERS = ['Emaar', 'Damac', 'Sobha', 'Nakheel', 'Meraas', 'Aldar', 'Trafalgar', 'Lennar', 'Vinci'];
 
 type OnboardingStep = 'welcome' | 'location' | 'developers' | 'projects' | 'brand' | 'finish';
 
