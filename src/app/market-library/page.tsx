@@ -29,7 +29,7 @@ function MarketLibrary() {
       <main className="flex-1 flex flex-col items-center justify-center px-4">
         <div className="text-center mb-8 max-w-4xl mx-auto">
             <h1 className="text-5xl md:text-6xl font-bold font-heading tracking-tight mb-4 text-white">
-             Whatsmap
+             What'sMAP
             </h1>
         </div>
         <div className="w-full max-w-3xl">
