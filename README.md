@@ -1,4 +1,4 @@
-# selltoday.ai
+ push# selltoday.ai
 
 ## Overview
 selltoday.ai is a **real estate–focused AI productivity hub**.  
