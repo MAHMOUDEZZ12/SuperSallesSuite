@@ -14,7 +14,7 @@ import { Feature } from '@/lib/features';
 
 export const FeatureModal = ({ feature, onClose }: { feature: Omit<Feature, 'renderResult'> | null, onClose: () => void }) => {
   if (!feature) return null;
-  const Icon = IconMap[feature.icon as keyof typeof IconMap];
+  const Icon = IconMap[feature.icon as keyof typeof IconMap] || Sparkles;
 
   return (
     <Dialog open={!!feature} onOpenChange={(open) => !open && onClose()}>
@@ -131,7 +131,7 @@ export const FeatureModal = ({ feature, onClose }: { feature: Omit<Feature, 'ren
             <Separator />
 
             <div className="p-6 text-center">
-                <Link href={`/dashboard/tool/${feature.id}`}>
+                <Link href={feature.isPage ? `/dashboard/tool/${feature.id}` : `/dashboard/tool/${feature.id}`}>
                     <Button variant="outline" size="lg" className='text-base'>
                       {feature.cta} <ArrowRight className="ml-2 h-4 w-4"/>
                     </Button>
