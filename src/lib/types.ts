@@ -865,15 +865,3 @@ export const EstimatePriceOutputSchema = z.object({
     comparableSales: z.array(z.string()).describe("A list of 2-3 fictional but realistic comparable sales used for the estimation."),
 });
 export type EstimatePriceOutput = z.infer<typeof EstimatePriceOutputSchema>;
-
-// Schemas for Aerial View Generator
-export const GenerateAerialViewInputSchema = z.object({
-  address: z.string().describe("The full address of the property to generate a view for."),
-});
-export type GenerateAerialViewInput = z.infer<typeof GenerateAerialViewInputSchema>;
-
-export const GenerateAerialViewOutputSchema = z.object({
-  videoDataUri: z.string().url().describe("A data URI of the generated aerial video, in mp4 format."),
-  analysis: z.string().describe("A brief AI analysis of the location and what the video showcases."),
-});
-export type GenerateAerialViewOutput = z.infer<typeof GenerateAerialViewOutputSchema>;
