@@ -5,7 +5,7 @@ import React,  { Suspense, useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Loader2, Mic, ArrowUp, Lightbulb, Sparkles } from 'lucide-react';
+import { Search, Loader2, Mic, ArrowUp, Lightbulb, Sparkles, Home, DollarSign, Sun, Briefcase } from 'lucide-react';
 import type { Project } from '@/types';
 import { ProjectCard } from '@/components/ui/project-card';
 import { Separator } from '@/components/ui/separator';
@@ -33,7 +33,6 @@ const ProjectCardSkeleton = () => (
 
 const SecondChanceResult = ({ result, query, onFollowUp }: { result: SearchResult, query: string, onFollowUp: (newQuery: string) => void }) => {
     
-    // Enhanced logic to generate a single, contextual suggestion with reasoning.
     const generateSuggestion = (q: string): { suggestion: string; reason: string; } | null => {
         const lowerQuery = q.toLowerCase();
 
@@ -63,7 +62,7 @@ const SecondChanceResult = ({ result, query, onFollowUp }: { result: SearchResul
             }
         }
 
-        return null; // Return null if no high-value suggestion can be made.
+        return null;
     }
     
     const suggestion = generateSuggestion(query);
@@ -82,21 +81,47 @@ const SecondChanceResult = ({ result, query, onFollowUp }: { result: SearchResul
                      <p className="text-gray-300 mt-2">{directAnswer}</p>
                      
                      {suggestion && (
-                        <>
-                            <p className="text-gray-400 mt-6 text-sm font-semibold">Expert Suggestion:</p>
-                            <div className="mt-2 flex flex-col gap-3">
-                                <div className="p-4 bg-black/30 rounded-lg hover:bg-black/50 transition-colors cursor-pointer" onClick={() => onFollowUp(suggestion.suggestion)}>
-                                    <p className="font-semibold text-primary flex items-start gap-2"><Sparkles className="h-4 w-4 mt-1 shrink-0"/> {suggestion.suggestion}</p>
-                                    <p className="text-xs text-gray-400 pl-6 mt-1">{suggestion.reason}</p>
-                                </div>
-                            </div>
-                        </>
+                        <div className="mt-6">
+                            <p className="text-gray-300 font-semibold">{suggestion.suggestion}</p>
+                            <p className="text-sm text-gray-400 mt-1">{suggestion.reason}</p>
+                            <Button variant="outline" size="sm" className="mt-3 bg-black/30 text-primary border-primary/50 hover:bg-black/50 hover:text-primary" onClick={() => onFollowUp(suggestion.suggestion)}>
+                                Yes, let's do that
+                            </Button>
+                        </div>
                      )}
                 </div>
             </div>
         </motion.div>
     );
 };
+
+const ClarificationResult = ({ query, onFollowUp }: { query: string, onFollowUp: (newQuery: string) => void }) => {
+    const options = [
+        { label: 'Real Estate', icon: <Home/>, query: `real estate market in ${query}` },
+        { label: 'Cost of Living', icon: <DollarSign/>, query: `cost of living in ${query}` },
+        { label: 'Weather', icon: <Sun/>, query: `weather in ${query}` },
+        { label: 'Career Opportunities', icon: <Briefcase/>, query: `career opportunities in ${query}` },
+    ];
+    
+    return (
+         <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="p-6 rounded-xl bg-gray-900/50 border border-primary/30 text-left"
+        >
+            <h3 className="text-xl font-semibold text-white font-heading text-center">That's a broad query!</h3>
+            <p className="text-gray-300 mt-2 text-center">For a better answer, what specifically about "{query}" are you interested in?</p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                {options.map(opt => (
+                    <button key={opt.label} onClick={() => onFollowUp(opt.query)} className="group p-4 rounded-lg bg-black/30 hover:bg-black/50 border border-gray-700 hover:border-primary transition-all duration-200">
+                        <div className="text-primary mx-auto w-fit">{React.cloneElement(opt.icon, { className: 'h-6 w-6' })}</div>
+                        <p className="font-semibold text-sm text-gray-200 mt-2 text-center">{opt.label}</p>
+                    </button>
+                ))}
+            </div>
+        </motion.div>
+    );
+}
 
 
 function SearchResults() {
@@ -157,6 +182,8 @@ function SearchResults() {
     return null;
   }
   
+  const isBroadQuery = ['dubai', 'london', 'new york', 'paris'].includes(query.toLowerCase());
+
   if (isLoading) {
     return (
         <div className="space-y-8 mt-8">
@@ -187,6 +214,9 @@ function SearchResults() {
   }
   
   if (!result || (result.projects.length === 0 && !result.summary && result.extractiveAnswers.length === 0)) {
+     if (isBroadQuery) {
+        return <ClarificationResult query={query} onFollowUp={handleFollowUpSearch} />;
+     }
      return (
           <div className="text-center py-16 text-gray-400">
             <p>No results found for &quot;{query}&quot;.</p>
@@ -194,7 +224,10 @@ function SearchResults() {
         );
   }
   
-   // "Second Chance" logic
+  if (isBroadQuery && result.projects.length === 0) {
+      return <ClarificationResult query={query} onFollowUp={handleFollowUpSearch} />;
+  }
+
   if (result.projects.length === 0 && (result.summary || result.extractiveAnswers.length > 0)) {
     return <SecondChanceResult result={result} query={query} onFollowUp={handleFollowUpSearch} />;
   }
@@ -242,7 +275,7 @@ function SearchResults() {
                     ))}
                 </div>
             ) : (
-                !result.summary && <p className="text-gray-400 text-center">No specific projects found related to your query.</p>
+                !result.summary && !isBroadQuery && <p className="text-gray-400 text-center">No specific projects found related to your query.</p>
             )}
         </div>
     </motion.div>
