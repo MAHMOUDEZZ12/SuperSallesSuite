@@ -97,11 +97,11 @@ const SecondChanceResult = ({ result, query, onFollowUp }: { result: SearchResul
     );
 };
 
-const ClarificationResult = ({ query, onFollowUp }: { query: string, onFollowUp: (newQuery: string) => void }) => {
+const ClarificationResult = ({ query, onFollowUp, summary }: { query: string, onFollowUp: (newQuery: string) => void, summary: string | null }) => {
     const options = [
-        { label: 'Real Estate', icon: <Home/>, query: `real estate market in ${query}` },
-        { label: 'Cost of Living', icon: <DollarSign/>, query: `cost of living in ${query}` },
-        { label: 'Weather', icon: <Sun/>, query: `weather in ${query}` },
+        { label: 'Top Developers', icon: <Home/>, query: `top developers in ${query}` },
+        { label: 'Market Trends', icon: <DollarSign/>, query: `market trends in ${query}` },
+        { label: 'Newest Projects', icon: <Sun/>, query: `newest projects in ${query}` },
         { label: 'Career Opportunities', icon: <Briefcase/>, query: `career opportunities in ${query}` },
     ];
     
@@ -109,11 +109,15 @@ const ClarificationResult = ({ query, onFollowUp }: { query: string, onFollowUp:
          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="p-6 rounded-xl bg-gray-900/50 border border-primary/30 text-left"
+            className="p-6 rounded-xl bg-gray-900/50 border border-primary/30 text-left space-y-6"
         >
-            <h3 className="text-xl font-semibold text-white font-heading text-center">That's a broad query!</h3>
-            <p className="text-gray-300 mt-2 text-center">For a better answer, what specifically about "{query}" are you interested in?</p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+            <div>
+              <p className="text-gray-300">
+                {summary ? summary : `The query "${query}" is quite broad.`}
+              </p>
+              <p className="font-semibold text-white mt-2">To give you the best results, which of these are you most interested in?</p>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {options.map(opt => (
                     <button key={opt.label} onClick={() => onFollowUp(opt.query)} className="group p-4 rounded-lg bg-black/30 hover:bg-black/50 border border-gray-700 hover:border-primary transition-all duration-200">
                         <div className="text-primary mx-auto w-fit">{React.cloneElement(opt.icon, { className: 'h-6 w-6' })}</div>
@@ -312,7 +316,7 @@ function SearchResults() {
   
   if (!result || (result.projects.length === 0 && !result.summary && result.extractiveAnswers.length === 0)) {
      if (isBroadQuery) {
-        return <ClarificationResult query={query} onFollowUp={handleFollowUpSearch} />;
+        return <ClarificationResult query={query} onFollowUp={handleFollowUpSearch} summary={result?.summary || null} />;
      }
      return (
           <div className="text-center py-16 text-gray-400">
@@ -322,7 +326,7 @@ function SearchResults() {
   }
   
   if (isBroadQuery && result.projects.length === 0) {
-      return <ClarificationResult query={query} onFollowUp={handleFollowUpSearch} />;
+      return <ClarificationResult query={query} onFollowUp={handleFollowUpSearch} summary={result.summary} />;
   }
 
   if (result.projects.length === 0 && (result.summary || result.extractiveAnswers.length > 0)) {
@@ -475,3 +479,5 @@ export default function SearchPage() {
         </div>
     )
 }
+
+    
