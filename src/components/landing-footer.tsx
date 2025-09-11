@@ -10,6 +10,7 @@ import { Separator } from './ui/separator';
 export function LandingFooter() {
   const footerLinks = {
     app: [
+        { name: 'Search', href: '/search' },
         { name: 'About', href: '/about' },
         { name: 'System Status', href: '/status' },
         { name: 'SuperFreeTime', href: '/superfreetime' },
