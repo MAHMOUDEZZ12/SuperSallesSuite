@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState } from 'react';
@@ -31,7 +32,7 @@ const WelcomeSlide = () => (
         <div className="mx-auto w-fit p-4 bg-primary/10 text-primary rounded-full mb-4">
             <Sparkles className="h-10 w-10" />
         </div>
-        <DialogTitle className="text-2xl">Welcome to selltoday.ai</DialogTitle>
+        <DialogTitle className="text-2xl">Welcome to WhatsMAP</DialogTitle>
         <DialogDescription className="mt-2 max-w-sm mx-auto">Let's set up your intelligent workspace. It only takes a minute.</DialogDescription>
     </div>
 );
@@ -250,4 +251,3 @@ export const OnboardingDialog = () => {
         </Dialog>
     );
 };
-

@@ -105,7 +105,7 @@ function WhatsMAPHome() {
                         WhatsMAP
                     </h1>
                      <p className="text-lg text-gray-400 mt-2">
-                        A learning AI that maps the world's real estate, answering any question to empower your decisions.
+                        Your AI co-pilot for real estate. We tell, think, plan, calculate, review, estimate, and find investments.
                     </p>
                 </div>
                 <div className="w-full max-w-3xl">
@@ -140,7 +140,7 @@ export default function Home() {
 
     React.useEffect(() => {
         const hostname = window.location.hostname;
-        if (hostname.includes('selltoday.ai') || hostname.includes('localhost')) {
+        if (hostname.includes('selltoday.ai')) {
             setDomainComponent(
                 <div className="flex min-h-screen flex-col bg-background">
                     <LandingHeader />
@@ -148,20 +148,14 @@ export default function Home() {
                     <LandingFooter />
                 </div>
             );
-        } else if (hostname.includes('whatsmap') || hostname.includes('searchdxb')) {
+        } else if (hostname.includes('whatsmap') || hostname.includes('localhost')) {
             setDomainComponent(<WhatsMAPHome />);
         } else if (hostname.includes('video')) {
             setDomainComponent(<VideoHome />);
         } else if (hostname.includes('chat')) {
             setDomainComponent(<ChatHome />);
         } else {
-             setDomainComponent(
-                <div className="flex min-h-screen flex-col bg-background">
-                    <LandingHeader />
-                    <MindMapHome />
-                    <LandingFooter />
-                </div>
-            );
+             setDomainComponent(<WhatsMAPHome />);
         }
     }, []);
 
