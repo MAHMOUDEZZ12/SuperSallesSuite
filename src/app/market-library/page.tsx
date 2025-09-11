@@ -10,8 +10,8 @@ import { User } from 'lucide-react';
 import Link from 'next/link';
 
 function MarketLibrary() {
-  // This page is now a simple redirector or can be used as a template
-  // The functionality has been moved to the root page.tsx for dynamic routing.
+  // This page has been deprecated in favor of the unified /search page.
+  // This content is now largely for archival purposes.
   return (
     <div className="flex min-h-screen flex-col market-library-bg text-white">
       <header className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center p-4">
@@ -43,8 +43,6 @@ function MarketLibrary() {
 }
 
 export default function MarketLibraryPage() {
-    // The content of this page is now part of the dynamic routing in `/app/page.tsx`.
-    // This component remains for route integrity but could be refactored further.
     return (
         <Suspense fallback={<div className="flex justify-center items-center h-screen bg-[#1f1f1f]"><Loader2 className="h-12 w-12 animate-spin text-white" /></div>}>
             <MarketLibrary />

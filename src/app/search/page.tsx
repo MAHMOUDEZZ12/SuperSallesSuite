@@ -75,9 +75,13 @@ function SearchResults() {
     });
   }
 
+  if (!query) {
+    return null; // Don't render anything if there's no query
+  }
+  
   if (isLoading) {
     return (
-        <div className="space-y-8">
+        <div className="space-y-8 mt-8">
              <div className="space-y-6">
                 <Skeleton className="h-8 w-2/3" />
                 <Skeleton className="h-5 w-full" />
@@ -117,10 +121,9 @@ function SearchResults() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="space-y-8"
+        className="space-y-8 mt-8"
     >
         <div className="space-y-6">
-            <h1 className="text-2xl font-semibold font-heading">Search Results for &quot;{query}&quot;</h1>
             {result.summary && (
                 <div className="prose prose-lg dark:prose-invert max-w-none text-foreground/90">
                     <p>{result.summary}</p>
@@ -141,10 +144,10 @@ function SearchResults() {
             )}
         </div>
 
-        <Separator />
+        {result.projects.length > 0 && <Separator />}
 
         <div>
-            <h2 className="text-xl font-semibold font-heading mb-4">Relevant Projects</h2>
+            {result.projects.length > 0 && <h2 className="text-xl font-semibold font-heading mb-4">Relevant Projects</h2>}
              {result.projects.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {result.projects.map((project) => (
@@ -161,7 +164,7 @@ function SearchResults() {
                     ))}
                 </div>
             ) : (
-                <p className="text-muted-foreground">No specific projects found related to your query.</p>
+                !result.summary && <p className="text-muted-foreground text-center">No specific projects found related to your query.</p>
             )}
         </div>
 
@@ -178,13 +181,15 @@ function SearchPageClient() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (query.trim()) {
-        router.push(`/search?q=${encodeURIComponent(query)}`);
+        // Update URL without a full page reload, letting useEffect in SearchResults handle the fetch
+        router.push(`/search?q=${encodeURIComponent(query)}`, { scroll: false });
     }
   };
 
   return (
-        <main className="space-y-8 flex-1 flex flex-col">
-             <div className="max-w-4xl mx-auto w-full">
+        <main className="space-y-8 flex-1 flex flex-col w-full">
+             <div className="max-w-4xl mx-auto w-full pt-12">
+                <h1 className="text-3xl md:text-4xl font-bold font-heading tracking-tighter mb-4 text-foreground text-center">Search anything Real Estate Dubai</h1>
                 <form onSubmit={handleSearch} className="relative">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                     <Input
