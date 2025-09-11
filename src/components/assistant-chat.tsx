@@ -89,7 +89,7 @@ export function AssistantChat() {
         <button
             aria-label="Open AI Assistant"
             onClick={() => setIsOpen(true)}
-            className="fixed bottom-6 right-6 z-50 rounded-full bg-primary p-4 text-primary-foreground shadow-lg hover:bg-primary/90 animate-in fade-in zoom-in"
+            className="fixed bottom-4 right-6 z-50 rounded-full bg-primary p-4 text-primary-foreground shadow-lg hover:bg-primary/90 animate-in fade-in zoom-in"
         >
             <Sparkles className="h-6 w-6" />
       </button>
