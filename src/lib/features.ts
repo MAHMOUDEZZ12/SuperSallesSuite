@@ -1,3 +1,4 @@
+
 // This file is now a pure data file with no React/JSX dependencies.
 // It can be safely imported by both server and client components.
 
