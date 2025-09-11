@@ -227,14 +227,15 @@ export default function ToolPage() {
 
   React.useEffect(() => {
     const currentTool = clientTools.find((t) => t.id === toolId);
-    if (currentTool?.isPage) {
-        // This is a tool with a dedicated page, so we shouldn't be here.
-        // Redirect to its proper page.
-        router.replace(`/dashboard/tool/${toolId}`);
-        return;
+    if (currentTool?.isPage && router) {
+        // This is a tool with a dedicated page. The dedicated page component
+        // will be rendered by Next.js routing, so we don't need to do anything here.
+        // We just prevent the generic form from rendering.
+        // The check prevents this component from trying to render anything.
+    } else {
+       setTool(currentTool);
     }
     
-    setTool(currentTool);
     if (currentTool?.id === 'audience-creator') {
         setShowCampaignNotice(true);
     }
@@ -271,6 +272,11 @@ export default function ToolPage() {
   });
 
   if (!tool) {
+    const currentTool = clientTools.find((t) => t.id === toolId);
+    if (currentTool?.isPage) {
+        // This is a dedicated page, so this component should render nothing.
+        return null;
+    }
     return (
         <div className="flex h-[80vh] items-center justify-center">
             <Card className="m-4">

@@ -901,6 +901,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Sales Tools', 'Utilities', 'Market Library'],
     mindMapCategory: 'Sales Enablement',
     badge: 'NEW',
+    isPage: true,
     href: '/dashboard/tool/price-estimator',
     details: {
       steps: [
