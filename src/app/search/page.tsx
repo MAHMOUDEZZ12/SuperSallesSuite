@@ -197,7 +197,7 @@ function SearchPageClient() {
                 >
                     Dubai Realestate Search
                 </motion.h1>
-                 <p className="text-lg text-gray-400 mt-2 mb-6">An insightful detailed flow about anything</p>
+                 <p className="text-lg text-gray-400 mt-2 mb-6">An insightful detailed flow about anything in the market</p>
                 <form onSubmit={handleSearch} className="relative">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                     <Input
