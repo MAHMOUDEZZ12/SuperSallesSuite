@@ -33,33 +33,53 @@ const ProjectCardSkeleton = () => (
 
 const SecondChanceResult = ({ result, query, onFollowUp }: { result: SearchResult, query: string, onFollowUp: (newQuery: string) => void }) => {
     
-    // Simple logic to generate follow-up suggestions. A real app might use an LLM call here.
-    const generateSuggestions = (q: string) => {
-        const suggestions = new Set<string>();
+    // Enhanced logic to generate contextual suggestions with reasoning.
+    const generateSuggestions = (q: string): { suggestion: string; reason: string; }[] => {
+        const suggestions: { suggestion: string; reason: string; }[] = [];
         const lowerQuery = q.toLowerCase();
 
-        // Add a broader version of the query
-        suggestions.add(`More details about ${q}`);
-        
-        // Extract keywords
-        const keywords = ['new project', 'price', 'emaar', 'damac', 'azizi', 'dubai marina'];
-        const foundKeywords = keywords.filter(k => lowerQuery.includes(k));
-
-        if (foundKeywords.includes('price')) {
-            suggestions.add('Compare prices for similar projects');
-        }
-        if (foundKeywords.some(k => ['emaar', 'damac', 'azizi'].includes(k))) {
-            const developer = foundKeywords.find(k => ['emaar', 'damac', 'azizi'].includes(k));
-            suggestions.add(`Show me all ${developer} projects`);
-            if (developer === 'azizi') {
-                 suggestions.add('Compare Azizi to Damac');
+        // Specific question pattern
+        if (lowerQuery.includes('price of')) {
+            const topic = lowerQuery.split('price of')[1]?.trim();
+            if (topic) {
+                suggestions.push({
+                    suggestion: `Show me all ${topic} projects`,
+                    reason: `This will let you compare prices and features across all available listings for ${topic}.`,
+                });
             }
         }
-        if (foundKeywords.includes('new project')) {
-            suggestions.add('List all new launch projects in Dubai');
+        
+        // Comparison pattern
+        if (lowerQuery.includes('vs') || lowerQuery.includes('compare')) {
+            if (lowerQuery.includes('azizi') && lowerQuery.includes('damac')) {
+                 suggestions.push({
+                    suggestion: `Compare Azizi vs Damac vs Emaar`,
+                    reason: `Adding a premium developer like Emaar provides a better reference point for the market as a whole.`,
+                });
+            } else {
+                 suggestions.push({
+                    suggestion: `Compare prices for similar projects`,
+                    reason: `This helps establish a market baseline for your initial query.`,
+                });
+            }
+        }
+        
+        // General pattern
+        if (suggestions.length === 0) {
+             suggestions.push({
+                suggestion: `Show me all new launch projects`,
+                reason: `This will give you a broad overview of the newest opportunities on the market.`,
+            });
+        }
+        
+        if (suggestions.length < 2 && !lowerQuery.includes('details about')) {
+             suggestions.push({
+                suggestion: `More details about ${q}`,
+                reason: `A more detailed query will help me find more specific information for you.`
+             });
         }
 
-        return Array.from(suggestions).slice(0, 3);
+        return suggestions.slice(0, 2);
     }
     
     const suggestions = generateSuggestions(query);
@@ -73,15 +93,15 @@ const SecondChanceResult = ({ result, query, onFollowUp }: { result: SearchResul
             <div className="flex items-start gap-4">
                 <Lightbulb className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
                 <div>
-                     <h3 className="text-xl font-semibold text-white font-heading">It looks like you have a specific question.</h3>
+                     <h3 className="text-xl font-semibold text-white font-heading">I found some information, but no specific projects.</h3>
                      <p className="text-gray-300 mt-2">{result.summary || result.extractiveAnswers[0]?.content}</p>
-                     <p className="text-gray-400 mt-4 text-sm">Would you like to continue with one of these next steps?</p>
-                     <div className="mt-4 flex flex-wrap gap-2">
-                        {suggestions.map(suggestion => (
-                            <Button key={suggestion} variant="secondary" onClick={() => onFollowUp(suggestion)}>
-                                <Sparkles className="mr-2 h-4 w-4" />
-                                {suggestion}
-                            </Button>
+                     <p className="text-gray-400 mt-6 text-sm font-semibold">To get better results, you should refine your search. Here are some intelligent next steps:</p>
+                     <div className="mt-4 flex flex-col gap-3">
+                        {suggestions.map(({suggestion, reason}) => (
+                            <div key={suggestion} className="p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-colors cursor-pointer" onClick={() => onFollowUp(suggestion)}>
+                                <p className="font-semibold text-primary flex items-center gap-2"><Sparkles className="h-4 w-4"/> {suggestion}</p>
+                                <p className="text-xs text-gray-400 pl-6">{reason}</p>
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -265,10 +285,10 @@ function SearchPageClient() {
               layout="position" 
               className="mb-6 text-center"
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              animate={{ opacity: hasQuery ? 0 : 1, y: hasQuery ? -20 : 0 }}
               transition={{ delay: 0.2 }}
              >
-                <h1 className="text-3xl md:text-5xl font-bold font-heading tracking-tighter text-white">
+                <h1 className="text-3xl md:text-5xl font-bold font-heading tracking-tight text-white">
                     Search anything Real Estate Dubai
                 </h1>
                 <p className="text-lg text-gray-400 mt-2">An insightful detailed flow about anything in the market</p>
@@ -332,5 +352,3 @@ export default function SearchPage() {
         </div>
     )
 }
-
-    
