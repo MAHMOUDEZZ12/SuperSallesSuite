@@ -5,7 +5,7 @@ import React, { Suspense, useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Loader2, Sparkles, Mic, ArrowUp } from 'lucide-react';
+import { Search, Loader2, Mic, ArrowUp } from 'lucide-react';
 import type { Project } from '@/types';
 import { ProjectCard } from '@/components/ui/project-card';
 import { Separator } from '@/components/ui/separator';
@@ -22,10 +22,12 @@ interface SearchResult {
 }
 
 const ProjectCardSkeleton = () => (
-    <div className="space-y-2">
-        <Skeleton className="h-40 w-full bg-gray-700" />
-        <Skeleton className="h-4 w-3/4 bg-gray-700" />
-        <Skeleton className="h-4 w-1/2 bg-gray-700" />
+    <div className="relative rounded-lg p-px bg-gradient-to-r from-primary/50 to-primary/20 animate-gradient-spin">
+        <div className="space-y-2 p-4 bg-gray-950 rounded-[calc(0.5rem-1px)]">
+            <Skeleton className="h-40 w-full bg-gray-700" />
+            <Skeleton className="h-4 w-3/4 bg-gray-700" />
+            <Skeleton className="h-4 w-1/2 bg-gray-700" />
+        </div>
     </div>
 );
 
@@ -153,12 +155,8 @@ function SearchResults() {
                         <ProjectCard 
                           key={project.id} 
                           project={project}
-                          actions={
-                            <Button size="sm" variant="secondary" onClick={() => handleAddToLibrary(project)} disabled={myProjects.includes(project.id)}>
-                                <PlusCircle className="mr-2 h-4 w-4" />
-                                {myProjects.includes(project.id) ? 'Added' : 'Add to Library'}
-                            </Button>
-                          }
+                          isAdded={myProjects.includes(project.id)}
+                          onAdd={() => handleAddToLibrary(project)}
                         />
                     ))}
                 </div>
@@ -174,6 +172,7 @@ function SearchPageClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [query, setQuery] = React.useState(searchParams.get('q') || '');
+  const hasQuery = !!searchParams.get('q');
   
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -189,21 +188,20 @@ function SearchPageClient() {
                 transition={{ duration: 0.5, type: 'spring', stiffness: 50 }}
                 className="w-full max-w-3xl text-center"
              >
-                <motion.h1 
-                    layout="position"
-                    className="text-3xl md:text-5xl font-bold font-heading tracking-tighter text-white"
-                >
-                    Dubai Realestate Search
-                </motion.h1>
-                 <p className="text-lg text-gray-400 mt-2 mb-6">An insightful detailed flow about anything in the market</p>
-                <form onSubmit={handleSearch} className="relative">
-                    <div className="relative">
+                <motion.div layout="position" className="mb-6">
+                    <h1 className="text-3xl md:text-5xl font-bold font-heading tracking-tighter text-white">
+                        Dubai Realestate Search
+                    </h1>
+                    <p className="text-lg text-gray-400 mt-2">An insightful detailed flow about anything in the market</p>
+                </motion.div>
+                <form onSubmit={handleSearch} className="relative group">
+                    <div className="relative p-px rounded-xl bg-gradient-to-r from-primary/50 to-primary/20 group-hover:from-primary group-hover:to-primary/40 animate-gradient-spin">
                         <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                         <Input
                             placeholder="Search for projects, developers, or market trends..."
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
-                            className="w-full h-16 pl-14 pr-28 text-base bg-gray-800/50 border border-gray-700 text-white rounded-xl shadow-lg backdrop-blur-sm placeholder:text-gray-500 focus-visible:ring-primary/50"
+                            className="w-full h-16 pl-14 pr-28 text-base bg-gray-900 border-none text-white rounded-[calc(0.75rem-1px)] shadow-lg placeholder:text-gray-500 focus-visible:ring-0 focus-visible:outline-none"
                         />
                          <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
                              <Button type="button" variant="ghost" size="icon" className="text-neutral-400 hover:text-white rounded-md">
@@ -217,6 +215,7 @@ function SearchPageClient() {
                 </form>
             </motion.div>
             <AnimatePresence>
+              {hasQuery && (
                 <motion.div 
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -227,6 +226,7 @@ function SearchPageClient() {
                         <SearchResults />
                     </Suspense>
                 </motion.div>
+              )}
             </AnimatePresence>
         </div>
   );
@@ -236,7 +236,7 @@ export default function SearchPage() {
     return (
         <div className="flex min-h-screen flex-col bg-gray-950 relative overflow-hidden">
             <div 
-              className="absolute inset-0 z-0 opacity-20" 
+              className="absolute inset-0 z-0 opacity-20 animate-gradient-spin [animation-duration:10s]" 
               style={{
                 background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.15), transparent 70%)',
               }}
@@ -249,3 +249,5 @@ export default function SearchPage() {
         </div>
     )
 }
+
+    
