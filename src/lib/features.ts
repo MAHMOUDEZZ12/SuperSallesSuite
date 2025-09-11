@@ -50,6 +50,42 @@ export type Feature = {
 
 export const tools: Omit<Feature, 'renderResult'>[] = [
     {
+    id: 'aerial-view-generator',
+    title: 'Aerial View Generator',
+    dashboardTitle: 'Aerial View Generator',
+    description: 'Create cinematic, aerial video tours of any property.',
+    icon: 'Film',
+    color: '#0ea5e9', // a nice sky blue
+    cta: 'Generate Aerial View',
+    categories: ['Sales Tools', 'Creative', 'Video'],
+    mindMapCategory: 'Sales Enablement',
+    badge: 'NEW',
+    isPage: true,
+    href: '/dashboard/tool/aerial-view-generator',
+    details: {
+      steps: [
+        { text: 'Enter any property address', icon: 'MapPin' },
+        { text: 'AI generates a cinematic aerial video', icon: 'Sparkles' },
+        { text: 'Download and use in your listings or ads', icon: 'Download' },
+      ],
+      aiVsManual: [
+        { metric: 'Video Production', manual: 'Requires expensive drone equipment and a licensed operator', ai: 'Generated instantly from an address', icon: 'Clock2' },
+        { metric: 'Cost', manual: 'Hundreds or thousands of dollars per shoot', ai: 'Included in your subscription', icon: 'Wallet' },
+        { metric: 'Accessibility', manual: 'Impossible for off-market or unbuilt properties', ai: 'Can generate a simulated view for any location', icon: 'Sparkles' },
+      ],
+      synergy: [
+        { tool: 'Landing Page Builder', benefit: 'Use the generated aerial view as a stunning, full-screen background video on your landing page.' },
+        { tool: 'Reel Ads', benefit: 'Incorporate clips from the aerial tour into your social media video ads for a professional touch.' },
+      ],
+      faqs: [
+        { question: "How does this work without a real drone?", answer: "This tool uses advanced video generation AI (Veo) combined with satellite and mapping data to create a realistic, cinematic simulation of an aerial tour of the specified property." },
+        { question: "Can I generate a view for a property that is not yet built?", answer: "Yes. The AI can generate a simulated aerial view of the location, which is perfect for marketing off-plan or under-construction projects." },
+        { question: "What is the quality and length of the video?", answer: "The tool generates high-definition (HD) video clips, typically between 5 to 15 seconds long, perfect for use in social media, on websites, or as part of a larger video presentation." },
+      ],
+    },
+    creationFields: [],
+  },
+    {
     id: 'ai-video-presenter',
     title: 'AI Video Presenter',
     dashboardTitle: 'AI Video Presenter',
