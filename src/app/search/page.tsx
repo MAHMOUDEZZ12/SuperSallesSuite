@@ -33,61 +33,41 @@ const ProjectCardSkeleton = () => (
 
 const SecondChanceResult = ({ result, query, onFollowUp }: { result: SearchResult, query: string, onFollowUp: (newQuery: string) => void }) => {
     
-    // Enhanced logic to generate contextual suggestions with reasoning.
-    const generateSuggestions = (q: string): { suggestion: string; reason: string; }[] => {
-        const suggestions: { suggestion: string; reason: string; }[] = [];
+    // Enhanced logic to generate a single, contextual suggestion with reasoning.
+    const generateSuggestion = (q: string): { suggestion: string; reason: string; } | null => {
         const lowerQuery = q.toLowerCase();
 
-        // Specific question patterns
+        if (lowerQuery.includes('payment plan')) {
+            return {
+                suggestion: `Shall we dive into the hidden fees like DLD registration?`,
+                reason: `This will help uncover the true total cost beyond the listed price.`
+            };
+        }
+        
         if (lowerQuery.includes('price of')) {
             const topic = lowerQuery.split('price of')[1]?.trim();
             if (topic) {
-                suggestions.push({
-                    suggestion: `Compare price of ${topic} against the market`,
-                    reason: `This provides crucial context to understand if the price is fair, high, or low compared to similar properties.`
-                });
+                return {
+                    suggestion: `To help you understand if this is a good deal, shall we compare the price of ${topic} against the market?`,
+                    reason: `This provides crucial context to understand if the price is fair, high, or low.`
+                };
             }
-        } else if (lowerQuery.includes('payment plan')) {
-             suggestions.push({
-                suggestion: `What are the hidden fees for this payment plan?`,
-                reason: `This will uncover costs like DLD fees and service charges, giving you the true total cost.`
-            });
-        }
-        
-        // Comparison pattern
-        else if (lowerQuery.includes('vs') || lowerQuery.includes('compare')) {
-            if (lowerQuery.includes('azizi') && lowerQuery.includes('damac')) {
-                 suggestions.push({
-                    suggestion: `Compare Azizi vs Damac vs Emaar`,
-                    reason: `Adding a premium developer like Emaar provides a better benchmark for the entire market.`,
-                });
-            } else {
-                 suggestions.push({
-                    suggestion: `Compare prices for similar projects`,
-                    reason: `This helps establish a market baseline for your initial query.`,
-                });
-            }
-        }
-        
-        // General pattern
-        if (suggestions.length === 0) {
-             suggestions.push({
-                suggestion: `Show me all new launch projects related to "${q}"`,
-                reason: `This will give you a broad overview of the newest opportunities in this category.`,
-            });
-        }
-        
-        if (suggestions.length < 2 && !lowerQuery.includes('details about')) {
-             suggestions.push({
-                suggestion: `More details about ${q}`,
-                reason: `A more detailed query will help me find more specific information for you.`
-             });
         }
 
-        return suggestions.slice(0, 1); // Return only the single best suggestion
+        if (lowerQuery.includes('vs') || lowerQuery.includes('compare')) {
+            if (lowerQuery.includes('azizi') && lowerQuery.includes('damac')) {
+                 return {
+                    suggestion: `To give you a clearer picture, what if we add a premium developer like Emaar to the comparison?`,
+                    reason: `Adding a different tier of developer provides a better benchmark for the entire market.`,
+                };
+            }
+        }
+
+        return null; // Return null if no high-value suggestion can be made.
     }
     
-    const suggestions = generateSuggestions(query);
+    const suggestion = generateSuggestion(query);
+    const directAnswer = result.summary || result.extractiveAnswers[0]?.content;
 
     return (
         <motion.div
@@ -98,17 +78,20 @@ const SecondChanceResult = ({ result, query, onFollowUp }: { result: SearchResul
             <div className="flex items-start gap-4">
                 <Lightbulb className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
                 <div>
-                     <h3 className="text-xl font-semibold text-white font-heading">I found some information, but no specific projects.</h3>
-                     <p className="text-gray-300 mt-2">{result.summary || result.extractiveAnswers[0]?.content}</p>
-                     <p className="text-gray-400 mt-6 text-sm font-semibold">To get a clearer picture, should we dive deeper?</p>
-                     <div className="mt-4 flex flex-col gap-3">
-                        {suggestions.map(({suggestion, reason}) => (
-                            <div key={suggestion} className="p-4 bg-black/30 rounded-lg hover:bg-black/50 transition-colors cursor-pointer" onClick={() => onFollowUp(suggestion)}>
-                                <p className="font-semibold text-primary flex items-start gap-2"><Sparkles className="h-4 w-4 mt-1 shrink-0"/> {suggestion}</p>
-                                <p className="text-xs text-gray-400 pl-6 mt-1">{reason}</p>
+                     <h3 className="text-xl font-semibold text-white font-heading">Here's what I found.</h3>
+                     <p className="text-gray-300 mt-2">{directAnswer}</p>
+                     
+                     {suggestion && (
+                        <>
+                            <p className="text-gray-400 mt-6 text-sm font-semibold">To get a clearer picture, should we dive deeper?</p>
+                            <div className="mt-4 flex flex-col gap-3">
+                                <div className="p-4 bg-black/30 rounded-lg hover:bg-black/50 transition-colors cursor-pointer" onClick={() => onFollowUp(suggestion.suggestion)}>
+                                    <p className="font-semibold text-primary flex items-start gap-2"><Sparkles className="h-4 w-4 mt-1 shrink-0"/> {suggestion.suggestion}</p>
+                                    <p className="text-xs text-gray-400 pl-6 mt-1">{suggestion.reason}</p>
+                                </div>
                             </div>
-                        ))}
-                    </div>
+                        </>
+                     )}
                 </div>
             </div>
         </motion.div>
