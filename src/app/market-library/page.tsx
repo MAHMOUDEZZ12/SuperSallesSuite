@@ -34,11 +34,8 @@ function MarketLibrary() {
       <main className="flex-1 flex flex-col items-center justify-center px-4">
         <div className="text-center mb-8 max-w-4xl mx-auto">
             <h1 className="text-5xl md:text-6xl font-bold font-heading tracking-tight mb-4 text-white">
-             Meet AI Mode
+             Search anything about Dubai Real Estate
             </h1>
-            <p className="text-lg md:text-xl text-neutral-300">
-                Ask anything about Dubai Real Estate
-            </p>
         </div>
         <div className="w-full max-w-3xl">
             <Suspense fallback={<Loader2 className="h-12 w-12 animate-spin text-white" />}>
