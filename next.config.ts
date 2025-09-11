@@ -1,7 +1,9 @@
+
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
   /* config options here */
+  trailingSlash: true,
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -23,45 +25,6 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
-  },
-  async redirects() {
-    return [
-      {
-        source: '/admin',
-        destination: '/',
-        permanent: true,
-      },
-       {
-        source: '/wb',
-        destination: '/',
-        permanent: true,
-      },
-       {
-        source: '/wb-admin',
-        destination: '/',
-        permanent: true,
-      },
-       {
-        source: '/system',
-        destination: '/',
-        permanent: true,
-      },
-      {
-        source: '/wp-admin',
-        destination: '/',
-        permanent: true,
-      },
-      {
-        source: '/wp-login.php',
-        destination: '/',
-        permanent: true,
-      },
-      {
-        source: '/xmlrpc.php',
-        destination: '/',
-        permanent: true,
-      },
-    ]
   },
 };
 
