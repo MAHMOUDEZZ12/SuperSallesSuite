@@ -55,7 +55,7 @@ export const ToolLeaf = ({ tool, onClick, className }: { tool: Omit<Feature, 're
                         {tool.badge && (
                            <TooltipProvider>
                             <Tooltip>
-                              <TooltipTrigger>
+                              <TooltipTrigger asChild>
                                 <span
                                   className={cn(
                                     'ml-auto px-1.5 py-0.5 text-xs font-semibold text-white rounded-full',
