@@ -71,7 +71,7 @@ export default function AssistantPage() {
       <Tabs defaultValue="personality" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="personality"><Bot className="mr-2 h-4 w-4" /> Personality & Instructions</TabsTrigger>
-          <TabsTrigger value="prompts"><Wand2 className="mr-2 h-4 w-4" /> Prompt Library</TabsTrigger>
+          <TabsTrigger value="prompts"><Wand2 className="mr-2 h-4 w-4" /> Prompt Library & Generator</TabsTrigger>
         </TabsList>
         
         <TabsContent value="personality">
