@@ -83,6 +83,7 @@ export function LandingFooter() {
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                  <div className="text-sm text-foreground/50 text-center md:text-left space-y-1">
                     <p>selltoday.ai © 2025 <a href="https://mtcmartech.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">mtc'</a>. All rights reserved.</p>
+                    <p className="text-xs">WhatsMAP is an AI system designed to answer people's questions about homes, and empower those who do.</p>
                     <p>AI Intelligence powered by Gemini (Google AI)</p>
                  </div>
                 <div className="flex items-center gap-4">
