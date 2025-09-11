@@ -7,7 +7,7 @@ import { Pyramid } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 export const Logo = ({ className }: { className?: string }) => {
-  const [logoText, setLogoText] = useState('selltoday.ai');
+  const [logoText, setLogoText] = useState('searchdxb.ai');
 
   useEffect(() => {
     // This effect runs only on the client, where window is available
@@ -17,6 +17,8 @@ export const Logo = ({ className }: { className?: string }) => {
         setLogoText('searchdxb.ai');
       } else if (hostname.includes('dxbbook.ai') || hostname.includes('dubaibook.ai') || hostname.includes('dxbbook.com') || hostname.includes('dxbbook.ae')) {
         setLogoText('dxbbook.ai');
+      } else {
+        setLogoText('selltoday.ai');
       }
     }
   }, []);
