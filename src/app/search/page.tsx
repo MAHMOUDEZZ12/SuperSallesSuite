@@ -22,12 +22,10 @@ interface SearchResult {
 }
 
 const ProjectCardSkeleton = () => (
-    <div className="relative rounded-lg p-px bg-gradient-to-r from-primary/50 to-primary/20 animate-gradient-spin">
-        <div className="space-y-2 p-4 bg-gray-950 rounded-[calc(0.5rem-1px)]">
-            <Skeleton className="h-40 w-full bg-gray-700" />
-            <Skeleton className="h-4 w-3/4 bg-gray-700" />
-            <Skeleton className="h-4 w-1/2 bg-gray-700" />
-        </div>
+    <div className="space-y-2 p-4 bg-gray-900 rounded-lg">
+        <Skeleton className="h-40 w-full bg-gray-700" />
+        <Skeleton className="h-4 w-3/4 bg-gray-700" />
+        <Skeleton className="h-4 w-1/2 bg-gray-700" />
     </div>
 );
 
@@ -195,7 +193,7 @@ function SearchPageClient() {
                     <p className="text-lg text-gray-400 mt-2">An insightful detailed flow about anything in the market</p>
                 </motion.div>
                 <form onSubmit={handleSearch} className="relative group">
-                    <div className="relative p-px rounded-xl bg-gradient-to-r from-primary/50 to-primary/20 group-hover:from-primary group-hover:to-primary/40 animate-gradient-spin">
+                    <div className="relative p-px rounded-xl bg-gradient-to-r from-primary/20 to-primary/50 group-hover:from-primary/40 group-hover:to-primary transition-all duration-300">
                         <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                         <Input
                             placeholder="Search for projects, developers, or market trends..."
@@ -236,7 +234,7 @@ export default function SearchPage() {
     return (
         <div className="flex min-h-screen flex-col bg-gray-950 relative overflow-hidden">
             <div 
-              className="absolute inset-0 z-0 opacity-20 animate-gradient-spin [animation-duration:10s]" 
+              className="absolute inset-0 z-0 opacity-20" 
               style={{
                 background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.15), transparent 70%)',
               }}
