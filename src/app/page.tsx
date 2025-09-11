@@ -83,7 +83,7 @@ function MindMapHome() {
 }
 
 
-function WhatsmapHome() {
+function WhatsMAPHome() {
   // This component is the dedicated homepage for the whatsmap.ai experience
     return (
         <div className="flex min-h-screen flex-col market-library-bg text-white">
@@ -102,7 +102,7 @@ function WhatsmapHome() {
             <main className="flex-1 flex flex-col items-center justify-center px-4">
                 <div className="text-center mb-8 max-w-4xl mx-auto">
                     <h1 className="text-5xl md:text-6xl font-bold font-heading tracking-tight mb-4 text-white">
-                        Search anything Real Estate Dubai
+                        What'sMAP
                     </h1>
                 </div>
                 <div className="w-full max-w-3xl">
@@ -146,7 +146,7 @@ export default function Home() {
                 </div>
             );
         } else if (hostname.includes('whatsmap') || hostname.includes('searchdxb')) {
-            setDomainComponent(<WhatsmapHome />);
+            setDomainComponent(<WhatsMAPHome />);
         } else if (hostname.includes('video')) {
             setDomainComponent(<VideoHome />);
         } else if (hostname.includes('chat')) {
