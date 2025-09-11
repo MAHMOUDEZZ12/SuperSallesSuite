@@ -173,6 +173,7 @@ function SearchPageClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [query, setQuery] = React.useState(searchParams.get('q') || '');
+  const [isFocused, setIsFocused] = React.useState(false);
   const hasQuery = !!searchParams.get('q');
   
   const handleSearch = (e: React.FormEvent) => {
@@ -196,11 +197,16 @@ function SearchPageClient() {
                     <p className="text-lg text-gray-400 mt-2">An insightful detailed flow about anything in the market</p>
                 </motion.div>
                 <form onSubmit={handleSearch} className="relative group">
-                    <div className="relative p-px rounded-xl bg-gradient-to-r group-hover:from-blue-500/50 group-hover:to-cyan-400/50 from-blue-500/20 to-cyan-400/20 transition-all duration-300">
+                    <motion.div 
+                        animate={{ py: isFocused ? '0.75rem' : '0.25rem' }}
+                        transition={{ duration: 0.3, type: 'spring' }}
+                        className="relative p-px rounded-xl bg-gradient-to-r group-hover:from-blue-500/50 group-hover:to-cyan-400/50 from-blue-500/20 to-cyan-400/20 transition-all duration-300">
                         <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                         <Input
                             placeholder="Search for projects, developers, or market trends..."
                             value={query}
+                            onFocus={() => setIsFocused(true)}
+                            onBlur={() => setIsFocused(false)}
                             onChange={(e) => setQuery(e.target.value)}
                             className="w-full h-16 pl-14 pr-28 text-base bg-gray-900 border-none text-white rounded-[calc(0.75rem-1px)] shadow-lg placeholder:text-gray-500 focus-visible:ring-0 focus-visible:outline-none"
                         />
@@ -212,7 +218,7 @@ function SearchPageClient() {
                                 <ArrowUp className="h-5 w-5" />
                             </Button>
                         </div>
-                    </div>
+                    </motion.div>
                 </form>
             </motion.div>
             <AnimatePresence>
@@ -242,7 +248,7 @@ export default function SearchPage() {
                 background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.15), transparent 70%)',
               }}
             />
-            <div className="flex-1 w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20 flex justify-center z-10">
+            <div className="flex-1 w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20 flex justify-center z-10 pt-0.5">
                 <Suspense fallback={<div className="flex justify-center items-center h-screen w-full"><Loader2 className="h-12 w-12 animate-spin" /></div>}>
                     <SearchPageClient />
                 </Suspense>
