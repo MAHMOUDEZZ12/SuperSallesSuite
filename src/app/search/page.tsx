@@ -78,13 +78,13 @@ const SecondChanceResult = ({ result, query, onFollowUp }: { result: SearchResul
             <div className="flex items-start gap-4">
                 <Lightbulb className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
                 <div>
-                     <h3 className="text-xl font-semibold text-white font-heading">Here's what I found.</h3>
+                     <h3 className="text-xl font-semibold text-white font-heading">Direct Answer</h3>
                      <p className="text-gray-300 mt-2">{directAnswer}</p>
                      
                      {suggestion && (
                         <>
-                            <p className="text-gray-400 mt-6 text-sm font-semibold">To get a clearer picture, should we dive deeper?</p>
-                            <div className="mt-4 flex flex-col gap-3">
+                            <p className="text-gray-400 mt-6 text-sm font-semibold">Expert Suggestion:</p>
+                            <div className="mt-2 flex flex-col gap-3">
                                 <div className="p-4 bg-black/30 rounded-lg hover:bg-black/50 transition-colors cursor-pointer" onClick={() => onFollowUp(suggestion.suggestion)}>
                                     <p className="font-semibold text-primary flex items-start gap-2"><Sparkles className="h-4 w-4 mt-1 shrink-0"/> {suggestion.suggestion}</p>
                                     <p className="text-xs text-gray-400 pl-6 mt-1">{suggestion.reason}</p>
@@ -265,61 +265,60 @@ function SearchPageClient() {
 
   return (
     <motion.div 
-      layout="position" 
+      layout
       transition={{ duration: 0.5, type: 'spring' }} 
-      className="w-full max-w-3xl mx-auto"
+      className="w-full max-w-3xl mx-auto flex flex-col items-center"
     >
-            <motion.div 
-              layout="position" 
-              className="mb-6 text-center"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: hasQuery ? 0 : 1, y: hasQuery ? -20 : 0 }}
-              transition={{ delay: 0.2 }}
-             >
-                <h1 className="text-3xl md:text-5xl font-bold font-heading tracking-tight text-white">
-                    Search anything Real Estate Dubai
-                </h1>
-                <p className="text-lg text-gray-400 mt-2">An insightful detailed flow about anything in the market</p>
-            </motion.div>
-            <form onSubmit={handleSearch} className="relative group">
-                <motion.div 
-                    animate={{ py: isFocused ? '0.75rem' : '0.25rem' }}
-                    transition={{ duration: 0.3, type: 'spring' }}
-                    className="relative p-px rounded-xl bg-gradient-to-r group-hover:from-blue-500/50 group-hover:to-cyan-400/50 from-blue-500/20 to-cyan-400/20 transition-all duration-300">
-                    <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-                    <Input
-                        placeholder="Search for projects, developers, or market trends..."
-                        value={query}
-                        onFocus={() => setIsFocused(true)}
-                        onBlur={() => setIsFocused(false)}
-                        onChange={(e) => setQuery(e.target.value)}
-                        className="w-full h-16 pl-14 pr-28 text-base bg-black/50 border-none text-white rounded-[calc(0.75rem-1px)] shadow-lg placeholder:text-gray-500 focus-visible:ring-0 focus-visible:outline-none"
-                    />
-                        <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                            <Button type="button" variant="ghost" size="icon" className="text-neutral-400 hover:text-white rounded-full hover:bg-transparent">
-                            <Mic className="h-5 w-5" />
-                        </Button>
-                        <Button type="submit" variant="ghost" size="icon" className="text-neutral-400 hover:text-white rounded-full h-10 w-10 hover:bg-transparent">
-                            <ArrowUp className="h-5 w-5" />
-                        </Button>
-                    </div>
-                </motion.div>
-            </form>
-            <AnimatePresence>
-              {hasQuery && (
-                <motion.div 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="mt-8 flex-1 w-full"
-                >
-                    <Suspense fallback={<div className="flex justify-center items-center h-64"><Loader2 className="h-8 w-8 animate-spin" /></div>}>
-                        <SearchResults />
-                    </Suspense>
-                </motion.div>
-              )}
-            </AnimatePresence>
+        <motion.div 
+            layout="position" 
+            className="mb-6 text-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: hasQuery ? 0 : 1, y: hasQuery ? -20 : 0, height: hasQuery ? 0 : 'auto' }}
+            transition={{ delay: 0.2 }}
+            >
+            <h1 className="text-3xl md:text-5xl font-bold font-heading tracking-tight text-white">
+                Search anything Real Estate Dubai
+            </h1>
+            <p className="text-lg text-gray-400 mt-2">An insightful detailed flow about anything in the market</p>
         </motion.div>
+        <form onSubmit={handleSearch} className="relative group w-full">
+            <motion.div 
+                layout
+                className="relative p-px rounded-xl bg-gradient-to-r group-hover:from-blue-500/50 group-hover:to-cyan-400/50 from-blue-500/20 to-cyan-400/20 transition-all duration-300">
+                <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <Input
+                    placeholder="Search for projects, developers, or market trends..."
+                    value={query}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                    onChange={(e) => setQuery(e.target.value)}
+                    className="w-full h-16 pl-14 pr-28 text-base bg-black/50 border-none text-white rounded-[calc(0.75rem-1px)] shadow-lg placeholder:text-gray-500 focus-visible:ring-0 focus-visible:outline-none"
+                />
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                        <Button type="button" variant="ghost" size="icon" className="text-neutral-400 hover:text-white rounded-full hover:bg-transparent">
+                        <Mic className="h-5 w-5" />
+                    </Button>
+                    <Button type="submit" variant="ghost" size="icon" className="text-neutral-400 hover:text-white rounded-full h-10 w-10 hover:bg-transparent">
+                        <ArrowUp className="h-5 w-5" />
+                    </Button>
+                </div>
+            </motion.div>
+        </form>
+        <AnimatePresence>
+            {hasQuery && (
+            <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="mt-8 flex-1 w-full"
+            >
+                <Suspense fallback={<div className="flex justify-center items-center h-64"><Loader2 className="h-8 w-8 animate-spin" /></div>}>
+                    <SearchResults />
+                </Suspense>
+            </motion.div>
+            )}
+        </AnimatePresence>
+    </motion.div>
   );
 }
 
@@ -332,7 +331,13 @@ export default function SearchPage() {
                 background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.15), transparent 70%)',
               }}
             />
-            <motion.div layout className="flex-1 w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20 flex flex-col items-center z-10">
+            <motion.div 
+                layout 
+                className="flex-1 w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8 flex flex-col items-center z-10"
+                initial={{paddingTop: '20vh'}}
+                animate={{paddingTop: useSearchParams().get('q') ? '5vh' : '20vh' }}
+                transition={{duration: 0.5, type: 'spring'}}
+            >
                 <Suspense fallback={<div className="flex justify-center items-center h-screen w-full"><Loader2 className="h-12 w-12 animate-spin" /></div>}>
                     <SearchPageClient />
                 </Suspense>
