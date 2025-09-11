@@ -13,9 +13,9 @@ export const Logo = ({ className }: { className?: string }) => {
     // This effect runs only on the client, where window is available
     if (typeof window !== 'undefined') {
       const hostname = window.location.hostname;
-      if (hostname.includes('searchdxb.ai')) {
+      if (hostname.includes('searchdxb.ai') || hostname.includes('searchdxb.com')) {
         setLogoText('searchdxb.ai');
-      } else if (hostname.includes('dxbbook.ai') || hostname.includes('dubaibook.ai')) {
+      } else if (hostname.includes('dxbbook.ai') || hostname.includes('dubaibook.ai') || hostname.includes('dxbbook.com')) {
         setLogoText('dxbbook.ai');
       }
     }
