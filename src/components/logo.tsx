@@ -1,11 +1,22 @@
 
+'use client';
+
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { Pyramid } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 export const Logo = ({ className }: { className?: string }) => {
-  const isSearchDxb = typeof window !== 'undefined' && window.location.hostname.includes('searchdxb.ai');
-  const logoText = isSearchDxb ? 'searchdxb.ai' : 'selltoday.ai';
+  const [logoText, setLogoText] = useState('selltoday.ai');
+
+  useEffect(() => {
+    // This effect runs only on the client, where window is available
+    if (typeof window !== 'undefined') {
+      if (window.location.hostname.includes('searchdxb.ai')) {
+        setLogoText('searchdxb.ai');
+      }
+    }
+  }, []);
 
   return (
     <Link href="/" className={cn("flex items-center gap-3 group", className)}>
