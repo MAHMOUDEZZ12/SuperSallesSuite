@@ -83,8 +83,8 @@ function MindMapHome() {
 }
 
 
-function SearchDxbHome() {
-  // This component is the dedicated homepage for the searchdxb.ai experience
+function WhatsmapHome() {
+  // This component is the dedicated homepage for the whatsmap.ai experience
     return (
         <div className="flex min-h-screen flex-col market-library-bg text-white">
             <header className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center p-4">
@@ -145,8 +145,8 @@ export default function Home() {
                     <LandingFooter />
                 </div>
             );
-        } else if (hostname.includes('searchdxb')) {
-            setDomainComponent(<SearchDxbHome />);
+        } else if (hostname.includes('whatsmap') || hostname.includes('searchdxb')) {
+            setDomainComponent(<WhatsmapHome />);
         } else if (hostname.includes('video')) {
             setDomainComponent(<VideoHome />);
         } else if (hostname.includes('chat')) {

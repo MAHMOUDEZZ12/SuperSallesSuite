@@ -113,7 +113,7 @@ const ClarificationResult = ({ query, onFollowUp, summary }: { query: string, on
         >
             <div>
               <p className="text-gray-300">
-                {summary ? summary : `The query "${query}" is quite broad.`}
+                {summary ? summary : `Dubai is a major real estate hub with active developers like Emaar and Damac, and popular areas including Dubai Marina and Downtown.`}
               </p>
               <p className="font-semibold text-white mt-2">To give you the best results, which of these are you most interested in?</p>
             </div>
