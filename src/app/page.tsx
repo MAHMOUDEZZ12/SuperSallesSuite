@@ -177,7 +177,9 @@ export default function Home() {
           <p className="text-lg md:text-xl text-foreground/60 mb-8">
             Search anything about Dubai’s property market. From projects to trends—and instantly act on insights with our integrated app suite.
           </p>
-          <MarketSearchInput />
+          <React.Suspense fallback={<div>Loading...</div>}>
+            <MarketSearchInput />
+          </React.Suspense>
         </div>
 
         <div className="sticky top-16 z-10 bg-background/80 backdrop-blur-lg py-4 mb-8">
@@ -327,7 +329,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
-
-    
