@@ -11,6 +11,8 @@ import { LandingHeader } from '@/components/landing-header';
 import { LandingFooter } from '@/components/landing-footer';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import Image from 'next/image';
+import { ProjectCard } from '@/components/ui/project-card';
+import { Separator } from '@/components/ui/separator';
 
 interface SearchResult {
     summary: string | null;
@@ -71,9 +73,9 @@ function SearchResults() {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-        <div className="lg:col-span-2 space-y-6">
-            <h1 className="text-2xl font-semibold font-heading">{query}</h1>
+    <div className="space-y-8">
+        <div className="space-y-6">
+            <h1 className="text-2xl font-semibold font-heading">Search Results for &quot;{query}&quot;</h1>
             {result.summary && (
                 <div className="prose prose-lg dark:prose-invert max-w-none text-foreground/90">
                     <p>{result.summary}</p>
@@ -94,28 +96,21 @@ function SearchResults() {
             )}
         </div>
 
-        <div className="lg:col-span-1 space-y-4">
-             <Card className="bg-muted/50">
-                <CardHeader>
-                    <CardTitle className="text-sm font-semibold">Sources</CardTitle>
-                </CardHeader>
-                 <CardContent className="space-y-3">
-                     {result.projects.slice(0, 3).map((project) => (
-                        <div key={project.id} className="text-sm">
-                            <p className="font-semibold truncate text-primary">{project.name}</p>
-                            <div className="flex items-center gap-1 text-muted-foreground text-xs">
-                                <LinkIcon className="h-3 w-3" />
-                                <span>{project.tags?.[0] || 'selltoday.ai'}</span>
-                            </div>
-                            <p className="text-muted-foreground mt-1 text-xs">{project.developer}</p>
-                        </div>
+        <Separator />
+
+        <div>
+            <h2 className="text-xl font-semibold font-heading mb-4">Relevant Projects</h2>
+             {result.projects.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {result.projects.map((project) => (
+                        <ProjectCard key={project.id} project={project} />
                     ))}
-                    {result.projects.length > 3 && (
-                        <Button variant="link" size="sm" className="p-0">Show all</Button>
-                    )}
-                 </CardContent>
-             </Card>
+                </div>
+            ) : (
+                <p className="text-muted-foreground">No specific projects found related to your query.</p>
+            )}
         </div>
+
     </div>
   );
 }
@@ -139,7 +134,7 @@ function SearchPageClient() {
                 <form onSubmit={handleSearch} className="relative">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                     <Input
-                        placeholder="Search for projects, developers, or area..."
+                        placeholder="Search for projects, developers, or market trends..."
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         className="w-full h-12 pl-12 pr-4 text-base bg-muted/50 border-border"
@@ -154,7 +149,7 @@ function SearchPageClient() {
              <div className="sticky bottom-6 mt-auto">
                  <div className="relative max-w-4xl mx-auto">
                     <Input
-                        placeholder="Ask anything..."
+                        placeholder="Ask a follow-up question..."
                         value={followUp}
                         onChange={(e) => setFollowUp(e.target.value)}
                         className="w-full rounded-full h-12 pl-6 pr-24 text-base bg-muted/80 backdrop-blur-sm border-border shadow-lg"
