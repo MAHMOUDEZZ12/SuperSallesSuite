@@ -183,7 +183,7 @@ function SearchPageClient() {
   };
 
   return (
-        <div className="flex-1 flex flex-col w-full items-center transition-all duration-500">
+        <div className="flex-1 flex flex-col w-full transition-all duration-500">
              <motion.div 
                 layout
                 transition={{ duration: 0.5, type: 'spring', stiffness: 50 }}
@@ -242,7 +242,7 @@ export default function SearchPage() {
                 background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.15), transparent 70%)',
               }}
             />
-            <div className="flex-1 w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20 flex items-center z-10">
+            <div className="flex-1 w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20 flex z-10">
                 <Suspense fallback={<div className="flex justify-center items-center h-screen w-full"><Loader2 className="h-12 w-12 animate-spin" /></div>}>
                     <SearchPageClient />
                 </Suspense>
