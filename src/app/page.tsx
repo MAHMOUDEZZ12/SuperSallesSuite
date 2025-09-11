@@ -35,10 +35,10 @@ export default function Home() {
             className="text-center mb-16 max-w-5xl mx-auto"
         >
           <h1 className="text-4xl md:text-7xl font-bold font-heading tracking-tighter mb-4 text-foreground">
-             The Home of Homes
+             The AI Co-Pilot for Real Estate
           </h1>
           <p className="text-lg md:text-xl text-foreground/60 mb-8">
-            An interconnected suite of AI-powered tools for real estate, built on a single, intelligent core. Explore the map to begin.
+            An interconnected suite of AI-powered tools for sales, marketing, and creative work, built on a single, intelligent core. Explore the map to begin.
           </p>
            <div className="mt-8">
             <Link href="/signup">
