@@ -16,7 +16,6 @@ function MarketLibrary() {
         <div className="flex items-center gap-6">
           <Logo />
           <nav className="hidden md:flex items-center gap-4 text-sm">
-            <Button variant="link" className="text-white">AI Mode</Button>
             <Button variant="link" className="text-neutral-400">All</Button>
             <Button variant="link" className="text-neutral-400">Short videos</Button>
             <Button variant="link" className="text-neutral-400">Flights</Button>
@@ -39,7 +38,7 @@ function MarketLibrary() {
         </div>
         <div className="w-full max-w-3xl">
             <Suspense fallback={<Loader2 className="h-12 w-12 animate-spin text-white" />}>
-                <MarketSearchInput />
+                <MarketSearchInput useSearchPage={true} />
             </Suspense>
         </div>
       </main>

@@ -30,7 +30,7 @@ export default function Home() {
             Search anything about Dubai’s property market. From projects to trends—and instantly act on insights with the selltoday.ai suite.
           </p>
           <React.Suspense fallback={<div>Loading...</div>}>
-            <MarketSearchInput />
+            <MarketSearchInput useSearchPage={true}/>
           </React.Suspense>
            <div className="mt-8">
             <Link href="/signup">

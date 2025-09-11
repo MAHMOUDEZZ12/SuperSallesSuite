@@ -139,7 +139,7 @@ function SearchPageClient() {
                 <form onSubmit={handleSearch} className="relative">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                     <Input
-                        placeholder="Search by project name, developer, or area..."
+                        placeholder="Search for projects, developers, or area..."
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         className="w-full h-12 pl-12 pr-4 text-base bg-muted/50 border-border"
