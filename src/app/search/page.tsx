@@ -182,11 +182,11 @@ function SearchPageClient() {
   };
 
   return (
-        <motion.div 
-            layout
-            transition={{ duration: 0.5, type: 'spring', stiffness: 50 }}
-            className="w-full max-w-3xl mx-auto text-center"
-        >
+    <motion.div 
+      layout="position" 
+      transition={{ duration: 0.5, type: 'spring' }} 
+      className="w-full max-w-3xl mx-auto text-center"
+    >
             <motion.div layout="position" className="mb-6">
                 <h1 className="text-3xl md:text-5xl font-bold font-heading tracking-tighter text-white">
                     Dubai Realestate Search
@@ -205,7 +205,7 @@ function SearchPageClient() {
                         onFocus={() => setIsFocused(true)}
                         onBlur={() => setIsFocused(false)}
                         onChange={(e) => setQuery(e.target.value)}
-                        className="w-full h-16 pl-14 pr-28 text-base bg-gray-900 border-none text-white rounded-[calc(0.75rem-1px)] shadow-lg placeholder:text-gray-500 focus-visible:ring-0 focus-visible:outline-none"
+                        className="w-full h-16 pl-14 pr-28 text-base bg-black/50 border-none text-white rounded-[calc(0.75rem-1px)] shadow-lg placeholder:text-gray-500 focus-visible:ring-0 focus-visible:outline-none"
                     />
                         <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
                             <Button type="button" variant="ghost" size="icon" className="text-neutral-400 hover:text-white rounded-md hover:bg-transparent">
@@ -237,18 +237,18 @@ function SearchPageClient() {
 
 export default function SearchPage() {
     return (
-        <div className="flex min-h-screen flex-col bg-gray-950 relative overflow-hidden">
+        <div className="flex min-h-screen flex-col bg-black relative overflow-hidden">
             <div 
               className="absolute inset-0 z-0 opacity-20" 
               style={{
                 background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.15), transparent 70%)',
               }}
             />
-            <div className="flex-1 w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20 flex z-10 pt-0.5">
+            <motion.div layout="position" className="flex-1 w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20 flex flex-col z-10 pt-0.5">
                 <Suspense fallback={<div className="flex justify-center items-center h-screen w-full"><Loader2 className="h-12 w-12 animate-spin" /></div>}>
                     <SearchPageClient />
                 </Suspense>
-            </div>
+            </motion.div>
         </div>
     )
 }
