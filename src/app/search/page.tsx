@@ -38,23 +38,28 @@ const SecondChanceResult = ({ result, query, onFollowUp }: { result: SearchResul
         const suggestions: { suggestion: string; reason: string; }[] = [];
         const lowerQuery = q.toLowerCase();
 
-        // Specific question pattern
+        // Specific question patterns
         if (lowerQuery.includes('price of')) {
             const topic = lowerQuery.split('price of')[1]?.trim();
             if (topic) {
                 suggestions.push({
-                    suggestion: `Show me all ${topic} projects`,
-                    reason: `This will let you compare prices and features across all available listings for ${topic}.`,
+                    suggestion: `Compare price of ${topic} against the market`,
+                    reason: `This provides crucial context to understand if the price is fair, high, or low compared to similar properties.`
                 });
             }
+        } else if (lowerQuery.includes('payment plan')) {
+             suggestions.push({
+                suggestion: `What are the hidden fees for this payment plan?`,
+                reason: `This will uncover costs like DLD fees and service charges, giving you the true total cost.`
+            });
         }
         
         // Comparison pattern
-        if (lowerQuery.includes('vs') || lowerQuery.includes('compare')) {
+        else if (lowerQuery.includes('vs') || lowerQuery.includes('compare')) {
             if (lowerQuery.includes('azizi') && lowerQuery.includes('damac')) {
                  suggestions.push({
                     suggestion: `Compare Azizi vs Damac vs Emaar`,
-                    reason: `Adding a premium developer like Emaar provides a better reference point for the market as a whole.`,
+                    reason: `Adding a premium developer like Emaar provides a better benchmark for the entire market.`,
                 });
             } else {
                  suggestions.push({
@@ -67,8 +72,8 @@ const SecondChanceResult = ({ result, query, onFollowUp }: { result: SearchResul
         // General pattern
         if (suggestions.length === 0) {
              suggestions.push({
-                suggestion: `Show me all new launch projects`,
-                reason: `This will give you a broad overview of the newest opportunities on the market.`,
+                suggestion: `Show me all new launch projects related to "${q}"`,
+                reason: `This will give you a broad overview of the newest opportunities in this category.`,
             });
         }
         
@@ -79,7 +84,7 @@ const SecondChanceResult = ({ result, query, onFollowUp }: { result: SearchResul
              });
         }
 
-        return suggestions.slice(0, 2);
+        return suggestions.slice(0, 1); // Return only the single best suggestion
     }
     
     const suggestions = generateSuggestions(query);
@@ -95,12 +100,12 @@ const SecondChanceResult = ({ result, query, onFollowUp }: { result: SearchResul
                 <div>
                      <h3 className="text-xl font-semibold text-white font-heading">I found some information, but no specific projects.</h3>
                      <p className="text-gray-300 mt-2">{result.summary || result.extractiveAnswers[0]?.content}</p>
-                     <p className="text-gray-400 mt-6 text-sm font-semibold">To get better results, you should refine your search. Here are some intelligent next steps:</p>
+                     <p className="text-gray-400 mt-6 text-sm font-semibold">To get a clearer picture, should we dive deeper?</p>
                      <div className="mt-4 flex flex-col gap-3">
                         {suggestions.map(({suggestion, reason}) => (
-                            <div key={suggestion} className="p-3 bg-black/30 rounded-lg hover:bg-black/50 transition-colors cursor-pointer" onClick={() => onFollowUp(suggestion)}>
-                                <p className="font-semibold text-primary flex items-center gap-2"><Sparkles className="h-4 w-4"/> {suggestion}</p>
-                                <p className="text-xs text-gray-400 pl-6">{reason}</p>
+                            <div key={suggestion} className="p-4 bg-black/30 rounded-lg hover:bg-black/50 transition-colors cursor-pointer" onClick={() => onFollowUp(suggestion)}>
+                                <p className="font-semibold text-primary flex items-start gap-2"><Sparkles className="h-4 w-4 mt-1 shrink-0"/> {suggestion}</p>
+                                <p className="text-xs text-gray-400 pl-6 mt-1">{reason}</p>
                             </div>
                         ))}
                     </div>
