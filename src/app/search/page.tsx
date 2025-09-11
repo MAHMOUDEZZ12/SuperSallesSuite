@@ -92,7 +92,7 @@ function SearchResults() {
                      <div className="space-y-2 text-sm text-foreground/80">
                         {result.extractiveAnswers.map((answer, index) => (
                            <blockquote key={index} className="border-l-2 border-primary pl-3 italic">
-                             "{answer.content}"
+                             &quot;{answer.content}&quot;
                            </blockquote>
                         ))}
                     </div>
