@@ -19,6 +19,7 @@ export interface Project {
   status?: "New Launch" | "Off-plan" | "Ready" | string;
   thumbnailUrl?: string;
   tags?: string[];
+  developerLogoUrl?: string;
 }
 
 // Per-user shortlist library

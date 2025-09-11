@@ -1,18 +1,18 @@
 
 'use client';
 
-import React, { Suspense } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Loader2, Sparkles, Mic, Link as LinkIcon, MoreHorizontal } from 'lucide-react';
+import { Search, Loader2, Sparkles, Mic, PlusCircle } from 'lucide-react';
 import type { Project } from '@/types';
 import { LandingHeader } from '@/components/landing-header';
-import { LandingFooter } from '@/components/landing-footer';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import Image from 'next/image';
 import { ProjectCard } from '@/components/ui/project-card';
 import { Separator } from '@/components/ui/separator';
+import { useToast } from '@/hooks/use-toast';
+import { track } from '@/lib/events';
+
 
 interface SearchResult {
     summary: string | null;
@@ -26,6 +26,13 @@ function SearchResults() {
   const [result, setResult] = React.useState<SearchResult | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
+  const [myProjects, setMyProjects] = useState<string[]>([]);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    const savedProjects = JSON.parse(localStorage.getItem('myProjects') || '[]').map((p: Project) => p.id);
+    setMyProjects(savedProjects);
+  }, []);
 
   React.useEffect(() => {
     if (query) {
@@ -45,6 +52,18 @@ function SearchResults() {
       setIsLoading(false);
     }
   }, [query]);
+
+  const handleAddToLibrary = (project: Project) => {
+    track('project_added_to_library', { projectId: project.id, projectName: project.name });
+    const currentProjects = JSON.parse(localStorage.getItem('myProjects') || '[]');
+    const newProjects = [...currentProjects, project];
+    localStorage.setItem('myProjects', JSON.stringify(newProjects));
+    setMyProjects(prev => [...prev, project.id]);
+    toast({
+        title: `${project.name} Added!`,
+        description: "The project has been added to your personal library.",
+    });
+  }
 
   if (isLoading) {
     return (
@@ -103,7 +122,16 @@ function SearchResults() {
              {result.projects.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {result.projects.map((project) => (
-                        <ProjectCard key={project.id} project={project} />
+                        <ProjectCard 
+                          key={project.id} 
+                          project={project}
+                          actions={
+                            <Button size="sm" onClick={() => handleAddToLibrary(project)} disabled={myProjects.includes(project.id)}>
+                                <PlusCircle className="mr-2 h-4 w-4" />
+                                {myProjects.includes(project.id) ? 'Added' : 'Add to Library'}
+                            </Button>
+                          }
+                        />
                     ))}
                 </div>
             ) : (
