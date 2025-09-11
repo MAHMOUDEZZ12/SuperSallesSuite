@@ -205,13 +205,13 @@ function SearchPageClient() {
                             placeholder="Search for projects, developers, or market trends..."
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
-                            className="w-full h-16 pl-14 pr-28 text-base bg-gray-800/50 border border-gray-700 text-white rounded-full shadow-lg backdrop-blur-sm placeholder:text-gray-500 focus-visible:ring-primary/50"
+                            className="w-full h-16 pl-14 pr-28 text-base bg-gray-800/50 border border-gray-700 text-white rounded-xl shadow-lg backdrop-blur-sm placeholder:text-gray-500 focus-visible:ring-primary/50"
                         />
                          <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                             <Button type="button" variant="ghost" size="icon" className="text-neutral-400 hover:text-white rounded-full">
+                             <Button type="button" variant="ghost" size="icon" className="text-neutral-400 hover:text-white rounded-md">
                                 <Mic className="h-5 w-5" />
                             </Button>
-                            <Button type="submit" size="icon" className="bg-primary hover:bg-primary/90 rounded-full h-10 w-10">
+                            <Button type="submit" size="icon" className="bg-primary hover:bg-primary/90 rounded-md h-10 w-10">
                                 <ArrowUp className="h-5 w-5" />
                             </Button>
                         </div>
