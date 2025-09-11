@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React from 'react';
@@ -21,11 +22,12 @@ function MindMapHome() {
     return tools.filter(t => t.mindMapCategory === category);
   };
   
-  const marketingTools = getToolsForCategory('Marketing');
-  const creativeTools = getToolsForCategory('Creative Suite');
-  const salesTools = getToolsForCategory('Sales Enablement');
-  const intelligenceTools = getToolsForCategory('Core Intelligence');
-  const metaTools = getToolsForCategory('Meta Ads AI Suite');
+  const archyTools = getToolsForCategory('Archy');
+  const metaPilotTools = getToolsForCategory('Meta Pilot');
+  const marketIntelTools = getToolsForCategory('Market Intelligence');
+  const listingCrmTools = getToolsForCategory('Listing & CRM');
+  const devTools = getToolsForCategory('Developer & Backend');
+
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -35,37 +37,45 @@ function MindMapHome() {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.7, delay: 0.5 } }}>
                 <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 items-start">
                   
-                  {/* Meta Ads AI Suite */}
-                  <MindMapNode title="Meta Ads AI Suite" className="lg:col-span-2">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-                      {metaTools.map(tool => (
-                        <ToolLeaf key={tool.id} tool={tool} onClick={setSelectedTool} />
-                      ))}
-                    </div>
-                  </MindMapNode>
+                  {/* Archy (Creative) & Meta Pilot */}
+                  <div className="lg:col-span-2 grid grid-cols-1 gap-8">
+                     <MindMapNode title="Archy (Creative)">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+                          {archyTools.map(tool => (
+                            <ToolLeaf key={tool.id} tool={tool} onClick={setSelectedTool} />
+                          ))}
+                        </div>
+                     </MindMapNode>
+                     <MindMapNode title="Meta Pilot (Campaigns)">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+                          {metaPilotTools.map(tool => (
+                            <ToolLeaf key={tool.id} tool={tool} onClick={setSelectedTool} />
+                          ))}
+                        </div>
+                     </MindMapNode>
+                  </div>
                   
-                  {/* Creative Suite */}
-                  <MindMapNode title="Creative Suite" className="lg:col-span-1">
-                    <div className="grid grid-cols-1 gap-4 w-full">
-                       {creativeTools.map(tool => (
-                        <ToolLeaf key={tool.id} tool={tool} onClick={setSelectedTool} />
-                      ))}
-                    </div>
-                  </MindMapNode>
-
-                   {/* Sales Enablement & Core Intelligence */}
-                   <div className="lg:col-span-2 grid grid-cols-1 gap-8">
-                     <MindMapNode title="Sales Enablement">
-                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-                        {salesTools.map(tool => (
+                  {/* Central Node placeholder could go here if needed */}
+                  
+                   {/* Market Intel, Listing/CRM, Dev Tools */}
+                   <div className="lg:col-span-3 grid grid-cols-1 gap-8">
+                     <MindMapNode title="Market Intelligence">
+                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
+                        {marketIntelTools.map(tool => (
                           <ToolLeaf key={tool.id} tool={tool} onClick={setSelectedTool} />
                         ))}
                        </div>
                     </MindMapNode>
-
-                     <MindMapNode title="Core Intelligence">
+                     <MindMapNode title="Listing & CRM Tools">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
+                        {listingCrmTools.map(tool => (
+                          <ToolLeaf key={tool.id} tool={tool} onClick={setSelectedTool} />
+                        ))}
+                      </div>
+                    </MindMapNode>
+                     <MindMapNode title="Developer & Backend">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-                        {intelligenceTools.map(tool => (
+                        {devTools.map(tool => (
                           <ToolLeaf key={tool.id} tool={tool} onClick={setSelectedTool} />
                         ))}
                       </div>
@@ -105,7 +115,7 @@ function WhatsMAPHome() {
                         WhatsMAP
                     </h1>
                      <p className="text-lg text-gray-400 mt-2">
-                        Your AI co-pilot for real estate. We tell, think, plan, calculate, review, estimate, and find investments.
+                        A learning AI that maps the world's real estate, answering any question to empower your decisions.
                     </p>
                 </div>
                 <div className="w-full max-w-3xl">

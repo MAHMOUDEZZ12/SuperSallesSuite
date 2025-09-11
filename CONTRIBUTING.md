@@ -1,16 +1,17 @@
-# Contributing to selltoday.ai
+
+# Contributing to WhatsMAP
 
 First off, thank you for considering contributing! This project is designed to be a modular and extensible platform, and your contributions are welcome.
 
 ## Core Architecture
 
-Before you start, please familiarize yourself with the core concepts outlined in the `README.md`. Understanding how **Projects**, **Brand Kit**, and **Storage** interact with **Service Cards** is key to developing new features.
+Before you start, please familiarize yourself with the core concepts outlined in the `README.md`. Understanding how **WhatsMAP (Central AI)** orchestrates the specialized modules (**Archy**, **Meta Pilot**, **EBRAM**, etc.) is key to developing new features.
 
 - **Frontend**: Next.js with ShadCN UI components.
 - **AI Backend**: Genkit with Gemini models.
 - **Database**: Firestore.
 
-## Adding a New Service Card (AI Tool)
+## Adding a New Tool to a Module
 
 Adding a new tool is the most common way to contribute. The process is designed to be straightforward:
 
@@ -24,21 +25,21 @@ Adding a new tool is the most common way to contribute. The process is designed 
 
 ### Step 2: Define the Client-Side Tool
 
-- Open `src/lib/tools-client.tsx`.
+- Open `src/lib/features.ts`.
 - Add a new `Feature` object to the `tools` array. This object defines how the tool appears in the UI.
 - **id**: A unique, URL-friendly ID for your tool.
 - **title/description**: User-facing name and description.
 - **icon/color**: For styling the card in the UI.
-- **categories/mindMapCategory**: To place the tool in the correct filter groups.
+- **categories/mindMapCategory**: To place the tool in the correct module (e.g., 'Archy', 'Market Intelligence').
 - **creationFields**: This is crucial. Define the form fields needed for your tool's input. The `id` of each field should match a key in the Zod `inputSchema` from Step 1.
 - **renderResult**: (Optional) A function that defines how to render the output from your AI flow.
 
 ### Step 3: Connect the Flow
 
-- Open `src/lib/tools.tsx`.
+- Open `src/app/api/run/route.ts`.
 - Import your new flow function from `src/ai/flows/your-new-tool.ts`.
 - Add your tool's `id` and flow function to the `flowRunnerMap` object.
 
 That's it! The UI for the tool page (`/dashboard/tool/[toolId]`) is generated automatically from the `creationFields` you defined. When the user clicks "Generate", it will call your connected flow with the form data.
 
-Thank you for making selltoday.ai even better!
+Thank you for making WhatsMAP even better!

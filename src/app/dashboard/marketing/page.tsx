@@ -1,23 +1,22 @@
 
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
 import { PageHeader } from '@/components/ui/page-header';
-import { Puzzle, Star, BarChart, Search, Video, Bot } from 'lucide-react';
+import { Puzzle, Star, BarChart, Search, Video, Bot, BrainCircuit, Briefcase, Server } from 'lucide-react';
 import { type Feature } from '@/lib/tools-client';
 import { tools } from '@/lib/features';
 import { DashboardServiceCard } from '@/components/ui/dashboard-service-card';
 import { Separator } from '@/components/ui/separator';
 
-// Explicitly define which tools are for which suite or category
+// Explicitly define which tools are for which suite or category based on the new blueprint
 const toolCategories: { title: string; category: Feature['mindMapCategory'], icon?: React.ReactNode }[] = [
-    { title: 'Meta Ads AI Suite', category: 'Meta Ads AI Suite', icon: <Star className="h-6 w-6 text-amber-400"/> },
-    { title: 'Google AI Suite', category: 'Google AI Suite', icon: <Search className="h-6 w-6 text-blue-500"/> },
-    { title: 'Video & TikTok AI Suite', category: 'TikTok AI Suite', icon: <Video className="h-6 w-6 text-rose-500"/> },
-    { title: 'Listing Intelligence AI', category: 'Listing Intelligence AI', icon: <BarChart className="h-6 w-6 text-teal-500"/> },
-    { title: 'Creative Suite', category: 'Creative Suite' },
-    { title: 'Sales Enablement', category: 'Sales Enablement' },
-    { title: 'Core Intelligence & Utilities', category: 'Utilities', icon: <Bot className="h-6 w-6" /> },
+    { title: 'Archy (Creative Marketing)', category: 'Archy', icon: <Star className="h-6 w-6 text-amber-400"/> },
+    { title: 'Meta Pilot (Campaign Automation)', category: 'Meta Pilot', icon: <Video className="h-6 w-6 text-rose-500"/> },
+    { title: 'Market Intelligence Tools', category: 'Market Intelligence', icon: <BrainCircuit className="h-6 w-6 text-blue-500"/> },
+    { title: 'Listing & CRM Tools', category: 'Listing & CRM', icon: <Briefcase className="h-6 w-6 text-teal-500"/> },
+    { title: 'Developer & Backend Tools', category: 'Developer & Backend', icon: <Server className="h-6 w-6" /> },
 ];
 
 const appsThatNeedConnection: { [key: string]: string } = {
@@ -62,12 +61,6 @@ export default function MarketingDashboardPage() {
   }
   
   const getToolsForCategory = (category: Feature['mindMapCategory']) => {
-    if (category === 'TikTok AI Suite') {
-       return tools.filter(t => (t.mindMapCategory === 'TikTok AI Suite' || t.mindMapCategory === 'Video') && t.id !== 'ai-assistant');
-    }
-    if (category === 'Utilities') {
-        return tools.filter(t => (t.mindMapCategory === 'Utilities' || t.mindMapCategory === 'Core Intelligence') && t.id !== 'ai-assistant');
-    }
     return tools.filter(t => t.mindMapCategory === category && t.id !== 'ai-assistant');
   }
 
