@@ -12,6 +12,8 @@ import { ProjectCard } from '@/components/ui/project-card';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { track } from '@/lib/events';
+import { Skeleton } from '@/components/ui/skeleton';
+import { motion, AnimatePresence } from 'framer-motion';
 
 
 interface SearchResult {
@@ -19,6 +21,14 @@ interface SearchResult {
     projects: Project[];
     extractiveAnswers: any[];
 }
+
+const ProjectCardSkeleton = () => (
+    <div className="space-y-2">
+        <Skeleton className="h-40 w-full" />
+        <Skeleton className="h-4 w-3/4" />
+        <Skeleton className="h-4 w-1/2" />
+    </div>
+);
 
 function SearchResults() {
   const searchParams = useSearchParams();
@@ -67,11 +77,22 @@ function SearchResults() {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center h-64 text-muted-foreground">
-        <Loader2 className="h-10 w-10 animate-spin text-primary mb-4" />
-        <p className="font-semibold">AI is analyzing your query...</p>
-        <p className="text-sm">Searching for &quot;{query}&quot; in our market library.</p>
-      </div>
+        <div className="space-y-8">
+             <div className="space-y-6">
+                <Skeleton className="h-8 w-2/3" />
+                <Skeleton className="h-5 w-full" />
+                <Skeleton className="h-5 w-5/6" />
+             </div>
+             <Separator />
+            <div>
+                 <Skeleton className="h-6 w-1/4 mb-4" />
+                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <ProjectCardSkeleton />
+                    <ProjectCardSkeleton />
+                    <ProjectCardSkeleton />
+                </div>
+            </div>
+        </div>
     );
   }
 
@@ -92,7 +113,12 @@ function SearchResults() {
   }
 
   return (
-    <div className="space-y-8">
+    <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="space-y-8"
+    >
         <div className="space-y-6">
             <h1 className="text-2xl font-semibold font-heading">Search Results for &quot;{query}&quot;</h1>
             {result.summary && (
@@ -139,7 +165,7 @@ function SearchResults() {
             )}
         </div>
 
-    </div>
+    </motion.div>
   );
 }
 
