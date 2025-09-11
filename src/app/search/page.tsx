@@ -211,10 +211,10 @@ function SearchPageClient() {
                             className="w-full h-16 pl-14 pr-28 text-base bg-gray-900 border-none text-white rounded-[calc(0.75rem-1px)] shadow-lg placeholder:text-gray-500 focus-visible:ring-0 focus-visible:outline-none"
                         />
                          <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                             <Button type="button" variant="ghost" size="icon" className="text-neutral-400 hover:text-white rounded-md">
+                             <Button type="button" variant="ghost" size="icon" className="text-neutral-400 hover:text-white rounded-md hover:bg-transparent">
                                 <Mic className="h-5 w-5" />
                             </Button>
-                            <Button type="submit" variant="ghost" size="icon" className="text-neutral-400 hover:text-white rounded-md h-10 w-10">
+                            <Button type="submit" variant="ghost" size="icon" className="text-neutral-400 hover:text-white rounded-md h-10 w-10 hover:bg-transparent">
                                 <ArrowUp className="h-5 w-5" />
                             </Button>
                         </div>
