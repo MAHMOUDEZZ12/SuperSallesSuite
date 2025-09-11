@@ -22,7 +22,7 @@ interface SearchResult {
 }
 
 const ProjectCardSkeleton = () => (
-    <div className="relative overflow-hidden rounded-lg p-px shadow-lg">
+    <div className="relative overflow-hidden rounded-lg p-px shadow-lg bg-gradient-to-r from-blue-500/50 to-cyan-400/50">
        <div className="relative rounded-lg bg-gray-900 p-4 space-y-2 h-full">
          <Skeleton className="h-40 w-full bg-gray-700" />
          <Skeleton className="h-4 w-3/4 bg-gray-700" />
@@ -187,7 +187,7 @@ function SearchPageClient() {
              <motion.div 
                 layout
                 transition={{ duration: 0.5, type: 'spring', stiffness: 50 }}
-                className="w-full max-w-3xl text-center"
+                className="w-full max-w-3xl mx-auto text-center"
              >
                 <motion.div layout="position" className="mb-6">
                     <h1 className="text-3xl md:text-5xl font-bold font-heading tracking-tighter text-white">
@@ -242,7 +242,7 @@ export default function SearchPage() {
                 background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.15), transparent 70%)',
               }}
             />
-            <div className="flex-1 w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20 flex z-10">
+            <div className="flex-1 w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20 flex justify-center z-10">
                 <Suspense fallback={<div className="flex justify-center items-center h-screen w-full"><Loader2 className="h-12 w-12 animate-spin" /></div>}>
                     <SearchPageClient />
                 </Suspense>
