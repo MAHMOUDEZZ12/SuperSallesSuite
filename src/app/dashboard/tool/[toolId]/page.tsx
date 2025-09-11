@@ -33,7 +33,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { type Feature } from '@/lib/features';
+import type { Feature } from '@/lib/features';
 import { IconMap } from '@/components/ui/icon-map';
 
 
@@ -66,23 +66,10 @@ const getToolSchema = (tool: Omit<Feature, 'renderResult'> | undefined) => {
             fieldSchema = z.string().min(1, `${field.name} is required`);
         }
 
-        if (field.id.startsWith('min') || field.id.startsWith('max')) {
-            // Price and Age are grouped, so validation can be simpler here
-            // More complex cross-field validation happens below
-        } else {
-            (acc as any)[field.id] = fieldSchema;
-        }
+        (acc as any)[field.id] = fieldSchema;
 
         return acc;
     }, {} as Record<string, z.ZodTypeAny>);
-
-    // Special handling for grouped fields like price and age ranges
-    if (tool.id === 'targeting') {
-        shape.minPrice = z.string().refine(val => !isNaN(Number(val)), { message: "Must be a number" });
-        shape.maxPrice = z.string().refine(val => !isNaN(Number(val)), { message: "Must be a number" });
-        shape.minAge = z.string().refine(val => !isNaN(Number(val)), { message: "Must be a number" });
-        shape.maxAge = z.string().refine(val => !isNaN(Number(val)), { message: "Must be a number" });
-    }
 
     const baseSchema = z.object(shape);
 
@@ -96,22 +83,6 @@ const getToolSchema = (tool: Omit<Feature, 'renderResult'> | undefined) => {
     }, {
         message: 'Either a Project or a Brochure must be provided.',
         path: ['projectId'], 
-    }).refine(data => {
-         if (tool.id === 'targeting') {
-            return Number(data.maxPrice) >= Number(data.minPrice);
-        }
-        return true;
-    }, {
-        message: 'Max Price must be greater than or equal to Min Price.',
-        path: ['maxPrice'],
-    }).refine(data => {
-         if (tool.id === 'targeting') {
-            return Number(data.maxAge) >= Number(data.minAge);
-        }
-        return true;
-    }, {
-        message: 'Max Age must be greater than or equal to Min Age.',
-        path: ['maxAge'],
     });
 };
 
@@ -257,10 +228,13 @@ export default function ToolPage() {
   React.useEffect(() => {
     const currentTool = clientTools.find((t) => t.id === toolId);
     if (currentTool?.isPage) {
-        // This logic can be simplified or removed if all tools get custom pages
-    } else {
-        setTool(currentTool);
+        // This is a tool with a dedicated page, so we shouldn't be here.
+        // Redirect to its proper page.
+        router.replace(`/dashboard/tool/${toolId}`);
+        return;
     }
+    
+    setTool(currentTool);
     if (currentTool?.id === 'audience-creator') {
         setShowCampaignNotice(true);
     }
@@ -325,11 +299,6 @@ export default function ToolPage() {
         if (currentTool.id === 'insta-ads-designer' && data.projectId) {
             // In a real app, we'd fetch the project's brochure URI from a database.
             // For now, we'll simulate this.
-            const projectBrochures: { [key: string]: string } = {
-                'emaar-beachfront': 'https://www.example.com/emaar-brochure.pdf',
-                'damac-hills-2': 'https://www.example.com/damac-brochure.pdf',
-                'sobha-hartland': 'https://www.example.com/sobha-brochure.pdf',
-            };
             payload.projectName = data.projectId; // Send name instead of brochure
             // brochureDataUri will be omitted, letting the backend know to use the project name.
         }
@@ -357,26 +326,6 @@ export default function ToolPage() {
                  payload[fieldId] = Number(value);
             } else if (field.type !== 'file' && value) {
                 payload[fieldId] = value;
-            }
-        }
-        
-        // Special payload structuring for specific tools
-        if (currentTool.id === 'targeting') {
-             payload = {
-                location: data.location,
-                propertyType: data.propertyType,
-                priceRange: { min: Number(data.minPrice), max: Number(data.maxPrice) },
-                amenities: data.amenities.split(',').map((s:string) => s.trim()),
-                ageRange: { min: Number(data.minAge), max: Number(data.maxAge) },
-                incomeLevel: data.incomeLevel,
-                interests: data.interests.split(',').map((s:string) => s.trim()),
-            };
-        } else if (currentTool.id === 'investor-matching') {
-            payload = {
-                ...payload, // keep other fields
-                clientDatabase: await fileToDataUri(data.clientDatabase[0]),
-                price: Number(data.price),
-                capRate: Number(data.capRate),
             }
         }
         
@@ -427,7 +376,7 @@ export default function ToolPage() {
     const fieldError = errors[field.id];
 
     return (
-        <div key={field.id} className={cn("space-y-2", (field.type === 'textarea' && tool.id !== 'targeting') && "md:col-span-2" )}>
+        <div key={field.id} className={cn("space-y-2", (field.type === 'textarea') && "md:col-span-2" )}>
         {field.type !== 'button' && <Label htmlFor={field.id} className="font-semibold">{field.name}</Label>}
         <Controller
             name={field.id as any}
