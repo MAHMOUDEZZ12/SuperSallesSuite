@@ -1,4 +1,3 @@
-
 // This file is now a pure data file with no React/JSX dependencies.
 // It can be safely imported by both server and client components.
 
@@ -62,6 +61,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     badge: 'NEW',
     isPage: true,
     href: '/dashboard/tool/ai-video-presenter',
+    guideHref: '/blog/ai-video-presenter',
     details: {
       steps: [
         { text: 'Select or create a character', icon: 'User' },
