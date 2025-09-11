@@ -44,10 +44,16 @@ const runToolSchema = z.object({
 });
 
 // A specific flow for the market chatbot
-const marketChatAssistantFlow = async (payload: { message: string }) => {
-    const { output } = await ai.generate({
-        prompt: `You are a friendly and knowledgeable real estate market expert with over 25 years of experience in the Dubai/UAE area. A user on a website is asking a question. Answer it concisely and helpfully, drawing on your deep market knowledge. User's question: "${payload.message}"`,
-    });
+const marketChatAssistantFlow = async (payload: { message: string, context?: string }) => {
+    const prompt = `You are a friendly and knowledgeable real estate market expert. A user is asking a follow-up question based on their previous search. Answer it concisely and helpfully, drawing on your deep market knowledge and the provided context.
+    
+    Previous Search Context:
+    ${payload.context || 'No previous context provided.'}
+
+    User's Follow-up Question: "${payload.message}"
+    `;
+
+    const { output } = await ai.generate({ prompt });
     return { reply: output?.text! };
 };
 

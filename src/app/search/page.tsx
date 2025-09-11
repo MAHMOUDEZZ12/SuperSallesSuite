@@ -39,6 +39,47 @@ function SearchResults() {
   const [myProjects, setMyProjects] = useState<string[]>([]);
   const { toast } = useToast();
 
+  const [followUpResponse, setFollowUpResponse] = React.useState<string | null>(null);
+  const [isFollowUpLoading, setIsFollowUpLoading] = React.useState(false);
+
+
+   useEffect(() => {
+    const handleFollowUp = async (event: CustomEvent) => {
+        const { followUpQuery, searchResult } = event.detail;
+        if (!followUpQuery || !searchResult) return;
+
+        setIsFollowUpLoading(true);
+        setFollowUpResponse(null);
+
+        try {
+            const context = `Initial Query: "${query}"\nSummary: ${searchResult.summary}\nProjects Found: ${searchResult.projects.map((p: Project) => p.name).join(', ')}`;
+            
+            const response = await fetch('/api/run', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    toolId: 'market-chat-assistant',
+                    payload: { message: followUpQuery, context }
+                })
+            });
+
+            const data = await response.json();
+            if (data.error) throw new Error(data.error);
+            
+            setFollowUpResponse(data.reply);
+
+        } catch (e: any) {
+            toast({ title: "Follow-up Failed", description: e.message, variant: "destructive" });
+        } finally {
+            setIsFollowUpLoading(false);
+        }
+    };
+    
+    window.addEventListener('submitFollowUp', handleFollowUp as EventListener);
+    return () => window.removeEventListener('submitFollowUp', handleFollowUp as EventListener);
+  }, [query, toast]);
+
+
   useEffect(() => {
     const savedProjects = JSON.parse(localStorage.getItem('myProjects') || '[]').map((p: Project) => p.id);
     setMyProjects(savedProjects);
@@ -48,11 +89,14 @@ function SearchResults() {
     if (query) {
       setIsLoading(true);
       setError(null);
+      setFollowUpResponse(null);
       fetch(`/api/projects/scan?q=${encodeURIComponent(query)}`)
         .then(res => res.json())
         .then(data => {
           if (data.ok) {
             setResult(data.data);
+            // Dispatch event with initial search result for follow-up context
+            window.dispatchEvent(new CustomEvent('searchResultLoaded', { detail: data.data }));
           } else {
             setError(data.error || 'An unknown error occurred.');
           }
@@ -123,6 +167,23 @@ function SearchResults() {
         transition={{ duration: 0.5 }}
         className="space-y-8 mt-8"
     >
+       <AnimatePresence>
+         {(isFollowUpLoading || followUpResponse) && (
+            <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="overflow-hidden"
+            >
+                <div className="p-4 bg-primary/10 rounded-lg mb-6 border border-primary/20">
+                    <h3 className="font-semibold text-lg text-primary mb-2 flex items-center gap-2"><Sparkles className="h-5 w-5"/> AI Follow-up</h3>
+                    {isFollowUpLoading && <div className="flex items-center text-muted-foreground"><Loader2 className="mr-2 h-4 w-4 animate-spin"/> Thinking...</div>}
+                    {followUpResponse && <p className="text-foreground/90 whitespace-pre-wrap">{followUpResponse}</p>}
+                </div>
+            </motion.div>
+        )}
+      </AnimatePresence>
+
         <div className="space-y-6">
             {result.summary && (
                 <div className="prose prose-lg dark:prose-invert max-w-none text-foreground/90">
@@ -176,15 +237,33 @@ function SearchPageClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [query, setQuery] = React.useState(searchParams.get('q') || '');
-  const [followUp, setFollowUp] = React.useState('');
+  const [followUpQuery, setFollowUpQuery] = React.useState('');
+  const [searchResult, setSearchResult] = React.useState<SearchResult | null>(null);
+
+  useEffect(() => {
+     const handleResultLoaded = (event: CustomEvent) => {
+        setSearchResult(event.detail);
+     };
+     window.addEventListener('searchResultLoaded', handleResultLoaded as EventListener);
+     return () => window.removeEventListener('searchResultLoaded', handleResultLoaded as EventListener);
+  }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (query.trim()) {
-        // Update URL without a full page reload, letting useEffect in SearchResults handle the fetch
+        setFollowUpQuery('');
         router.push(`/search?q=${encodeURIComponent(query)}`, { scroll: false });
     }
   };
+  
+  const handleFollowUp = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (followUpQuery.trim() && searchResult) {
+        window.dispatchEvent(new CustomEvent('submitFollowUp', { detail: { followUpQuery, searchResult } }));
+        setFollowUpQuery('');
+    }
+  };
+
 
   return (
         <main className="space-y-8 flex-1 flex flex-col w-full">
@@ -206,22 +285,23 @@ function SearchPageClient() {
                 </Suspense>
             </div>
              <div className="sticky bottom-6 mt-auto">
-                 <div className="relative max-w-4xl mx-auto">
-                    <Input
-                        placeholder="Ask a follow-up question..."
-                        value={followUp}
-                        onChange={(e) => setFollowUp(e.target.value)}
-                        className="w-full rounded-full h-12 pl-6 pr-24 text-base bg-muted/80 backdrop-blur-sm border-border shadow-lg"
-                    />
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                        <Button type="button" variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground rounded-full">
-                            <Mic className="h-5 w-5" />
-                        </Button>
-                         <Button type="button" variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground rounded-full">
-                            <Sparkles className="h-5 w-5" />
-                        </Button>
+                <form onSubmit={handleFollowUp}>
+                    <div className="relative max-w-4xl mx-auto">
+                        <Sparkles className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                        <Input
+                            placeholder="Ask a follow-up question..."
+                            value={followUpQuery}
+                            onChange={(e) => setFollowUpQuery(e.target.value)}
+                            disabled={!searchParams.get('q')}
+                            className="w-full rounded-full h-12 pl-12 pr-24 text-base bg-muted/80 backdrop-blur-sm border-border shadow-lg"
+                        />
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                            <Button type="button" variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground rounded-full">
+                                <Mic className="h-5 w-5" />
+                            </Button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </main>
   );
