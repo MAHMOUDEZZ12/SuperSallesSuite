@@ -22,7 +22,7 @@ interface SearchResult {
 }
 
 const ProjectCardSkeleton = () => (
-    <div className="relative overflow-hidden rounded-lg p-px shadow-lg bg-gradient-to-r from-blue-500/20 to-cyan-400/20">
+    <div className="relative overflow-hidden rounded-lg p-px shadow-lg">
        <div className="relative rounded-lg bg-gray-900 p-4 space-y-2 h-full">
          <Skeleton className="h-40 w-full bg-gray-700" />
          <Skeleton className="h-4 w-3/4 bg-gray-700" />
@@ -125,16 +125,14 @@ function SearchResults() {
         transition={{ duration: 0.5 }}
         className="space-y-8 mt-8"
     >
-        <div className="space-y-6">
+        <div className="prose prose-lg prose-invert max-w-none text-gray-200">
             {result.summary && (
-                <div className="prose prose-lg prose-invert max-w-none text-gray-200">
-                    <p>{result.summary}</p>
-                </div>
+                <p>{result.summary}</p>
             )}
             
             {result.extractiveAnswers && result.extractiveAnswers.length > 0 && (
-                <div className="space-y-4">
-                    <h2 className="text-xl font-semibold font-heading text-gray-100">Key Insights</h2>
+                 <div className="space-y-4">
+                    <h2 className="text-xl font-semibold font-heading text-gray-100 not-prose">Key Insights</h2>
                     <div className="space-y-3">
                         {result.extractiveAnswers.map((answer, index) => (
                            <blockquote key={index} className="border-l-2 border-primary pl-4 italic text-gray-300">
@@ -184,43 +182,41 @@ function SearchPageClient() {
   };
 
   return (
-        <div className="flex-1 flex flex-col w-full transition-all duration-500 pt-0.5">
-             <motion.div 
-                layout
-                transition={{ duration: 0.5, type: 'spring', stiffness: 50 }}
-                className="w-full max-w-3xl mx-auto text-center"
-             >
-                <motion.div layout="position" className="mb-6">
-                    <h1 className="text-3xl md:text-5xl font-bold font-heading tracking-tighter text-white">
-                        Dubai Realestate Search
-                    </h1>
-                    <p className="text-lg text-gray-400 mt-2">An insightful detailed flow about anything in the market</p>
-                </motion.div>
-                <form onSubmit={handleSearch} className="relative group">
-                    <motion.div 
-                        animate={{ py: isFocused ? '0.75rem' : '0.25rem' }}
-                        transition={{ duration: 0.3, type: 'spring' }}
-                        className="relative p-px rounded-xl bg-gradient-to-r group-hover:from-blue-500/50 group-hover:to-cyan-400/50 from-blue-500/20 to-cyan-400/20 transition-all duration-300">
-                        <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-                        <Input
-                            placeholder="Search for projects, developers, or market trends..."
-                            value={query}
-                            onFocus={() => setIsFocused(true)}
-                            onBlur={() => setIsFocused(false)}
-                            onChange={(e) => setQuery(e.target.value)}
-                            className="w-full h-16 pl-14 pr-28 text-base bg-gray-900 border-none text-white rounded-[calc(0.75rem-1px)] shadow-lg placeholder:text-gray-500 focus-visible:ring-0 focus-visible:outline-none"
-                        />
-                         <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                             <Button type="button" variant="ghost" size="icon" className="text-neutral-400 hover:text-white rounded-md hover:bg-transparent">
-                                <Mic className="h-5 w-5" />
-                            </Button>
-                            <Button type="submit" variant="ghost" size="icon" className="text-neutral-400 hover:text-white rounded-md h-10 w-10 hover:bg-transparent">
-                                <ArrowUp className="h-5 w-5" />
-                            </Button>
-                        </div>
-                    </motion.div>
-                </form>
+        <motion.div 
+            layout
+            transition={{ duration: 0.5, type: 'spring', stiffness: 50 }}
+            className="w-full max-w-3xl mx-auto text-center"
+        >
+            <motion.div layout="position" className="mb-6">
+                <h1 className="text-3xl md:text-5xl font-bold font-heading tracking-tighter text-white">
+                    Dubai Realestate Search
+                </h1>
+                <p className="text-lg text-gray-400 mt-2">An insightful detailed flow about anything in the market</p>
             </motion.div>
+            <form onSubmit={handleSearch} className="relative group">
+                <motion.div 
+                    animate={{ py: isFocused ? '0.75rem' : '0.25rem' }}
+                    transition={{ duration: 0.3, type: 'spring' }}
+                    className="relative p-px rounded-xl bg-gradient-to-r group-hover:from-blue-500/50 group-hover:to-cyan-400/50 from-blue-500/20 to-cyan-400/20 transition-all duration-300">
+                    <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <Input
+                        placeholder="Search for projects, developers, or market trends..."
+                        value={query}
+                        onFocus={() => setIsFocused(true)}
+                        onBlur={() => setIsFocused(false)}
+                        onChange={(e) => setQuery(e.target.value)}
+                        className="w-full h-16 pl-14 pr-28 text-base bg-gray-900 border-none text-white rounded-[calc(0.75rem-1px)] shadow-lg placeholder:text-gray-500 focus-visible:ring-0 focus-visible:outline-none"
+                    />
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                            <Button type="button" variant="ghost" size="icon" className="text-neutral-400 hover:text-white rounded-md hover:bg-transparent">
+                            <Mic className="h-5 w-5" />
+                        </Button>
+                        <Button type="submit" variant="ghost" size="icon" className="text-neutral-400 hover:text-white rounded-md h-10 w-10 hover:bg-transparent">
+                            <ArrowUp className="h-5 w-5" />
+                        </Button>
+                    </div>
+                </motion.div>
+            </form>
             <AnimatePresence>
               {hasQuery && (
                 <motion.div 
@@ -235,7 +231,7 @@ function SearchPageClient() {
                 </motion.div>
               )}
             </AnimatePresence>
-        </div>
+        </motion.div>
   );
 }
 
@@ -248,7 +244,7 @@ export default function SearchPage() {
                 background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.15), transparent 70%)',
               }}
             />
-            <div className="flex-1 w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20 flex justify-center z-10 pt-0.5">
+            <div className="flex-1 w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20 flex z-10 pt-0.5">
                 <Suspense fallback={<div className="flex justify-center items-center h-screen w-full"><Loader2 className="h-12 w-12 animate-spin" /></div>}>
                     <SearchPageClient />
                 </Suspense>
