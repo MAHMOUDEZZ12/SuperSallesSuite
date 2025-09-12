@@ -14,6 +14,7 @@ import { track } from '@/lib/events';
 import { Skeleton } from '@/components/ui/skeleton';
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import MarketSearchInput from '@/components/ui/market-search-input';
 
 
 interface SearchResult {
@@ -404,7 +405,7 @@ function SearchPageClient() {
     >
         <motion.div initial={{opacity: 0, y: 20}} animate={{opacity: 1, y: 0}} transition={{delay: 0.2, duration: 0.5}}>
             <form onSubmit={handleSearch} className="relative group w-full">
-                <MarketSearchInput useSearchPage={true} />
+                <MarketSearchInput />
             </form>
         </motion.div>
         <AnimatePresence>
