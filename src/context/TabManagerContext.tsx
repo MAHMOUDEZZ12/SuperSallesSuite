@@ -20,13 +20,14 @@ interface TabManagerContextType {
 const TabManagerContext = createContext<TabManagerContextType | undefined>(undefined);
 
 const navMap: {[key: string]: string} = {
-    '/dashboard': 'Home',
+    '/dashboard': 'AI Command Center',
     '/dashboard/marketing': 'Apps',
+    '/dashboard/flows': 'Flows',
+    '/dashboard/assistant': 'AI Command Center',
     '/dashboard/tool/projects-finder': 'Market Library',
     '/dashboard/brand': 'Brand & Assets',
     '/dashboard/clients': 'Clients',
     '/dashboard/leads': 'Leads (CRM)',
-    '/dashboard/assistant': 'AI Assistant',
     '/dashboard/settings': 'Settings',
     '/dashboard/tool/listing-performance': 'Performance',
 };
