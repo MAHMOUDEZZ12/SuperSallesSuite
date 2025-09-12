@@ -403,22 +403,27 @@ function SearchPageClient() {
       transition={{ duration: 0.5, type: 'spring' }} 
       className="w-full max-w-3xl mx-auto flex flex-col items-center"
     >
-        <motion.div 
-            layout="position" 
-            className="mb-6 text-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: hasQuery ? 0 : 1, y: hasQuery ? -20 : 0, height: hasQuery ? 0 : 'auto' }}
-            transition={{ delay: 0.2 }}
-            >
-            <h1 className="text-3xl md:text-5xl font-bold font-heading tracking-tight text-white">
-                WhatsMAP
-            </h1>
-            <p className="text-lg text-gray-400 mt-2">A learning AI that maps the world's real estate, answering any question to empower your decisions.</p>
-        </motion.div>
+        <AnimatePresence>
+            {!hasQuery && (
+                <motion.div 
+                    layout="position" 
+                    className="mb-6 text-center"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1, y: 0, height: 'auto' }}
+                    exit={{ opacity: 0, y: -20, height: 0 }}
+                    transition={{ delay: 0.2 }}
+                >
+                    <h1 className="text-3xl md:text-5xl font-bold font-heading tracking-tight text-white">
+                        WhatsMAP
+                    </h1>
+                    <p className="text-lg text-gray-400 mt-2">A learning AI that maps the world's real estate, answering any question to empower your decisions.</p>
+                </motion.div>
+            )}
+        </AnimatePresence>
         <form onSubmit={handleSearch} className="relative group w-full">
             <motion.div 
                 layout
-                className="relative p-px rounded-xl bg-gradient-to-r group-hover:from-blue-500/50 group-hover:to-cyan-400/50 from-blue-500/20 to-cyan-400/20 transition-all duration-300">
+                className="relative p-px rounded-xl bg-gradient-to-r from-primary/30 to-purple-500/30 transition-all duration-300">
                 <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <Input
                     placeholder="Search for projects, market trends, or compare developers..."
@@ -457,19 +462,24 @@ function SearchPageClient() {
 }
 
 export default function SearchPage() {
+    const searchParams = useSearchParams();
+    const hasQuery = !!searchParams.get('q');
     return (
         <div className="flex min-h-screen flex-col bg-black relative overflow-hidden">
-            <div 
+            <motion.div 
               className="absolute inset-0 z-0 opacity-20" 
+              initial={{ scale: 1.5 }}
+              animate={{ scale: hasQuery ? 0.5 : 1.5, opacity: hasQuery ? 0.1 : 0.2 }}
+              transition={{ duration: 0.7 }}
               style={{
-                background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.15), transparent 70%)',
+                background: 'radial-gradient(circle at 50% 30%, hsl(var(--primary) / 0.25), transparent 60%)',
               }}
             />
             <motion.div 
                 layout 
                 className="flex-1 w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8 flex flex-col items-center z-10"
                 initial={{paddingTop: '20vh'}}
-                animate={{paddingTop: useSearchParams().get('q') ? '5vh' : '20vh' }}
+                animate={{paddingTop: hasQuery ? '5vh' : '20vh' }}
                 transition={{duration: 0.5, type: 'spring'}}
             >
                 <Suspense fallback={<div className="flex justify-center items-center h-screen w-full"><Loader2 className="h-12 w-12 animate-spin" /></div>}>
