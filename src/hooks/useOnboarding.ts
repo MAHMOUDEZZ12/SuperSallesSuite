@@ -66,7 +66,7 @@ export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
         track('onboarding_project_scan_started', { developers: state.devFocus });
         try {
             const devQuery = state.devFocus.length > 0 ? `q=${state.devFocus.join(',')}` : 'q=emaar,damac,sobha,nakheel,meraas,aldar';
-            const response = await fetch(`/api/projects/scan?${devQuery}&limit=12`);
+            const response = await fetch(`/api/projects/scan?${'\'\'\'' + devQuery + '\'\'\''}&limit=12`);
             const data = await response.json();
             if (data.ok && data.data?.projects) {
                 setScannedProjects(data.data.projects);
@@ -105,5 +105,3 @@ export const useOnboarding = (): OnboardingContextType => {
     }
     return context;
 };
-
-    
