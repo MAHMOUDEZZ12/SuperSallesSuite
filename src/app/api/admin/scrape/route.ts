@@ -2,6 +2,7 @@
 import { adminDb } from "@/lib/firebaseAdmin";
 import { ok, fail } from "@/lib/api-helpers";
 import * as cheerio from 'cheerio';
+import { CollectionReference } from "firebase-admin/firestore";
 
 async function scrapeDxbOffplan() {
   const baseUrl = "https://dxboffplan.com";
@@ -151,6 +152,34 @@ async function scrapeEmiratesEstate() {
   return projects;
 }
 
+async function processAndArchive(projects: any[], collection: CollectionReference, archiveCollection: CollectionReference) {
+    let updatedCount = 0;
+    const batch = adminDb.batch();
+
+    for (const project of projects) {
+        const docRef = collection.doc(project.id);
+        const docSnap = await docRef.get();
+
+        if (docSnap.exists) {
+            const existingData = docSnap.data();
+            // Basic check for changes. A more robust implementation might use a hash or deep comparison.
+            if (JSON.stringify(existingData) !== JSON.stringify(project)) {
+                // Data has changed, archive the old version
+                const archiveRef = archiveCollection.doc(`${project.id}_${Date.now()}`);
+                batch.set(archiveRef, { ...existingData, archivedAt: new Date() });
+                batch.set(docRef, project, { merge: true });
+                updatedCount++;
+            }
+        } else {
+            // New project
+            batch.set(docRef, project);
+            updatedCount++;
+        }
+    }
+
+    await batch.commit();
+    return updatedCount;
+}
 
 export async function GET(req: Request) {
   try {
@@ -176,15 +205,12 @@ export async function GET(req: Request) {
       return ok({ projectsAdded: 0, source, message: "No projects found or failed to parse." });
     }
 
-    const batch = adminDb.batch();
-    projects.forEach(project => {
-      const docRef = adminDb.collection('projects_catalog').doc(project.id);
-      batch.set(docRef, project, { merge: true });
-    });
+    const liveCollection = adminDb.collection('projects_catalog');
+    const archiveCollection = adminDb.collection('projects_archive');
+    
+    const projectsAdded = await processAndArchive(projects, liveCollection, archiveCollection);
 
-    await batch.commit();
-
-    return ok({ projectsAdded: projects.length, source });
+    return ok({ projectsAdded, source });
   } catch (e) {
     return fail(e);
   }
