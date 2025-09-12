@@ -354,6 +354,21 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
   
   // Listing & CRM Tools
   {
+    id: 'lead-to-deal-pipeline',
+    title: 'Lead-to-Deal Pipeline',
+    description: 'An automated workflow that investigates, evaluates, and matches leads.',
+    icon: 'Bot',
+    color: '#f59e0b',
+    cta: 'Start Pipeline',
+    categories: ['Sales Tools', 'Lead Gen', 'Listing & CRM'],
+    mindMapCategory: 'Listing & CRM',
+    badge: 'Pilot*',
+    isPage: true,
+    href: '/dashboard/tool/lead-to-deal-pipeline',
+    details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
+    creationFields: [],
+  },
+  {
     id: 'listing-manager',
     title: 'Listing Manager',
     description: 'Your central hub to prepare and syndicate listings to major portals.',

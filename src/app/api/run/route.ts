@@ -99,6 +99,7 @@ const flowRunnerMap: { [key: string]: (payload: any) => Promise<any> } = {
     'aerial-view-generator': generateAerialView,
     'lease-reviewer': reviewLeaseAgreement,
     'evaluate-lead-as-buyer': evaluateLeadAsBuyer,
+    'lead-to-deal-pipeline': (payload) => Promise.resolve(payload), // This page orchestrates calls itself
 };
 
 export async function POST(req: NextRequest) {
