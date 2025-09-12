@@ -90,38 +90,17 @@
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
   }
-  .animated-gradient-border-wrapper {
-    @apply relative overflow-hidden rounded-lg p-px;
-  }
-  .animated-gradient-border-wrapper::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 200%;
-    height: 200%;
-    background: conic-gradient(
-        from var(--angle),
-        #ec4899,
-        #f59e0b,
-        #ec4899
-    );
-    transform: translate(-50%, -50%) rotate(var(--angle));
-    animation: rotate-gradient 4s ease-in-out infinite;
+  
+  .animated-gradient-background {
+      background-image: linear-gradient(90deg, #ec4899, #f59e0b, #ec4899);
+      background-size: 200% 100%;
+      animation: gradient-animation 4s ease-in-out infinite;
   }
 
-  @property --angle {
-    syntax: '<angle>';
-    initial-value: 0deg;
-    inherits: false;
-  }
-  @keyframes rotate-gradient {
-    0% {
-        --angle: 0deg;
-    }
-    100% {
-        --angle: 360deg;
-    }
+  @keyframes gradient-animation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 }
 
