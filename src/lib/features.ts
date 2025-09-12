@@ -253,6 +253,20 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
 
   // Market Intelligence Tools
   {
+    id: 'keyword-planner',
+    title: 'AI Keyword Planner',
+    description: 'Generate strategic keyword plans for Google Ads campaigns.',
+    icon: 'Wand2',
+    color: '#eab308',
+    cta: 'Generate Plan',
+    categories: ['Market Intelligence', 'Ads'],
+    mindMapCategory: 'Market Intelligence',
+    isPage: true,
+    href: '/dashboard/tool/keyword-planner',
+    details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
+    creationFields: [],
+  },
+  {
     id: 'market-reports',
     title: 'AI Market Reports',
     description: 'Generate on-demand, data-rich market reports for any location.',

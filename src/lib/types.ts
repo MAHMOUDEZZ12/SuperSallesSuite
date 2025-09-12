@@ -865,3 +865,25 @@ export const EstimatePriceOutputSchema = z.object({
     comparableSales: z.array(z.string()).describe("A list of 2-3 fictional but realistic comparable sales used for the estimation."),
 });
 export type EstimatePriceOutput = z.infer<typeof EstimatePriceOutputSchema>;
+
+// Schemas for generate-keyword-plan
+export const GenerateKeywordPlanOutput = z.object({
+  planTitle: z.string(),
+  adGroups: z.array(
+    z.object({
+      adGroupName: z.string(),
+      keywords: z.array(
+        z.object({
+          keyword: z.string(),
+          matchType: z.string(),
+          monthlySearches: z.number(),
+          competition: z.string(),
+        })
+      ),
+    })
+  ),
+  negativeKeywords: z.array(z.string()),
+});
+export type GenerateKeywordPlanOutput = z.infer<
+  typeof GenerateKeywordPlanOutput
+>;
