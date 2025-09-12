@@ -23,7 +23,7 @@ export default function MarketSearchInput() {
             <form onSubmit={handleSearch} className="relative">
                 <div className="relative">
                     <Input
-                        placeholder="Search for projects, developers, market trends..."
+                        placeholder="Search or Ask anything about real EState."
                         className="w-full rounded-none h-14 pl-6 pr-4 text-base bg-transparent border-none text-white placeholder:text-neutral-400 focus-visible:ring-0"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
