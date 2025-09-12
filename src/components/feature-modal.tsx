@@ -12,9 +12,23 @@ import { IconMap } from '@/components/ui/icon-map';
 import { Plus, ArrowRight, Sparkles } from 'lucide-react';
 import { Feature } from '@/lib/features';
 
+const solutionCategories: { [key: string]: string } = {
+  ai_agents: 'AI Agent',
+  flows: 'Flow',
+  apps: 'App',
+};
+
+const getCategoryForTool = (toolId: string): string => {
+    if (['ai-video-presenter', 'lease-reviewer', 'price-estimator', 'market-reports', 'lead-investigator', 'crm-assistant', 'market-trends', 'evaluate-lead-as-buyer', 'analyze-content-quality'].includes(toolId)) return 'AI Agent';
+    if (['meta-auto-pilot', 'lead-to-deal-pipeline', 'property-finder-sync', 'bayut-sync', 'creative-execution-terminal'].includes(toolId)) return 'Flow';
+    return 'App';
+}
+
+
 export const FeatureModal = ({ feature, onClose }: { feature: Omit<Feature, 'renderResult'> | null, onClose: () => void }) => {
   if (!feature) return null;
   const Icon = IconMap[feature.icon as keyof typeof IconMap] || Sparkles;
+  const categoryLabel = getCategoryForTool(feature.id);
 
   return (
     <Dialog open={!!feature} onOpenChange={(open) => !open && onClose()}>
@@ -27,6 +41,7 @@ export const FeatureModal = ({ feature, onClose }: { feature: Omit<Feature, 'ren
                       <Icon className='h-10 w-10 text-white' />
                     </div>
                     <div>
+                      <p className="font-semibold text-white/80">{categoryLabel}</p>
                       <DialogTitle asChild>
                         <h2 className="text-4xl font-bold font-heading text-white mb-1">{feature.title}</h2>
                       </DialogTitle>

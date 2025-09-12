@@ -11,22 +11,26 @@ import { LandingFooter } from '@/components/landing-footer';
 import { PageHeader } from '@/components/ui/page-header';
 import { Puzzle } from 'lucide-react';
 
+// New Categorization
+const solutionCategories = {
+  agents: ['ai-video-presenter', 'lease-reviewer', 'price-estimator', 'market-reports', 'lead-investigator', 'crm-assistant', 'market-trends', 'evaluate-lead-as-buyer', 'analyze-content-quality'],
+  flows: ['meta-auto-pilot', 'lead-to-deal-pipeline', 'property-finder-sync', 'bayut-sync', 'creative-execution-terminal'],
+  apps: ['insta-ads-designer', 'landing-pages', 'rebranding', 'audience-creator', 'youtube-video-editor', 'brochure-translator', 'ugc-script-writer', 'aerial-view-generator', 'payment-planner', 'listing-generator', 'instagram-content-creator', 'email-creator', 'investor-matching', 'offer-generator', 'whatsapp-campaigns', 'keyword-planner'],
+};
+
 export default function SolutionsPage() {
   const [selectedTool, setSelectedTool] = React.useState<Omit<
     Feature,
     'renderResult'
   > | null>(null);
 
-  const getToolsForCategory = (category: Feature['mindMapCategory']) => {
-    return tools.filter(t => t.mindMapCategory === category);
+  const getToolsForCategory = (category: keyof typeof solutionCategories) => {
+    return tools.filter(t => solutionCategories[category].includes(t.id));
   };
 
-  const archyTools = getToolsForCategory('Archy');
-  const metaPilotTools = getToolsForCategory('Meta Pilot');
-  const marketIntelTools = getToolsForCategory('Market Intelligence');
-  const listingCrmTools = getToolsForCategory('Listing & CRM');
-  const devTools = getToolsForCategory('Developer & Backend');
-  const ebramTools = getToolsForCategory('EBRAM');
+  const agentTools = getToolsForCategory('agents');
+  const flowTools = getToolsForCategory('flows');
+  const appTools = getToolsForCategory('apps');
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -35,7 +39,7 @@ export default function SolutionsPage() {
          <PageHeader
             icon={<Puzzle />}
             title="Solutions"
-            description="The complete universe of AI-powered supertools. Each node is a specialized capability."
+            description="The complete universe of AI-powered supertools, organized by capability."
             className="mb-16"
         />
         <motion.div
@@ -43,87 +47,25 @@ export default function SolutionsPage() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.7, delay: 0.2 }}
         >
-          <div className="relative flex flex-col items-center">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1, transition: { duration: 0.7, delay: 0.5 } }}
-            >
-              <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 items-start">
-                <div className="lg:col-span-2 grid grid-cols-1 gap-8">
-                  <MindMapNode title="Archy (Creative Marketing)">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-                      {archyTools.map(tool => (
-                        <ToolLeaf
-                          key={tool.id}
-                          tool={tool}
-                          onClick={setSelectedTool}
-                        />
-                      ))}
-                    </div>
-                  </MindMapNode>
-                  <MindMapNode title="Meta Pilot (Campaign Automation)">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-                      {metaPilotTools.map(tool => (
-                        <ToolLeaf
-                          key={tool.id}
-                          tool={tool}
-                          onClick={setSelectedTool}
-                        />
-                      ))}
-                    </div>
-                  </MindMapNode>
+          <div className="space-y-16">
+            <MindMapNode title="AI Agents" isRoot>
+                <p className="text-center text-lg text-foreground/80 -mt-2 mb-6 max-w-2xl">Autonomous specialists that analyze, reason, and perform complex tasks on your behalf.</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full">
+                    {agentTools.map(tool => <ToolLeaf key={tool.id} tool={tool} onClick={setSelectedTool} />)}
                 </div>
-
-                <div className="lg:col-span-3 grid grid-cols-1 gap-8">
-                  <MindMapNode title="Market Intelligence Tools">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
-                      {marketIntelTools.map(tool => (
-                        <ToolLeaf
-                          key={tool.id}
-                          tool={tool}
-                          onClick={setSelectedTool}
-                        />
-                      ))}
-                    </div>
-                  </MindMapNode>
-                  <MindMapNode title="Listing & CRM Tools">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
-                      {listingCrmTools.map(tool => (
-                        <ToolLeaf
-                          key={tool.id}
-                          tool={tool}
-                          onClick={setSelectedTool}
-                        />
-                      ))}
-                    </div>
-                  </MindMapNode>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                    <MindMapNode title="Developer & Backend Tools">
-                      <div className="grid grid-cols-1 gap-4 w-full">
-                        {devTools.map(tool => (
-                          <ToolLeaf
-                            key={tool.id}
-                            tool={tool}
-                            onClick={setSelectedTool}
-                          />
-                        ))}
-                      </div>
-                    </MindMapNode>
-                    <MindMapNode title="EBRAM (Legal AI)">
-                      <div className="grid grid-cols-1 gap-4 w-full">
-                        {ebramTools.map(tool => (
-                          <ToolLeaf
-                            key={tool.id}
-                            tool={tool}
-                            onClick={setSelectedTool}
-                          />
-                        ))}
-                      </div>
-                    </MindMapNode>
-                  </div>
+            </MindMapNode>
+             <MindMapNode title="Flows" isRoot>
+                 <p className="text-center text-lg text-foreground/80 -mt-2 mb-6 max-w-2xl">Automated, multi-step workflows that connect multiple tools to achieve complex goals with a single command.</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full">
+                    {flowTools.map(tool => <ToolLeaf key={tool.id} tool={tool} onClick={setSelectedTool} />)}
                 </div>
-              </div>
-            </motion.div>
+            </MindMapNode>
+             <MindMapNode title="Apps" isRoot>
+                 <p className="text-center text-lg text-foreground/80 -mt-2 mb-6 max-w-2xl">Creative and utility applications for generating marketing assets, managing listings, and enabling sales.</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full">
+                    {appTools.map(tool => <ToolLeaf key={tool.id} tool={tool} onClick={setSelectedTool} />)}
+                </div>
+            </MindMapNode>
           </div>
         </motion.div>
       </main>
