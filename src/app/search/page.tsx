@@ -444,19 +444,14 @@ export default function SearchPage() {
         }
     };
     
-    const backgroundPosition = useTransform(
-      [animatedMouseX, animatedMouseY],
-      ([x, y]) => `${x}px ${y}px`
-    );
-
     return (
-        <div ref={containerRef} onMouseMove={handleMouseMove} className="flex min-h-screen flex-col bg-black relative overflow-hidden">
+        <div ref={containerRef} onMouseMove={handleMouseMove} className="flex min-h-screen flex-col bg-black relative overflow-hidden text-white">
             <motion.div 
               className="absolute inset-0 z-0 opacity-20" 
               style={{
                 background: useTransform(
                   [animatedMouseX, animatedMouseY],
-                  ([x, y]) => `radial-gradient(600px circle at ${x}px ${y}px, hsl(var(--primary) / 0.25), transparent 80%)`
+                  ([x, y]) => `radial-gradient(600px circle at ${x}px ${y}px, hsl(var(--primary)), transparent 80%)`
                 ),
               }}
             />
