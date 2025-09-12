@@ -3,9 +3,25 @@ import { ok, fail } from "@/lib/api-helpers";
 import { SearchServiceClient } from "@google-cloud/discoveryengine";
 import { NextRequest } from "next/server";
 
-const client = new SearchServiceClient();
+// It's better to instantiate the client outside the handler to allow for potential connection reuse.
+let client: SearchServiceClient;
+let clientInitializationError: Error | null = null;
+
+try {
+  client = new SearchServiceClient();
+} catch (e: any) {
+  clientInitializationError = e;
+  console.error("Failed to initialize SearchServiceClient:", e);
+}
+
 
 export async function GET(req: NextRequest) {
+  if (clientInitializationError) {
+    const detailedError = "Failed to initialize Google Cloud Search client. This often happens in a local development environment if you haven't authenticated. Please run 'gcloud auth application-default login' in your terminal and try again.";
+    console.error(detailedError, clientInitializationError);
+    return fail(detailedError, 500);
+  }
+
   try {
     const { searchParams } = new URL(req.url);
     const query = searchParams.get("q");
@@ -14,7 +30,7 @@ export async function GET(req: NextRequest) {
       return fail("Query parameter 'q' is required.", 400);
     }
     
-    const projectId = "supersellerae-4rzzy";
+    const projectId = process.env.GCLOUD_PROJECT || "supersellerae-4rzzy";
     const location = "global"; 
     const dataStoreId = "all-sites_1722002324355"; 
 
@@ -30,13 +46,13 @@ export async function GET(req: NextRequest) {
         },
         extractiveContentSpec: {
           maxExtractiveAnswerCount: 3,
-          maxExtractiveSegmentCount: 1,
         }
       },
     };
 
     const [response] = await client.search(request);
     
+    // Transform the Vertex AI Search results into our existing Project structure
     const projects = response.results?.map(result => {
       const doc = result.document?.derivedStructData?.fields;
       if (!doc) return null;
@@ -61,12 +77,18 @@ export async function GET(req: NextRequest) {
     const searchResult = {
         summary: response.summary?.summaryText || null,
         projects: projects,
-        extractiveAnswers: response.summary?.summaryWithMetadata?.summary || [],
+        extractiveAnswers: response.summary?.summaryWithMetadata?.summary,
     }
 
     return ok(searchResult);
   } catch (e: any) {
+    if (e.message.includes('Could not refresh access token')) {
+        const detailedError = "Google Cloud authentication failed. This often happens in a local development environment if you haven't authenticated. Please run 'gcloud auth application-default login' in your terminal and try again.";
+        console.error(detailedError, e);
+        return fail(detailedError, 500);
+    }
     console.error("Vertex AI Search Error:", e);
+    // Provide a more detailed error message if available
     const errorMessage = e.details || e.message || 'An unknown error occurred while searching.';
     return fail(errorMessage, 500);
   }
