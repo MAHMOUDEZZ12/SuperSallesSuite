@@ -28,8 +28,8 @@ export default function SignupPage() {
     setError(null);
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      toast({ title: "Account Created!", description: "Redirecting to get you set up..." });
-      router.push('/onboarding');
+      toast({ title: "Account Created!", description: "Redirecting to your dashboard..." });
+      router.push('/dashboard');
     } catch (err: any) {
       setError(err.message);
       toast({ title: "Signup Failed", description: err.message, variant: "destructive" });
@@ -44,8 +44,8 @@ export default function SignupPage() {
     try {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
-      toast({ title: "Account Created!", description: "Redirecting to get you set up..." });
-      router.push('/onboarding');
+      toast({ title: "Account Created!", description: "Redirecting to your dashboard..." });
+      router.push('/dashboard');
     } catch (err: any) {
       setError(err.message);
       toast({ title: "Signup Failed", description: err.message, variant: "destructive" });

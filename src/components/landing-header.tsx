@@ -26,6 +26,7 @@ const mainNavLinks = [
     { name: 'Agents', href: '/solutions/agent' },
     { name: 'Developers', href: '/solutions/developer' },
     { name: 'Community', href: '/community' },
+    { name: 'Pricing', href: '/pricing' },
 ];
 
 const secondaryNavLinks = [
@@ -34,6 +35,7 @@ const secondaryNavLinks = [
     { name: 'Agents', href: '/solutions/agent' },
     { name: 'Developers', href: '/solutions/developer' },
     { name: 'Community', href: '/community' },
+    { name: 'Pricing', href: '/pricing' },
 ];
 
 export function LandingHeader({ host }: { host?: string }) {
