@@ -3,7 +3,8 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Menu, X, Sun, Moon, Laptop, Bot } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { Menu, X, Sun, Moon, Laptop, Bot, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/logo';
 import { cn } from '@/lib/utils';
@@ -20,16 +21,26 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from '@/components/theme-switcher';
 
-const navLinks = [
-    { name: 'Solutions', href: '/ecosystem' },
+const mainNavLinks = [
+    { name: 'Solutions', href: '/solutions' },
     { name: 'Community', href: '/community' },
-    { name: 'Account', href: '/pricing' },
-    { name: 'Ecosystem', href: '/ecosystem' },
+    { name: 'Pricing', href: '/pricing' },
+];
+
+const secondaryNavLinks = [
+    { name: 'Chat', href: '/' },
+    { name: 'Solutions', href: '/solutions' },
+    { name: 'Community', href: '/community' },
+    { name: 'Pricing', href: '/pricing' },
 ];
 
 export function LandingHeader({ host }: { host?: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const { setTheme, themes } = useTheme();
+  const pathname = usePathname();
+
+  const isMainPage = pathname === '/';
+  const navLinks = isMainPage ? mainNavLinks : secondaryNavLinks;
   
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
