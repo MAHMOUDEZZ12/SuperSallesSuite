@@ -37,7 +37,7 @@ export default function TermsPage() {
 
               <section>
                 <h2>4. Who May Use the Services?</h2>
-                <p>You may use the Services only if you are 18 years or older and capable of forming a binding contract with WhatsMAP, and not otherwise barred from using the Services under applicable law.</p>
+                <p>You may use the Services only if you are 18 years or older and capable of forming a binding contract with selltoday.ai, and not otherwise barred from using the Services under applicable law.</p>
               </section>
 
               <section>
@@ -47,7 +47,7 @@ export default function TermsPage() {
               
               <section>
                 <h2>6. Contact Information</h2>
-                <p>If you have any questions about these Terms, please contact us at <a href="mailto:support@whatsmap.ai">support@whatsmap.ai</a>.</p>
+                <p>If you have any questions about these Terms, please contact us at <a href="mailto:support@selltoday.ai">support@selltoday.ai</a>.</p>
               </section>
             </CardContent>
         </Card>
