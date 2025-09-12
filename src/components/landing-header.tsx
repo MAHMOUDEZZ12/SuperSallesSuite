@@ -18,17 +18,8 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  DropdownMenuGroup,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from '@/components/theme-switcher';
-
-const ecosystemLinks = [
-    { name: 'For Investors', href: '/solutions/investor', description: "Tools for market analysis and deal-finding." },
-    { name: 'For Agents', href: '/solutions/agent', description: "Automate marketing and client management." },
-    { name: 'For Developers', href: '/solutions/developer', description: "Showcase projects and generate sales materials." },
-];
 
 const mainNavLinks = [
     { name: 'Solutions', href: '/solutions' },
@@ -39,6 +30,8 @@ const mainNavLinks = [
 export function LandingHeader({ host }: { host?: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const { setTheme, themes } = useTheme();
+  const pathname = usePathname();
+  const isHomePage = pathname === '/';
   
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -47,27 +40,6 @@ export function LandingHeader({ host }: { host?: string }) {
             <Logo />
         </div>
         <div className="hidden md:flex items-center gap-2">
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="ghost">
-                        Ecosystem
-                        <ChevronDown className="ml-2 h-4 w-4" />
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                    {ecosystemLinks.map(link => (
-                        <Link href={link.href} key={link.name}>
-                            <DropdownMenuItem>
-                                <div>
-                                    <p className="font-semibold">{link.name}</p>
-                                    <p className="text-xs text-muted-foreground">{link.description}</p>
-                                </div>
-                            </DropdownMenuItem>
-                        </Link>
-                    ))}
-                </DropdownMenuContent>
-            </DropdownMenu>
-
             {mainNavLinks.map((link) => (
                  <Link key={link.name} href={link.href}>
                     <Button variant="ghost">{link.name}</Button>
@@ -90,6 +62,14 @@ export function LandingHeader({ host }: { host?: string }) {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
+             <div className="flex items-center gap-2 ml-4">
+                <Link href="/login">
+                  <Button variant="ghost">Log In</Button>
+                </Link>
+                <Link href="/signup">
+                  <Button>Sign Up Free</Button>
+                </Link>
+            </div>
         </div>
         <div className="md:hidden">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -128,7 +108,7 @@ export function LandingHeader({ host }: { host?: string }) {
                         </div>
                     </div>
                     <nav className="flex flex-col items-center gap-6 text-center">
-                         {[...ecosystemLinks, ...mainNavLinks].map((link) => (
+                         {mainNavLinks.map((link) => (
                              <Link key={link.name} href={link.href} onClick={() => setIsOpen(false)}>
                                 <span className="text-2xl font-semibold text-foreground hover:text-primary transition-colors">{link.name}</span>
                             </Link>
