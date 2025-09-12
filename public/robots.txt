@@ -1,9 +1,10 @@
-# See https://www.robotstxt.org/robotstxt.html for syntax and more information
+
+# See https://www.robotstxt.org/robotstxt.html for documentation on how to write a robots.txt file
 
 User-agent: *
-Allow: /
 Disallow: /dashboard/
 Disallow: /admin/
 Disallow: /onboarding/
+Allow: /
 
-Sitemap: https://your-domain.com/sitemap.xml
+Sitemap: https://whatsmap.ai/sitemap.xml

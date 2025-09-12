@@ -1,0 +1,19 @@
+
+steps:
+- name: 'node:18'
+  entrypoint: npm
+  args: ['install']
+- name: 'node:18'
+  entrypoint: npm
+  args: ['run', 'lint', '--', '--max-warnings=0']
+- name: 'node:18'
+  entrypoint: npm
+  args: ['run', 'build']
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - >-
+      firebase deploy --only hosting -m "Cloud Build Pipeline Deployment: $SHORT_SHA" --project $PROJECT_ID
+options:
+  logging: CLOUD_LOGGING_ONLY
