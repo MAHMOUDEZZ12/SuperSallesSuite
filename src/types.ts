@@ -909,3 +909,20 @@ export const GenerateKeywordPlanOutput = z.object({
 export type GenerateKeywordPlanOutput = z.infer<
   typeof GenerateKeywordPlanOutput
 >;
+
+
+// Schemas for Analyze Content Quality
+export const AnalyzeContentQualityInputSchema = z.object({
+  sourceUrl: z.string().url().describe("The original URL the content was scraped from."),
+  content: z.string().describe("The text content of the webpage."),
+});
+export type AnalyzeContentQualityInput = z.infer<typeof AnalyzeContentQualityInputSchema>;
+
+export const AnalyzeContentQualityOutputSchema = z.object({
+  isHighQuality: z.boolean().describe("A simple boolean indicating if the content is high-quality."),
+  contentType: z.enum(['Article', 'Blog Post', 'Forum', 'Listing', 'Company Page', 'Other']).describe("The detected type of content."),
+  relevanceScore: z.number().min(0).max(1).describe("A score from 0-1 indicating relevance to the real estate domain."),
+  trustworthinessScore: z.number().min(0).max(1).describe("A score from 0-1 indicating the trustworthiness of the content."),
+  reasoning: z.string().describe("A brief explanation for the scores and quality assessment."),
+});
+export type AnalyzeContentQualityOutput = z.infer<typeof AnalyzeContentQualityOutputSchema>;

@@ -40,6 +40,7 @@ import { estimatePrice } from '@/ai/flows/estimate-price';
 import { generateAerialView } from '@/ai/flows/generate-aerial-view';
 import { reviewLeaseAgreement } from '@/ai/flows/review-lease-agreement';
 import { evaluateLeadAsBuyer } from '@/ai/flows/evaluate-lead-as-buyer';
+import { analyzeContentQuality } from '@/ai/flows/analyze-content-quality';
 
 const runToolSchema = z.object({
   toolId: z.string(),
@@ -99,6 +100,7 @@ const flowRunnerMap: { [key: string]: (payload: any) => Promise<any> } = {
     'aerial-view-generator': generateAerialView,
     'lease-reviewer': reviewLeaseAgreement,
     'evaluate-lead-as-buyer': evaluateLeadAsBuyer,
+    'analyze-content-quality': analyzeContentQuality,
 };
 
 export async function POST(req: NextRequest) {
