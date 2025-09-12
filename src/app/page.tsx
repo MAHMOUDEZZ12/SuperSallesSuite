@@ -34,7 +34,7 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-       <LandingHeader host="selltoday.ai" />
+       <LandingHeader />
       <main className="flex-1 w-full max-w-7xl mx-auto px-4 py-24 md:py-32">
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.2 }}>
            <div className="relative flex flex-col items-center">
