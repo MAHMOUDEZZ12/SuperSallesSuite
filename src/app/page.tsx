@@ -114,12 +114,9 @@ function WhatsMAPHome() {
                     <h1 className="text-6xl md:text-8xl font-bold font-heading tracking-tight mb-4 text-white">
                         WhatsMAP
                     </h1>
-                     <p className="text-lg text-gray-400 mt-2">
-                        Search or Ask anything about real EState.
-                    </p>
                 </div>
                 <div className="w-full max-w-3xl">
-                    <MarketSearchInput useSearchPage={true} />
+                    <MarketSearchInput />
                 </div>
             </main>
         </div>
