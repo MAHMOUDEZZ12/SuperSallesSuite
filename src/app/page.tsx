@@ -115,7 +115,7 @@ function WhatsMAPHome() {
                         WhatsMAP
                     </h1>
                      <p className="text-lg text-gray-400 mt-2">
-                        Search or Ask anything about real Estate.
+                        Search or Ask anything about real EState.
                     </p>
                 </div>
                 <div className="w-full max-w-3xl">
