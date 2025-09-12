@@ -91,13 +91,32 @@
     scrollbar-width: none;  /* Firefox */
   }
   
-  .animated-gradient-background {
-      background-image: linear-gradient(90deg, #ec4899, #f59e0b, #ec4899);
-      background-size: 200% 100%;
-      animation: gradient-animation 4s ease-in-out infinite;
+  .animated-gradient-border-wrapper {
+      position: relative;
+      background: hsl(var(--background));
+      border-radius: 0.5rem; /* Corresponds to rounded-lg */
+      padding: 1px; /* Border thickness */
+      overflow: hidden;
   }
 
-  @keyframes gradient-animation {
+  .animated-gradient-border-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      background: linear-gradient(90deg, #ec4899, #f59e0b, #ec4899);
+      background-size: 200% 100%;
+      z-index: 0;
+      animation: breathing-glow 4s ease-in-out infinite;
+      opacity: 0;
+      transition: opacity 0.3s;
+  }
+
+  .group:hover .animated-gradient-border-wrapper::before,
+  .group:focus-within .animated-gradient-border-wrapper::before {
+    opacity: 1;
+  }
+  
+  @keyframes breathing-glow {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
