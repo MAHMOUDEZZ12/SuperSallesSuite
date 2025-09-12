@@ -111,7 +111,7 @@ function WhatsMAPHome() {
             </header>
             <main className="flex-1 flex flex-col items-center justify-center px-4">
                 <div className="text-center mb-8 max-w-4xl mx-auto">
-                    <h1 className="text-5xl md:text-6xl font-bold font-heading tracking-tight mb-4 text-white">
+                    <h1 className="text-6xl md:text-8xl font-bold font-heading tracking-tight mb-4 text-white">
                         WhatsMAP
                     </h1>
                      <p className="text-lg text-gray-400 mt-2">
