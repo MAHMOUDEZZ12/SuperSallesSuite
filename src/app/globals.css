@@ -107,7 +107,7 @@
         #ec4899
     );
     transform: translate(-50%, -50%) rotate(var(--angle));
-    animation: rotate-gradient 2s linear infinite;
+    animation: rotate-gradient 2s ease-in-out infinite;
   }
 
   @property --angle {
@@ -132,3 +132,4 @@ html {
 .market-library-bg {
   background-color: #0f0f12;
 }
+
