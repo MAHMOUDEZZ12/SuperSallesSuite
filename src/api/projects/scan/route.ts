@@ -2,6 +2,7 @@
 import { ok, fail } from "@/lib/api-helpers";
 import { SearchServiceClient } from "@google-cloud/discoveryengine";
 import { NextRequest } from "next/server";
+import { adminDb } from "@/lib/firebaseAdmin";
 
 // It's better to instantiate the client outside the handler to allow for potential connection reuse.
 let client: SearchServiceClient;
@@ -81,6 +82,21 @@ export async function GET(req: NextRequest) {
         tags: [result.document?.uri ? new URL(result.document.uri).hostname : 'selltoday.ai'],
       };
     }).filter(Boolean);
+
+    // If no results from Vertex, check our archive
+    if (projects?.length === 0) {
+        const archiveQuery = adminDb.collection('projects_archive').where('name', '==', query).limit(1);
+        const archiveSnap = await archiveQuery.get();
+        if (!archiveSnap.empty) {
+            const archivedDoc = archiveSnap.docs[0].data();
+            projects.push({
+                ...archivedDoc,
+                id: archiveSnap.docs[0].id,
+                status: 'Archived/Historical',
+                tags: ['archived'],
+            } as any);
+        }
+    }
 
     const searchResult = {
         summary: response.summary?.summaryText || null,
