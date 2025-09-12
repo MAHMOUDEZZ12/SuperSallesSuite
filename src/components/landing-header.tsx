@@ -22,6 +22,7 @@ import { useTheme } from '@/components/theme-switcher';
 
 const navLinks = [
     { name: 'Handbook', href: '/blog' },
+    { name: 'Ecosystem', href: '/ecosystem' },
     { name: 'Play', href: '/superfreetime' },
 ];
 

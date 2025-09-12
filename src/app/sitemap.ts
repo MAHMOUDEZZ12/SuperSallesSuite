@@ -81,7 +81,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/terms',
     '/status',
     '/about',
-    '/documentation',
+    '/ecosystem',
     '/cookies',
     '/superfreetime',
     '/blog',

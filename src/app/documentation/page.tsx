@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { CodeBlock } from '@/components/code-block';
 import { PageHeader } from '@/components/ui/page-header';
 import { IconMap } from '@/components/ui/icon-map';
+import Link from 'next/link';
 
 
 const technologies = [
@@ -58,8 +59,12 @@ export default function DocumentationPage() {
          <PageHeader 
             icon={<GitBranch className="h-8 w-8" />}
             title="Suite Documentation"
-            description="A technical overview of the technologies and AI flows that power WhatsMAP."
-        />
+            description="A technical overview of the technologies and AI flows that power WhatsMAP. For the full strategic vision, see our Ecosystem Blueprint."
+        >
+             <Link href="/ecosystem">
+                <button className="bg-primary text-primary-foreground px-4 py-2 rounded-md">View Blueprint</button>
+            </Link>
+        </PageHeader>
 
         <section className="my-16">
           <h2 className="text-3xl font-bold mb-8 text-center">Technology Stack</h2>
