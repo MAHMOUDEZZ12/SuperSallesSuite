@@ -13,7 +13,7 @@ export const Logo = ({
   host?: string;
 }) => {
   const isSelltoday = host?.includes('selltoday.ai');
-  const logoSrc = 'https://firebasestorage.googleapis.com/v0/b/supersellerae-4rzzy.firebasestorage.app/o/logo%20.png?alt=media&token=608d7bb1-9957-4beb-a8c2-7715b5c8fc79';
+  const logoSrc = 'https://firebasestorage.googleapis.com/v0/b/supersellerae-4rzzy.firebasestorage.app/o/white%20logo%20of%20whatsmapp.png?alt=media&token=5218d2c8-7f98-4665-90d9-79653d11ecc7';
   const brandName = isSelltoday ? 'selltoday.ai' : 'WhatsMAP';
 
   return (
