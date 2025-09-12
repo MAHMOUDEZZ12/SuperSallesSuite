@@ -1,4 +1,3 @@
-
 'use server';
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -19,7 +18,7 @@ import { getMarketTrends } from '@/ai/flows/get-market-trends';
 import { generateListing } from '@/ai/flows/generate-listing';
 import { generateStory } from '@/ai/flows/generate-story';
 import { generateReel } from '@/ai/flows/generate-reel';
-import { generateTikTokVideo } from '@/ai/flows/generate-tiktok-video';
+import { generateTikTokVideo } from '@/aiflows/generate-tiktok-video';
 import { getCrmMemory } from '@/ai/flows/get-crm-memory';
 import { manageSocialPage } from '@/ai/flows/manage-social-page';
 import { generateMultiOffer } from '@/ai/flows/generate-multi-offer';
@@ -122,3 +121,5 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
+
+    
