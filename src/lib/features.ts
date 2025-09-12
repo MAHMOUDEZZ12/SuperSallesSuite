@@ -76,6 +76,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Creative', 'Video', 'Marketing', 'Ads', 'Archy'],
     mindMapCategory: 'Archy',
     isPage: true,
+    badge: 'NEW',
     href: '/dashboard/tool/aerial-view-generator',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
@@ -265,6 +266,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Market Intelligence', 'Ads'],
     mindMapCategory: 'Market Intelligence',
     isPage: true,
+    badge: 'NEW',
     href: '/dashboard/tool/keyword-planner',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
@@ -294,6 +296,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Sales Tools', 'Utilities', 'Market Intelligence'],
     mindMapCategory: 'Market Intelligence',
     isPage: true,
+    badge: 'NEW',
     href: '/dashboard/tool/price-estimator',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
@@ -381,6 +384,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Listing & CRM', 'Sales Tools', 'Web'],
     mindMapCategory: 'Listing & CRM',
     isPage: true,
+    badge: 'NEW',
     href: '/dashboard/tool/listing-manager',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
@@ -395,6 +399,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Listing & CRM', 'Sales Tools', 'Ads'],
     mindMapCategory: 'Listing & CRM',
     isPage: true,
+    badge: 'NEW',
     href: '/dashboard/tool/listing-performance',
     guideHref: '/blog/listing-performance',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
@@ -591,12 +596,10 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Sales Tools', 'Utilities', 'EBRAM'],
     mindMapCategory: 'EBRAM',
     isPage: true,
-href: '/dashboard/tool/lease-reviewer',
+    href: '/dashboard/tool/lease-reviewer',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
   },
 ];
-
-    
 
     
