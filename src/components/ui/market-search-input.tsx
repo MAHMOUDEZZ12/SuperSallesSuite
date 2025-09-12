@@ -20,9 +20,12 @@ export default function MarketSearchInput() {
         <div className="max-w-3xl mx-auto">
             <form onSubmit={handleSearch} className="relative">
                 <div className="relative bg-black/70 rounded-lg">
+                     <span className="absolute left-6 top-1/2 -translate-y-1/2 text-base text-neutral-500/50 pointer-events-none blinking-cursor">
+                        Search or Ask anything about real EState.
+                    </span>
                     <Input
-                        placeholder="Search or Ask anything about real EState."
-                        className="w-full rounded-lg h-14 pl-6 pr-4 text-base bg-transparent border-none text-white placeholder:text-neutral-500 focus-visible:ring-0"
+                        placeholder=""
+                        className="w-full rounded-lg h-14 pl-6 pr-4 text-base bg-transparent border-none text-white focus-visible:ring-0"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                     />
