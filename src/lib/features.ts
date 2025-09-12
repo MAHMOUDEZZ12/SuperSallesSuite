@@ -601,5 +601,3 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     creationFields: [],
   },
 ];
-
-    
