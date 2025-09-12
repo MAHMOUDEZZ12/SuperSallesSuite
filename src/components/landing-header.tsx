@@ -26,7 +26,7 @@ const navLinks = [
     { name: 'Play', href: '/superfreetime' },
 ];
 
-export function LandingHeader() {
+export function LandingHeader({ host }: { host: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const { setTheme, themes } = useTheme();
   
@@ -34,7 +34,7 @@ export function LandingHeader() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
         <div className="mr-auto flex items-center gap-4">
-            <Logo />
+            <Logo host={host} />
         </div>
         <div className="hidden md:flex items-center gap-2">
             {navLinks.map((link) => (
@@ -77,7 +77,7 @@ export function LandingHeader() {
               <SheetContent side="right" className="w-full">
                  <div className="p-4 flex flex-col h-full">
                      <div className="flex justify-between items-center mb-8">
-                        <Logo />
+                        <Logo host={host} />
                         <div className="flex items-center">
                              <DropdownMenu>
                               <DropdownMenuTrigger asChild>
