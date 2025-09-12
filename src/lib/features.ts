@@ -59,7 +59,6 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     cta: 'Generate Video',
     categories: ['Creative', 'Video', 'Marketing', 'Ads', 'Archy'],
     mindMapCategory: 'Archy',
-    badge: 'NEW',
     isPage: true,
     href: '/dashboard/tool/ai-video-presenter',
     guideHref: '/blog/ai-video-presenter',
@@ -75,7 +74,6 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     cta: 'Generate View',
     categories: ['Creative', 'Video', 'Marketing', 'Ads', 'Archy'],
     mindMapCategory: 'Archy',
-    badge: 'NEW',
     isPage: true,
     href: '/dashboard/tool/aerial-view-generator',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
@@ -528,6 +526,24 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
   },
+  {
+    id: 'pdf-editor',
+    title: 'Visual PDF Editor',
+    description: 'Edit any PDF with simple visual tools and AI commands.',
+    icon: 'Edit',
+    color: '#dc2626',
+    cta: 'Edit a PDF',
+    categories: ['Editing', 'Creative', 'Developer & Backend'],
+    mindMapCategory: 'Developer & Backend',
+    badge: 'BETA',
+    isPage: true,
+    href: '/dashboard/tool/pdf-editor',
+    guideHref: '/blog/pdf-editor',
+    details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
+    creationFields: [
+      { id: 'sourcePdf', name: 'Source PDF', type: 'file', description: 'The PDF you want to edit.' },
+      { id: 'newImages', name: 'New Images (optional)', type: 'file', multiple: true, description: 'Upload any new images you want to add or swap.' },
+      { id: 'editInstructions', name: 'Editing Instructions', type: 'textarea', placeholder: 'e.g., "Replace the logo on page 1 with the new one I uploaded. Change the price on page 3 to AED 2.5M."', description: 'Tell the AI what changes to make.' },
+    ],
+  },
 ];
-
-    
