@@ -97,7 +97,7 @@ export const FeatureModal = ({ feature, onClose }: { feature: Omit<Feature, 'ren
                        {feature.details.aiVsManual.map((item, index) => {
                         const ItemIcon = IconMap[item.icon as keyof typeof IconMap] || Sparkles;
                         return (
-                        <div key={index} className="p-4 bg-card rounded-lg border border-primary/20 shadow-lg shadow-primary/5">
+                        <div key={index} className="p-4 bg-card rounded-lg border border-primary/20">
                            <div className="flex items-center gap-3 mb-2">
                              <ItemIcon className="h-5 w-5 text-primary" />
                             <h4 className="font-semibold text-primary">{item.metric}</h4>
