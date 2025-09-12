@@ -42,13 +42,20 @@ export default function BlogIndexPage() {
             <LandingHeader />
             <main className="flex-1 w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20">
                 <div className="text-center mb-16">
-                     <BookOpen className="mx-auto h-16 w-16 mb-4 text-primary" />
+                     <div className="relative inline-block mb-4">
+                        <BookOpen className="mx-auto h-16 w-16 text-primary relative z-10" />
+                        <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full animate-pulse"></div>
+                     </div>
                     <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4 bg-clip-text text-transparent bg-gradient-to-b from-foreground/90 to-foreground/60">
                         The selltoday.ai Handbook
                     </h1>
-                    <p className="text-lg md:text-xl text-foreground/60 max-w-3xl mx-auto">
-                        Search or Ask anything about real EState.
-                    </p>
+                     <div className="max-w-3xl mx-auto">
+                        <div className="inline-block p-4 border border-dashed rounded-lg bg-muted/50">
+                            <p className="text-lg md:text-xl text-foreground/80">
+                                Search or Ask anything about real EState.
+                            </p>
+                        </div>
+                    </div>
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
                     <aside className="lg:col-span-1">
