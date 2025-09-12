@@ -1,5 +1,5 @@
 
-'use server';
+
 
 /**
  * @fileOverview An AI flow to investigate a lead across various online sources.

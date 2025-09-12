@@ -1,5 +1,5 @@
 
-'use server';
+
 
 /**
  * @fileOverview An AI flow to generate a cinematic aerial view of a property.

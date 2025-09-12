@@ -7,8 +7,6 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Loader2, Sparkles, Wand2, User, Mic, Video, Download, Play, CheckCircle, ArrowRight, ArrowLeft } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { PageHeader } from '@/components/ui/page-header';
-import { generateVideoPresenter } from '@/ai/flows/generate-video-presenter';
-import { GenerateVideoPresenterInput, GenerateVideoPresenterOutput } from '@/types';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -25,6 +23,17 @@ const sampleCharacters = [
 ];
 
 type PresenterStep = 'character' | 'script' | 'generate';
+
+interface GenerateVideoPresenterInput {
+    script: string;
+    characterImageUri?: string;
+    characterDescription?: string;
+}
+
+interface GenerateVideoPresenterOutput {
+    videoUrl: string;
+    audioDataUri: string;
+}
 
 export default function AiVideoPresenterPage() {
     const { toast } = useToast();
@@ -57,7 +66,24 @@ export default function AiVideoPresenterPage() {
                 characterImageUri: selectedCharacter?.imageUri,
                 characterDescription: customCharacterDescription,
             };
-            const responseData = await generateVideoPresenter(payload);
+            
+            const response = await fetch('/api/run', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    toolId: 'ai-video-presenter',
+                    payload 
+                }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Video presenter generation failed');
+            }
+
+            const responseData = await response.json();
             setResult(responseData);
             track('video_presenter_generation_succeeded');
             toast({ title: 'Video Generated!', description: 'Your AI presenter video is ready.' });
@@ -194,5 +220,3 @@ export default function AiVideoPresenterPage() {
         </main>
     );
 }
-
-    

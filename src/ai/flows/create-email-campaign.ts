@@ -1,5 +1,5 @@
 
-'use server';
+
 
 /**
  * @fileOverview An AI flow to design, write, and schedule an email campaign.

@@ -1,5 +1,5 @@
 
-'use server';
+
 
 /**
  * @fileOverview An AI flow to configure the user's workspace from uploaded documents.

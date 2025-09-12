@@ -1,5 +1,5 @@
 
-'use server';
+
 
 /**
  * @fileOverview AI flow to generate compelling real estate listing descriptions.

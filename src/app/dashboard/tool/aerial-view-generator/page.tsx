@@ -10,8 +10,16 @@ import { PageHeader } from '@/components/ui/page-header';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { track } from '@/lib/events';
-import { generateAerialView } from '@/ai/flows/generate-aerial-view';
-import { GenerateAerialViewInput, GenerateAerialViewOutput } from '@/ai/flows/generate-aerial-view';
+
+// Define the types directly in the component
+interface GenerateAerialViewInput {
+    address: string;
+}
+
+interface GenerateAerialViewOutput {
+    videoDataUri: string;
+    analysis: string;
+}
 
 const ResultDisplay = ({ result, address }: { result: GenerateAerialViewOutput; address: string }) => {
     return (
@@ -55,7 +63,23 @@ export default function AerialViewGeneratorPage() {
 
         try {
             const payload: GenerateAerialViewInput = { address };
-            const responseData = await generateAerialView(payload);
+            const response = await fetch('/api/run', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    toolId: 'aerial-view-generator',
+                    payload: payload,
+                }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'API request failed');
+            }
+
+            const responseData: GenerateAerialViewOutput = await response.json();
             setResult(responseData);
             track('aerial_view_generation_succeeded');
             toast({ title: 'Aerial View Generated!', description: 'Your cinematic video is ready.' });
@@ -96,7 +120,7 @@ export default function AerialViewGeneratorPage() {
                             </CardContent>
                             <CardFooter>
                                 <Button type="submit" size="lg" disabled={isLoading} className="w-full">
-                                    {isLoading ? <><Loader2 className="mr-2 h-5 w-5 animate-spin" />Generating Video...</> : <><Sparkles className="mr-2 h-5 w-5" />Generate View</>}
+                                    {isLoading ? <><Loader2 className="mr-2 h-5 w-5 animate-spin" />Generating Video...</> : <><Sparkles className="mr-2 h-5 w-5" />Generate View</>}\
                                 </Button>
                             </CardFooter>
                         </form>

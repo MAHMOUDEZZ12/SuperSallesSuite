@@ -1,5 +1,5 @@
 
-'use server';
+
 
 /**
  * @fileOverview An AI flow to edit a video for YouTube based on user instructions.

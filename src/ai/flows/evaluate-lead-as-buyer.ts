@@ -1,5 +1,5 @@
 
-'use server';
+
 
 /**
  * @fileOverview An AI flow to evaluate an enriched lead and create a detailed buyer profile.

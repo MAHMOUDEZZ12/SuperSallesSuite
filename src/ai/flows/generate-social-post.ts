@@ -1,5 +1,5 @@
 
-'use server';
+
 
 /**
  * @fileOverview AI flow to generate a one-week social media strategy from a given topic or URL, using a specified data store.

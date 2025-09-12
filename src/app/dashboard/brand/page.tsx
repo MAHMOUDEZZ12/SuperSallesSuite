@@ -17,7 +17,6 @@ import { cn } from '@/lib/utils';
 import { PageHeader } from '@/components/ui/page-header';
 import { Separator } from '@/components/ui/separator';
 import { Checkbox } from '@/components/ui/checkbox';
-import { aiBrandCreator } from '@/ai/flows/ai-brand-creator';
 import { fileToDataUri } from '@/lib/tools-client';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
@@ -162,10 +161,26 @@ export default function BrandPage() {
           filesToTrain.map(f => fileToDataUri(f.file!))
         );
         
-        const result = await aiBrandCreator({
-          command: "Analyze the provided documents and extract the company name, primary and secondary brand colors, and contact information. Use this to set up my brand kit.",
-          documents: fileDataUris,
-        });
+        const response = await fetch('/api/run', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+              toolId: 'ai-brand-creator',
+              payload: {
+                command: "Analyze the provided documents and extract the company name, primary and secondary brand colors, and contact information. Use this to set up my brand kit.",
+                documents: fileDataUris,
+              }
+          }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'AI brand creation failed');
+      }
+      
+      const result = await response.json();
 
         if (result.brandInfo) {
           const { companyName, primaryColor, secondaryColor, contact } = result.brandInfo;
@@ -447,5 +462,3 @@ export default function BrandPage() {
     </main>
   );
 }
-
-    

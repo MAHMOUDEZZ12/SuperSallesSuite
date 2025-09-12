@@ -14,7 +14,6 @@ import { ProjectCard } from './ui/project-card';
 import type { Project } from '@/types';
 import Image from 'next/image';
 import { fileToDataUri } from '@/lib/tools-client';
-import { aiBrandCreator } from '@/ai/flows/ai-brand-creator';
 import { useToast } from '@/hooks/use-toast';
 
 const SlideWrapper = ({ children, slideKey }: { children: React.ReactNode; slideKey: string }) => (
@@ -139,10 +138,26 @@ const AutoSetupSlide = () => {
         
         try {
             const dataUri = await fileToDataUri(uploadedFile);
-            const result = await aiBrandCreator({
-                command: "Analyze the provided document and extract the company name, primary brand color, and an accent color. Also extract a contact person's name, email, and phone number.",
-                documents: [dataUri],
+            const response = await fetch('/api/run', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    toolId: 'ai-brand-creator',
+                    payload: {
+                        command: "Analyze the provided document and extract the company name, primary brand color, and an accent color. Also extract a contact person's name, email, and phone number.",
+                        documents: [dataUri],
+                    }
+                }),
             });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'AI brand creation failed');
+            }
+            
+            const result = await response.json();
 
             if (result.brandInfo) {
                 const { companyName, primaryColor, secondaryColor, contact } = result.brandInfo;

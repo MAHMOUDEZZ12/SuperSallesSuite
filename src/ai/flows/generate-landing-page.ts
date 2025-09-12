@@ -1,4 +1,4 @@
-'use server';
+
 
 /**
  * @fileOverview AI flow to generate a landing page for a specific project based on project details and user branding.

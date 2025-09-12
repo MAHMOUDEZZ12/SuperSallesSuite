@@ -1,5 +1,5 @@
 
-'use server';
+
 
 /**
  * @fileOverview AI-powered ad generation from project brochures or a simple project name.
