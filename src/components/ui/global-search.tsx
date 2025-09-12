@@ -9,6 +9,7 @@ import { type FilterCategory } from '@/lib/features';
 import { tools } from '@/lib/features';
 import Link from 'next/link';
 import { IconMap } from './icon-map';
+import { cn } from '@/lib/utils';
 
 interface GlobalSearchProps {
   isOpen: boolean;
@@ -59,15 +60,17 @@ export function GlobalSearch({ isOpen, setIsOpen }: GlobalSearchProps) {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="max-w-4xl p-0 gap-0">
-        <div className="flex items-center px-4 border-b">
-          <Search className="h-5 w-5 text-muted-foreground" />
-          <Input
-            type="text"
-            placeholder="Search for tools, projects, or actions..."
-            className="w-full h-12 border-none shadow-none focus-visible:ring-0"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
+        <div className="animated-gradient-border-wrapper">
+          <div className="relative z-10 flex items-center px-4 bg-background rounded-lg">
+            <Search className="h-5 w-5 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Search for tools, projects, or actions..."
+              className="w-full h-12 border-none shadow-none focus-visible:ring-0 bg-transparent"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </div>
         </div>
         <div className="p-6 max-h-[70vh] overflow-y-auto">
           {filteredTools.length > 0 ? (

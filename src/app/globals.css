@@ -92,6 +92,39 @@
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
   }
+  .animated-gradient-border-wrapper {
+    @apply relative overflow-hidden rounded-lg;
+  }
+  .animated-gradient-border-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+        from var(--angle),
+        hsl(var(--accent)),
+        hsl(var(--primary)),
+        hsl(var(--accent))
+    );
+    transform: translate(-50%, -50%) rotate(var(--angle));
+    animation: rotate-gradient 4s linear infinite;
+  }
+
+  @property --angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+  @keyframes rotate-gradient {
+    0% {
+        --angle: 0deg;
+    }
+    100% {
+        --angle: 360deg;
+    }
+  }
 }
 
 html {
