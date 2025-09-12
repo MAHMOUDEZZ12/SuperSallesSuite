@@ -20,7 +20,7 @@ export default function PrivacyPage() {
         <Card className="mt-8 bg-card/50">
             <CardContent className="p-8 prose prose-lg dark:prose-invert max-w-none">
               <p>
-                Welcome to selltoday.ai ("we," "us," or "our"). We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our application. Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the application.
+                Welcome to WhatsMAP ("we," "us," or "our"). We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our application. Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the application.
               </p>
 
               <h2>Information We Collect</h2>
@@ -69,10 +69,10 @@ export default function PrivacyPage() {
               <h2>Contact Us</h2>
               <p>If you have questions or comments about this Privacy Policy, please contact us at:</p>
               <p>
-                selltoday.ai<br />
+                WhatsMAP<br />
                 123 AI Lane<br />
                 Innovation City, 12345<br />
-                <a href="mailto:privacy@selltoday.ai">privacy@selltoday.ai</a>
+                <a href="mailto:privacy@whatsmap.ai">privacy@whatsmap.ai</a>
               </p>
             </CardContent>
         </Card>

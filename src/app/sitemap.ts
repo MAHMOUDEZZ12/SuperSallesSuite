@@ -74,7 +74,7 @@ const blogSlugs = [
 
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const siteUrl = 'https://whatsmap.ai'; // Replace with your actual domain
+  const siteUrl = 'https://whatsmap.ai';
 
   const staticRoutes = [
     '/',
@@ -115,5 +115,3 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [...staticRoutes, ...toolRoutes, ...blogRoutes];
 }
-
-    

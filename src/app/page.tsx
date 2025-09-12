@@ -9,13 +9,10 @@ import { motion } from 'framer-motion';
 import { MindMapNode, ToolLeaf } from '@/components/ui/mind-map-components';
 import { tools, type Feature } from '@/lib/features';
 import { FeatureModal } from '@/components/feature-modal';
-import MarketSearchInput from '@/components/ui/market-search-input';
-import { Logo } from '@/components/logo';
-import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { User } from 'lucide-react';
 
-function MindMapHome() {
+export default function HomePage() {
   const [selectedTool, setSelectedTool] = React.useState<Omit<Feature, 'renderResult'> | null>(null);
 
   const getToolsForCategory = (category: Feature['mindMapCategory']) => {
@@ -98,75 +95,4 @@ function MindMapHome() {
        <LandingFooter />
     </div>
   );
-}
-
-
-function WhatsMAPHome() {
-  // This component is the dedicated homepage for the whatsmap.ai experience
-    return (
-        <div className="flex min-h-screen flex-col market-library-bg text-white">
-            <header className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center p-4">
-                <div className="flex items-center gap-6">
-                    <Logo />
-                </div>
-                 <div className="flex items-center gap-4">
-                    <Link href="/login">
-                        <Button variant="ghost" className="text-white rounded-full p-2">
-                            <User />
-                        </Button>
-                    </Link>
-                </div>
-            </header>
-            <main className="flex-1 flex flex-col items-center justify-center px-4">
-                <div className="text-center mb-8 max-w-4xl mx-auto">
-                    <h1 className="text-6xl md:text-8xl font-bold font-heading tracking-tight mb-4 text-white">
-                        WhatsMAP
-                    </h1>
-                </div>
-                <div className="w-full max-w-3xl">
-                    <MarketSearchInput />
-                </div>
-            </main>
-        </div>
-    );
-}
-
-function VideoHome() {
-    // Component for videohome.ai
-     return (
-        <div>
-            <h1>Welcome to videohome.ai</h1>
-        </div>
-    );
-}
-
-function ChatHome() {
-     // Component for chathome.ai
-     return (
-        <div>
-            <h1>Welcome to chathome.ai</h1>
-        </div>
-    );
-}
-
-
-export default function Home() {
-    const [domainComponent, setDomainComponent] = React.useState<React.ReactNode>(null);
-
-    React.useEffect(() => {
-        const hostname = window.location.hostname;
-        if (hostname.includes('selltoday.ai')) {
-            setDomainComponent(<MindMapHome />);
-        } else if (hostname.includes('whatsmap') || hostname.includes('localhost')) {
-            setDomainComponent(<WhatsMAPHome />);
-        } else if (hostname.includes('video')) {
-            setDomainComponent(<VideoHome />);
-        } else if (hostname.includes('chat')) {
-            setDomainComponent(<ChatHome />);
-        } else {
-             setDomainComponent(<WhatsMAPHome />);
-        }
-    }, []);
-
-    return domainComponent;
 }

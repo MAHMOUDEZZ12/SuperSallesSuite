@@ -23,7 +23,6 @@ export const metadata: Metadata = {
   title: 'WhatsMAP — Your AI Co-Pilot for Real Estate',
   description: 'An AI-powered real estate platform that can tell, think, plan, calculate, review, estimate, and co-invest. Your partner for smarter property decisions.',
   openGraph: {
-    // Replace with a URL to your actual OpenGraph image
     images: ['/og-image.png'],
   },
 };
