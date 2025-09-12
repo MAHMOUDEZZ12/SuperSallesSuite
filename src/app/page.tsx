@@ -27,17 +27,18 @@ function MindMapHome() {
   const marketIntelTools = getToolsForCategory('Market Intelligence');
   const listingCrmTools = getToolsForCategory('Listing & CRM');
   const devTools = getToolsForCategory('Developer & Backend');
+  const ebramTools = getToolsForCategory('EBRAM');
 
 
   return (
     <div className="flex flex-col min-h-screen">
+       <LandingHeader />
       <main className="flex-1 w-full max-w-7xl mx-auto px-4 py-24 md:py-32">
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.2 }}>
            <div className="relative flex flex-col items-center">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 0.7, delay: 0.5 } }}>
                 <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 items-start">
                   
-                  {/* Archy (Creative) & Meta Pilot */}
                   <div className="lg:col-span-2 grid grid-cols-1 gap-8">
                      <MindMapNode title="Archy (Creative)">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
@@ -55,9 +56,6 @@ function MindMapHome() {
                      </MindMapNode>
                   </div>
                   
-                  {/* Central Node placeholder could go here if needed */}
-                  
-                   {/* Market Intel, Listing/CRM, Dev Tools */}
                    <div className="lg:col-span-3 grid grid-cols-1 gap-8">
                      <MindMapNode title="Market Intelligence">
                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
@@ -73,13 +71,22 @@ function MindMapHome() {
                         ))}
                       </div>
                     </MindMapNode>
-                     <MindMapNode title="Developer & Backend">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-                        {devTools.map(tool => (
-                          <ToolLeaf key={tool.id} tool={tool} onClick={setSelectedTool} />
-                        ))}
-                      </div>
-                    </MindMapNode>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                        <MindMapNode title="Developer & Backend">
+                            <div className="grid grid-cols-1 gap-4 w-full">
+                                {devTools.map(tool => (
+                                <ToolLeaf key={tool.id} tool={tool} onClick={setSelectedTool} />
+                                ))}
+                            </div>
+                        </MindMapNode>
+                         <MindMapNode title="EBRAM (Legal AI)">
+                            <div className="grid grid-cols-1 gap-4 w-full">
+                                {ebramTools.map(tool => (
+                                <ToolLeaf key={tool.id} tool={tool} onClick={setSelectedTool} />
+                                ))}
+                            </div>
+                        </MindMapNode>
+                    </div>
                    </div>
 
                 </div>
@@ -88,6 +95,7 @@ function MindMapHome() {
         </motion.div>
       </main>
       <FeatureModal feature={selectedTool} onClose={() => setSelectedTool(null)} />
+       <LandingFooter />
     </div>
   );
 }
@@ -148,13 +156,7 @@ export default function Home() {
     React.useEffect(() => {
         const hostname = window.location.hostname;
         if (hostname.includes('selltoday.ai')) {
-            setDomainComponent(
-                <div className="flex min-h-screen flex-col bg-background">
-                    <LandingHeader />
-                    <MindMapHome />
-                    <LandingFooter />
-                </div>
-            );
+            setDomainComponent(<MindMapHome />);
         } else if (hostname.includes('whatsmap') || hostname.includes('localhost')) {
             setDomainComponent(<WhatsMAPHome />);
         } else if (hostname.includes('video')) {
