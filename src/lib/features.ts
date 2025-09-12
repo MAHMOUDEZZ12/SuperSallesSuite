@@ -1,3 +1,4 @@
+
 // This file is now a pure data file with no React/JSX dependencies.
 // It can be safely imported by both server and client components.
 
@@ -556,7 +557,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     mindMapCategory: 'EBRAM',
     badge: 'NEW',
     isPage: true,
-    href: '/dashboard/tool/lease-reviewer',
+href: '/dashboard/tool/lease-reviewer',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
   },
