@@ -29,20 +29,13 @@ export default function MarketSearchInput({ useSearchPage = false }: MarketSearc
                 <div className="relative">
                     <Input
                         placeholder="Search for projects, developers, market trends..."
-                        className="w-full rounded-none h-14 pl-6 pr-28 text-base bg-transparent border-x-0 border-t-0 border-b border-neutral-700 text-white placeholder:text-neutral-400 focus-visible:ring-0 focus-visible:border-primary"
+                        className="w-full rounded-none h-14 pl-6 pr-4 text-base bg-transparent border-x-0 border-t-0 border-b border-neutral-700 text-white placeholder:text-neutral-400 focus-visible:ring-0 focus-visible:border-primary"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                     />
-                    <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                         <Button type="button" variant="ghost" size="icon" className="text-neutral-400 hover:text-white rounded-full">
-                            <Mic className="h-5 w-5" />
-                        </Button>
-                        <Button type="submit" size="icon" className="bg-blue-600 hover:bg-blue-500 rounded-full h-10 w-10">
-                            <ArrowUp className="h-5 w-5" />
-                        </Button>
-                    </div>
                 </div>
             </form>
         </div>
     );
 }
+
