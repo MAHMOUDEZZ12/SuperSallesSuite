@@ -279,7 +279,6 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     cta: 'Estimate Price',
     categories: ['Sales Tools', 'Utilities', 'Market Intelligence'],
     mindMapCategory: 'Market Intelligence',
-    badge: 'NEW',
     isPage: true,
     href: '/dashboard/tool/price-estimator',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
@@ -294,7 +293,6 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     cta: 'Analyze Trends',
     categories: ['Market Library', 'Sales Tools', 'Lead Gen', 'Market Intelligence'],
     mindMapCategory: 'Market Intelligence',
-    badge: 'NEW',
     isPage: true,
     href: '/dashboard/tool/market-trends',
     guideHref: '/blog/market-reports',
@@ -354,7 +352,6 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     cta: 'Manage Listings',
     categories: ['Listing & CRM', 'Sales Tools', 'Web'],
     mindMapCategory: 'Listing & CRM',
-    badge: 'NEW',
     isPage: true,
     href: '/dashboard/tool/listing-manager',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
@@ -532,3 +529,5 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     creationFields: [],
   },
 ];
+
+    
