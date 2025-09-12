@@ -1,5 +1,5 @@
 
-'use server';
+
 
 /**
  * @fileOverview An AI flow to manage a WhatsApp broadcast or drip campaign.

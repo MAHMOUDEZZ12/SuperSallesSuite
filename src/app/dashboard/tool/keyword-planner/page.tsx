@@ -7,13 +7,34 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Loader2, Sparkles, Wand2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { PageHeader } from '@/components/ui/page-header';
-import { generateKeywordPlan } from '@/ai/flows/generate-keyword-plan';
-import { GenerateKeywordPlanInput, GenerateKeywordPlanOutput } from '@/ai/flows/generate-keyword-plan';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { track } from '@/lib/events';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+
+interface GenerateKeywordPlanInput {
+    topic: string;
+    targetLocation: string;
+}
+
+interface Keyword {
+    keyword: string;
+    matchType: string;
+    monthlySearches: number;
+    competition: 'High' | 'Medium' | 'Low';
+}
+
+interface AdGroup {
+    adGroupName: string;
+    keywords: Keyword[];
+}
+
+interface GenerateKeywordPlanOutput {
+    planTitle: string;
+    negativeKeywords: string[];
+    adGroups: AdGroup[];
+}
 
 const ResultDisplay = ({ result }: { result: GenerateKeywordPlanOutput }) => {
     return (
@@ -87,7 +108,23 @@ export default function KeywordPlannerPage() {
 
         try {
             const payload: GenerateKeywordPlanInput = { topic, targetLocation };
-            const responseData = await generateKeywordPlan(payload);
+            const response = await fetch('/api/run', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    toolId: 'keyword-planner',
+                    payload 
+                }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Keyword plan generation failed');
+            }
+            
+            const responseData = await response.json();
             setResult(responseData);
             track('keyword_plan_generation_succeeded');
             toast({ title: 'Keyword Plan Generated!', description: 'Your strategic plan is ready for review.' });

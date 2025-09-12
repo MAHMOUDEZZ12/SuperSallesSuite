@@ -3,6 +3,7 @@ import { adminDb } from "@/lib/firebaseAdmin";
 import { ok, fail } from "@/lib/api-helpers";
 import * as cheerio from 'cheerio';
 import { CollectionReference } from "firebase-admin/firestore";
+import { NextRequest } from "next/server";
 
 async function scrapeDxbOffplan() {
   const baseUrl = "https://dxboffplan.com";
@@ -181,7 +182,7 @@ async function processAndArchive(projects: any[], collection: CollectionReferenc
     return updatedCount;
 }
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const source = searchParams.get('source') || 'dxboffplan';

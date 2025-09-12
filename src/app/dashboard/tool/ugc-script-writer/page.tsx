@@ -7,13 +7,25 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Loader2, Sparkles, Wand2, PenSquare, FileText, Copy } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { PageHeader } from '@/components/ui/page-header';
-import { generateUgcScript } from '@/ai/flows/generate-ugc-script';
-import { GenerateUgcScriptInput, GenerateUgcScriptOutput } from '@/types';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { track } from '@/lib/events';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+
+interface GenerateUgcScriptInput {
+    productDescription: string;
+}
+
+interface ScriptScene {
+    'Scene-Name': string;
+    'New-Script': string;
+}
+
+interface GenerateUgcScriptOutput {
+    'Concept-Name': string;
+    Script: ScriptScene[];
+}
 
 const ResultDisplay = ({ result }: { result: GenerateUgcScriptOutput }) => {
     const { toast } = useToast();
@@ -76,7 +88,23 @@ export default function UgcScriptWriterPage() {
 
         try {
             const payload: GenerateUgcScriptInput = { productDescription };
-            const responseData = await generateUgcScript(payload);
+            const response = await fetch('/api/run', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    toolId: 'ugc-script-writer',
+                    payload 
+                }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'UGC Script generation failed');
+            }
+            
+            const responseData: GenerateUgcScriptOutput = await response.json();
             setResult(responseData);
             track('ugc_script_generation_succeeded');
             toast({ title: 'UGC Script Generated!', description: 'Your authentic ad script is ready.' });

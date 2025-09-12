@@ -43,7 +43,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   const toolRoutes = tools.filter(tool => tool.isPage).map((tool) => ({
-    url: `${siteUrl}${tool.href}`,
+    url: `${siteUrl}/dashboard/tool/${tool.id}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.6,

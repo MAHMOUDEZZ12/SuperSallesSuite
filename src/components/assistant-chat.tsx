@@ -8,9 +8,10 @@ import { Input } from './ui/input';
 import { ScrollArea } from './ui/scroll-area';
 import { Bot, Send, X, Sparkles, Loader2, BookOpen } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Avatar, AvatarFallback } from './ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { secretCodes } from '@/lib/codes';
 import Link from 'next/link';
+import { useAuth } from '@/hooks/useAuth';
 
 type Message = {
     from: 'ai' | 'user';
@@ -49,7 +50,7 @@ export function AssistantChat() {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
+  const { user } = useAuth();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -156,18 +157,15 @@ export function AssistantChat() {
                         </div>
                         {msg.from === 'user' && (
                         <Avatar className="h-8 w-8">
-                            <AvatarFallback>U</AvatarFallback>
+                             <AvatarImage src={user?.photoURL || undefined} />
+                            <AvatarFallback>{user?.displayName?.charAt(0) || 'U'}</AvatarFallback>
                         </Avatar>
                         )}
                     </div>
                     ))}
                     {isLoading && (
                          <div className="flex items-end gap-2 justify-start">
-                            <Avatar className="h-8 w-8">
-                                <AvatarFallback className="bg-primary/20 text-primary">
-                                <Bot className="h-4 w-4" />
-                                </AvatarFallback>
-                            </Avatar>
+                            <Avatar className="h-8 w-8"><AvatarFallback className="bg-primary/20 text-primary"><Bot className="h-4 w-4" /></AvatarFallback></Avatar>
                              <div className="max-w-xs rounded-2xl p-3 text-sm bg-muted rounded-bl-none">
                                 <Loader2 className="h-5 w-5 animate-spin text-primary" />
                              </div>

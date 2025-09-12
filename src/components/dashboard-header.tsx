@@ -25,9 +25,9 @@ import { useTabManager } from "@/context/TabManagerContext";
 import { cn } from "@/lib/utils";
 
 const mainNav = [
-  { href: '/dashboard/assistant', label: 'AI Assistant', icon: Bot },
+  { href: '/dashboard/assistant', label: 'AI Command Center', icon: Bot },
   { href: '/dashboard/marketing', label: 'Apps', icon: Puzzle },
-  { href: '/dashboard/flows', label: 'Pilots', icon: Workflow },
+  { href: '/dashboard/flows', label: 'AI Pilots', icon: Workflow },
   { href: '/dashboard/performance', label: 'Performance', icon: BarChart },
   { href: '/blog', label: 'Academy', icon: AcademyIcon },
 ];
