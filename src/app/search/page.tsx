@@ -403,44 +403,18 @@ function SearchPageClient() {
       transition={{ duration: 0.5, type: 'spring' }} 
       className="w-full max-w-3xl mx-auto flex flex-col items-center"
     >
-        <AnimatePresence>
-            {!hasQuery && (
-                <motion.div 
-                    layout="position" 
-                    className="mb-6 text-center"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1, y: 0, height: 'auto' }}
-                    exit={{ opacity: 0, y: -20, height: 0 }}
-                    transition={{ delay: 0.2 }}
-                >
-                    <h1 className="text-3xl md:text-5xl font-bold font-heading tracking-tight text-white">
-                        WhatsMAP
-                    </h1>
-                    <p className="text-lg text-gray-400 mt-2">A learning AI that maps the world's real estate, answering any question to empower your decisions.</p>
-                </motion.div>
-            )}
-        </AnimatePresence>
         <form onSubmit={handleSearch} className="relative group w-full">
             <motion.div 
                 layout
                 className="relative p-px rounded-xl bg-gradient-to-r from-primary/30 to-purple-500/30 transition-all duration-300">
-                <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <Input
                     placeholder="Search for projects, market trends, or compare developers..."
                     value={query}
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
                     onChange={(e) => setQuery(e.target.value)}
-                    className="w-full h-16 pl-14 pr-28 text-base bg-black/50 border-none text-white rounded-[calc(0.75rem-1px)] shadow-lg placeholder:text-gray-500 focus-visible:ring-0 focus-visible:outline-none"
+                    className="w-full h-16 pl-6 pr-6 text-base bg-black/50 border-none text-white rounded-[calc(0.75rem-1px)] shadow-lg placeholder:text-gray-500 focus-visible:ring-0 focus-visible:outline-none"
                 />
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                        <Button type="button" variant="ghost" size="icon" className="text-neutral-400 hover:text-white rounded-full hover:bg-transparent">
-                        <Mic className="h-5 w-5" />
-                    </Button>
-                    <Button type="submit" variant="ghost" size="icon" className="text-neutral-400 hover:text-white rounded-full h-10 w-10 hover:bg-transparent">
-                        <ArrowUp className="h-5 w-5" />
-                    </Button>
-                </div>
             </motion.div>
         </form>
         <AnimatePresence>
