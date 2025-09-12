@@ -23,7 +23,7 @@ export default function MarketSearchInput() {
                  <div className="animated-gradient-border-wrapper">
                     <div className="relative z-10 bg-black/90 rounded-lg">
                         <span className="absolute left-6 top-1/2 -translate-y-1/2 text-base text-neutral-400/50 pointer-events-none">
-                            Search or Ask anything about real EState.
+                            Search or ask anything about real estate.
                         </span>
                         <Input
                             placeholder=""
