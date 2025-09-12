@@ -29,7 +29,7 @@ export default function MarketSearchInput({ useSearchPage = false }: MarketSearc
                 <div className="relative">
                     <Input
                         placeholder="Search for projects, developers, market trends..."
-                        className="w-full rounded-full h-14 pl-6 pr-28 text-base bg-[#303134] border-none text-white placeholder:text-neutral-400"
+                        className="w-full rounded-none h-14 pl-6 pr-28 text-base bg-transparent border-x-0 border-t-0 border-b border-neutral-700 text-white placeholder:text-neutral-400 focus-visible:ring-0 focus-visible:border-primary"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                     />
