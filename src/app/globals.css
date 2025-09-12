@@ -17,8 +17,8 @@
     --secondary-foreground: 222.2 47.4% 11.2%;
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 153.2, 70.8%, 35.5%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 217.2 91.2% 59.8%;
+    --accent-foreground: 210 40% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
@@ -38,7 +38,7 @@
     --secondary-foreground: 210 20% 98%;
     --muted: 215 27.9% 16.9%;
     --muted-foreground: 217.5 16.8% 47.1%;
-    --accent: 153.2, 70.8%, 35.5%;
+    --accent: 217.2 91.2% 59.8%;
     --accent-foreground: 210 20% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 20% 98%;
@@ -91,7 +91,7 @@
     scrollbar-width: none;  /* Firefox */
   }
   .animated-gradient-border-wrapper {
-    @apply relative overflow-hidden rounded-lg;
+    @apply relative overflow-hidden rounded-lg p-px;
   }
   .animated-gradient-border-wrapper::before {
     content: '';
@@ -102,9 +102,9 @@
     height: 200%;
     background: conic-gradient(
         from var(--angle),
-        hsl(var(--accent)),
-        hsl(var(--primary)),
-        hsl(var(--accent))
+        #ec4899,
+        #f59e0b,
+        #ec4899
     );
     transform: translate(-50%, -50%) rotate(var(--angle));
     animation: rotate-gradient 4s linear infinite;

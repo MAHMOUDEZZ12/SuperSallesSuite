@@ -18,7 +18,7 @@ export default function MarketSearchInput() {
     
     return (
         <div className="max-w-3xl mx-auto">
-            <form onSubmit={handleSearch} className="relative">
+            <form onSubmit={handleSearch} className="relative animated-gradient-border-wrapper">
                 <div className="relative bg-black/70 rounded-lg">
                      <span className="absolute left-6 top-1/2 -translate-y-1/2 text-base text-neutral-500/50 pointer-events-none">
                         Search or Ask anything about real EState.
