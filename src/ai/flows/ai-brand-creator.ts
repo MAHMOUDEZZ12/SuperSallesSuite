@@ -76,12 +76,16 @@ const aiBrandCreatorFlow = ai.defineFlow(
     const processedDocuments = await Promise.all(
       input.documents.map(async docDataUri => {
         if (docDataUri.startsWith('data:image/')) {
-          return await extractTextFromImage(docDataUri);
+          try {
+            return await extractTextFromImage(docDataUri);
+          } catch (e) {
+            console.error(`OCR failed for an image, skipping. Error: ${e}`);
+            return '[OCR failed for this image]';
+          }
         }
         // Placeholder for future text extraction from PDFs. For now, assume non-image is text.
         // In a real app, we'd use a library like pdf-parse here.
         // For this flow, the prompt expects the text content, not the media URI itself.
-        // We will pass a note for non-image files.
         return `[Content from a non-image file like a PDF or text document. The user's command was: ${input.command}]`;
       })
     );
@@ -101,5 +105,3 @@ const aiBrandCreatorFlow = ai.defineFlow(
     return output;
   }
 );
-
-    
