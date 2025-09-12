@@ -597,6 +597,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     mindMapCategory: 'EBRAM',
     isPage: true,
     href: '/dashboard/tool/lease-reviewer',
+    badge: 'NEW',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
   },
