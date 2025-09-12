@@ -247,5 +247,4 @@ export default function LeadToDealPipelinePage() {
         </main>
     );
 }
-
     
