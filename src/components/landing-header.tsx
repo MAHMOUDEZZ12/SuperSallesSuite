@@ -22,8 +22,8 @@ import { useTheme } from '@/components/theme-switcher';
 
 const navLinks = [
     { name: 'Solutions', href: '/solutions' },
-    { name: 'Community', href: '/dashboard/community' },
-    { name: 'Account', href: '/login' },
+    { name: 'Community', href: '/community' },
+    { name: 'Account', href: '/pricing' },
     { name: 'Ecosystem', href: '/ecosystem' },
 ];
 
