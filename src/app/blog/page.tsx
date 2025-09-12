@@ -77,7 +77,7 @@ export default function BlogIndexPage() {
                          </h2>
                          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             {filteredHacks.map(hack => (
-                                <Link key={hack.slug} href={`/blog/${'\'\'\'' + hack.slug + '\'\'\''}`} className="group flex">
+                                <Link key={hack.slug} href={`/blog/${hack.slug}`} className="group flex">
                                     <Card className="flex flex-col w-full bg-card/50 backdrop-blur-lg border-border hover:border-primary/30 transition-all duration-300 hover:-translate-y-1 shadow-lg shadow-primary/10">
                                          <CardContent className="flex-grow p-6">
                                             <h3 className="text-xl font-bold font-heading text-foreground mb-2">{hack.title}</h3>
