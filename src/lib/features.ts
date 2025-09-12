@@ -17,7 +17,7 @@ export type Field = {
   hidden?: boolean;
 };
 
-export type FilterCategory = 'All' | 'Lead Gen' | 'Creative' | 'Sales Tools' | 'Social & Comms' | 'Web' | 'Editing' | 'Ads' | 'Marketing' | 'Market Library' | 'Utilities' | 'Listing Intelligence AI' | 'TikTok AI Suite' | 'Google AI Suite' | 'Video' | 'Archy' | 'Meta Pilot' | 'Market Intelligence' | 'Listing & CRM' | 'Developer & Backend' | 'EBRAM';
+export type FilterCategory = 'All' | 'Lead Gen' | 'Creative' | 'Sales Tools' | 'Social & Comms' | 'Web' | 'Editing' | 'Ads' | 'Marketing' | 'Market Library' | 'Utilities' | 'Listing Intelligence AI' | 'TikTok AI Suite' | 'Google AI Suite' | 'Video' | 'Archy' | 'Meta Pilot' | 'Market Intelligence' | 'Listing & CRM' | 'Developer & Backend' | 'Internal' | 'EBRAM';
 
 export type Feature = {
   id: string;
@@ -257,6 +257,21 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
 
   // Market Intelligence Tools
   {
+    id: 'price-estimator',
+    title: 'AI Price Estimator',
+    description: 'Get an AI-powered price estimate for any property.',
+    icon: 'Wallet',
+    color: '#16a34a',
+    cta: 'Estimate Price',
+    categories: ['Sales Tools', 'Utilities', 'Market Intelligence'],
+    mindMapCategory: 'Market Intelligence',
+    isPage: true,
+    badge: 'NEW',
+    href: '/dashboard/tool/price-estimator',
+    details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
+    creationFields: [],
+  },
+  {
     id: 'keyword-planner',
     title: 'AI Keyword Planner',
     description: 'Generate strategic keyword plans for Google Ads campaigns.',
@@ -283,21 +298,6 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     isPage: true,
     href: '/dashboard/tool/market-reports',
     guideHref: '/blog/market-reports',
-    details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
-    creationFields: [],
-  },
-  {
-    id: 'price-estimator',
-    title: 'AI Price Estimator',
-    description: 'Get an AI-powered price estimate for any property.',
-    icon: 'Wallet',
-    color: '#16a34a',
-    cta: 'Estimate Price',
-    categories: ['Sales Tools', 'Utilities', 'Market Intelligence'],
-    mindMapCategory: 'Market Intelligence',
-    isPage: true,
-    badge: 'NEW',
-    href: '/dashboard/tool/price-estimator',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
   },
