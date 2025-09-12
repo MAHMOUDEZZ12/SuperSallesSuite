@@ -39,6 +39,7 @@ import { generateUgcScript } from '@/ai/flows/generate-ugc-script';
 import { estimatePrice } from '@/ai/flows/estimate-price';
 import { generateAerialView } from '@/ai/flows/generate-aerial-view';
 import { reviewLeaseAgreement } from '@/ai/flows/review-lease-agreement';
+import { evaluateLeadAsBuyer } from '@/ai/flows/evaluate-lead-as-buyer';
 
 const runToolSchema = z.object({
   toolId: z.string(),
@@ -97,6 +98,7 @@ const flowRunnerMap: { [key: string]: (payload: any) => Promise<any> } = {
     'price-estimator': estimatePrice,
     'aerial-view-generator': generateAerialView,
     'lease-reviewer': reviewLeaseAgreement,
+    'evaluate-lead-as-buyer': evaluateLeadAsBuyer,
 };
 
 export async function POST(req: NextRequest) {

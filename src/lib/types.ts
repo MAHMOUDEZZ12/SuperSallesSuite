@@ -217,6 +217,28 @@ export const InvestigateLeadOutputSchema = z.object({
 });
 export type InvestigateLeadOutput = z.infer<typeof InvestigateLeadOutputSchema>;
 
+
+// Schemas for Evaluate Lead as Buyer
+export const EvaluateLeadAsBuyerInputSchema = z.object({
+  lead: z.object({
+    name: z.string(),
+    location: z.string().optional(),
+    summary: z.string().optional(),
+    company: z.string().optional(),
+    role: z.string().optional(),
+  }).describe("The enriched lead data to evaluate."),
+});
+export type EvaluateLeadAsBuyerInput = z.infer<typeof EvaluateLeadAsBuyerInputSchema>;
+
+export const EvaluateLeadAsBuyerOutputSchema = z.object({
+  estimatedBudget: z.string().describe("The estimated budget range for a property purchase (e.g., '$500K - $750K')."),
+  propertyPreferences: z.array(z.string()).describe("A list of 2-3 likely property types or styles the lead would be interested in."),
+  primaryMotivation: z.string().describe("The most likely motivation for the purchase (e.g., 'Primary Residence', 'Investment')."),
+  profileSummary: z.string().describe("A 1-2 sentence summary of the lead as a real estate client."),
+});
+export type EvaluateLeadAsBuyerOutput = z.infer<typeof EvaluateLeadAsBuyerOutputSchema>;
+
+
 // Schemas for AI Video Presenter
 export const GenerateVideoPresenterInputSchema = z.object({
   characterImageUri: z.string().optional().describe("A data URI of a pre-existing character image. If not provided, a new character will be generated based on the description."),
