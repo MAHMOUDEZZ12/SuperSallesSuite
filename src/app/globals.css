@@ -68,6 +68,28 @@
     --input: 270 40% 17.5%;
     --ring: 320 83.2% 58.3%;
   }
+  
+  .theme-firebase-neon {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 100%;
+    --card: 240 6% 10%;
+    --card-foreground: 0 0% 100%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 38 92% 50%;
+    --primary-foreground: 48 95% 95%;
+    --secondary: 240 4% 16%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 240 4% 16%;
+    --muted-foreground: 240 5% 65%;
+    --accent: 38 92% 50%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 4% 16%;
+    --input: 240 4% 16%;
+    --ring: 38 92% 50%;
+  }
 }
  
 @layer base {

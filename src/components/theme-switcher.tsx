@@ -3,12 +3,14 @@
 
 import { useState, useEffect } from 'react';
 import { Sun, Moon, Laptop, Bot } from 'lucide-react';
+import { Flame } from 'lucide-react';
 
 export const themes = [
   { value: 'light', label: 'Light', icon: Sun },
   { value: 'dark', label: 'Dark', icon: Moon },
   { value: 'system', label: 'System', icon: Laptop },
   { value: 'theme-pinkpurple', label: 'Pink/Purple', icon: Bot },
+  { value: 'theme-firebase-neon', label: 'Firebase Neon', icon: Flame },
 ];
 
 export function useTheme() {
