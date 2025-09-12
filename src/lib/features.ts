@@ -91,11 +91,10 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Creative', 'Ads', 'Social & Comms', 'Archy'],
     mindMapCategory: 'Archy',
     badge: 'NEW',
+    isPage: true,
     href: '/dashboard/tool/ugc-script-writer',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
-    creationFields: [
-        { id: 'productDescription', name: 'New Product Description', type: 'textarea', placeholder: 'Provide all the key details, features, and benefits of the product you want to advertise...', description: 'A detailed description of the product for the new script.' },
-    ],
+    creationFields: [],
   },
   {
     id: 'youtube-video-editor',
