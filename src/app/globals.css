@@ -93,7 +93,7 @@
   
   .animated-gradient-border-wrapper {
       position: relative;
-      background: hsl(var(--background));
+      background: transparent;
       border-radius: 0.5rem; /* Corresponds to rounded-lg */
       padding: 1px; /* Border thickness */
       overflow: hidden;
