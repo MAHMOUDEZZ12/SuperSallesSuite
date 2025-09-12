@@ -60,28 +60,42 @@ export function AssistantChat() {
     }
   }, [messages, isOpen]);
 
-  const handleSendMessage = (e: React.FormEvent) => {
+  const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
 
     const userMessage: Message = { from: 'user', text: input };
     setMessages(prev => [...prev, userMessage]);
+    const currentInput = input;
     setInput('');
     setIsLoading(true);
 
-    setTimeout(() => {
-        const foundCode = secretCodes.find(c => input.toUpperCase().includes(c.code));
+    try {
+        const foundCode = secretCodes.find(c => currentInput.toUpperCase().includes(c.code));
         let aiResponse: Message;
 
         if (foundCode) {
             aiResponse = { from: 'ai', text: `Excellent! The code ${foundCode.code} is valid. \n\n**Reward Unlocked**: ${foundCode.reward} \n\nI can now perform this action for you. What property or project should I start with?` };
+            setMessages(prev => [...prev, aiResponse]);
         } else {
-            aiResponse = { from: 'ai', text: "I've received your message. While I'm still in training for full conversational abilities, I've logged your request. You can use the tools in the sidebar to get started right away!" };
+             const response = await fetch('/api/run', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    toolId: 'market-chat-assistant',
+                    payload: { message: currentInput }
+                })
+            });
+            const data = await response.json();
+            if (data.error) throw new Error(data.error);
+
+            setMessages(prev => [...prev, { from: 'ai', text: data.reply }]);
         }
-        
-        setMessages(prev => [...prev, aiResponse]);
+    } catch (err: any) {
+        setMessages(prev => [...prev, { from: 'ai', text: `Sorry, I encountered an error: ${err.message}` }]);
+    } finally {
         setIsLoading(false);
-    }, 1200);
+    }
   };
 
   if (!isOpen) {
