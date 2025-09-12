@@ -17,7 +17,7 @@ export type Field = {
   hidden?: boolean;
 };
 
-export type FilterCategory = 'All' | 'Lead Gen' | 'Creative' | 'Sales Tools' | 'Social & Comms' | 'Web' | 'Editing' | 'Ads' | 'Marketing' | 'Market Library' | 'Utilities' | 'Listing Intelligence AI' | 'TikTok AI Suite' | 'Google AI Suite' | 'Video' | 'Archy' | 'Meta Pilot' | 'Market Intelligence' | 'Listing & CRM' | 'Developer & Backend' | 'Internal' | 'EBRAM';
+export type FilterCategory = 'All' | 'Lead Gen' | 'Creative' | 'Sales Tools' | 'Social & Comms' | 'Web' | 'Editing' | 'Ads' | 'Marketing' | 'Market Library' | 'Utilities' | 'Listing Intelligence AI' | 'TikTok AI Suite' | 'Google AI Suite' | 'Video' | 'Archy' | 'Meta Pilot' | 'Market Intelligence' | 'Listing & CRM' | 'Developer & Backend' | 'Internal' | 'EBRAM' | 'Flows';
 
 export type Feature = {
   id: string;
@@ -169,7 +169,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     icon: 'Star',
     color: '#fbbf24', 
     cta: 'Run Workflow',
-    categories: ['Marketing', 'Ads', 'Lead Gen', 'Meta Pilot'],
+    categories: ['Marketing', 'Ads', 'Lead Gen', 'Meta Pilot', 'Flows'],
     mindMapCategory: 'Meta Pilot',
     badge: 'Pilot*',
     isPage: true,
@@ -366,7 +366,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     icon: 'Bot',
     color: '#f59e0b',
     cta: 'Start Pipeline',
-    categories: ['Sales Tools', 'Lead Gen', 'Listing & CRM'],
+    categories: ['Sales Tools', 'Lead Gen', 'Listing & CRM', 'Flows'],
     mindMapCategory: 'Listing & CRM',
     isPage: true,
     badge: 'Pilot*',
@@ -526,7 +526,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     icon: 'Server',
     color: '#6b7280',
     cta: 'Go to Pilot',
-    categories: ['Utilities', 'Web', 'Listing & CRM', 'Developer & Backend'],
+    categories: ['Utilities', 'Web', 'Listing & CRM', 'Developer & Backend', 'Flows'],
     mindMapCategory: 'Developer & Backend',
     isPage: true,
     badge: 'Pilot*',
@@ -541,7 +541,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     icon: 'Server',
     color: '#6b7280',
     cta: 'Go to Pilot',
-    categories: ['Utilities', 'Web', 'Listing & CRM', 'Developer & Backend'],
+    categories: ['Utilities', 'Web', 'Listing & CRM', 'Developer & Backend', 'Flows'],
     mindMapCategory: 'Developer & Backend',
     isPage: true,
     badge: 'Pilot*',
@@ -556,7 +556,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     icon: 'Terminal',
     color: '#64748b', 
     cta: 'Go to Terminal',
-    categories: ['Utilities', 'Developer & Backend'],
+    categories: ['Utilities', 'Developer & Backend', 'Flows'],
     mindMapCategory: 'Developer & Backend',
     isPage: true,
     badge: 'Pilot*',

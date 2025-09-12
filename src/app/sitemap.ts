@@ -74,7 +74,7 @@ const blogSlugs = [
 
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const siteUrl = 'https://selltoday.ai';
+  const siteUrl = 'https://whatsmap.ai';
 
   const staticRoutes = [
     '/',
@@ -90,7 +90,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/cookies',
     '/superfreetime',
     '/blog',
-    '/ai-presenter'
+    '/ai-presenter',
+    '/dashboard/flows',
+    '/dashboard/community',
   ].map((route) => ({
     url: `${siteUrl}${route}`,
     lastModified: new Date(),

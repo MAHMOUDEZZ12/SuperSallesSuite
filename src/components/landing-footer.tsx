@@ -16,7 +16,7 @@ export function LandingFooter() {
         { name: 'SuperFreeTime', href: '/superfreetime' },
     ],
     resources: [
-        { name: 'Handbook', href: '/blog' },
+        { name: 'Academy', href: '/blog' },
         { name: 'Ecosystem Blueprint', href: '/ecosystem' },
     ],
     legal: [
@@ -82,9 +82,9 @@ export function LandingFooter() {
 
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                  <div className="text-sm text-foreground/50 text-center md:text-left space-y-1">
-                    <p>selltoday.ai © 2025 <a href="https://mtcmartech.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">mtc'</a>. All rights reserved.</p>
-                    <p className="text-xs">selltoday.ai is an AI system designed to answer people's questions about homes, and empower those who do.</p>
-                    <p className="text-xs">AI Intelligence powered by Gemini (Google AI)</p>
+                    <p>WhatsMAP © 2025 <a href="https://mtcmartech.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">mtc'</a>. All rights reserved.</p>
+                    <p className="text-xs">WhatsMAP is an AI system designed to answer people's questions about homes, and empower those who do.</p>
+                    <p className="text-xs">AI Intelligence by Google | Prime Partner</p>
                  </div>
                 <div className="flex items-center gap-4">
                     <Link href="#" aria-label="Twitter">
