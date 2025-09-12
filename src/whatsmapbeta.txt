@@ -1,0 +1,98 @@
+# WhatsMAP Technical & Strategic Master Document (vBeta)
+
+## 1. Executive Summary: The Vision
+
+WhatsMAP is not a real estate tool; it is a real estate ecosystem. We are building the world's first AI-Native, Persona-Driven Search Engine to replace traditional property portals for the public, while simultaneously providing a superior suite of B2B tools that captures the professional side of the market.
+
+- **For the Public (B2C):** An intelligent search engine that understands user intent and persona. An investor asking, "best ROI in Dubai Marina" gets a data-driven answer with cap rates and yield analysis. A homebuyer asking the same question gets results focused on schools, lifestyle, and amenities. This is our strategic replacement for keyword-based portals.
+
+- **For Professionals (B2B):** A comprehensive suite of AI agents and automated workflows that allows real estate professionals (agents, developers, marketers) to dominate their market. These tools are not just features; they are a vertically-integrated operating system for real estate, fed by the data and interactions from our public-facing engine.
+
+Our strategy is to build a flywheel: The public search engine generates unparalleled data on market demand and user intent. This data makes our professional tools smarter and more effective. The professionals using our tools, in turn, provide the high-quality supply (listings, market analysis) that enriches the public search engine.
+
+## 2. Core Technology Stack
+
+The platform is built on a modern, scalable, and AI-first technology stack.
+
+- **Frontend:** Next.js 14+ (App Router) with TypeScript. This provides server-side rendering (SSR) for performance, static site generation (SSG) for marketing pages, and a robust React-based component architecture.
+- **UI/UX:** Tailwind CSS with ShadCN UI components. This ensures a utility-first, highly maintainable styling system. The entire application is themable via CSS variables, supporting both light and dark modes with a monochrome-first, accent-gradient design philosophy.
+- **AI Backend & Orchestration:** Google Genkit. This is the core of our intelligence layer. All AI capabilities are built as modular, reusable "flows." Genkit allows us to reliably call various models, define structured inputs/outputs with Zod schemas, and chain complex operations.
+- **AI Models:** We leverage the full suite of Google's Gemini models:
+    - **Gemini 1.5 Pro/Flash:** For all text generation, analysis, and reasoning tasks.
+    - **Imagen 4:** For high-quality image generation (logos, ad creatives).
+    - **Veo 2.0 / Veo 3.0:** For video generation (aerial tours, AI presenters).
+    - **Google Cloud Vision API:** For OCR and text extraction from user-uploaded documents.
+    - **Google Cloud Discovery Engine (Vertex AI Search):** Powers our core market search, indexing a wide array of public real estate sites and providing summarized, extractive answers.
+- **Database:** Google Firestore. A scalable, serverless NoSQL database used for storing user data, brand kits, project libraries, and application state.
+- **Hosting & Deployment:** Firebase App Hosting, configured for long-running serverless functions to handle intensive AI tasks.
+
+## 3. System Architecture & Data Flow
+
+### 3.1. Public-Facing Search Engine (`/search`)
+
+- **The "Second Brain" UI:** An immersive, full-screen interface designed for focused interaction.
+- **Persona-Driven Results:** The backend `/api/projects/scan` endpoint processes the query. Based on user profile (or anonymous heuristics), it tailors the request to the Gemini model to emphasize different data points (e.g., financial metrics for investors, lifestyle for homebuyers).
+- **Intelligent Query Handling:**
+    - **Clarification:** For broad queries ("Dubai"), the system uses the LLM to generate follow-up questions to guide the user.
+    - **Second Chance:** For queries that yield no direct project results but have an AI summary, the system suggests a logical next query.
+    - **Comparison View:** For "A vs. B" queries, the UI dynamically shifts to a multi-column comparison layout, fetching data for each entity.
+
+### 3.2. Professional B2B Suite (The Dashboard)
+
+This is an integrated suite of applications, flows, and pilots organized by function.
+
+**Module: Archy (Creative Marketing)**
+- `ai-video-presenter`: Uses Veo to generate a video of an AI character speaking a provided script.
+- `aerial-view-generator`: Uses Veo to create cinematic drone-style tours from an address.
+- `ugc-script-writer`: Few-shot prompting with Gemini 1.5 to generate authentic-sounding ad scripts.
+- `youtube-video-editor`: A canvas-based interface to provide natural language instructions for video editing.
+- `landing-pages`: AI-driven modular landing page builder.
+- `rebranding`: Uses an LLM to analyze a PDF and apply a new brand identity (logo, colors, contact info).
+- `brochure-translator`: Translates text content of a brochure PDF while aiming to preserve layout.
+
+**Module: Meta Pilot (Campaign Automation)**
+- `meta-auto-pilot`: An execution terminal that orchestrates the entire campaign creation workflow. It takes a project ID and launches the campaign.
+- `meta-ads-copilot` (Campaign Builder): A guided, multi-step UI that calls the underlying `create-meta-campaign` Genkit flow to generate a full campaign structure (ad sets, creatives, budget).
+- `audience-creator`: Identifies high-intent buyer personas and targeting parameters for ad campaigns.
+- `insta-ads-designer`: Generates Instagram-specific ad copy and visuals from a project brochure.
+- `instagram-content-creator`: Generates a full 7-day social media plan from a single topic.
+
+**Module: Market Intelligence**
+- `price-estimator`: Uses a structured prompt with Gemini to simulate a regression model, providing a property valuation with confidence intervals and comparable sales.
+- `keyword-planner`: Generates comprehensive Google Ads keyword plans with ad groups and negative keywords.
+- `market-reports`: Generates in-depth, narrative-driven market analysis reports for specific locations, tailored to different audiences (Investor, Buyer, Seller).
+- `market-trends`: Synthesizes news and data to identify emerging trends.
+- `investor-matching`: Analyzes a user-uploaded client list (CSV) against a property's financials to find the best-fit investors.
+- `offer-generator`: Creates a side-by-side comparison document for multiple properties.
+
+**Module: Listing & CRM Tools**
+- `lead-to-deal-pipeline`: An automated flow that chains multiple tools: `investigate-lead` -> `evaluate-lead-as-buyer` -> `match-properties` (simulated).
+- `listing-manager`: A central hub for preparing listings before syndication.
+- `listing-performance`: Tracks and displays analytics for listing views and lead generation.
+- `listing-generator`: Creates persuasive, SEO-friendly listing descriptions.
+- `payment-planner`: Generates client-friendly payment schedules.
+- `whatsapp-campaigns`: Manages broadcasts and drip campaigns via WhatsApp.
+- `lead-investigator`: Simulates an OSINT investigation to enrich lead data.
+- `crm-assistant`: Provides a natural language interface to query (simulated) CRM data.
+
+**Module: Developer & Backend Tools**
+- `vm-creator`: A utility to provision Google Compute Engine VMs via AI command.
+- `property-finder-sync` & `bayut-sync`: Execution terminals ("Pilots") that take a standardized JSON plan and push it to the respective portal APIs (simulated for now).
+- `creative-execution-terminal`: A generic terminal to run multi-step creative workflows planned by other tools (e.g., the PDF Editor).
+
+**Module: EBRAM (Legal Intelligence)**
+- `lease-reviewer`: Analyzes a lease agreement (PDF) against a list of user concerns, extracts relevant clauses, and assesses risk.
+
+### 3.3. Data Ingestion & Knowledge Base
+
+- **Surface Scraping (`/api/admin/scrape`):** A server-side endpoint that uses Cheerio to scrape known, structured real estate websites (e.g., Property Finder, DXBOffplan). This data populates our `projects_catalog` in Firestore, forming the basis of our Market Library.
+- **Deep Scraping & Analysis (`/api/admin/deep-scrape`):** An AI-driven pipeline. It uses Google Custom Search to find new potential data sources, scrapes their content, and then uses a Genkit flow (`analyze-content-quality`) to vet the information for relevance and trustworthiness before it can be used for training or indexing.
+- **AI Knowledge Base:** The user's private knowledge is stored in the `/dashboard/brand` section. Uploaded files (PDFs, images) are processed by Genkit flows (`aiBrandCreator`, Vision API for OCR) to extract structured data (brand info, projects) and make the user's AI assistants "smarter" and personalized. This data is firewalled and never used for global models.
+
+## 4. Key Differentiators for a Technical Partner
+
+- **Unified, Ambitious Vision:** We are not building another plugin. We are building a new, AI-native layer for the entire real estate industry.
+- **Modern, Scalable Stack:** No legacy code. Built from the ground up on Next.js, Genkit, and Google Cloud, designed for scalability and rapid feature development.
+- **Modular & Extensible Architecture:** The "tool" and "flow" system is designed for extensibility. New AI capabilities can be added as modular Genkit flows and plugged into the UI with minimal friction, defined in a central `features.ts` file.
+- **Data Flywheel Strategy:** The synergy between the B2C search engine and the B2B tool suite creates a powerful, defensible data moat.
+- **Enterprise-Grade UI/UX Philosophy:** We have moved beyond basic "chat" interfaces to create sophisticated, purpose-built UIs for each task (e.g., immersive search, guided campaign builders, execution terminals), demonstrating a commitment to a truly professional user experience.
