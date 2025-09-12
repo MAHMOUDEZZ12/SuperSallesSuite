@@ -2,7 +2,7 @@
 import { ImageAnnotatorClient } from '@google-cloud/vision';
 
 // Instantiates a client
-const client = new ImageAnnotatorClient();
+const client = new ImageAnnotatorClient({ projectId: "supersellerae-4rzzy" });
 
 /**
  * Extracts text from an image using the Google Cloud Vision API.
