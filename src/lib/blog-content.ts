@@ -226,3 +226,5 @@ export const blogContent: { [key: string]: BlogContent[string] } = {
         cta: 'Edited Video',
     },
 };
+
+    

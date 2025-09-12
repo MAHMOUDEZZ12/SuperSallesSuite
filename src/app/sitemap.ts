@@ -41,6 +41,11 @@ const toolIds = [
     'property-finder-sync',
     'bayut-sync',
     'creative-execution-terminal',
+    'lease-reviewer',
+    'price-estimator',
+    'aerial-view-generator',
+    'lead-to-deal-pipeline',
+    'ugc-script-writer',
 ];
 
 const blogSlugs = [
@@ -63,7 +68,7 @@ const blogSlugs = [
     'meta-ads-copilot',
     'meta-auto-pilot',
     'payment-planner',
-    'brochure-translator',
+brochure-translator',
     'youtube-video-editor',
 ];
 
@@ -110,3 +115,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [...staticRoutes, ...toolRoutes, ...blogRoutes];
 }
+
+    
