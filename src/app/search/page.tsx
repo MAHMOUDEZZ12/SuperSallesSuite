@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React,  { Suspense, useState, useEffect, useRef } from 'react';
@@ -402,9 +403,9 @@ function SearchPageClient() {
       className="w-full max-w-3xl mx-auto flex flex-col items-center"
     >
         <motion.div initial={{opacity: 0, y: 20}} animate={{opacity: 1, y: 0}} transition={{delay: 0.2, duration: 0.5}} className="w-full">
-            <form onSubmit={handleSearch} className="relative group w-full">
+            <div className="relative group w-full">
                 <MarketSearchInput />
-            </form>
+            </div>
         </motion.div>
         <AnimatePresence>
             {hasQuery && (
