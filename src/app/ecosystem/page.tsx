@@ -15,7 +15,7 @@ const personas = [
     icon: <LineChart className="h-8 w-8" />,
     color: 'text-green-400',
     bgColor: 'bg-green-900/20',
-    ctaLink: '/solutions' // The link will be to a future page like /solutions/investor
+    ctaLink: '/solutions/investor'
   },
   {
     name: 'For Real Estate Agents',
@@ -23,7 +23,7 @@ const personas = [
     icon: <Briefcase className="h-8 w-8" />,
     color: 'text-blue-400',
     bgColor: 'bg-blue-900/20',
-    ctaLink: '/solutions' // The link will be to a future page like /solutions/agent
+    ctaLink: '/solutions/agent'
   },
   {
     name: 'For Developers',
@@ -31,7 +31,7 @@ const personas = [
     icon: <Building className="h-8 w-8" />,
     color: 'text-purple-400',
     bgColor: 'bg-purple-900/20',
-    ctaLink: '/solutions' // The link will be to a future page like /solutions/developer
+    ctaLink: '/solutions/developer'
   },
   {
     name: 'For Governments & Institutions',

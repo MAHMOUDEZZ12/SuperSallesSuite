@@ -21,9 +21,9 @@ import {
 import { useTheme } from '@/components/theme-switcher';
 
 const navLinks = [
-    { name: 'Solutions', href: '/solutions' },
+    { name: 'Solutions', href: '/ecosystem' },
     { name: 'Community', href: '/community' },
-    { name: 'Account', href: '/login' },
+    { name: 'Account', href: '/pricing' },
     { name: 'Ecosystem', href: '/ecosystem' },
 ];
 
@@ -35,7 +35,7 @@ export function LandingHeader({ host }: { host?: string }) {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
         <div className="mr-auto flex items-center gap-4">
-            <Logo host={host} />
+            <Logo />
         </div>
         <div className="hidden md:flex items-center gap-2">
             {navLinks.map((link) => (
@@ -72,7 +72,7 @@ export function LandingHeader({ host }: { host?: string }) {
               <SheetContent side="right" className="w-full">
                  <div className="p-4 flex flex-col h-full">
                      <div className="flex justify-between items-center mb-8">
-                        <Logo host={host} />
+                        <Logo />
                         <div className="flex items-center">
                              <DropdownMenu>
                               <DropdownMenuTrigger asChild>
