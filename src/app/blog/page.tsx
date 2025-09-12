@@ -47,7 +47,7 @@ export default function BlogIndexPage() {
                         The selltoday.ai Handbook
                     </h1>
                     <p className="text-lg md:text-xl text-foreground/60 max-w-3xl mx-auto">
-                        A collection of actionable guides, tips, and hacks to get the most out of your AI toolkit.
+                        Search or Ask anything about real EState.
                     </p>
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
