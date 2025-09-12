@@ -32,6 +32,14 @@ export async function GET(req: NextRequest) {
     
     const projectId = process.env.GCLOUD_PROJECT || "supersellerae-4rzzy";
     const location = "global"; 
+    // This datastore is configured to index our starter sites:
+    // www.facebook.com/ads/library/housing, www.promotions.damacproperties.com, www.bayut.com, 
+    // www.propertyfinder.ae, www.dubailand.gov.ae, www.emaar.com, www.wasl.ae, www.mourjan.com, 
+    // www.propertyfinder.com, www.damacproperties.com, www.rightmove.co.uk, www.zameen.com, 
+    // www.propertymonitor.ae, www.propsearch.ae, www.tanamiproperties.com, www.9acres.com, 
+    // www.nakheel.com, www.magicbricks.com, www.aldar.com, www.dxboffplan.com, www.bayut.com, 
+    // www.propertyfinder.ae, www.dubizzle.com/blog/property/off-plan, www.dxbinteract.com, 
+    // www.property24.ae, www.allproperties.ae
     const dataStoreId = "all-sites_1722002324355"; 
 
     const request = {
