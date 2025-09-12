@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState } from 'react';
@@ -14,6 +13,7 @@ import { cn } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { IconMap } from '@/components/ui/icon-map';
+import MarketSearchInput from '@/components/ui/market-search-input';
 
 const blogCategories: FilterCategory[] = ['All', 'Marketing', 'Lead Gen', 'Creative', 'Sales Tools', 'Social & Comms', 'Web', 'Editing', 'Ads'];
 
@@ -43,14 +43,10 @@ export default function BlogIndexPage() {
             <main className="flex-1 w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-20">
                 <div className="text-center mb-16">
                     <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4 bg-clip-text text-transparent bg-gradient-to-b from-foreground/90 to-foreground/60">
-                        The selltoday.ai Handbook
+                        The WhatsMAP Handbook
                     </h1>
-                     <div className="max-w-3xl mx-auto">
-                        <div className="inline-block p-4 border border-dashed rounded-lg bg-muted/50">
-                            <p className="text-lg md:text-xl text-foreground/80">
-                                Search or ask anything about real estate.
-                            </p>
-                        </div>
+                     <div className="w-full max-w-3xl mx-auto mt-8">
+                        <MarketSearchInput />
                     </div>
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">

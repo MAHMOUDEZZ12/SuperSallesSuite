@@ -7,19 +7,14 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Mic, ArrowUp } from 'lucide-react';
 
-interface MarketSearchInputProps {
-    useSearchPage?: boolean;
-}
-
-export default function MarketSearchInput({ useSearchPage = false }: MarketSearchInputProps) {
+export default function MarketSearchInput() {
     const router = useRouter();
     const [query, setQuery] = React.useState('');
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        const targetPath = useSearchPage ? '/search' : '/market-library';
         if (query.trim()) {
-            router.push(`${targetPath}?q=${encodeURIComponent(query)}`);
+            router.push(`/search?q=${encodeURIComponent(query)}`);
         }
     };
     
