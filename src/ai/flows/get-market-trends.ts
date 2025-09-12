@@ -40,13 +40,13 @@ const prompt = ai.definePrompt({
   name: 'getMarketTrendsPrompt',
   input: {schema: GetMarketTrendsInputSchema},
   output: {schema: GetMarketTrendsOutputSchema},
-  prompt: `You are an expert real estate market analyst. Your task is to analyze the latest articles and data from the Property Finder Insights Hub (https://www.propertyfinder.ae/en/insightshub) to provide a synthesized report on a given topic.
+  prompt: `You are an expert real estate market analyst. Your task is to analyze the latest articles and data from sources like Property Finder Insights Hub to provide a synthesized report on a given topic.
 
   **Topic:** {{{topic}}}
 
   **Instructions:**
 
-  1.  **Synthesize Information:** Based on the likely content of recent articles on the Insights Hub related to the topic, provide a high-level analysis.
+  1.  **Synthesize Information:** Based on the likely content of recent articles related to the topic, provide a high-level analysis.
   2.  **Determine Overall Sentiment:** Summarize the general feeling of the market regarding the topic. Is it positive, negative, or neutral?
   3.  **Identify Key Emerging Trends:** List 2-4 of the most significant new trends you can infer from the articles. For each trend, provide a brief description.
   4.  **Offer a Future Outlook:** Based on the trends, provide a brief forecast of what to expect in the next 3-6 months related to this topic.
