@@ -16,7 +16,8 @@ export function LandingFooter() {
     ],
     resources: [
         { name: 'Academy', href: '/blog' },
-        { name: 'Ecosystem Blueprint', href: '/ecosystem' },
+        { name: 'Ecosystem', href: '/ecosystem' },
+        { name: 'Documentation', href: '/documentation' },
     ],
     legal: [
         { name: 'Data Privacy', href: '/privacy' },

@@ -1,4 +1,3 @@
-
 'use client';
 
 import React from 'react';
@@ -16,7 +15,7 @@ const personas = [
     icon: <LineChart className="h-8 w-8" />,
     color: 'text-green-400',
     bgColor: 'bg-green-900/20',
-    ctaLink: '/solutions'
+    ctaLink: '/solutions' // The link will be to a future page like /solutions/investor
   },
   {
     name: 'For Real Estate Agents',
@@ -24,7 +23,7 @@ const personas = [
     icon: <Briefcase className="h-8 w-8" />,
     color: 'text-blue-400',
     bgColor: 'bg-blue-900/20',
-    ctaLink: '/solutions'
+    ctaLink: '/solutions' // The link will be to a future page like /solutions/agent
   },
   {
     name: 'For Developers',
@@ -32,7 +31,7 @@ const personas = [
     icon: <Building className="h-8 w-8" />,
     color: 'text-purple-400',
     bgColor: 'bg-purple-900/20',
-    ctaLink: '/solutions'
+    ctaLink: '/solutions' // The link will be to a future page like /solutions/developer
   },
   {
     name: 'For Governments & Institutions',
@@ -72,7 +71,7 @@ export default function EcosystemPage() {
                     </CardContent>
                     <CardFooter>
                          <div className="text-primary font-semibold flex items-center gap-2">
-                           <span>Explore Tools</span>
+                           <span>Explore Solutions</span>
                            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </div>
                     </CardFooter>
