@@ -255,7 +255,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
   },
-    {
+  {
     id: 'market-reports',
     title: 'Market Reports',
     description: 'Generate PDF reports on market trends, pricing, and sentiment.',
@@ -504,5 +504,3 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     creationFields: [],
   },
 ];
-
-    

@@ -50,14 +50,14 @@ export default function PriceEstimatorPage() {
     const [result, setResult] = useState<EstimatePriceOutput | null>(null);
 
     const { control, handleSubmit, formState: { errors } } = useForm<EstimatePriceInput>({
-        resolver: zodResolver(EstimatePriceInputSchema.refine(data => Number(data.bedrooms) >= 0, { message: "Bedrooms must be 0 or more", path: ["bedrooms"]})),
+        resolver: zodResolver(EstimatePriceInputSchema),
         defaultValues: {
             location: '',
             propertyType: undefined,
             bedrooms: 1,
             bathrooms: 1,
-            squareFootage: 0,
-            age: 0,
+            squareFootage: 1000,
+            age: 5,
             condition: undefined,
         },
     });
@@ -112,14 +112,14 @@ export default function PriceEstimatorPage() {
                             <CardContent className="space-y-4">
                                 <Controller name="location" control={control} render={({ field }) => (
                                     <div className="space-y-2">
-                                        <Label htmlFor="location"><Building className="inline-block mr-2" />Location</Label>
+                                        <Label htmlFor="location"><Building className="inline-block mr-2 h-4 w-4" />Location</Label>
                                         <Input id="location" {...field} placeholder="e.g., Dubai Marina" />
                                         {errors.location && <p className="text-destructive text-xs">{errors.location.message}</p>}
                                     </div>
                                 )}/>
                                 <Controller name="propertyType" control={control} render={({ field }) => (
                                     <div className="space-y-2">
-                                        <Label htmlFor="propertyType"><Building className="inline-block mr-2" />Property Type</Label>
+                                        <Label htmlFor="propertyType"><Building className="inline-block mr-2 h-4 w-4" />Property Type</Label>
                                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                                             <SelectTrigger><SelectValue placeholder="Select type..." /></SelectTrigger>
                                             <SelectContent>
@@ -135,37 +135,37 @@ export default function PriceEstimatorPage() {
                                  <div className="grid grid-cols-2 gap-4">
                                      <Controller name="bedrooms" control={control} render={({ field }) => (
                                         <div className="space-y-2">
-                                            <Label htmlFor="bedrooms"><Bed className="inline-block mr-1" />Beds</Label>
-                                            <Input id="bedrooms" type="number" {...field} onChange={e => field.onChange(e.target.value === '' ? '' : Number(e.target.value))}/>
+                                            <Label htmlFor="bedrooms"><Bed className="inline-block mr-1 h-4 w-4" />Beds</Label>
+                                            <Input id="bedrooms" type="number" {...field} />
                                             {errors.bedrooms && <p className="text-destructive text-xs">{errors.bedrooms.message}</p>}
                                         </div>
                                     )}/>
                                      <Controller name="bathrooms" control={control} render={({ field }) => (
                                         <div className="space-y-2">
-                                            <Label htmlFor="bathrooms"><Bath className="inline-block mr-1" />Baths</Label>
-                                            <Input id="bathrooms" type="number" {...field} onChange={e => field.onChange(e.target.value === '' ? '' : Number(e.target.value))}/>
+                                            <Label htmlFor="bathrooms"><Bath className="inline-block mr-1 h-4 w-4" />Baths</Label>
+                                            <Input id="bathrooms" type="number" {...field} />
                                             {errors.bathrooms && <p className="text-destructive text-xs">{errors.bathrooms.message}</p>}
                                         </div>
                                     )}/>
                                  </div>
                                   <Controller name="squareFootage" control={control} render={({ field }) => (
                                     <div className="space-y-2">
-                                        <Label htmlFor="squareFootage"><Ruler className="inline-block mr-2" />Square Footage</Label>
-                                        <Input id="squareFootage" type="number" {...field} placeholder="e.g., 1500" onChange={e => field.onChange(e.target.value === '' ? '' : Number(e.target.value))}/>
+                                        <Label htmlFor="squareFootage"><Ruler className="inline-block mr-2 h-4 w-4" />Square Footage</Label>
+                                        <Input id="squareFootage" type="number" {...field} placeholder="e.g., 1500" />
                                         {errors.squareFootage && <p className="text-destructive text-xs">{errors.squareFootage.message}</p>}
                                     </div>
                                 )}/>
                                 <div className="grid grid-cols-2 gap-4">
                                 <Controller name="age" control={control} render={({ field }) => (
                                     <div className="space-y-2">
-                                        <Label htmlFor="age"><Calendar className="inline-block mr-1" />Age (Yrs)</Label>
-                                        <Input id="age" type="number" {...field} onChange={e => field.onChange(e.target.value === '' ? '' : Number(e.target.value))}/>
+                                        <Label htmlFor="age"><Calendar className="inline-block mr-1 h-4 w-4" />Age (Yrs)</Label>
+                                        <Input id="age" type="number" {...field} />
                                          {errors.age && <p className="text-destructive text-xs">{errors.age.message}</p>}
                                     </div>
                                 )}/>
                                 <Controller name="condition" control={control} render={({ field }) => (
                                     <div className="space-y-2">
-                                        <Label htmlFor="condition"><Star className="inline-block mr-1" />Condition</Label>
+                                        <Label htmlFor="condition"><Star className="inline-block mr-1 h-4 w-4" />Condition</Label>
                                          <Select onValueChange={field.onChange} defaultValue={field.value}>
                                             <SelectTrigger><SelectValue placeholder="Select..." /></SelectTrigger>
                                             <SelectContent>
@@ -211,5 +211,3 @@ export default function PriceEstimatorPage() {
         </main>
     );
 }
-
-    

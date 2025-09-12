@@ -1,3 +1,4 @@
+
 import { z } from 'zod';
 
 // Core market identity
@@ -846,22 +847,10 @@ export type GenerateUgcScriptOutput = z.infer<typeof GenerateUgcScriptOutputSche
 export const EstimatePriceInputSchema = z.object({
     location: z.string().min(1, { message: 'Location is required.' }).describe("The neighborhood or area of the property."),
     propertyType: z.string({ required_error: 'Property type is required.' }).min(1, { message: 'Property type is required.' }).describe("The type of property (e.g., 'Apartment', 'Villa')."),
-    bedrooms: z.preprocess(
-        (val) => (val === '' ? 0 : typeof val === 'string' ? parseInt(val, 10) : val),
-        z.number().int().min(0, { message: 'Bedrooms must be 0 or more.' })
-    ).describe("The number of bedrooms."),
-    bathrooms: z.preprocess(
-        (val) => (val === '' ? 1 : typeof val === 'string' ? parseInt(val, 10) : val),
-        z.number().int().min(1, { message: 'Bathrooms must be 1 or more.' })
-    ).describe("The number of bathrooms."),
-    squareFootage: z.preprocess(
-        (val) => (val === '' ? 0 : typeof val === 'string' ? parseInt(val, 10) : val),
-        z.number().positive({ message: 'Square footage must be a positive number.' })
-    ).describe("The total area in square feet."),
-    age: z.preprocess(
-        (val) => (val === '' ? 0 : typeof val === 'string' ? parseInt(val, 10) : val),
-        z.number().int().min(0, { message: 'Age must be 0 or more.' })
-    ).describe("The age of the property in years."),
+    bedrooms: z.number().int().min(0, { message: 'Bedrooms must be 0 or more.' }).describe("The number of bedrooms."),
+    bathrooms: z.number().int().min(1, { message: 'Bathrooms must be 1 or more.' }).describe("The number of bathrooms."),
+    squareFootage: z.number().positive({ message: 'Square footage must be a positive number.' }).describe("The total area in square feet."),
+    age: z.number().int().min(0, { message: 'Age must be 0 or more.' }).describe("The age of the property in years."),
     condition: z.string({ required_error: 'Condition is required.' }).min(1, { message: 'Condition is required.' }).describe("The condition of the property (e.g., 'New', 'Upgraded', 'Standard')."),
 });
 export type EstimatePriceInput = z.infer<typeof EstimatePriceInputSchema>;
@@ -875,5 +864,3 @@ export const EstimatePriceOutputSchema = z.object({
     comparableSales: z.array(z.string()).describe("A list of 2-3 fictional but realistic comparable sales used for the estimation."),
 });
 export type EstimatePriceOutput = z.infer<typeof EstimatePriceOutputSchema>;
-
-    

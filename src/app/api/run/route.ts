@@ -18,7 +18,7 @@ import { getMarketTrends } from '@/ai/flows/get-market-trends';
 import { generateListing } from '@/ai/flows/generate-listing';
 import { generateStory } from '@/ai/flows/generate-story';
 import { generateReel } from '@/ai/flows/generate-reel';
-import { generateTikTokVideo } from '@/aiflows/generate-tiktok-video';
+import { generateTikTokVideo } from '@/ai/flows/generate-tiktok-video';
 import { getCrmMemory } from '@/ai/flows/get-crm-memory';
 import { manageSocialPage } from '@/ai/flows/manage-social-page';
 import { generateMultiOffer } from '@/ai/flows/generate-multi-offer';
@@ -36,6 +36,7 @@ import { createVm } from '@/ai/flows/create-vm';
 import { generateVideoPresenter } from '@/ai/flows/generate-video-presenter';
 import { generateUgcScript } from '@/ai/flows/generate-ugc-script';
 import { estimatePrice } from '@/ai/flows/estimate-price';
+import { generateAerialView } from '@/ai/flows/generate-aerial-view';
 
 const runToolSchema = z.object({
   toolId: z.string(),
@@ -92,6 +93,7 @@ const flowRunnerMap: { [key: string]: (payload: any) => Promise<any> } = {
     'ugc-script-writer': generateUgcScript,
     'chatbot-creator': marketChatAssistantFlow,
     'price-estimator': estimatePrice,
+    'aerial-view-generator': generateAerialView,
 };
 
 export async function POST(req: NextRequest) {
@@ -121,5 +123,3 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
-
-    
