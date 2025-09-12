@@ -90,6 +90,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Creative', 'Ads', 'Social & Comms', 'Archy'],
     mindMapCategory: 'Archy',
     isPage: true,
+    badge: 'NEW',
     href: '/dashboard/tool/ugc-script-writer',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],

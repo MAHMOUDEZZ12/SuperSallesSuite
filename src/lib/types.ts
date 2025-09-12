@@ -909,5 +909,3 @@ export const GenerateKeywordPlanOutput = z.object({
 export type GenerateKeywordPlanOutput = z.infer<
   typeof GenerateKeywordPlanOutput
 >;
-
-    
