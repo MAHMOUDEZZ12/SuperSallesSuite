@@ -445,11 +445,16 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     cta: 'Investigate Lead',
     categories: ['Sales Tools', 'Lead Gen', 'Listing & CRM'],
     mindMapCategory: 'Listing & CRM',
-    badge: 'NEW',
     isPage: true,
     href: '/dashboard/tool/lead-investigator',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
-    creationFields: [],
+    creationFields: [
+      { id: 'name', name: 'Lead\'s Full Name', type: 'text', placeholder: 'e.g., John Smith', description: 'The full name of the person you are investigating.' },
+      { id: 'company', name: 'Company (Optional)', type: 'text', placeholder: 'e.g., ACME Inc.', description: 'The company they work for, if known.' },
+      { id: 'email', name: 'Email (Optional)', type: 'text', placeholder: 'e.g., john.smith@acme.com', description: 'Their email address, if known.' },
+      { id: 'location', name: 'Location (Optional)', type: 'text', placeholder: 'e.g., Dubai, UAE', description: 'Their general location, if known.' },
+      { id: 'role', name: 'Role (Optional)', type: 'text', placeholder: 'e.g., CEO, Founder, Head of Sales', description: 'Their job title, if known.' },
+    ],
   },
   {
     id: 'crm-assistant',

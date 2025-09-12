@@ -56,6 +56,9 @@ const investigateLeadFlow = ai.defineFlow(
     outputSchema: InvestigateLeadOutputSchema,
   },
   async input => {
+    // Simulate a longer processing time for a more realistic user experience
+    await new Promise(resolve => setTimeout(resolve, 1500 + Math.random() * 1000));
+    
     const {output} = await investigateLeadPrompt(input);
     if (!output) {
       throw new Error('The AI failed to investigate the lead.');
