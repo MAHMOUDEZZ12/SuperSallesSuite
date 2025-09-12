@@ -23,15 +23,7 @@ import {
 import { useTheme } from '@/components/theme-switcher';
 
 const mainNavLinks = [
-    { 
-        name: 'Solutions', 
-        href: '/solutions', 
-        subLinks: [
-            { name: 'For Agents', href: '/solutions/agent' },
-            { name: 'For Developers', href: '/solutions/developer' },
-            { name: 'For Investors', href: '/solutions/investor' },
-        ]
-    },
+    { name: 'Solutions', href: '/solutions' },
     { name: 'Community', href: '/community' },
     { name: 'Pricing', href: '/pricing' },
 ];
@@ -48,27 +40,9 @@ export function LandingHeader({ host }: { host?: string }) {
         </div>
         <div className="hidden md:flex items-center gap-2">
             {mainNavLinks.map((link) => (
-                link.subLinks ? (
-                    <DropdownMenu key={link.name}>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost">
-                                {link.name}
-                                <ChevronDown className="ml-2 h-4 w-4" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                             {link.subLinks.map(subLink => (
-                                <Link key={subLink.name} href={subLink.href} passHref>
-                                    <DropdownMenuItem>{subLink.name}</DropdownMenuItem>
-                                </Link>
-                            ))}
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                ) : (
-                    <Link key={link.name} href={link.href}>
-                        <Button variant="ghost">{link.name}</Button>
-                    </Link>
-                )
+                 <Link key={link.name} href={link.href}>
+                    <Button variant="ghost">{link.name}</Button>
+                </Link>
             ))}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

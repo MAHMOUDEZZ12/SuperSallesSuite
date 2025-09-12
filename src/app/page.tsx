@@ -10,19 +10,22 @@ import { tools } from '@/lib/features';
 import { FeatureCard } from '@/components/ui/feature-card';
 import { ShinyButton } from '@/components/ui/shiny-button';
 import Link from 'next/link';
+import { FeatureModal } from '@/components/feature-modal';
 
 const featuredTools = [
   'meta-ads-copilot',
   'market-reports',
   'rebranding',
   'ai-video-presenter',
-  'audience-creator',
-  'lead-to-deal-pipeline'
+  'price-estimator',
+  'market-trends',
 ];
 
 const highlightedFeatures = tools.filter(t => featuredTools.includes(t.id));
 
 function HomePage() {
+  const [selectedTool, setSelectedTool] = React.useState<any>(null);
+
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <LandingHeader />
@@ -30,17 +33,14 @@ function HomePage() {
         {/* Hero Section */}
         <section className="w-full text-center py-24 md:py-32 lg:py-40">
            <div className="container max-w-4xl">
-              <h1 className="text-4xl md:text-6xl font-bold font-heading tracking-tighter mb-4 bg-clip-text text-transparent bg-gradient-to-b from-foreground/90 to-foreground/60">
-                The AI Co-Pilot for Real Estate
-              </h1>
-              <p className="text-lg md:text-xl text-foreground/70 max-w-2xl mx-auto mb-8">
-                An integrated suite of AI agents that can generate marketing materials, analyze market data, and automate your entire sales workflow.
-              </p>
-              <div className="w-full max-w-2xl mx-auto">
+               <div className="w-full max-w-3xl mx-auto">
                   <Suspense fallback={<Loader2 className="h-12 w-12 animate-spin text-primary" />}>
                       <MarketSearchInput />
                   </Suspense>
               </div>
+              <p className="text-lg md:text-xl text-foreground/70 max-w-3xl mx-auto mt-8">
+                An integrated suite of AI agents that can generate marketing materials, analyze market data, and automate your entire sales workflow. The AI Co-Pilot for Real Estate.
+              </p>
            </div>
         </section>
 
@@ -53,7 +53,9 @@ function HomePage() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {highlightedFeatures.map(tool => (
-                        <FeatureCard key={tool.id} tool={tool} />
+                       <div key={tool.id} onClick={() => setSelectedTool(tool)}>
+                         <FeatureCard tool={tool} />
+                       </div>
                     ))}
                 </div>
                 <div className="text-center mt-12">
@@ -64,6 +66,7 @@ function HomePage() {
             </div>
         </section>
       </main>
+      <FeatureModal feature={selectedTool} onClose={() => setSelectedTool(null)} />
       <LandingFooter />
     </div>
   );

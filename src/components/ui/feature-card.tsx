@@ -12,7 +12,7 @@ export function FeatureCard({ tool }: { tool: Omit<Feature, 'renderResult'> }) {
     const Icon = IconMap[tool.icon] || Sparkles;
 
     return (
-        <Link href={tool.isPage ? `/dashboard/tool/${tool.id}` : '/solutions'} className="group block h-full">
+        <div className="group block h-full">
             <Card className="h-full transition-all duration-300 hover:border-primary/50 hover:-translate-y-1 bg-card/50 backdrop-blur-lg">
                 <CardHeader>
                     <div className="flex items-start justify-between mb-4">
@@ -25,6 +25,6 @@ export function FeatureCard({ tool }: { tool: Omit<Feature, 'renderResult'> }) {
                     <CardDescription>{tool.description}</CardDescription>
                 </CardHeader>
             </Card>
-        </Link>
+        </div>
     );
 }
