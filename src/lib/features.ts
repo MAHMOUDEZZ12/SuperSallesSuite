@@ -180,6 +180,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
   {
     id: 'meta-ads-copilot',
     title: 'Campaign Builder',
+    dashboardTitle: 'Campaign Builder',
     description: 'Your dedicated agent for Facebook & Instagram advertising.',
     icon: 'Facebook',
     color: '#1d4ed8', 
