@@ -7,3 +7,4 @@ runConfig:
   maxInstances: 1
   # Increase the timeout for serverless functions to handle long-running AI tasks.
   timeoutSeconds: 120
+
