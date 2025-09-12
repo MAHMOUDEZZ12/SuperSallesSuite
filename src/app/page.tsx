@@ -43,7 +43,7 @@ function HomePage() {
            </div>
         </section>
 
-        {/* Features Section */}
+        {/* This section is being kept to provide some visual content, but the primary focus is the search bar above */}
         <section className="w-full py-20 md:py-24 bg-muted/50">
             <div className="container max-w-7xl">
                 <div className="text-center mb-12">
