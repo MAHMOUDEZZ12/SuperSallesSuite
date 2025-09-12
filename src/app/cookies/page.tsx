@@ -27,11 +27,6 @@ export default function CookiesPage() {
               <p>
                 A cookie is a small data file that is placed on your device. We use cookies to operate and personalize your experience, to analyze our site traffic, and for security purposes.
               </p>
-
-              <h2>Why do we use cookies?</h2>
-              <p>
-                We use first-party cookies for several reasons. Some cookies are required for technical reasons in order for our website to operate, and we refer to these as "essential" or "strictly necessary" cookies. For example, we use cookies to remember your cookie consent preferences.
-              </p>
               
                <h2>How can I control cookies?</h2>
               <p>
