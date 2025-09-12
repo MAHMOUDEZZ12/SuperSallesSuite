@@ -8,14 +8,13 @@ import { Loader2, Sparkles, Wand2, Wallet, Building, Bed, Bath, Ruler, Calendar,
 import { useToast } from '@/hooks/use-toast';
 import { PageHeader } from '@/components/ui/page-header';
 import { estimatePrice } from '@/ai/flows/estimate-price';
-import { EstimatePriceInput, EstimatePriceOutput } from '@/types';
+import { EstimatePriceInput, EstimatePriceOutput, EstimatePriceInputSchema } from '@/types';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { track } from '@/lib/events';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { EstimatePriceInputSchema } from '@/types';
 
 
 const ResultDisplay = ({ result }: { result: EstimatePriceOutput }) => {

@@ -13,26 +13,7 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'zod';
-
-// Define Zod schemas for input and output
-export const ReviewLeaseAgreementInputSchema = z.object({
-  leaseDocumentUri: z.string().describe("The lease document as a data URI."),
-  userConcerns: z.array(z.string()).describe("A list of specific user concerns to check for in the lease."),
-});
-export type ReviewLeaseAgreementInput = z.infer<typeof ReviewLeaseAgreementInputSchema>;
-
-export const ReviewLeaseAgreementOutputSchema = z.object({
-  summary: z.string().describe("A high-level summary of the lease agreement's key terms."),
-  findings: z.array(
-    z.object({
-      concern: z.string().describe("The user's original concern."),
-      clause: z.string().describe("The exact clause from the lease that addresses the concern."),
-      explanation: z.string().describe("A plain-English explanation of what the clause means."),
-      riskLevel: z.enum(['Low', 'Medium', 'High', 'Informational']).describe("The assessed risk level associated with this clause."),
-    })
-  ).describe("A list of findings related to the user's concerns."),
-});
-export type ReviewLeaseAgreementOutput = z.infer<typeof ReviewLeaseAgreementOutputSchema>;
+import { ReviewLeaseAgreementInputSchema, ReviewLeaseAgreementOutputSchema, type ReviewLeaseAgreementInput, type ReviewLeaseAgreementOutput } from '@/types';
 
 
 const reviewLeasePrompt = ai.definePrompt({

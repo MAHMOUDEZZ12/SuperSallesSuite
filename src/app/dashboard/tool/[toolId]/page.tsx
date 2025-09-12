@@ -58,7 +58,7 @@ const getToolSchema = (tool: Omit<Feature, 'renderResult'> | undefined) => {
                 fieldSchema = z.custom<FileList>().refine(files => files && files.length > 0, `${field.name} is required.`);
             }
         } else if (field.type === 'number') {
-            fieldSchema = z.string().min(1, `${field.name} is required`).refine(val => !isNaN(Number(val)), { message: "Must be a number" });
+            fieldSchema = z.string().min(1, `${field.name} is required`).refine(val => !isNaN(Number(val)), { message: "Must be a number" }).transform(Number);
         } else if (optionalTextFields.includes(field.id) || (tool.id === 'insta-ads-designer' && field.id === 'projectId') ) {
              fieldSchema = z.string().optional();
         }
@@ -328,8 +328,6 @@ export default function ToolPage() {
                 } else {
                     payload[fieldId] = await fileToDataUri(value[0]);
                 }
-            } else if (field.type === 'number') {
-                 payload[fieldId] = Number(value);
             } else if (field.type !== 'file' && value) {
                 payload[fieldId] = value;
             }

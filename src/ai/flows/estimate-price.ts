@@ -42,7 +42,7 @@ const estimatePricePrompt = ai.definePrompt({
   name: 'estimatePricePrompt',
   input: {schema: EstimatePriceInputSchema},
   output: {schema: EstimatePriceOutputSchema},
-  prompt: `You are a real estate pricing model endpoint. Given the following property details, provide a realistic market value estimation in AED.
+  prompt: `You are a real estate pricing model endpoint. You have been trained on a massive dataset of historical and current property listings. Your task is to provide a realistic market value estimation in AED based on the given property details.
 
   **Property Details:**
   - Location: {{{location}}}
@@ -54,9 +54,9 @@ const estimatePricePrompt = ai.definePrompt({
   - Condition: {{{condition}}}
 
   **Instructions:**
-  1.  Act as if you are a trained regression model. Calculate a plausible 'estimatedPrice'.
-  2.  Calculate a 'confidenceRange' where the lower and upper bounds are approximately 5-10% away from the estimated price.
-  3.  Provide 2-3 fictional but realistic 'comparableSales' that justify your estimation. These should be in a similar location and have similar characteristics.
+  1.  **Act as a Regression Model:** Based on the property's attributes and your internal knowledge of the market, calculate a plausible 'estimatedPrice'.
+  2.  **Calculate Confidence:** Provide a 'confidenceRange' where the lower and upper bounds are approximately 5-10% away from the estimated price, reflecting market volatility.
+  3.  **Justify with Comparables:** To justify your estimation, generate 2-3 realistic 'comparableSales'. These comps should be fictional but highly plausible examples of similar properties that have recently sold in the same area. Each comp should include address, key stats (beds/baths/sqft), and sale price.
   
   Return ONLY the structured JSON output.
   `,
