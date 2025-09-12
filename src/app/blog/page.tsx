@@ -52,7 +52,7 @@ export default function BlogIndexPage() {
                      <div className="max-w-3xl mx-auto">
                         <div className="inline-block p-4 border border-dashed rounded-lg bg-muted/50">
                             <p className="text-lg md:text-xl text-foreground/80">
-                                Search or Ask anything about real EState.
+                                Search or ask anything about real estate.
                             </p>
                         </div>
                     </div>
