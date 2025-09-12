@@ -96,3 +96,48 @@ This is an integrated suite of applications, flows, and pilots organized by func
 - **Modular & Extensible Architecture:** The "tool" and "flow" system is designed for extensibility. New AI capabilities can be added as modular Genkit flows and plugged into the UI with minimal friction, defined in a central `features.ts` file.
 - **Data Flywheel Strategy:** The synergy between the B2C search engine and the B2B tool suite creates a powerful, defensible data moat.
 - **Enterprise-Grade UI/UX Philosophy:** We have moved beyond basic "chat" interfaces to create sophisticated, purpose-built UIs for each task (e.g., immersive search, guided campaign builders, execution terminals), demonstrating a commitment to a truly professional user experience.
+
+## 5. Sitemap & UI / AI Training
+
+### 5.1. Sitemap Architecture
+
+The platform is architected as two distinct, yet interconnected, experiences: the Public Site and the Professional Dashboard.
+
+**Public Site (For Everyone):**
+- `/`: The homepage, centered around the AI search experience.
+- `/search`: The immersive, full-screen search result interface ("second brain").
+- `/solutions/*`: A persona-driven exploration of the platform's capabilities for Agents, Developers, and Investors.
+- `/community/*`: Hub for learning and resources (Academy, Documentation, Roadmap).
+- `/pricing`, `/about`, `/status`: Standard informational pages.
+- `/privacy`, `/terms`, `/cookies`: Legal and compliance pages.
+- `/login`, `/signup`, `/onboarding`: User authentication and initial setup flow.
+
+**Professional Dashboard (For Logged-in Users):**
+- `/dashboard/assistant`: The AI Command Center, the user's main home base.
+- `/dashboard/marketing`: The "Apps" page, a curated library of all available tools.
+- `/dashboard/flows`: A page dedicated to multi-step AI automations ("Pilots").
+- `/dashboard/tool/[toolId]`: The dedicated page for executing a specific tool or workflow.
+- `/dashboard/brand`: The user's private knowledge base and brand kit management.
+- `/dashboard/settings`: Account and integration management.
+
+### 5.2. UI/UX Philosophy: The "Perfect Up Down UI"
+
+Our design system is built on a philosophy of "perfect up down"—a clean, minimalist public-facing experience and a dense, powerful backend for professionals.
+
+- **Glassmorphism & Depth:** We use semi-transparent, blurred backgrounds (`bg-card/50 backdrop-blur-lg`) to create a sense of depth and modernity.
+- **Monochrome + Accent:** The primary UI is dark and monochrome, allowing content to be the focus. A vibrant, configurable `primary` color is used as an accent for key actions, highlights, and branding, creating a visually striking and consistent aesthetic.
+- **Component-Driven:** The entire UI is built from a reusable component library based on ShadCN UI. Key components like `PageHeader`, `Card`, and `FeatureCard` ensure consistency and rapid development.
+- **Global Search (⌘K):** The primary navigation method for professionals is the command menu, allowing instant access to any tool or page, reflecting a power-user-centric design.
+- **Tabbed Navigation:** The dashboard uses a tabbed system, allowing professionals to keep multiple tools and pages open simultaneously, mirroring a real-world desktop workflow.
+
+### 5.3. AI Training: The Professional's Private Knowledge Base
+
+A core B2B feature is the ability for professionals to "train" their own private AI. This is a critical differentiator.
+
+- **Mechanism:** The `/dashboard/brand` page serves as the "Asset Storage & Knowledge Base."
+- **Process:**
+    1. A user uploads their proprietary documents (brochures, client lists, market analysis PDFs, brand guides).
+    2. They can then select these files and trigger the `aiBrandCreator` flow.
+    3. This flow uses the Vision API's OCR to extract text from images and PDFs.
+    4. The extracted text is then processed by a Gemini model, which analyzes the content to automatically populate the user's Brand Kit (company name, colors, contact info) and Project Library.
+- **Benefit:** This process creates a firewalled, personalized knowledge base for the user. When they use any AI tool within the suite, the AI's "Core Instructions" (configured in the `AI Command Center`) direct it to use this private knowledge to inform its answers, ensuring all generated content is hyper-relevant, on-brand, and factually correct based on the user's own data. This transforms the platform from a generic AI tool into a bespoke, expert assistant.
