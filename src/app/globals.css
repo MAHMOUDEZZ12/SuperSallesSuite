@@ -107,7 +107,7 @@
         #ec4899
     );
     transform: translate(-50%, -50%) rotate(var(--angle));
-    animation: rotate-gradient 4s linear infinite;
+    animation: rotate-gradient 2s linear infinite;
   }
 
   @property --angle {
