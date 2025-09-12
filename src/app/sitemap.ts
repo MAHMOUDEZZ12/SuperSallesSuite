@@ -68,7 +68,7 @@ const blogSlugs = [
     'meta-ads-copilot',
     'meta-auto-pilot',
     'payment-planner',
-'brochure-translator',
+    'brochure-translator',
     'youtube-video-editor',
 ];
 
@@ -91,8 +91,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/superfreetime',
     '/blog',
     '/ai-presenter',
+    '/solutions',
+    '/community',
+    '/community/roadmap',
+    '/community/careers',
+    '/community/events',
+    '/community/responsibility',
+    '/documentation',
     '/dashboard/flows',
-    '/dashboard/community',
   ].map((route) => ({
     url: `${siteUrl}${route}`,
     lastModified: new Date(),

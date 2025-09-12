@@ -1,26 +1,24 @@
 
 'use client';
 
-import React from 'react';
-import { PageHeader } from '@/components/ui/page-header';
-import { Users } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { Loader2 } from 'lucide-react';
 
-export default function CommunityPage() {
+export default function CommunityRedirectPage() {
+    const router = useRouter();
+
+    useEffect(() => {
+        // Redirect dashboard users to the public community hub
+        router.replace('/community');
+    }, [router]);
+
   return (
-    <main className="p-4 md:p-10 space-y-8">
-      <PageHeader
-        title="Community"
-        description="Connect with other real estate professionals, share strategies, and learn together."
-        icon={<Users className="h-8 w-8" />}
-      />
-
-      <Card className="flex items-center justify-center h-96 border-dashed">
-        <CardContent className="text-center">
-            <h3 className="text-2xl font-bold">Coming Soon</h3>
-            <p className="text-muted-foreground mt-2">Our community platform is under construction. Stay tuned!</p>
-        </CardContent>
-      </Card>
+    <main className="p-4 md:p-10 space-y-8 flex items-center justify-center h-full">
+      <div className="text-center">
+        <Loader2 className="h-8 w-8 animate-spin mx-auto text-primary" />
+        <p className="mt-2 text-muted-foreground">Redirecting to Community Hub...</p>
+      </div>
     </main>
   );
 }

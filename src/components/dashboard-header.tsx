@@ -28,7 +28,7 @@ const mainNav = [
   { href: '/dashboard/marketing', label: 'Apps', icon: Puzzle },
   { href: '/dashboard/flows', label: 'Flows', icon: Workflow },
   { href: '/blog', label: 'Academy', icon: AcademyIcon },
-  { href: '/dashboard/community', label: 'Community', icon: Users },
+  { href: '/community', label: 'Community', icon: Users },
 ];
 
 const settingsNav = [

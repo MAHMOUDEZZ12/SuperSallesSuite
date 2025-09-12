@@ -62,7 +62,7 @@ export default function DocumentationPage() {
             description="A technical overview of the technologies and AI flows that power WhatsMAP. For the full strategic vision, see our Ecosystem Blueprint."
         >
              <Link href="/ecosystem">
-                <button className="bg-primary text-primary-foreground px-4 py-2 rounded-md">View Blueprint</button>
+                <Button>View Blueprint</Button>
             </Link>
         </PageHeader>
 
