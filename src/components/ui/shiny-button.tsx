@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils"
 import React from "react";
 import { Button, ButtonProps } from "./button";
 
+// Note: This component is being kept for potential future use but is being replaced by standard buttons
+// that use the new primary color for a "glow" effect.
 export const ShinyButton = React.forwardRef<HTMLButtonElement, ButtonProps>(({ className, ...props }, ref) => {
     return (
       <Button
@@ -13,7 +15,6 @@ export const ShinyButton = React.forwardRef<HTMLButtonElement, ButtonProps>(({ c
         className={cn(
           "relative overflow-hidden group",
           "text-lg py-7 px-8",
-          "bg-primary text-primary-foreground hover:bg-primary/90",
           className
         )}
       >

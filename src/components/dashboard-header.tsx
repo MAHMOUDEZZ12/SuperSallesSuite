@@ -16,7 +16,7 @@ import Link from "next/link";
 import { LifeBuoy, LogOut, Settings, User, Search, Home, Building, Palette, Users, Bot, Menu, Puzzle, BarChart, UserPlus, Workflow, BookOpen as AcademyIcon } from "lucide-react";
 import React from "react";
 import { GlobalSearch } from "./ui/global-search";
-import { useTheme } from "./theme-switcher";
+import { useTheme } from "@/components/theme-switcher";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter, usePathname } from "next/navigation";
 import { auth } from "@/lib/firebase";

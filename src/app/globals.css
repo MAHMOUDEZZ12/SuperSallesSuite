@@ -11,7 +11,7 @@
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 217.2 91.2% 59.8%;
+    --primary: 222.2 84% 4.9%;
     --primary-foreground: 210 40% 98%;
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -21,7 +21,7 @@
     --destructive-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 217.2 91.2% 59.8%;
+    --ring: 222.2 84% 4.9%;
     --radius: 0.75rem;
   }
 
@@ -32,8 +32,8 @@
     --card-foreground: 210 20% 98%;
     --popover: 224 71.4% 4.1%;
     --popover-foreground: 210 20% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 210 20% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 84% 4.9%;
     --secondary: 215 27.9% 16.9%;
     --secondary-foreground: 210 20% 98%;
     --accent: 270 90% 65%;
@@ -42,7 +42,7 @@
     --destructive-foreground: 210 20% 98%;
     --border: 215 27.9% 16.9%;
     --input: 215 27.9% 16.9%;
-    --ring: 217.2 91.2% 59.8%;
+    --ring: 210 40% 98%;
   }
 }
  
@@ -55,53 +55,18 @@
   }
 }
 
-@layer components {
-  .bg-primary {
-    background-color: hsl(var(--primary));
-  }
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  
-  .animated-gradient-border-wrapper {
-      position: relative;
-      background: transparent;
-      border-radius: 0.5rem;
-      padding: 1px;
-      overflow: hidden;
-  }
-
-  .animated-gradient-border-wrapper::before {
-      content: '';
-      position: absolute;
-      top: 0; right: 0; bottom: 0; left: 0;
-      background: conic-gradient(from 0deg at 50% 50%, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--primary)));
-      background-size: 200% 200%;
-      z-index: 0;
-      animation: snake-glow 2s linear infinite;
-      opacity: 0.2;
-      transition: opacity 0.3s;
-  }
-
-  .group:hover .animated-gradient-border-wrapper::before,
-  .group:focus-within .animated-gradient-border-wrapper::before {
-    opacity: 0.7;
-  }
-  
-  @keyframes snake-glow {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-}
-
 html {
   scroll-behavior: smooth;
 }
 
 .market-library-bg {
   background-color: #0f0f12;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
