@@ -9,7 +9,7 @@ import { FeatureModal } from '@/components/feature-modal';
 import { LandingHeader } from '@/components/landing-header';
 import { LandingFooter } from '@/components/landing-footer';
 
-export function HomePageClient({ host }: { host: string }) {
+export function HomePageClient() {
   const [selectedTool, setSelectedTool] = React.useState<Omit<
     Feature,
     'renderResult'
@@ -26,17 +26,9 @@ export function HomePageClient({ host }: { host: string }) {
   const devTools = getToolsForCategory('Developer & Backend');
   const ebramTools = getToolsForCategory('EBRAM');
 
-  const isSelltoday = host.includes('selltoday.ai');
-  const pageTitle = isSelltoday
-    ? 'The Supertools Suite'
-    : 'Welcome to WhatsMAP';
-  const pageDescription = isSelltoday
-    ? 'An interconnected universe of AI-powered tools for real estate.'
-    : 'Your AI co-pilot for real estate. Tell, think, plan, calculate, review, and co-invest.';
-
   return (
     <div className="flex flex-col min-h-screen">
-      <LandingHeader host={host} />
+      <LandingHeader />
       <main className="flex-1 w-full max-w-7xl mx-auto px-4 py-24 md:py-32">
         <motion.div
           initial={{ opacity: 0 }}
