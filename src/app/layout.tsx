@@ -6,6 +6,7 @@ import './globals.css';
 import { Poppins, PT_Sans } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import { CookieConsent } from '@/components/cookie-consent';
+import { ThemeProvider } from '@/app/providers';
 
 const fontSans = PT_Sans({ 
   subsets: ['latin'],
@@ -39,9 +40,16 @@ export default function RootLayout({
         fontSans.variable,
         fontHeading.variable
       )}>
-        {children}
-        <Toaster />
-        <CookieConsent />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+          <Toaster />
+          <CookieConsent />
+        </ThemeProvider>
       </body>
     </html>
   );
