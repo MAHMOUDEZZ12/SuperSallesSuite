@@ -1,4 +1,3 @@
-
 'use server';
 
 /**
@@ -42,10 +41,10 @@ const analyzeContentQualityPrompt = ai.definePrompt({
   {{{content}}}
 
   **Instructions:**
-  1.  **Assess Relevance:** Read the content and determine how relevant it is to the real estate industry (e.g., market analysis, property listings, agent advice). Assign a `relevanceScore` from 0 (not relevant) to 1 (highly relevant).
-  2.  **Assess Trustworthiness:** Look for signs of expertise, authority, and trustworthiness. Does it have an author? Is it well-written? Does it cite sources? Conversely, look for red flags like overly aggressive sales language, guaranteed high returns, pressure tactics, or poor grammar. Assign a `trustworthinessScore` from 0 (very untrustworthy/scam) to 1 (very trustworthy).
+  1.  **Assess Relevance:** Read the content and determine how relevant it is to the real estate industry (e.g., market analysis, property listings, agent advice). Assign a \`relevanceScore\` from 0 (not relevant) to 1 (highly relevant).
+  2.  **Assess Trustworthiness:** Look for signs of expertise, authority, and trustworthiness. Does it have an author? Is it well-written? Does it cite sources? Conversely, look for red flags like overly aggressive sales language, guaranteed high returns, pressure tactics, or poor grammar. Assign a \`trustworthinessScore\` from 0 (very untrustworthy/scam) to 1 (very trustworthy).
   3.  **Determine Content Type:** Classify the content into one of the predefined types.
-  4.  **Make a Final Judgment:** Based on your scores, decide if the content is high-quality. Generally, content should be considered high-quality if both `relevanceScore` and `trustworthinessScore` are above 0.6. Set the `isHighQuality` boolean accordingly.
+  4.  **Make a Final Judgment:** Based on your scores, decide if the content is high-quality. Generally, content should be considered high-quality if both \`relevanceScore\` and \`trustworthinessScore\` are above 0.6. Set the \`isHighQuality\` boolean accordingly.
   5.  **Provide Reasoning:** Write a brief, one-sentence explanation for your decision.
   `,
 });
