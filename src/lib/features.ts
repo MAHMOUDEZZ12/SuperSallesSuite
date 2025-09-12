@@ -401,7 +401,6 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     isPage: true,
     badge: 'NEW',
     href: '/dashboard/tool/listing-performance',
-    guideHref: '/blog/listing-performance',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
   },
