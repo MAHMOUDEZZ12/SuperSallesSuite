@@ -28,7 +28,7 @@ export default function MarketSearchInput() {
                         <Input
                             placeholder=""
                             className={cn(
-                                "w-full rounded-lg h-14 pl-6 pr-4 text-base bg-transparent border-none text-white focus-visible:ring-0"
+                                "w-full rounded-lg h-14 pl-6 pr-4 text-xl bg-transparent border-none text-white focus-visible:ring-0"
                             )}
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
