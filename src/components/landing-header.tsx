@@ -18,11 +18,20 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuGroup,
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from '@/components/theme-switcher';
 
 const mainNavLinks = [
-    { name: 'Solutions', href: '/solutions' },
+    { 
+        name: 'Solutions', 
+        href: '/solutions', 
+        subLinks: [
+            { name: 'For Agents', href: '/solutions/agent' },
+            { name: 'For Developers', href: '/solutions/developer' },
+            { name: 'For Investors', href: '/solutions/investor' },
+        ]
+    },
     { name: 'Community', href: '/community' },
     { name: 'Pricing', href: '/pricing' },
 ];
@@ -30,8 +39,6 @@ const mainNavLinks = [
 export function LandingHeader({ host }: { host?: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const { setTheme, themes } = useTheme();
-  const pathname = usePathname();
-  const isHomePage = pathname === '/';
   
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -41,9 +48,27 @@ export function LandingHeader({ host }: { host?: string }) {
         </div>
         <div className="hidden md:flex items-center gap-2">
             {mainNavLinks.map((link) => (
-                 <Link key={link.name} href={link.href}>
-                    <Button variant="ghost">{link.name}</Button>
-                </Link>
+                link.subLinks ? (
+                    <DropdownMenu key={link.name}>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost">
+                                {link.name}
+                                <ChevronDown className="ml-2 h-4 w-4" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                             {link.subLinks.map(subLink => (
+                                <Link key={subLink.name} href={subLink.href} passHref>
+                                    <DropdownMenuItem>{subLink.name}</DropdownMenuItem>
+                                </Link>
+                            ))}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                ) : (
+                    <Link key={link.name} href={link.href}>
+                        <Button variant="ghost">{link.name}</Button>
+                    </Link>
+                )
             ))}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

@@ -2,20 +2,53 @@
 'use client';
 
 import React from 'react';
-import { Loader2 } from 'lucide-react';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+import { LandingHeader } from '@/components/landing-header';
+import { LandingFooter } from '@/components/landing-footer';
+import { PageHeader } from '@/components/ui/page-header';
+import { Building } from 'lucide-react';
+import { tools } from '@/lib/features';
+import { FeatureCard } from '@/components/ui/feature-card';
+import { FeatureModal } from '@/components/feature-modal';
 
-// This page is now deprecated.
-export default function DeprecatedDeveloperSolutionsPage() {
+// Tools curated for Developers
+const developerToolIds = [
+    'landing-pages',
+    'payment-planner',
+    'insta-ads-designer',
+    'market-reports',
+    'aerial-view-generator',
+    'brochure-translator',
+    'ai-brand-creator',
+    'rebranding'
+];
+
+const developerTools = tools.filter(t => developerToolIds.includes(t.id));
+
+
+export default function DeveloperSolutionsPage() {
+    const [selectedTool, setSelectedTool] = React.useState<any>(null);
+
     return (
-        <div className="flex flex-col min-h-screen items-center justify-center text-center">
-            <Loader2 className="h-12 w-12 animate-spin text-primary mb-4"/>
-            <h1 className="text-2xl font-bold">This page has moved.</h1>
-            <p className="text-muted-foreground">All solutions are now showcased in our central Solutions Universe.</p>
-            <Link href="/solutions" className="mt-4">
-                <Button>Go to Solutions</Button>
-            </Link>
+        <div className="flex min-h-screen flex-col bg-background">
+            <LandingHeader />
+            <main className="flex-1 w-full max-w-7xl mx-auto px-4 py-24 md:py-32">
+                <PageHeader
+                icon={<Building />}
+                title="Solutions for Developers"
+                description="Launch projects with maximum impact and efficiency. Generate complete marketing suites and manage sales with AI."
+                className="mb-16"
+                />
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {developerTools.map(tool => (
+                        <div key={tool.id} onClick={() => setSelectedTool(tool)}>
+                            <FeatureCard tool={tool} />
+                        </div>
+                    ))}
+                </div>
+            </main>
+            <FeatureModal feature={selectedTool} onClose={() => setSelectedTool(null)} />
+            <LandingFooter />
         </div>
     );
 }
