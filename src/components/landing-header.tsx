@@ -26,7 +26,7 @@ const navLinks = [
     { name: 'Play', href: '/superfreetime' },
 ];
 
-export function LandingHeader({ host }: { host: string }) {
+export function LandingHeader({ host }: { host?: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const { setTheme, themes } = useTheme();
   
