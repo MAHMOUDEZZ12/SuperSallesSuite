@@ -4,7 +4,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { PageHeader } from '@/components/ui/page-header';
-import { Puzzle, Star, BarChart, Search, Video, Bot, BrainCircuit, Briefcase, Server } from 'lucide-react';
+import { Puzzle, Star, BarChart, Search, Video, Bot, BrainCircuit, Briefcase, Server, ShieldCheck } from 'lucide-react';
 import { type Feature } from '@/lib/tools-client';
 import { tools } from '@/lib/features';
 import { DashboardServiceCard } from '@/components/ui/dashboard-service-card';
@@ -16,6 +16,7 @@ const toolCategories: { title: string; category: Feature['mindMapCategory'], ico
     { title: 'Meta Pilot (Campaign Automation)', category: 'Meta Pilot', icon: <Video className="h-6 w-6 text-rose-500"/> },
     { title: 'Market Intelligence Tools', category: 'Market Intelligence', icon: <BrainCircuit className="h-6 w-6 text-blue-500"/> },
     { title: 'Listing & CRM Tools', category: 'Listing & CRM', icon: <Briefcase className="h-6 w-6 text-teal-500"/> },
+    { title: 'EBRAM (Legal Intelligence)', category: 'EBRAM', icon: <ShieldCheck className="h-6 w-6 text-emerald-500" /> },
     { title: 'Developer & Backend Tools', category: 'Developer & Backend', icon: <Server className="h-6 w-6" /> },
 ];
 

@@ -1,4 +1,3 @@
-
 import {
   ArrowRight, Bot, FileUp, LayoutTemplate, Palette, Target, Share2, Sparkles, Clock, Briefcase, PenTool,
   MessageCircle, Mail, Wallet, MapPin, ClipboardList, FilePlus, Network, Building, Video, FileText, Search,
@@ -7,7 +6,7 @@ import {
   Star, Loader2, ArrowLeft, Crown, TrendingUp, CheckCircle, Percent, Calendar, Languages, Youtube, Terminal,
   Edit, Server, Globe, UserCheck, User, Plus, Check, BookOpen, GitBranch, Component, Wind, ShieldQuestion,
   Cpu, GanttChartSquare, X, Sun, Moon, Laptop, Menu, Home, Puzzle, LifeBuoy, LogOut, Scissors, Text, Music,
-  Mic, Lightbulb, Bomb, PenSquare, Flame
+  Mic, Lightbulb, Bomb, PenSquare, Flame, ShieldCheck, AlertTriangle
 } from 'lucide-react';
 import type { LucideProps } from 'lucide-react';
 import React from 'react';
@@ -20,7 +19,7 @@ export const IconMap: { [key: string]: React.FC<LucideProps> } = {
   Star, Loader2, ArrowLeft, Crown, TrendingUp, CheckCircle, Percent, Calendar, Languages, Youtube, Terminal,
   Edit, Server, Globe, UserCheck, User, Plus, Check, BookOpen, GitBranch, Component, Wind, ShieldQuestion,
   Cpu, 'Gantt-ChartSquare': GanttChartSquare, X, Sun, Moon, Laptop, Menu, Home, Puzzle, LifeBuoy, LogOut, Scissors, Text, Music,
-  Mic, Lightbulb, Bomb, PenSquare, Flame
+  Mic, Lightbulb, Bomb, PenSquare, Flame, ShieldCheck, AlertTriangle
 };
 
 export type IconProps = LucideProps;

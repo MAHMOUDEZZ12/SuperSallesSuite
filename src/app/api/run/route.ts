@@ -1,4 +1,3 @@
-
 'use server';
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -38,6 +37,7 @@ import { generateVideoPresenter } from '@/ai/flows/generate-video-presenter';
 import { generateUgcScript } from '@/ai/flows/generate-ugc-script';
 import { estimatePrice } from '@/ai/flows/estimate-price';
 import { generateAerialView } from '@/ai/flows/generate-aerial-view';
+import { reviewLeaseAgreement } from '@/ai/flows/review-lease-agreement';
 
 const runToolSchema = z.object({
   toolId: z.string(),
@@ -83,7 +83,7 @@ const flowRunnerMap: { [key: string]: (payload: any) => Promise<any> } = {
     'propertyfinder-sync': syncPropertyFinderListing,
     'bayut-sync': syncBayutListing,
     'payment-planner': generatePaymentPlan,
-    'brochure-translator': translateBrochure,
+    'translate-brochure': translateBrochure,
     'youtube-video-editor': editYoutubeVideo,
     'commission-calculator': (payload) => Promise.resolve(payload),
     'lead-investigator': investigateLead,
@@ -95,6 +95,7 @@ const flowRunnerMap: { [key: string]: (payload: any) => Promise<any> } = {
     'chatbot-creator': marketChatAssistantFlow,
     'price-estimator': estimatePrice,
     'aerial-view-generator': generateAerialView,
+    'lease-reviewer': reviewLeaseAgreement,
 };
 
 export async function POST(req: NextRequest) {

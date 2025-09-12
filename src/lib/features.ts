@@ -1,4 +1,3 @@
-
 // This file is now a pure data file with no React/JSX dependencies.
 // It can be safely imported by both server and client components.
 
@@ -17,7 +16,7 @@ export type Field = {
   hidden?: boolean;
 };
 
-export type FilterCategory = 'All' | 'Lead Gen' | 'Creative' | 'Sales Tools' | 'Social & Comms' | 'Web' | 'Editing' | 'Ads' | 'Marketing' | 'Market Library' | 'Utilities' | 'Listing Intelligence AI' | 'TikTok AI Suite' | 'Google AI Suite' | 'Video' | 'Archy' | 'Meta Pilot' | 'Market Intelligence' | 'Listing & CRM' | 'Developer & Backend';
+export type FilterCategory = 'All' | 'Lead Gen' | 'Creative' | 'Sales Tools' | 'Social & Comms' | 'Web' | 'Editing' | 'Ads' | 'Marketing' | 'Market Library' | 'Utilities' | 'Listing Intelligence AI' | 'TikTok AI Suite' | 'Google AI Suite' | 'Video' | 'Archy' | 'Meta Pilot' | 'Market Intelligence' | 'Listing & CRM' | 'Developer & Backend' | 'EBRAM';
 
 export type Feature = {
   id: string;
@@ -28,7 +27,7 @@ export type Feature = {
   color: string;
   cta: string;
   categories: FilterCategory[];
-  mindMapCategory: 'Archy' | 'Meta Pilot' | 'Market Intelligence' | 'Listing & CRM' | 'Developer & Backend' | 'Internal';
+  mindMapCategory: 'Archy' | 'Meta Pilot' | 'Market Intelligence' | 'Listing & CRM' | 'Developer & Backend' | 'Internal' | 'EBRAM';
   badge?: 'NEW' | 'BETA' | 'SOON' | 'Pilot*';
   isPage?: boolean;
   href: string;
@@ -402,7 +401,6 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     mindMapCategory: 'Listing & CRM',
     isPage: true,
     href: '/dashboard/tool/payment-planner',
-    guideHref: '/blog/payment-planner',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
   },
@@ -545,5 +543,21 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
       { id: 'newImages', name: 'New Images (optional)', type: 'file', multiple: true, description: 'Upload any new images you want to add or swap.' },
       { id: 'editInstructions', name: 'Editing Instructions', type: 'textarea', placeholder: 'e.g., "Replace the logo on page 1 with the new one I uploaded. Change the price on page 3 to AED 2.5M."', description: 'Tell the AI what changes to make.' },
     ],
+  },
+  // EBRAM (Legal Intelligence)
+  {
+    id: 'lease-reviewer',
+    title: 'AI Lease Reviewer',
+    description: 'Analyze lease agreements for risks and get plain-English summaries.',
+    icon: 'ShieldCheck',
+    color: '#4ade80',
+    cta: 'Review Lease',
+    categories: ['Sales Tools', 'Utilities', 'EBRAM'],
+    mindMapCategory: 'EBRAM',
+    badge: 'NEW',
+    isPage: true,
+    href: '/dashboard/tool/lease-reviewer',
+    details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
+    creationFields: [],
   },
 ];
