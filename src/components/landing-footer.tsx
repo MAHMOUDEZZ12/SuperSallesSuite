@@ -10,9 +10,9 @@ import { Separator } from './ui/separator';
 export function LandingFooter() {
   const footerLinks = {
     app: [
-        { name: 'Solutions', href: '/solutions' },
         { name: 'About', href: '/about' },
         { name: 'System Status', href: '/status' },
+        { name: 'Pricing', href: '/pricing' },
     ],
     resources: [
         { name: 'Academy', href: '/blog' },

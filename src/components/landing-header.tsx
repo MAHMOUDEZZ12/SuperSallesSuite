@@ -21,10 +21,10 @@ import {
 import { useTheme } from '@/components/theme-switcher';
 
 const navLinks = [
-    { name: 'Solutions', href: '/solutions' },
+    { name: 'Ecosystem', href: '/ecosystem' },
     { name: 'Community', href: '/community' },
     { name: 'Account', href: '/pricing' },
-    { name: 'Ecosystem', href: '/ecosystem' },
+    { name: 'About', href: '/about' },
 ];
 
 export function LandingHeader({ host }: { host?: string }) {
