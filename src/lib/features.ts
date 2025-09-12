@@ -54,7 +54,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     id: 'ai-video-presenter',
     title: 'AI Video Presenter',
     description: 'Create a lifelike AI presenter to deliver your project pitch.',
-    icon: 'UserCheck',
+    icon: 'User',
     color: '#f43f5e',
     cta: 'Generate Video',
     categories: ['Creative', 'Video', 'Marketing', 'Ads', 'Archy'],
