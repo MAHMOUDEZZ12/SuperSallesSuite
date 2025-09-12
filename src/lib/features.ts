@@ -60,6 +60,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Creative', 'Video', 'Marketing', 'Ads', 'Archy'],
     mindMapCategory: 'Archy',
     isPage: true,
+    badge: 'NEW',
     href: '/dashboard/tool/ai-video-presenter',
     guideHref: '/blog/ai-video-presenter',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },

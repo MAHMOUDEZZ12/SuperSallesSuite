@@ -68,7 +68,7 @@ const blogSlugs = [
     'meta-ads-copilot',
     'meta-auto-pilot',
     'payment-planner',
-brochure-translator',
+'brochure-translator',
     'youtube-video-editor',
 ];
 
