@@ -23,7 +23,12 @@ import {
 import { useTheme } from '@/components/theme-switcher';
 
 const mainNavLinks = [
-    { name: 'Solutions', href: '/solutions' },
+    { name: 'Community', href: '/community' },
+    { name: 'Pricing', href: '/pricing' },
+];
+
+const secondaryNavLinks = [
+    { name: 'Chat', href: '/' },
     { name: 'Community', href: '/community' },
     { name: 'Pricing', href: '/pricing' },
 ];
@@ -31,6 +36,10 @@ const mainNavLinks = [
 export function LandingHeader({ host }: { host?: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const { setTheme, themes } = useTheme();
+  const pathname = usePathname();
+
+  const isMainPage = pathname === '/';
+  const navLinks = isMainPage ? mainNavLinks : secondaryNavLinks;
   
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -39,7 +48,18 @@ export function LandingHeader({ host }: { host?: string }) {
             <Logo />
         </div>
         <div className="hidden md:flex items-center gap-2">
-            {mainNavLinks.map((link) => (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost">Solutions <ChevronDown className="ml-1 h-4 w-4" /></Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem asChild><Link href="/solutions/agent">For Agents</Link></DropdownMenuItem>
+                <DropdownMenuItem asChild><Link href="/solutions/developer">For Developers</Link></DropdownMenuItem>
+                <DropdownMenuItem asChild><Link href="/solutions/investor">For Investors</Link></DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {navLinks.map((link) => (
                  <Link key={link.name} href={link.href}>
                     <Button variant="ghost">{link.name}</Button>
                 </Link>
@@ -107,7 +127,7 @@ export function LandingHeader({ host }: { host?: string }) {
                         </div>
                     </div>
                     <nav className="flex flex-col items-center gap-6 text-center">
-                         {mainNavLinks.map((link) => (
+                         {navLinks.map((link) => (
                              <Link key={link.name} href={link.href} onClick={() => setIsOpen(false)}>
                                 <span className="text-2xl font-semibold text-foreground hover:text-primary transition-colors">{link.name}</span>
                             </Link>

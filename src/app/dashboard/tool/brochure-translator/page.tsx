@@ -3,25 +3,25 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Edit, Palette } from 'lucide-react';
+import { Edit, Languages } from 'lucide-react';
 import { PageHeader } from '@/components/ui/page-header';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-export default function DeprecatedRebrandingPage() {
+export default function DeprecatedTranslatorPage() {
   return (
     <main className="p-4 md:p-10 space-y-8">
       <PageHeader
-        title="Automated Rebranding (Consolidated)"
+        title="Brochure Translator (Consolidated)"
         description="This tool has been merged into the new Creative Canvas."
-        icon={<Palette className="h-8 w-8" />}
+        icon={<Languages className="h-8 w-8" />}
       />
 
         <Alert variant="destructive">
           <AlertTitle>This Tool has been Upgraded!</AlertTitle>
           <AlertDescription>
-            The Automated Rebranding functionality has been consolidated into the new, more powerful{' '}
+            The Brochure Translator functionality has been consolidated into the new, more powerful{' '}
             <Link href="/dashboard/tool/creative-canvas" className="font-semibold underline">Creative Canvas</Link>. 
             Please use the canvas for all your creative editing needs.
           </AlertDescription>
@@ -36,7 +36,7 @@ export default function DeprecatedRebrandingPage() {
                     To create a single, unified workflow for all creative tasks. Instead of having separate tools for editing PDFs, videos, and images, the Creative Canvas provides one consistent interface.
                 </p>
                 <p>
-                    Simply upload your brochure to the canvas, and use the smart tools or natural language commands to apply your branding.
+                    Simply upload your brochure to the canvas, and use natural language commands to translate it into any language.
                 </p>
                  <Link href="/dashboard/tool/creative-canvas">
                     <Button>

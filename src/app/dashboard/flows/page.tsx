@@ -9,11 +9,11 @@ import { ConnectedAppCard } from '@/components/ui/connected-app-card';
 
 const flowTools = tools.filter(t => t.categories.includes('Flows'));
 
-export default function FlowsPage() {
+export default function PilotsPage() {
   return (
     <main className="p-4 md:p-10 space-y-8">
       <PageHeader
-        title="Flows"
+        title="AI Pilots"
         description="Automated, multi-step workflows that act as your specialized AI agents, connecting multiple tools to achieve complex goals."
         icon={<Workflow className="h-8 w-8" />}
       />

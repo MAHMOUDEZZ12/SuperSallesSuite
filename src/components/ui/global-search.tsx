@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { Search, Bot } from 'lucide-react';
+import { Search, Bot, BrainCircuit } from 'lucide-react';
 import { tools } from '@/lib/features';
 import Link from 'next/link';
 import { IconMap } from './icon-map';
@@ -44,7 +44,7 @@ export function GlobalSearch({ isOpen, setIsOpen }: GlobalSearchProps) {
                 <CommandInput placeholder="Search tools or ask the AI anything..." />
                 <CommandList>
                     <CommandEmpty>No results found.</CommandEmpty>
-                    <CommandGroup heading="Apps & Tools">
+                    <CommandGroup heading="Apps & Pilots">
                         {allTools.map(tool => {
                             const Icon = IconMap[tool.icon];
                             return (
@@ -66,6 +66,12 @@ export function GlobalSearch({ isOpen, setIsOpen }: GlobalSearchProps) {
                                 <Bot className='h-5 w-5' />
                             </div>
                             <span>Go to AI Command Center</span>
+                        </CommandItem>
+                         <CommandItem onSelect={() => runCommand(() => router.push('/dashboard/learning-curve'))}>
+                             <div className="p-1.5 rounded-md text-white mr-3 bg-green-500">
+                                <BrainCircuit className='h-5 w-5' />
+                            </div>
+                            <span>View My AI's Learning Curve</span>
                         </CommandItem>
                      </CommandGroup>
                 </CommandList>

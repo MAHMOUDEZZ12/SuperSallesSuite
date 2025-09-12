@@ -13,7 +13,7 @@ import {
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Link from "next/link";
-import { LifeBuoy, LogOut, Settings, User, Search, Home, Building, Palette, Users, Bot, Menu, Puzzle, BarChart, UserPlus, Workflow, BookOpen as AcademyIcon } from "lucide-react";
+import { LifeBuoy, LogOut, Settings, User, Search, Home, Building, Palette, Users, Bot, Menu, Puzzle, BarChart, UserPlus, Workflow, BookOpen as AcademyIcon, BrainCircuit } from "lucide-react";
 import React from "react";
 import { GlobalSearch } from "./ui/global-search";
 import { useTheme } from "@/components/theme-switcher";
@@ -25,15 +25,16 @@ import { useTabManager } from "@/context/TabManagerContext";
 import { cn } from "@/lib/utils";
 
 const mainNav = [
-  { href: '/dashboard/assistant', label: 'AI Command Center', icon: Bot },
+  { href: '/dashboard/assistant', label: 'AI Assistant', icon: Bot },
   { href: '/dashboard/marketing', label: 'Apps', icon: Puzzle },
-  { href: '/dashboard/flows', label: 'Flows', icon: Workflow },
-  { href: '/dashboard/tool/listing-performance', label: 'Performance', icon: BarChart },
+  { href: '/dashboard/flows', label: 'Pilots', icon: Workflow },
+  { href: '/dashboard/performance', label: 'Performance', icon: BarChart },
   { href: '/blog', label: 'Academy', icon: AcademyIcon },
 ];
 
 const settingsNav = [
   { href: '/dashboard/brand', label: 'Brand & Assets', icon: Palette },
+  { href: '/dashboard/learning-curve', label: 'My AI\'s Learning Curve', icon: BrainCircuit },
   { href: '/dashboard/leads', label: 'Leads (CRM)', icon: UserPlus },
   { href: '/dashboard/clients', label: 'Clients', icon: Users },
   { href: '/dashboard/settings', label: 'Settings', icon: Settings },
