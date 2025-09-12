@@ -1,3 +1,4 @@
+
 // This file is now a pure data file with no React/JSX dependencies.
 // It can be safely imported by both server and client components.
 
@@ -62,6 +63,21 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     isPage: true,
     href: '/dashboard/tool/ai-video-presenter',
     guideHref: '/blog/ai-video-presenter',
+    details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
+    creationFields: [],
+  },
+  {
+    id: 'aerial-view-generator',
+    title: 'Aerial View Generator',
+    description: 'Create cinematic drone tours of any property from an address.',
+    icon: 'Film',
+    color: '#d946ef',
+    cta: 'Generate View',
+    categories: ['Creative', 'Video', 'Marketing', 'Ads', 'Archy'],
+    mindMapCategory: 'Archy',
+    badge: 'NEW',
+    isPage: true,
+    href: '/dashboard/tool/aerial-view-generator',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
   },
