@@ -15,7 +15,7 @@ export default function MarketSearchInput() {
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
         if (query.trim()) {
-            router.push(`/search?q=${encodeURIComponent(query)}`);
+            router.push(`/search?q=${'\'\'\'' + encodeURIComponent(query) + '\'\'\''}`);
         }
     };
     
@@ -34,3 +34,5 @@ export default function MarketSearchInput() {
         </form>
     );
 }
+
+    

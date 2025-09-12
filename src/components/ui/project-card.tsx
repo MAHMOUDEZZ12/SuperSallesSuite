@@ -36,10 +36,10 @@ export function ProjectCard({
       )}>
       <div>
         <div className="relative h-40 w-full bg-gray-800">
-           <Image src={project.thumbnailUrl || `https://picsum.photos/seed/${project.id}/400/200`} alt={project.name} fill={true} className="object-cover group-hover:scale-105 transition-transform duration-300" data-ai-hint="building exterior" />
+           <Image src={project.thumbnailUrl || `https://picsum.photos/seed/${'\'\'\'' + project.id + '\'\'\''}/400/200`} alt={project.name} fill={true} className="object-cover group-hover:scale-105 transition-transform duration-300" data-ai-hint="building exterior" />
             {project.status && <Badge variant="secondary" className="absolute top-2 left-2">{project.status}</Badge>}
-            {selectable && <div className="absolute top-2 right-2 z-10"><Checkbox checked={selected} readOnly aria-label={`Select project ${project.name}`} /></div>}
-             {project.developerLogoUrl && <Image src={project.developerLogoUrl} alt={`${project.developer} Logo`} width={32} height={32} className="absolute bottom-2 right-2 rounded-md bg-white p-1" data-ai-hint="company logo" />}
+            {selectable && <div className="absolute top-2 right-2 z-10"><Checkbox checked={selected} readOnly aria-label={`Select project ${'\'\'\'' + project.name + '\'\'\''}`} /></div>}
+             {project.developerLogoUrl && <Image src={project.developerLogoUrl} alt={`${'\'\'\'' + project.developer + '\'\'\''}' Logo`} width={32} height={32} className="absolute bottom-2 right-2 rounded-md bg-white p-1" data-ai-hint="company logo" />}
         </div>
         <div className="p-4">
             <h4 className="font-semibold text-base text-gray-50 truncate group-hover:text-primary transition-colors">{project.name}</h4>
@@ -61,3 +61,5 @@ export function ProjectCard({
 
   return CardBody;
 }
+
+    
