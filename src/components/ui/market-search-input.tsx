@@ -37,3 +37,5 @@ export default function MarketSearchInput() {
         </div>
     );
 }
+
+    
