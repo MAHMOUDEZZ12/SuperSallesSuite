@@ -11,11 +11,17 @@ import { firebaseConfig } from './firebase-config';
 let app: App;
 
 if (getApps().length === 0) {
-    app = initializeApp({
-        credential: applicationDefault(),
-        projectId: firebaseConfig.projectId,
-    });
-    console.log('Firebase Admin SDK initialized with Application Default Credentials for project:', firebaseConfig.projectId);
+    // Check for local development environment and service account key
+    if (process.env.NODE_ENV === 'development' && process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+        app = initializeApp({
+            credential: applicationDefault(),
+        });
+        console.log('Firebase Admin SDK initialized using Service Account for local development.');
+    } else {
+        // Use Application Default Credentials in production
+        app = initializeApp();
+        console.log('Firebase Admin SDK initialized with Application Default Credentials for production.');
+    }
 } else {
   app = getApps()[0];
 }
