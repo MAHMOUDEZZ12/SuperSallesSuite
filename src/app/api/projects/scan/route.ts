@@ -3,9 +3,25 @@ import { ok, fail } from "@/lib/api-helpers";
 import { SearchServiceClient } from "@google-cloud/discoveryengine";
 import { NextRequest } from "next/server";
 
-const client = new SearchServiceClient();
+// It's better to instantiate the client outside the handler to allow for potential connection reuse.
+let client: SearchServiceClient;
+let clientInitializationError: Error | null = null;
+
+try {
+  client = new SearchServiceClient();
+} catch (e: any) {
+  clientInitializationError = e;
+  console.error("Failed to initialize SearchServiceClient:", e);
+}
+
 
 export async function GET(req: NextRequest) {
+  if (clientInitializationError) {
+    const detailedError = "Failed to initialize Google Cloud Search client. This often happens in a local development environment if you haven't authenticated. Please run 'gcloud auth application-default login' in your terminal and try again.";
+    console.error(detailedError, clientInitializationError);
+    return fail(detailedError, 500);
+  }
+
   try {
     const { searchParams } = new URL(req.url);
     const query = searchParams.get("q");
@@ -14,8 +30,16 @@ export async function GET(req: NextRequest) {
       return fail("Query parameter 'q' is required.", 400);
     }
     
-    const projectId = "supersellerae-4rzzy";
+    const projectId = process.env.GCLOUD_PROJECT || "supersellerae-4rzzy";
     const location = "global"; 
+    // This datastore is configured to index our starter sites:
+    // www.facebook.com/ads/library/housing, www.promotions.damacproperties.com, www.bayut.com, 
+    // www.propertyfinder.ae, www.dubailand.gov.ae, www.emaar.com, www.wasl.ae, www.mourjan.com, 
+    // www.propertyfinder.com, www.damacproperties.com, www.rightmove.co.uk, www.zameen.com, 
+    // www.propertymonitor.ae, www.propsearch.ae, www.tanamiproperties.com, www.9acres.com, 
+    // www.nakheel.com, www.magicbricks.com, www.aldar.com, www.dxboffplan.com, www.bayut.com, 
+    // www.propertyfinder.ae, www.dubizzle.com/blog/property/off-plan, www.dxbinteract.com, 
+    // www.property24.ae, www.allproperties.ae
     const dataStoreId = "all-sites_1722002324355"; 
 
     const request = {
@@ -66,6 +90,11 @@ export async function GET(req: NextRequest) {
 
     return ok(searchResult);
   } catch (e: any) {
+    if (e.message.includes('Could not refresh access token')) {
+        const detailedError = "Google Cloud authentication failed. This often happens in a local development environment if you haven't authenticated. Please run 'gcloud auth application-default login' in your terminal and try again.";
+        console.error(detailedError, e);
+        return fail(detailedError, 500);
+    }
     console.error("Vertex AI Search Error:", e);
     // Provide a more detailed error message if available
     const errorMessage = e.details || e.message || 'An unknown error occurred while searching.';
