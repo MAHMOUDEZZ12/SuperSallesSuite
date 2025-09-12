@@ -129,13 +129,13 @@
       background-size: 200% 200%;
       z-index: 0;
       animation: snake-glow 2s linear infinite;
-      opacity: 0;
+      opacity: 0.2;
       transition: opacity 0.3s;
   }
 
   .group:hover .animated-gradient-border-wrapper::before,
   .group:focus-within .animated-gradient-border-wrapper::before {
-    opacity: 0.5;
+    opacity: 0.7;
   }
   
   @keyframes snake-glow {
