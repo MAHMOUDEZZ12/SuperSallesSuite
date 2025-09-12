@@ -54,7 +54,7 @@ export default function EcosystemPage() {
                     <CardContent className="flex-grow">
                         <p className="text-foreground/80">{persona.description}</p>
                     </CardContent>
-                    <div className="px-6 pb-6">
+                    <div className="px-6 pb-6 mt-auto">
                          <div className="text-primary font-semibold flex items-center gap-2">
                            <span>Contact Us</span>
                            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />

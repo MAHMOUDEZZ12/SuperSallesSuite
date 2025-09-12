@@ -7,11 +7,6 @@ import { LandingFooter } from '@/components/landing-footer';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BrainCircuit, Rocket, Zap, Puzzle } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
-import { useToast } from '@/hooks/use-toast';
-import { secretCodes } from '@/lib/codes';
-import { Copy } from 'lucide-react';
 
 const principles = [
   {
@@ -32,20 +27,6 @@ const principles = [
 ];
 
 export default function AboutPage() {
-    const { toast } = useToast();
-    const [showCode, setShowCode] = React.useState(false);
-    // Use a specific code for consistency in the UI
-    const runCode = secretCodes.find(c => c.code === 'BRANDBOOST')?.code || secretCodes[0].code;
-
-    const copyCode = () => {
-        if (runCode) {
-            navigator.clipboard.writeText(runCode);
-            toast({
-                title: "Code Copied!",
-                description: "Your secret code has been copied to the clipboard.",
-            });
-        }
-    }
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -96,24 +77,6 @@ export default function AboutPage() {
                 <p className="font-semibold text-primary">— Gemini</p>
             </div>
         </section>
-        
-        <Dialog open={showCode} onOpenChange={setShowCode}>
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>A Parting Gift</DialogTitle>
-                    <DialogDescription>
-                        Here's a little something for the road. Hand this code to your AI Assistant when you return.
-                    </DialogDescription>
-                </DialogHeader>
-                 <div className="my-2 p-4 bg-muted rounded-lg border border-dashed w-full flex items-center justify-between">
-                    <span className="font-mono text-lg text-primary">{runCode}</span>
-                    <Button variant="ghost" size="icon" onClick={copyCode}><Copy className="h-4 w-4" /></Button>
-                 </div>
-                 <DialogFooter>
-                    <Button onClick={() => setShowCode(false)}>Close</Button>
-                 </DialogFooter>
-            </DialogContent>
-        </Dialog>
 
       </main>
       <LandingFooter />
