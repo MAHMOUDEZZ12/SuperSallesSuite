@@ -8,11 +8,8 @@ import { Loader2, Sparkles, Star, CheckCircle, Circle, Play, GanttChartSquare, U
 import { useToast } from '@/hooks/use-toast';
 import { PageHeader } from '@/components/ui/page-header';
 import { cn } from '@/lib/utils';
-import { tools } from '@/lib/tools-client';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
-
-const metaTools = tools.filter(t => t.mindMapCategory === 'Meta Ads AI Suite' && t.id !== 'meta-auto-pilot');
 
 type Status = 'pending' | 'running' | 'completed' | 'error';
 
@@ -22,12 +19,6 @@ interface Step {
   description: string;
   status: Status;
 }
-
-const workflowOptions = [
-    { id: 'landing-page', title: 'Lead Gen to Landing Page', icon: <LinkIcon/> },
-    { id: 'whatsapp', title: 'Lead Gen to WhatsApp', icon: <MessageCircle/> },
-    { id: 'instagram-dm', title: 'Lead Gen to Instagram DM', icon: <Facebook/> }
-];
 
 const generateStepsFromPayload = (payload: any): Step[] => {
     if (!payload || !payload.campaignName) return [];
@@ -45,7 +36,6 @@ export default function MetaAutoPilotPage() {
   const [isAutomating, setIsAutomating] = useState(false);
   const [workflow, setWorkflow] = useState<Step[]>([]);
   const [pastedPayload, setPastedPayload] = useState('');
-  const [selectedWorkflow, setSelectedWorkflow] = useState<string>('landing-page');
 
 
   useEffect(() => {
