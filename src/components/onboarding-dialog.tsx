@@ -6,13 +6,16 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Button } from '@/components/ui/button';
 import { useOnboarding, MOCK_DEVELOPERS } from '@/hooks/useOnboarding';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Sparkles, MapPin, Building, Briefcase, Palette, CheckCircle, ArrowRight, ArrowLeft, Loader2, Upload } from 'lucide-react';
+import { Sparkles, MapPin, Building, Briefcase, Palette, CheckCircle, ArrowRight, ArrowLeft, Loader2, Upload, BrainCircuit } from 'lucide-react';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { cn } from '@/lib/utils';
 import { ProjectCard } from './ui/project-card';
 import type { Project } from '@/types';
 import Image from 'next/image';
+import { fileToDataUri } from '@/lib/tools-client';
+import { aiBrandCreator } from '@/ai/flows/ai-brand-creator';
+import { useToast } from '@/hooks/use-toast';
 
 const SlideWrapper = ({ children, slideKey }: { children: React.ReactNode; slideKey: string }) => (
     <motion.div
@@ -116,6 +119,80 @@ const ProjectsSlide = () => {
     );
 };
 
+const AutoSetupSlide = () => {
+    const { updateState } = useOnboarding();
+    const [isExtracting, setIsExtracting] = useState(false);
+    const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+    const { toast } = useToast();
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setUploadedFile(e.target.files?.[0] || null);
+    }
+
+    const handleExtraction = async () => {
+        if (!uploadedFile) {
+            toast({ title: 'No file selected', description: 'Please upload a document to extract from.', variant: 'destructive'});
+            return;
+        }
+        setIsExtracting(true);
+        toast({ title: 'AI Extraction Started', description: 'The assistant is analyzing your document...'});
+        
+        try {
+            const dataUri = await fileToDataUri(uploadedFile);
+            const result = await aiBrandCreator({
+                command: "Analyze the provided document and extract the company name, primary brand color, and an accent color. Also extract a contact person's name, email, and phone number.",
+                documents: [dataUri],
+            });
+
+            if (result.brandInfo) {
+                const { companyName, primaryColor, secondaryColor, contact } = result.brandInfo;
+                updateState(prev => ({
+                    brandKit: {
+                        ...prev.brandKit,
+                        logoUrl: companyName || prev.brandKit.logoUrl, // Using name as placeholder, logo would be different
+                        colors: {
+                            primary: primaryColor || prev.brandKit.colors.primary,
+                            accent: secondaryColor || prev.brandKit.colors.accent,
+                        },
+                        contact: {
+                            name: contact?.name || prev.brandKit.contact.name,
+                            email: contact?.email || prev.brandKit.contact.email,
+                            phone: contact?.phone || prev.brandKit.contact.phone,
+                            whatsappUrl: prev.brandKit.contact.whatsappUrl
+                        }
+                    }
+                }));
+                 toast({ title: 'Extraction Complete!', description: 'Your brand kit has been pre-filled.'});
+            } else {
+                 toast({ title: 'Extraction Incomplete', description: 'The AI could not find all details, but you can fill them in on the next step.'});
+            }
+
+        } catch (e: any) {
+            toast({ title: 'Extraction Failed', description: e.message, variant: 'destructive'});
+        } finally {
+            setIsExtracting(false);
+        }
+    };
+    
+    return (
+        <div className="flex flex-col justify-center h-full">
+            <DialogTitle className="text-2xl mb-2">Automated Setup</DialogTitle>
+            <DialogDescription className="mb-6">Save time. Upload a company profile or brand guide and let the AI set up your brand kit for you.</DialogDescription>
+            <div className="space-y-4">
+                <div className="space-y-2">
+                    <Label htmlFor="brand-doc">Upload Document</Label>
+                    <Input id="brand-doc" type="file" accept=".pdf,.doc,.docx,.png,.jpg" onChange={handleFileChange} />
+                    {uploadedFile && <p className="text-xs text-green-600 flex items-center gap-1"><CheckCircle className="h-3 w-3" /> {uploadedFile.name} selected.</p>}
+                </div>
+                 <Button onClick={handleExtraction} disabled={isExtracting || !uploadedFile} className="w-full">
+                    {isExtracting ? <Loader2 className="mr-2 h-4 w-4 animate-spin"/> : <BrainCircuit className="mr-2 h-4 w-4" />}
+                    {isExtracting ? 'Extracting...' : 'Extract with AI'}
+                </Button>
+            </div>
+        </div>
+    );
+};
+
 const BrandSlide = () => {
     const { state, updateState } = useOnboarding();
     const [logoPreview, setLogoPreview] = useState<string | null>(state.brandKit.logoUrl);
@@ -135,7 +212,7 @@ const BrandSlide = () => {
     return (
         <div className="flex flex-col justify-center h-full">
             <DialogTitle className="text-2xl mb-2">Make it yours</DialogTitle>
-            <DialogDescription className="mb-6">Add your brand to personalize all AI-generated content. You can skip this and do it later.</DialogDescription>
+            <DialogDescription className="mb-6">Confirm your brand details. The AI uses these to personalize all generated content.</DialogDescription>
             <div className="space-y-4">
                  <div className="space-y-2">
                     <Label>Company Logo (Optional)</Label>
@@ -188,7 +265,8 @@ export const OnboardingDialog = () => {
             case 'welcome': setStep('location'); break;
             case 'location': setStep('developers'); break;
             case 'developers': await scanProjects(); break;
-            case 'projects': setStep('brand'); break;
+            case 'projects': setStep('autosetup'); break;
+            case 'autosetup': setStep('brand'); break;
             case 'brand': setStep('finish'); break;
         }
     };
@@ -198,7 +276,8 @@ export const OnboardingDialog = () => {
             case 'location': setStep('welcome'); break;
             case 'developers': setStep('location'); break;
             case 'projects': setStep('developers'); break;
-            case 'brand': setStep('projects'); break;
+            case 'autosetup': setStep('projects'); break;
+            case 'brand': setStep('autosetup'); break;
         }
     };
     
@@ -208,6 +287,7 @@ export const OnboardingDialog = () => {
             case 'location': return <LocationSlide />;
             case 'developers': return <DevelopersSlide />;
             case 'projects': return <ProjectsSlide />;
+            case 'autosetup': return <AutoSetupSlide />;
             case 'brand': return <BrandSlide />;
             case 'finish': return <FinishSlide />;
             default: return null;
@@ -216,7 +296,7 @@ export const OnboardingDialog = () => {
 
     return (
         <Dialog open={isDialogOpen} onOpenChange={(open) => !open && finishOnboarding()}>
-            <DialogContent className="sm:max-w-2xl h-[500px] flex flex-col p-8">
+            <DialogContent className="sm:max-w-2xl h-[550px] flex flex-col p-8">
                 <div className="flex-grow relative">
                     <AnimatePresence mode="wait">
                        <SlideWrapper slideKey={step}>
@@ -231,7 +311,8 @@ export const OnboardingDialog = () => {
                          </Button>
                     )}
                      <div className="ml-auto flex items-center gap-2">
-                         {step === 'projects' && <Button variant="outline" onClick={() => setStep('brand')}>Skip</Button>}
+                         {step === 'projects' && <Button variant="outline" onClick={() => setStep('autosetup')}>Skip</Button>}
+                         {step === 'autosetup' && <Button variant="outline" onClick={() => setStep('brand')}>Skip AI Setup</Button>}
                          {step === 'brand' && <Button variant="outline" onClick={() => setStep('finish')}>Skip & Finish</Button>}
                         
                         {step !== 'finish' ? (
@@ -251,3 +332,5 @@ export const OnboardingDialog = () => {
         </Dialog>
     );
 };
+
+    

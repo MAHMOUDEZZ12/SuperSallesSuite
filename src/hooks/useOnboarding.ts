@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 
 export const MOCK_DEVELOPERS = ['Emaar', 'Damac', 'Sobha', 'Nakheel', 'Meraas', 'Aldar', 'Trafalgar', 'Lennar', 'Vinci'];
 
-type OnboardingStep = 'welcome' | 'location' | 'developers' | 'projects' | 'brand' | 'finish';
+type OnboardingStep = 'welcome' | 'location' | 'developers' | 'projects' | 'autosetup' | 'brand' | 'finish';
 
 interface OnboardingState {
     city: string;
@@ -19,7 +19,7 @@ interface OnboardingState {
     brandKit: {
         logoUrl: string | null;
         colors: { primary: string; accent: string };
-        contact: { name: string; phone: string; email: string; };
+        contact: { name: string; phone: string; email: string; whatsappUrl?: string };
     };
 }
 
@@ -105,3 +105,5 @@ export const useOnboarding = (): OnboardingContextType => {
     }
     return context;
 };
+
+    

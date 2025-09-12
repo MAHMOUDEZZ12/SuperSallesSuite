@@ -55,10 +55,10 @@ const aiBrandCreatorPrompt = ai.definePrompt({
 
   Analyze the document content and the command carefully. Extract the following information:
   1.  **Brand Information**: 
-      - Look for company name.
-      - Extract a short (1-2 sentence) description of the company.
-      - Find contact details (a primary person's name, phone, email).
-      - Identify brand colors (provide as hex codes if possible).
+      - Look for the company name.
+      - Extract a short (1-2 sentence) description of the company, if available.
+      - Find contact details (a primary person's name, phone, and email).
+      - Identify the primary and one accent brand color. Provide them as hex codes (e.g., #1A2B3C). If no colors are explicitly mentioned, infer them from the context (e.g., a "luxury" brand might use black and gold).
   2.  **Projects**: Identify a list of current or past projects, including their name, location, and status if available.
 
   Once you have extracted the information, provide a brief, human-readable summary of what you have done. For example: "I've updated your brand with the details from 'CompanyProfile.pdf' and created 5 new projects from 'ProjectList.csv'."
@@ -101,3 +101,5 @@ const aiBrandCreatorFlow = ai.defineFlow(
     return output;
   }
 );
+
+    
