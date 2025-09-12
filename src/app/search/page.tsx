@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React,  { Suspense, useState, useEffect, useRef } from 'react';
@@ -141,7 +140,7 @@ const ComparisonView = ({ items: initialItems, query }: { items: string[]; query
     const fetchItemData = async (itemName: string) => {
         const response = await fetch(`/api/projects/scan?q=${encodeURIComponent(itemName)}`);
         const data = await response.json();
-        if (data.ok) {
+        if (data.ok && data.data.projects) {
             return {
                 name: itemName,
                 summary: data.data.summary || (data.data.extractiveAnswers[0] && data.data.extractiveAnswers[0].content) || "No summary available.",
@@ -235,19 +234,22 @@ function SearchResults() {
     setMyProjects(savedProjects);
   }, []);
 
-  const fetchResults = React.useCallback((q: string) => {
+  const fetchResults = React.useCallback(async (q: string) => {
       setIsLoading(true);
       setError(null);
-      fetch(`/api/projects/scan?q=${encodeURIComponent(q)}`)
-        .then(res => res.json())
-        .then(data => {
-          if (data.ok) {
-            setResult(data.data);
-          } else {
-            setError(data.error || 'An unknown error occurred.');
-          }
-        })
-        .finally(() => setIsLoading(false));
+      try {
+        const response = await fetch(`/api/projects/scan?q=${encodeURIComponent(q)}`);
+        const data = await response.json();
+        if (data.ok) {
+          setResult(data.data);
+        } else {
+          setError(data.error || 'An unknown error occurred.');
+        }
+      } catch (err: any) {
+          setError(err.message || 'An unknown error occurred.');
+      } finally {
+          setIsLoading(false);
+      }
   }, []);
 
   useEffect(() => {
@@ -316,7 +318,7 @@ function SearchResults() {
       return <ComparisonView items={items.slice(0, 2)} query={query} />;
   }
   
-  if (!result || (result.projects.length === 0 && !result.summary && result.extractiveAnswers.length === 0)) {
+  if (!result || (result.projects.length === 0 && !result.summary && (!result.extractiveAnswers || result.extractiveAnswers.length === 0))) {
      if (isBroadQuery) {
         return <ClarificationResult query={query} onFollowUp={handleFollowUpSearch} summary={result?.summary || null} />;
      }
@@ -331,7 +333,7 @@ function SearchResults() {
       return <ClarificationResult query={query} onFollowUp={handleFollowUpSearch} summary={result.summary} />;
   }
 
-  if (result.projects.length === 0 && (result.summary || result.extractiveAnswers.length > 0)) {
+  if (result.projects.length === 0 && (result.summary || (result.extractiveAnswers && result.extractiveAnswers.length > 0))) {
     return <SecondChanceResult result={result} query={query} onFollowUp={handleFollowUpSearch} />;
   }
 
@@ -469,5 +471,3 @@ export default function SearchPage() {
         </motion.div>
     )
 }
-
-    
