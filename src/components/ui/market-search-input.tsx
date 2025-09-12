@@ -21,7 +21,7 @@ export default function MarketSearchInput() {
     return (
         <div className="max-w-3xl mx-auto">
             <form onSubmit={handleSearch} className="relative">
-                <div className="relative bg-black/30 rounded-lg">
+                <div className="relative bg-black/50 rounded-lg">
                     <Input
                         placeholder="Search or Ask anything about real EState."
                         className="w-full rounded-lg h-14 pl-6 pr-4 text-base bg-transparent border-none text-white placeholder:text-neutral-400 focus-visible:ring-0"
