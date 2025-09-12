@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from 'react';
@@ -126,6 +127,16 @@ export function LandingHeader({ host }: { host?: string }) {
                         </div>
                     </div>
                     <nav className="flex flex-col items-center gap-6 text-center">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                             <span className="text-2xl font-semibold text-foreground hover:text-primary transition-colors flex items-center">Solutions <ChevronDown className="ml-1 h-5 w-5" /></span>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent>
+                            <DropdownMenuItem asChild><Link href="/solutions/agent" onClick={() => setIsOpen(false)}>For Agents</Link></DropdownMenuItem>
+                            <DropdownMenuItem asChild><Link href="/solutions/developer" onClick={() => setIsOpen(false)}>For Developers</Link></DropdownMenuItem>
+                            <DropdownMenuItem asChild><Link href="/solutions/investor" onClick={() => setIsOpen(false)}>For Investors</Link></DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
                          {navLinks.map((link) => (
                              <Link key={link.name} href={link.href} onClick={() => setIsOpen(false)}>
                                 <span className="text-2xl font-semibold text-foreground hover:text-primary transition-colors">{link.name}</span>
