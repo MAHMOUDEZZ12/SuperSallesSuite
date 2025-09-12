@@ -138,7 +138,7 @@ const ComparisonView = ({ items: initialItems, query }: { items: string[]; query
     const isMismatchedComparison = query.toLowerCase().includes('azizi') && query.toLowerCase().includes('damac');
 
     const fetchItemData = async (itemName: string) => {
-        const response = await fetch(`/api/projects/scan?q=${'\'\'\'' + encodeURIComponent(itemName) + '\'\'\''}`);
+        const response = await fetch(`/api/projects/scan?q=${encodeURIComponent(itemName)}`);
         const data = await response.json();
         if (data.ok && data.data.projects) {
             return {
@@ -184,7 +184,7 @@ const ComparisonView = ({ items: initialItems, query }: { items: string[]; query
                     </Button>
                 </div>
             )}
-            <div className={`grid grid-cols-1 md:grid-cols-${'\'\'\'' + (comparisonItems.length > 2 ? '3' : '2') + '\'\'\''} lg:grid-cols-${'\'\'\'' + (comparisonItems.length + 1) + '\'\'\''} gap-6 items-start`}>
+            <div className={`grid grid-cols-1 md:grid-cols-${(comparisonItems.length > 2 ? '3' : '2')} lg:grid-cols-${(comparisonItems.length + 1)} gap-6 items-start`}>
                 {comparisonItems.map((item, index) => (
                     <Card key={index} className="bg-gray-900/50 border-gray-700/50 text-gray-300 h-full">
                         <CardHeader>
@@ -238,7 +238,7 @@ function SearchResults() {
       setIsLoading(true);
       setError(null);
       try {
-        const response = await fetch(`/api/projects/scan?q=${'\'\'\'' + encodeURIComponent(q) + '\'\'\''}`);
+        const response = await fetch(`/api/projects/scan?q=${encodeURIComponent(q)}`);
         const data = await response.json();
         if (data.ok) {
           setResult(data.data);
@@ -261,7 +261,7 @@ function SearchResults() {
   }, [query, fetchResults]);
   
   const handleFollowUpSearch = (newQuery: string) => {
-      router.push(`/search?q=${'\'\'\'' + encodeURIComponent(newQuery) + '\'\'\''}`, { scroll: false });
+      router.push(`/search?q=${encodeURIComponent(newQuery)}`, { scroll: false });
   }
 
   const handleAddToLibrary = (project: Project) => {
@@ -396,7 +396,7 @@ function SearchPageClient() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (query.trim()) {
-        router.push(`/search?q=${'\'\'\'' + encodeURIComponent(query) + '\'\'\''}`, { scroll: false });
+        router.push(`/search?q=${encodeURIComponent(query)}`, { scroll: false });
     }
   };
 
@@ -427,7 +427,17 @@ function SearchPageClient() {
   );
 }
 
+// This is now the main default export. It's a Server Component.
 export default function SearchPage() {
+    return (
+        <Suspense fallback={<div className="flex justify-center items-center h-screen bg-black"><Loader2 className="h-12 w-12 animate-spin text-primary" /></div>}>
+            <SearchPageWithClientBehavior />
+        </Suspense>
+    );
+}
+
+// This new component contains the client-side logic and hooks.
+function SearchPageWithClientBehavior() {
     const searchParams = useSearchParams();
     const hasQuery = !!searchParams.get('q');
     const containerRef = useRef<HTMLDivElement>(null);
@@ -459,17 +469,13 @@ export default function SearchPage() {
               style={{
                 background: useTransform(
                   [animatedMouseX, animatedMouseY],
-                  ([x, y]) => `radial-gradient(600px circle at ${'\'\'\'' + x + '\'\'\''}px ${'\'\'\'' + y + '\'\'\''}px, hsl(var(--primary)), transparent 80%)`
+                  ([x, y]) => `radial-gradient(600px circle at ${x}px ${y}px, hsl(var(--primary)), transparent 80%)`
                 ),
               }}
             />
             <div className="flex-1 w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8 flex flex-col items-center z-10">
-                <Suspense fallback={<div className="flex justify-center items-center h-screen w-full"><Loader2 className="h-12 w-12 animate-spin" /></div>}>
-                    <SearchPageClient />
-                </Suspense>
+                <SearchPageClient />
             </div>
         </motion.div>
     )
 }
-
-    
