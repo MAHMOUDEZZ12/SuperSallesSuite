@@ -22,17 +22,18 @@ import {
 import { useTheme } from '@/components/theme-switcher';
 
 const mainNavLinks = [
-    { name: 'Ecosystem', href: '/ecosystem' },
+    { name: 'Investors', href: '/solutions/investor' },
+    { name: 'Agents', href: '/solutions/agent' },
+    { name: 'Developers', href: '/solutions/developer' },
     { name: 'Community', href: '/community' },
-    { name: 'Account', href: '/pricing' },
-    { name: 'About', href: '/about' },
 ];
 
 const secondaryNavLinks = [
     { name: 'Chat', href: '/' },
-    { name: 'Ecosystem', href: '/ecosystem' },
+    { name: 'Investors', href: '/solutions/investor' },
+    { name: 'Agents', href: '/solutions/agent' },
+    { name: 'Developers', href: '/solutions/developer' },
     { name: 'Community', href: '/community' },
-    { name: 'Account', href: '/pricing' },
 ];
 
 export function LandingHeader({ host }: { host?: string }) {
