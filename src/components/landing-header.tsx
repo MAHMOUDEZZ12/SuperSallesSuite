@@ -21,9 +21,10 @@ import {
 import { useTheme } from '@/components/theme-switcher';
 
 const navLinks = [
-    { name: 'Handbook', href: '/blog' },
+    { name: 'Solutions', href: '/solutions' },
+    { name: 'Community', href: '/dashboard/community' },
+    { name: 'Account', href: '/login' },
     { name: 'Ecosystem', href: '/ecosystem' },
-    { name: 'Play', href: '/superfreetime' },
 ];
 
 export function LandingHeader({ host }: { host?: string }) {
@@ -42,12 +43,6 @@ export function LandingHeader({ host }: { host?: string }) {
                     <Button variant="ghost">{link.name}</Button>
                 </Link>
             ))}
-            <Link href="/login">
-                <Button variant="ghost">Log In</Button>
-            </Link>
-            <Link href="/signup">
-                <Button>Sign Up</Button>
-            </Link>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon">

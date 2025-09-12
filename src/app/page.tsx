@@ -4,26 +4,13 @@
 import React, { Suspense } from 'react';
 import { Loader2 } from 'lucide-react';
 import MarketSearchInput from '@/components/ui/market-search-input';
-import { Logo } from '@/components/logo';
-import { Button } from '@/components/ui/button';
-import { User } from 'lucide-react';
-import Link from 'next/link';
+import { LandingHeader } from '@/components/landing-header';
+import { LandingFooter } from '@/components/landing-footer';
 
 function HomePage() {
   return (
     <div className="flex min-h-screen flex-col market-library-bg text-white">
-      <header className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center p-4">
-        <div className="flex items-center gap-6">
-          <Logo />
-        </div>
-        <div className="flex items-center gap-4">
-            <Link href="/login">
-                <Button variant="ghost" className="text-white rounded-full p-2">
-                    <User />
-                </Button>
-            </Link>
-        </div>
-      </header>
+      <LandingHeader />
       <main className="flex-1 flex flex-col items-center justify-center px-4">
         <div className="text-center mb-8 max-w-4xl mx-auto">
             <h1 className="text-5xl md:text-6xl font-bold font-heading tracking-tight mb-4 text-white">
@@ -36,6 +23,7 @@ function HomePage() {
             </Suspense>
         </div>
       </main>
+      <LandingFooter />
     </div>
   );
 }
