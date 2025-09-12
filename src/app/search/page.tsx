@@ -1,7 +1,7 @@
 
 'use client';
 
-import React,  { Suspense, useState, useEffect } from 'react';
+import React,  { Suspense, useState, useEffect, useRef } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -12,7 +12,7 @@ import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { track } from '@/lib/events';
 import { Skeleton } from '@/components/ui/skeleton';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
 
@@ -387,7 +387,6 @@ function SearchPageClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [query, setQuery] = React.useState(searchParams.get('q') || '');
-  const [isFocused, setIsFocused] = React.useState(false);
   const hasQuery = !!searchParams.get('q');
   
   const handleSearch = (e: React.FormEvent) => {
@@ -399,24 +398,15 @@ function SearchPageClient() {
 
   return (
     <motion.div 
-      layout
+      layout="position"
       transition={{ duration: 0.5, type: 'spring' }} 
       className="w-full max-w-3xl mx-auto flex flex-col items-center"
     >
-        <form onSubmit={handleSearch} className="relative group w-full">
-            <motion.div 
-                layout
-                className="relative p-px rounded-xl bg-gradient-to-r from-primary/30 to-purple-500/30 transition-all duration-300">
-                <Input
-                    placeholder="Search for projects, market trends, or compare developers..."
-                    value={query}
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
-                    onChange={(e) => setQuery(e.target.value)}
-                    className="w-full h-16 pl-6 pr-6 text-base bg-black/50 border-none text-white rounded-[calc(0.75rem-1px)] shadow-lg placeholder:text-gray-500 focus-visible:ring-0 focus-visible:outline-none"
-                />
-            </motion.div>
-        </form>
+        <motion.div initial={{opacity: 0, y: 20}} animate={{opacity: 1, y: 0}} transition={{delay: 0.2, duration: 0.5}}>
+            <form onSubmit={handleSearch} className="relative group w-full">
+                <MarketSearchInput useSearchPage={true} />
+            </form>
+        </motion.div>
         <AnimatePresence>
             {hasQuery && (
             <motion.div 
@@ -438,15 +428,36 @@ function SearchPageClient() {
 export default function SearchPage() {
     const searchParams = useSearchParams();
     const hasQuery = !!searchParams.get('q');
+    const containerRef = useRef<HTMLDivElement>(null);
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    const springConfig = { damping: 50, stiffness: 300 };
+    const animatedMouseX = useSpring(mouseX, springConfig);
+    const animatedMouseY = useSpring(mouseY, springConfig);
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (containerRef.current) {
+            const rect = containerRef.current.getBoundingClientRect();
+            mouseX.set(e.clientX - rect.left);
+            mouseY.set(e.clientY - rect.top);
+        }
+    };
+    
+    const backgroundPosition = useTransform(
+      [animatedMouseX, animatedMouseY],
+      ([x, y]) => `${x}px ${y}px`
+    );
+
     return (
-        <div className="flex min-h-screen flex-col bg-black relative overflow-hidden">
+        <div ref={containerRef} onMouseMove={handleMouseMove} className="flex min-h-screen flex-col bg-black relative overflow-hidden">
             <motion.div 
               className="absolute inset-0 z-0 opacity-20" 
-              initial={{ scale: 1.5 }}
-              animate={{ scale: hasQuery ? 0.5 : 1.5, opacity: hasQuery ? 0.1 : 0.2 }}
-              transition={{ duration: 0.7 }}
               style={{
-                background: 'radial-gradient(circle at 50% 30%, hsl(var(--primary) / 0.25), transparent 60%)',
+                background: useTransform(
+                  [animatedMouseX, animatedMouseY],
+                  ([x, y]) => `radial-gradient(600px circle at ${x}px ${y}px, hsl(var(--primary) / 0.25), transparent 80%)`
+                ),
               }}
             />
             <motion.div 
