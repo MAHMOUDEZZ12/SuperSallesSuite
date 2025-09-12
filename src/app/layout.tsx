@@ -21,8 +21,8 @@ const fontHeading = Poppins({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://selltoday.ai'),
-  title: 'selltoday.ai — Your AI Co-Pilot for Real Estate',
-  description: 'An AI-powered real estate platform that can tell, think, plan, calculate, review, estimate, and co-invest. Your partner for smarter property decisions.',
+  title: 'selltoday.ai — Your AI Native Real Estate Search Engine',
+  description: 'An AI-native real estate search engine that provides personalized results for investors, buyers, and brokers, alongside a powerful suite of B2B tools.',
   openGraph: {
     images: ['/og-image.png'],
   },

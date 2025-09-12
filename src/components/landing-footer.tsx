@@ -35,7 +35,7 @@ export function LandingFooter() {
                 <div className="md:col-span-1">
                     <Logo />
                     <p className="mt-4 text-foreground/60 max-w-xs">
-                        An AI co-pilot for real estate that can tell, think, plan, calculate, review, and estimate.
+                        An AI native real estate engine that can tell, think, plan, calculate, review, and estimate.
                     </p>
                 </div>
                 <div className='md:col-span-3 grid grid-cols-2 md:grid-cols-3 gap-8'>

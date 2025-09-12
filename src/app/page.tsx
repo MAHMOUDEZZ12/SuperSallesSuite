@@ -39,7 +39,7 @@ function HomePage() {
                   </Suspense>
               </div>
               <p className="text-lg md:text-xl text-foreground/70 max-w-3xl mx-auto mt-8">
-                An integrated suite of AI agents that can generate marketing materials, analyze market data, and automate your entire sales workflow. The AI Co-Pilot for Real Estate.
+                An AI-native real estate search engine that provides personalized results for investors, buyers, and brokers, alongside a powerful suite of B2B tools.
               </p>
            </div>
         </section>
