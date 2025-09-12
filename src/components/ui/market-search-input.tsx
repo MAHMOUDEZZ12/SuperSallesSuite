@@ -4,8 +4,6 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Mic, ArrowUp } from 'lucide-react';
 
 export default function MarketSearchInput() {
     const router = useRouter();
@@ -21,10 +19,10 @@ export default function MarketSearchInput() {
     return (
         <div className="max-w-3xl mx-auto">
             <form onSubmit={handleSearch} className="relative">
-                <div className="relative bg-black/50 rounded-lg">
+                <div className="relative bg-black/70 rounded-lg">
                     <Input
                         placeholder="Search or Ask anything about real EState."
-                        className="w-full rounded-lg h-14 pl-6 pr-4 text-base bg-transparent border-none text-white placeholder:text-neutral-400 focus-visible:ring-0"
+                        className="w-full rounded-lg h-14 pl-6 pr-4 text-base bg-transparent border-none text-white placeholder:text-neutral-500 focus-visible:ring-0"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                     />
