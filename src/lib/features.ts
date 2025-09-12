@@ -1,5 +1,3 @@
-
-
 // This file is now a pure data file with no React/JSX dependencies.
 // It can be safely imported by both server and client components.
 
@@ -152,7 +150,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
   {
     id: 'meta-auto-pilot',
     title: 'Meta Auto Pilot',
-    description: 'The single-click manager for your entire Meta suite.',
+    description: 'The execution terminal for your Meta Ads campaigns.',
     icon: 'Star',
     color: '#fbbf24', 
     cta: 'Run Workflow',
@@ -336,7 +334,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
   {
     id: 'listing-manager',
     title: 'Listing Manager',
-    description: 'Central hub to prepare and syndicate listings to major portals.',
+    description: 'Your central hub to prepare and syndicate listings to major portals.',
     icon: 'Building',
     color: '#0891b2',
     cta: 'Manage Listings',
