@@ -18,10 +18,10 @@ import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const sampleCharacters = [
-  { id: 'male-1', name: 'David Chen', description: 'A confident, friendly male presenter in his early 40s, Asian ethnicity, wearing a smart business casual outfit.', imageUri: '/pre-rendered-assets/characters/david.png' },
-  { id: 'female-1', name: 'Aisha Khan', description: 'A warm, professional female presenter in her late 30s, of Middle Eastern descent, wearing elegant business attire.', imageUri: '/pre-rendered-assets/characters/aisha.png' },
-  { id: 'male-2', name: 'James Smith', description: 'A trustworthy, experienced male presenter in his 50s, Caucasian, with a classic suit and tie.', imageUri: '/pre-rendered-assets/characters/james.png' },
-  { id: 'female-2', name: 'Maria Garcia', description: 'An energetic and bright female presenter in her early 30s, Hispanic, with a modern and stylish look.', imageUri: '/pre-rendered-assets/characters/maria.png' },
+  { id: 'male-1', name: 'David Chen', description: 'A confident, friendly male presenter in his early 40s, Asian ethnicity, wearing a smart business casual outfit.', imageUri: 'https://picsum.photos/seed/david/200/200' },
+  { id: 'female-1', name: 'Aisha Khan', description: 'A warm, professional female presenter in her late 30s, of Middle Eastern descent, wearing elegant business attire.', imageUri: 'https://picsum.photos/seed/aisha/200/200' },
+  { id: 'male-2', name: 'James Smith', description: 'A trustworthy, experienced male presenter in his 50s, Caucasian, with a classic suit and tie.', imageUri: 'https://picsum.photos/seed/james/200/200' },
+  { id: 'female-2', name: 'Maria Garcia', description: 'An energetic and bright female presenter in her early 30s, Hispanic, with a modern and stylish look.', imageUri: 'https://picsum.photos/seed/maria/200/200' },
 ];
 
 type PresenterStep = 'character' | 'script' | 'generate';
