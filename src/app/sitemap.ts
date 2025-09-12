@@ -91,9 +91,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/superfreetime',
     '/blog',
     '/ai-presenter',
-    '/solutions/agent',
-    '/solutions/investor',
-    '/solutions/developer',
+    '/solutions',
     '/community',
     '/community/roadmap',
     '/community/careers',
@@ -101,6 +99,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/community/responsibility',
     '/documentation',
     '/dashboard/flows',
+    '/dashboard/marketing',
+    '/dashboard/assistant',
+    '/dashboard/tool/listing-performance'
   ].map((route) => ({
     url: `${siteUrl}${route}`,
     lastModified: new Date(),

@@ -4,12 +4,12 @@
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { Search, X } from 'lucide-react';
-import { type FilterCategory } from '@/lib/features';
+import { Search, Bot } from 'lucide-react';
 import { tools } from '@/lib/features';
 import Link from 'next/link';
 import { IconMap } from './icon-map';
-import { cn } from '@/lib/utils';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from 'cmdk';
+import { useRouter } from 'next/navigation';
 
 interface GlobalSearchProps {
   isOpen: boolean;
@@ -18,102 +18,59 @@ interface GlobalSearchProps {
 
 const allTools = tools.filter(t => t.id !== 'superfreetime');
 
-const searchCategories: {title: string, category: FilterCategory | 'All'}[] = [
-    { title: 'Marketing', category: 'Marketing' },
-    { title: 'Market Library', category: 'Market Library' },
-    { title: 'Creative Suite', category: 'Creative' },
-    { title: 'Sales Enablement', category: 'Sales Tools' },
-    { title: 'Social & Comms', category: 'Social & Comms' },
-    { title: 'Web & Editing', category: 'Web' },
-];
-
 export function GlobalSearch({ isOpen, setIsOpen }: GlobalSearchProps) {
-  const [query, setQuery] = useState('');
-  const [filteredTools, setFilteredTools] = useState(allTools);
+    const router = useRouter();
 
-  useEffect(() => {
-    if (query.trim() === '') {
-      setFilteredTools(allTools);
-      return;
+    useEffect(() => {
+        const down = (e: KeyboardEvent) => {
+            if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+                e.preventDefault()
+                setIsOpen(!isOpen)
+            }
+        }
+        document.addEventListener("keydown", down)
+        return () => document.removeEventListener("keydown", down)
+    }, [isOpen, setIsOpen])
+    
+    const runCommand = (command: () => void) => {
+        setIsOpen(false);
+        command();
     }
 
-    const lowercasedQuery = query.toLowerCase();
-    const results = allTools.filter(tool =>
-      tool.title.toLowerCase().includes(lowercasedQuery) ||
-      tool.description.toLowerCase().includes(lowercasedQuery) ||
-      tool.categories.some(cat => cat.toLowerCase().includes(lowercasedQuery))
-    );
-    setFilteredTools(results);
-  }, [query]);
-  
-  useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault()
-        setIsOpen(!isOpen)
-      }
-    }
-    document.addEventListener("keydown", down)
-    return () => document.removeEventListener("keydown", down)
-  }, [isOpen, setIsOpen])
-
-  return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="max-w-4xl p-0 gap-0">
-        <div className="animated-gradient-border-wrapper">
-          <div className="relative z-10 flex items-center px-4 bg-background rounded-lg">
-            <Search className="h-5 w-5 text-muted-foreground" />
-            <Input
-              type="text"
-              placeholder="Search for tools, projects, or actions..."
-              className="w-full h-12 border-none shadow-none focus-visible:ring-0 bg-transparent"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="p-6 max-h-[70vh] overflow-y-auto">
-          {filteredTools.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                 {searchCategories.map(cat => {
-                    const toolsInCategory = filteredTools.filter(tool => 
-                        tool.categories.includes(cat.category as any)
-                    );
-                    if (toolsInCategory.length === 0) return null;
-                    
-                    return (
-                        <div key={cat.title} className="space-y-3">
-                            <h3 className="font-semibold text-muted-foreground">{cat.title}</h3>
-                            <div className="space-y-2">
-                                {toolsInCategory.map(tool => {
-                                    const Icon = IconMap[tool.icon];
-                                    return (
-                                    <Link key={tool.id} href={`/dashboard/tool/${tool.id}`} onClick={() => setIsOpen(false)}>
-                                        <div className="flex items-center gap-3 p-2 rounded-md hover:bg-muted cursor-pointer">
-                                            <div className="p-1.5 rounded-md text-white" style={{backgroundColor: tool.color}}>
-                                                <Icon className='h-5 w-5' />
-                                            </div>
-                                            <span className="font-medium text-sm">{tool.title}</span>
-                                        </div>
-                                    </Link>
-                                )})}
+    return (
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent className="max-w-2xl p-0 gap-0">
+            <Command className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&[cmdk-group]]:px-2 [&[cmdk-input-wrapper]_svg]:h-5 [&[cmdk-input-wrapper]_svg]:w-5 [&[cmdk-input]]:h-12 [&[cmdk-item]]:px-2 [&[cmdk-item]]:py-3 [&[cmdk-item]_svg]:h-5 [&[cmdk-item]_svg]:w-5">
+                <CommandInput placeholder="Search tools or ask the AI anything..." />
+                <CommandList>
+                    <CommandEmpty>No results found.</CommandEmpty>
+                    <CommandGroup heading="Apps & Tools">
+                        {allTools.map(tool => {
+                            const Icon = IconMap[tool.icon];
+                            return (
+                                <CommandItem 
+                                    key={tool.id}
+                                    onSelect={() => runCommand(() => router.push(`/dashboard/tool/${tool.id}`))}
+                                >
+                                    <div className="p-1.5 rounded-md text-white mr-3" style={{backgroundColor: tool.color}}>
+                                        <Icon className='h-5 w-5' />
+                                    </div>
+                                    <span>{tool.title}</span>
+                                </CommandItem>
+                            )
+                        })}
+                    </CommandGroup>
+                     <CommandGroup heading="AI Assistant">
+                        <CommandItem onSelect={() => runCommand(() => router.push('/dashboard/assistant'))}>
+                             <div className="p-1.5 rounded-md text-white mr-3 bg-primary">
+                                <Bot className='h-5 w-5' />
                             </div>
-                        </div>
-                    );
-                 })}
-            </div>
-          ) : (
-            <div className="text-center py-16 text-muted-foreground">
-              <p>No results found for &quot;{query}&quot;.</p>
-            </div>
-          )}
-        </div>
-        <div className="p-2 border-t bg-muted/50 text-center text-xs text-muted-foreground">
-          Press <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-background px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-            <span className="text-xs">⌘</span>K
-          </kbd> to open/close.
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
+                            <span>Go to AI Command Center</span>
+                        </CommandItem>
+                     </CommandGroup>
+                </CommandList>
+            </Command>
+        </DialogContent>
+        </Dialog>
+    );
 }

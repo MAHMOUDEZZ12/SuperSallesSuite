@@ -5,8 +5,8 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { BarChart as BarChartIcon, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts';
-import { LineChart, Users2, Eye, Target, Sparkles, Download, ArrowRight } from 'lucide-react';
+import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts';
+import { LineChart, Users2, Eye, Target, Sparkles, Download, ArrowRight, BarChart as BarChartIcon } from 'lucide-react';
 import { PageHeader } from '@/components/ui/page-header';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Link from 'next/link';
@@ -105,13 +105,13 @@ export default function ListingPerformancePage() {
                     </CardHeader>
                     <CardContent>
                         <ResponsiveContainer width="100%" height={300}>
-                            <BarChartIcon data={chartData}>
+                            <BarChart data={chartData}>
                                 <CartesianGrid strokeDasharray="3 3" />
                                 <XAxis dataKey="name" fontSize={12} tickLine={false} axisLine={false} />
                                 <YAxis fontSize={12} tickLine={false} axisLine={false} />
                                 <Tooltip contentStyle={{ backgroundColor: 'hsl(var(--background))', border: '1px solid hsl(var(--border))' }}/>
                                 <Bar dataKey="Views" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
-                            </BarChartIcon>
+                            </BarChart>
                         </ResponsiveContainer>
                     </CardContent>
                 </Card>

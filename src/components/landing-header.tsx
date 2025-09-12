@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Sun, Moon, Laptop, Bot, MessageCircle } from 'lucide-react';
+import { Menu, X, Sun, Moon, Laptop, Bot, MessageCircle, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/logo';
 import { cn } from '@/lib/utils';
@@ -18,22 +18,20 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuGroup,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from '@/components/theme-switcher';
 
-const mainNavLinks = [
-    { name: 'Investors', href: '/solutions/investor' },
-    { name: 'Agents', href: '/solutions/agent' },
-    { name: 'Developers', href: '/solutions/developer' },
-    { name: 'Community', href: '/community' },
-    { name: 'Pricing', href: '/pricing' },
+const ecosystemLinks = [
+    { name: 'For Investors', href: '/solutions/investor', description: "Tools for market analysis and deal-finding." },
+    { name: 'For Agents', href: '/solutions/agent', description: "Automate marketing and client management." },
+    { name: 'For Developers', href: '/solutions/developer', description: "Showcase projects and generate sales materials." },
 ];
 
-const secondaryNavLinks = [
-    { name: 'Chat', href: '/' },
-    { name: 'Investors', href: '/solutions/investor' },
-    { name: 'Agents', href: '/solutions/agent' },
-    { name: 'Developers', href: '/solutions/developer' },
+const mainNavLinks = [
+    { name: 'Solutions', href: '/solutions' },
     { name: 'Community', href: '/community' },
     { name: 'Pricing', href: '/pricing' },
 ];
@@ -41,10 +39,6 @@ const secondaryNavLinks = [
 export function LandingHeader({ host }: { host?: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const { setTheme, themes } = useTheme();
-  const pathname = usePathname();
-
-  const isMainPage = pathname === '/';
-  const navLinks = isMainPage ? mainNavLinks : secondaryNavLinks;
   
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -53,7 +47,28 @@ export function LandingHeader({ host }: { host?: string }) {
             <Logo />
         </div>
         <div className="hidden md:flex items-center gap-2">
-            {navLinks.map((link) => (
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="ghost">
+                        Ecosystem
+                        <ChevronDown className="ml-2 h-4 w-4" />
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                    {ecosystemLinks.map(link => (
+                        <Link href={link.href} key={link.name}>
+                            <DropdownMenuItem>
+                                <div>
+                                    <p className="font-semibold">{link.name}</p>
+                                    <p className="text-xs text-muted-foreground">{link.description}</p>
+                                </div>
+                            </DropdownMenuItem>
+                        </Link>
+                    ))}
+                </DropdownMenuContent>
+            </DropdownMenu>
+
+            {mainNavLinks.map((link) => (
                  <Link key={link.name} href={link.href}>
                     <Button variant="ghost">{link.name}</Button>
                 </Link>
@@ -113,7 +128,7 @@ export function LandingHeader({ host }: { host?: string }) {
                         </div>
                     </div>
                     <nav className="flex flex-col items-center gap-6 text-center">
-                         {navLinks.map((link) => (
+                         {[...ecosystemLinks, ...mainNavLinks].map((link) => (
                              <Link key={link.name} href={link.href} onClick={() => setIsOpen(false)}>
                                 <span className="text-2xl font-semibold text-foreground hover:text-primary transition-colors">{link.name}</span>
                             </Link>
