@@ -3,8 +3,7 @@ import { ok, fail } from "@/lib/api-helpers";
 import { SearchServiceClient } from "@google-cloud/discoveryengine";
 import { NextRequest } from "next/server";
 
-const projectId = "supersellerae-4rzzy";
-const client = new SearchServiceClient({ projectId });
+const client = new SearchServiceClient();
 
 export async function GET(req: NextRequest) {
   try {
@@ -15,6 +14,7 @@ export async function GET(req: NextRequest) {
       return fail("Query parameter 'q' is required.", 400);
     }
     
+    const projectId = "supersellerae-4rzzy";
     const location = "global"; 
     const dataStoreId = "all-sites_1722002324355"; 
 

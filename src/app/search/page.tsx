@@ -398,12 +398,10 @@ function SearchPageClient() {
   };
 
   return (
-    <motion.div 
-      layout="position"
-      transition={{ duration: 0.5, type: 'spring' }} 
+    <div
       className="w-full max-w-3xl mx-auto flex flex-col items-center"
     >
-        <motion.div initial={{opacity: 0, y: 20}} animate={{opacity: 1, y: 0}} transition={{delay: 0.2, duration: 0.5}}>
+        <motion.div initial={{opacity: 0, y: 20}} animate={{opacity: 1, y: 0}} transition={{delay: 0.2, duration: 0.5}} className="w-full">
             <form onSubmit={handleSearch} className="relative group w-full">
                 <MarketSearchInput />
             </form>
@@ -422,7 +420,7 @@ function SearchPageClient() {
             </motion.div>
             )}
         </AnimatePresence>
-    </motion.div>
+    </div>
   );
 }
 
@@ -446,7 +444,13 @@ export default function SearchPage() {
     };
     
     return (
-        <div ref={containerRef} onMouseMove={handleMouseMove} className="flex min-h-screen flex-col bg-black relative overflow-hidden text-white">
+        <motion.div 
+            ref={containerRef} 
+            onMouseMove={handleMouseMove} 
+            className="flex min-h-screen flex-col bg-black relative overflow-hidden text-white"
+            animate={{ paddingTop: hasQuery ? '5vh' : '20vh' }}
+            transition={{ duration: 0.5, type: 'spring' }}
+        >
             <motion.div 
               className="absolute inset-0 z-0 opacity-20" 
               style={{
@@ -456,17 +460,11 @@ export default function SearchPage() {
                 ),
               }}
             />
-            <motion.div 
-                layout 
-                className="flex-1 w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8 flex flex-col items-center z-10"
-                initial={{paddingTop: '20vh'}}
-                animate={{paddingTop: hasQuery ? '5vh' : '20vh' }}
-                transition={{duration: 0.5, type: 'spring'}}
-            >
+            <div className="flex-1 w-full max-w-6xl mx-auto px-4 md:px-6 lg:px-8 flex flex-col items-center z-10">
                 <Suspense fallback={<div className="flex justify-center items-center h-screen w-full"><Loader2 className="h-12 w-12 animate-spin" /></div>}>
                     <SearchPageClient />
                 </Suspense>
-            </motion.div>
-        </div>
+            </div>
+        </motion.div>
     )
 }
