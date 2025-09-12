@@ -13,7 +13,7 @@ import {
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Link from "next/link";
-import { LifeBuoy, LogOut, Settings, User, Search, Home, Building, Palette, Users, Bot, Menu, Puzzle, BarChart as BarChartIcon, UserPlus } from "lucide-react";
+import { LifeBuoy, LogOut, Settings, User, Search, Home, Building, Palette, Users, Bot, Menu, Puzzle, BarChart, UserPlus, Workflow, BookOpen as AcademyIcon } from "lucide-react";
 import React from "react";
 import { GlobalSearch } from "./ui/global-search";
 import { useTheme } from "./theme-switcher";
@@ -25,11 +25,11 @@ import { useTabManager } from "@/context/TabManagerContext";
 import { cn } from "@/lib/utils";
 
 const mainNav = [
-  { href: '/dashboard', label: 'Home', icon: Home },
+  { href: '/dashboard/assistant', label: 'AI Command Center', icon: Bot },
   { href: '/dashboard/marketing', label: 'Apps', icon: Puzzle },
-  { href: '/dashboard/tool/projects-finder', label: 'Market Library', icon: Building },
-  { href: '/dashboard/tool/listing-performance', label: 'Performance', icon: BarChartIcon },
-  { href: '/dashboard/assistant', label: 'AI Assistant', icon: Bot },
+  { href: '/dashboard/flows', label: 'Flows', icon: Workflow },
+  { href: '/dashboard/tool/listing-performance', label: 'Performance', icon: BarChart },
+  { href: '/blog', label: 'Academy', icon: AcademyIcon },
 ];
 
 const settingsNav = [
@@ -84,7 +84,7 @@ export function DashboardHeader() {
                    <div className="w-full max-w-sm">
                      <Button variant="outline" className="w-full justify-start text-muted-foreground" onClick={() => setIsSearchOpen(true)}>
                        <Search className="mr-2 h-4 w-4" />
-                       <span className="hidden sm:inline-block">Search tools, projects... (⌘K)</span>
+                       <span className="hidden sm:inline-block">Search or ask anything... (⌘K)</span>
                        <span className="sm:hidden">Search... (⌘K)</span>
                      </Button>
                    </div>
@@ -141,7 +141,7 @@ export function DashboardHeader() {
                             </DropdownMenuGroup>
 
                             <DropdownMenuSeparator />
-                             <a href="mailto:support@selltoday.ai">
+                             <a href="mailto:support@whatsmap.ai">
                                 <DropdownMenuItem>
                                     <LifeBuoy className="mr-2 h-4 w-4" />
                                     Support
