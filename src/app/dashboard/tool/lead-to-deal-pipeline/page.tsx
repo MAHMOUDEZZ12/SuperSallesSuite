@@ -4,17 +4,35 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
-import { Loader2, Sparkles, Wand2, Search, UserCheck, Wallet, Target, Bot, CheckCircle, Circle, ArrowRight } from 'lucide-react';
+import { Loader2, Sparkles, Search, UserCheck, Target, Bot, CheckCircle, Circle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { PageHeader } from '@/components/ui/page-header';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { track } from '@/lib/events';
-import { investigateLead } from '@/ai/flows/investigate-lead';
-import { evaluateLeadAsBuyer } from '@/ai/flows/evaluate-lead-as-buyer';
-import { InvestigateLeadInput, EvaluateLeadAsBuyerOutput, InvestigateLeadOutput } from '@/types';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+
+// Copied types to avoid server-side imports
+interface Match {
+    name: string;
+    profileUrl: string;
+    source: string;
+    summary: string;
+    matchConfidence: number;
+}
+
+interface InvestigateLeadOutput {
+    matches: Match[];
+    overallSummary: string;
+}
+
+interface EvaluateLeadAsBuyerOutput {
+    estimatedBudget: string;
+    primaryMotivation: string;
+    propertyPreferences: string[];
+    profileSummary: string;
+}
 
 type Status = 'pending' | 'running' | 'completed' | 'error';
 
@@ -35,8 +53,8 @@ const initialSteps: Step[] = [
 
 
 const ResultsDisplay = ({ results }: { results: Step[] }) => {
-    const investigationData: InvestigateLeadOutput = results.find(s => s.id === 'investigate')?.data;
-    const evaluationData: EvaluateLeadAsBuyerOutput = results.find(s => s.id === 'evaluate')?.data;
+    const investigationData: InvestigateLeadOutput | undefined = results.find(s => s.id === 'investigate')?.data;
+    const evaluationData: EvaluateLeadAsBuyerOutput | undefined = results.find(s => s.id === 'evaluate')?.data;
 
     return (
         <div className="space-y-6">
@@ -153,15 +171,33 @@ export default function LeadToDealPipelinePage() {
         try {
             // Step 1: Investigate
             setWorkflow(prev => prev.map(s => s.id === 'investigate' ? { ...s, status: 'running' } : s));
-            const investigationResult = await investigateLead({ name: leadName });
-             if (!investigationResult.matches || investigationResult.matches.length === 0) {
+            const investigateResponse = await fetch('/api/run', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ toolId: 'investigate-lead', payload: { name: leadName } })
+            });
+             if (!investigateResponse.ok) { 
+                const err = await investigateResponse.json(); 
+                throw new Error(err.error || "Investigation failed"); 
+            }
+            const investigationResult: InvestigateLeadOutput = await investigateResponse.json();
+            if (!investigationResult.matches || investigationResult.matches.length === 0) {
                 throw new Error("Could not find any information on this lead.");
             }
             setWorkflow(prev => prev.map(s => s.id === 'investigate' ? { ...s, status: 'completed', data: investigationResult } : s));
             
             // Step 2: Evaluate
             setWorkflow(prev => prev.map(s => s.id === 'evaluate' ? { ...s, status: 'running' } : s));
-            const evaluationResult = await evaluateLeadAsBuyer({ lead: investigationResult.matches[0] });
+            const evaluateResponse = await fetch('/api/run', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ toolId: 'evaluate-lead-as-buyer', payload: { lead: investigationResult.matches[0] } })
+            });
+            if (!evaluateResponse.ok) { 
+                const err = await evaluateResponse.json(); 
+                throw new Error(err.error || "Evaluation failed"); 
+            }
+            const evaluationResult = await evaluateResponse.json();
             setWorkflow(prev => prev.map(s => s.id === 'evaluate' ? { ...s, status: 'completed', data: evaluationResult } : s));
 
             // Step 3: Match (Simulated)

@@ -3,10 +3,9 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
-import { Loader2, Sparkles, Wand2, Palette, Pen, Upload, Download, MonitorPlay, LayoutTemplate, ArrowRight, ArrowLeft, CheckCircle } from 'lucide-react';
+import { Loader2, Sparkles, Wand2, Pen, Download, MonitorPlay, LayoutTemplate, ArrowRight, ArrowLeft, CheckCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { PageHeader } from '@/components/ui/page-header';
-import { generateLandingPage } from '@/ai/flows/generate-landing-page';
 import { fileToDataUri } from '@/lib/tools-client';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -15,7 +14,6 @@ import { track } from '@/lib/events';
 import { useCanvas } from '@/context/CanvasContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Checkbox } from '@/components/ui/checkbox';
-import { cn } from '@/lib/utils';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Slider } from '@/components/ui/slider';
 
@@ -106,16 +104,27 @@ export default function LandingPageBuilderPage() {
         setCurrentStep('review');
         try {
             const payload = {
-                projectName: formData.projectName,
-                projectDetails: formData.projectDetails,
-                generateHeadlinesOnly: true
+                toolId: 'generate-landing-page',
+                payload: {
+                    projectName: formData.projectName,
+                    projectDetails: formData.projectDetails,
+                    generateHeadlinesOnly: true
+                }
             };
-            // @ts-ignore
-            const responseData = await generateLandingPage(payload);
+            const response = await fetch('/api/run', { 
+                method: 'POST', 
+                body: JSON.stringify(payload), 
+                headers: { 'Content-Type': 'application/json'}
+            });
+            if (!response.ok) {
+                const err = await response.json();
+                throw new Error(err.error || "Could not generate headline strategies.")
+            }
+            const responseData = await response.json();
             setHeadlineOptions(responseData.headlineOptions);
-        } catch(e) {
+        } catch(e: any) {
             console.error(e);
-            toast({ title: 'Error generating strategies', description: 'Could not generate headline strategies.', variant: 'destructive'});
+            toast({ title: 'Error generating strategies', description: e.message, variant: 'destructive'});
             setCurrentStep('brochure'); // Go back a step on error
         } finally {
             setIsLoading(false);
@@ -139,15 +148,27 @@ export default function LandingPageBuilderPage() {
             const selectedHeadline = headlineOptions.find(opt => opt.id === headlineStrategy);
 
             const payload = {
-                projectName: formData.projectName,
-                projectDetails: formData.projectDetails,
-                brandingStyle: formData.brandingStyle.join(', '),
-                numberOfSections: formData.numberOfSections,
-                projectBrochureDataUri: brochureUri,
-                selectedHeadline: selectedHeadline?.headline,
-                selectedCta: selectedHeadline?.cta,
+                toolId: 'generate-landing-page',
+                payload: {
+                    projectName: formData.projectName,
+                    projectDetails: formData.projectDetails,
+                    brandingStyle: formData.brandingStyle.join(', '),
+                    numberOfSections: formData.numberOfSections,
+                    projectBrochureDataUri: brochureUri,
+                    selectedHeadline: selectedHeadline?.headline,
+                    selectedCta: selectedHeadline?.cta,
+                }
             };
-            const responseData = await generateLandingPage(payload);
+            const response = await fetch('/api/run', { 
+                method: 'POST', 
+                body: JSON.stringify(payload), 
+                headers: { 'Content-Type': 'application/json'}
+            });
+            if (!response.ok) {
+                const err = await response.json();
+                throw new Error(err.error || "Could not generate the landing page.")
+            }
+            const responseData = await response.json();
             setResultHtml(responseData.landingPageHtml);
             track('landing_page_generation_succeeded');
             toast({ title: 'Landing Page Generated!', description: 'Your new page is ready for review and editing in the canvas.'});

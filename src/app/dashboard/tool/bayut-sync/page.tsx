@@ -4,14 +4,13 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
-import { Loader2, Sparkles, Circle, CheckCircle, Play, Building, Upload, Bot, Download, Server } from 'lucide-react';
+import { Loader2, Sparkles, Circle, CheckCircle, Upload, Building, Download } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { PageHeader } from '@/components/ui/page-header';
 import { cn } from '@/lib/utils';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { syncBayutListing } from '@/ai/flows/sync-bayut-listing';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 
@@ -58,39 +57,41 @@ export default function BayutSyncPage() {
       toast({ title: 'Invalid Plan', description: 'The plan appears to be missing key information.', variant: 'destructive' });
       return;
     }
-
-    setWorkflow(steps);
+    
+    setWorkflow(steps.map(s => ({...s, status: 'running'})));
     setIsExecuting(true);
 
-    // Simulate API calls
-    const runStep = (index: number) => {
-      if (index >= steps.length) {
-        // Final API call
-        syncBayutListing(parsedPlan)
-            .then(result => {
-                if (result.success) {
-                    toast({ title: 'Synchronization Complete!', description: result.message });
-                } else {
-                    throw new Error(result.message);
-                }
-            })
-            .catch(err => {
-                toast({ title: 'Sync Failed', description: err.message, variant: 'destructive' });
-            })
-            .finally(() => {
-                setIsExecuting(false);
-            });
-        return;
-      }
-      
-      setWorkflow(prev => prev.map((step, i) => i === index ? { ...step, status: 'running' } : step));
-      setTimeout(() => {
-        setWorkflow(prev => prev.map((step, i) => i === index ? { ...step, status: 'completed' } : step));
-        runStep(index + 1);
-      }, 800);
-    };
+    try {
+        const response = await fetch('/api/run', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                toolId: 'bayut-sync',
+                payload: parsedPlan,
+            }),
+        });
 
-    runStep(0);
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Bayut sync failed');
+        }
+
+        const result = await response.json();
+
+        if (result.success) {
+            toast({ title: 'Synchronization Complete!', description: result.message });
+            setWorkflow(prev => prev.map(step => ({...step, status: 'completed'})));
+        } else {
+            throw new Error(result.message);
+        }
+    } catch (err: any) {
+        toast({ title: 'Sync Failed', description: err.message, variant: 'destructive' });
+        setWorkflow(prev => prev.map(step => ({...step, status: 'error'})));
+    } finally {
+        setIsExecuting(false);
+    }
   };
   
   const handlePull = (e: React.FormEvent) => {
@@ -115,6 +116,7 @@ export default function BayutSyncPage() {
     switch (status) {
       case 'running': return <Loader2 className="h-5 w-5 animate-spin text-primary" />;
       case 'completed': return <CheckCircle className="h-5 w-5 text-green-500" />;
+      case 'error': return <Circle className="h-5 w-5 text-red-500" />;
       default: return <Circle className="h-5 w-5 text-muted-foreground/50" />;
     }
   };
@@ -212,4 +214,3 @@ export default function BayutSyncPage() {
     </main>
   );
 }
-
