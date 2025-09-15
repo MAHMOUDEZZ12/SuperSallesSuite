@@ -185,7 +185,7 @@ async function processAndArchive(projects: any[], collection: CollectionReferenc
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
-    const source = searchParams.get('source') || 'dxboffplan';
+    const source = searchParams.get('source');
     
     let projects: any[] = [];
     
@@ -199,7 +199,7 @@ export async function GET(req: NextRequest) {
         projects = await scrapeEmiratesEstate();
     }
     else {
-        return fail("Invalid source parameter provided.", 400);
+        return fail("A valid 'source' parameter must be provided (e.g., 'dxboffplan', 'propertyfinder', 'safehold', 'emiratesestate').", 400);
     }
     
     if (projects.length === 0) {
@@ -212,7 +212,7 @@ export async function GET(req: NextRequest) {
     const projectsAdded = await processAndArchive(projects, liveCollection, archiveCollection);
 
     return ok({ projectsAdded, source });
-  } catch (e) {
+  } catch (e: any) {
     return fail(e);
   }
 }

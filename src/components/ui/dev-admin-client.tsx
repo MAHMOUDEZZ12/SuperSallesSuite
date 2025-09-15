@@ -97,11 +97,42 @@ export function DevAdminClient({ initialCity, initialCountry }: DevAdminClientPr
     }, [changeLog]);
 
     const handleScrape = async (source: string) => {
-        // ... (scraping logic remains the same)
+        setScrapingStates(prev => ({ ...prev, [source]: true }));
+        toast({ title: `Initiating scrape for ${source}...` });
+        try {
+            const response = await fetch(`/api/admin/scrape?source=${source}`);
+            const result = await response.json();
+             if (!response.ok) {
+                throw new Error(result.error || `Scraping ${source} failed`);
+            }
+            toast({ title: 'Scrape Complete', description: `${result.data.projectsAdded} projects ingested from ${source}.`, variant: 'default' });
+        } catch (error: any) {
+            toast({ title: 'Scrape Failed', description: error.message, variant: 'destructive' });
+        } finally {
+            setScrapingStates(prev => ({ ...prev, [source]: false }));
+        }
     };
     
     const handleDeepScrape = async (e: React.FormEvent) => {
-        // ... (deep scraping logic remains the same)
+        e.preventDefault();
+        if (!deepScrapeQuery) return;
+        setIsDeepScraping(true);
+        setDeepScrapeResult(null);
+        toast({ title: `Initiating deep scrape for "${deepScrapeQuery}"...` });
+
+        try {
+             const response = await fetch(`/api/admin/deep-scrape?q=${encodeURIComponent(deepScrapeQuery)}`);
+             const result = await response.json();
+             if (!response.ok) {
+                throw new Error(result.error || `Deep scrape failed`);
+            }
+            setDeepScrapeResult(result.data);
+             toast({ title: 'Deep Scrape Complete', description: `Found ${result.data.highQualityCount} high-quality sources.` });
+        } catch(error: any) {
+            toast({ title: 'Deep Scrape Failed', description: error.message, variant: 'destructive' });
+        } finally {
+            setIsDeepScraping(false);
+        }
     };
 
     return (
@@ -118,7 +149,38 @@ export function DevAdminClient({ initialCity, initialCountry }: DevAdminClientPr
             </TabsContent>
             
             <TabsContent value="data" className="mt-6 space-y-6">
-                {/* ... Data Management Cards ... */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <Card className="bg-muted/40">
+                         <CardHeader>
+                            <CardTitle className="flex items-center gap-2"><GitCommit /> Surface Scrapers</CardTitle>
+                            <CardDescription>Run scrapers on known, structured data sources to populate the Market Library.</CardDescription>
+                         </CardHeader>
+                         <CardContent className="space-y-2">
+                            <Button className="w-full justify-between" variant="secondary" onClick={() => handleScrape('propertyfinder')} disabled={scrapingStates['propertyfinder']}>PropertyFinder {scrapingStates['propertyfinder'] && <Loader2 className="animate-spin" />}</Button>
+                            <Button className="w-full justify-between" variant="secondary" onClick={() => handleScrape('bayut')} disabled={scrapingStates['bayut']}>Bayut {scrapingStates['bayut'] && <Loader2 className="animate-spin" />}</Button>
+                            <Button className="w-full justify-between" variant="secondary" onClick={() => handleScrape('dxboffplan')} disabled={scrapingStates['dxboffplan']}>DXB Off-Plan {scrapingStates['dxboffplan'] && <Loader2 className="animate-spin" />}</Button>
+                            <Button className="w-full justify-between" variant="secondary" onClick={() => handleScrape('emiratesestate')} disabled={scrapingStates['emiratesestate']}>Emirates.Estate {scrapingStates['emiratesestate'] && <Loader2 className="animate-spin" />}</Button>
+                         </CardContent>
+                    </Card>
+                    <Card className="bg-muted/40">
+                         <CardHeader>
+                            <CardTitle className="flex items-center gap-2"><Bot /> Deep Scrape & Analysis Agent</CardTitle>
+                            <CardDescription>Discover and vet new data sources using an AI quality analyst.</CardDescription>
+                         </CardHeader>
+                         <CardContent>
+                           <form onSubmit={handleDeepScrape} className="flex gap-2">
+                                <Input value={deepScrapeQuery} onChange={(e) => setDeepScrapeQuery(e.target.value)} placeholder="Enter search query..." />
+                                <Button type="submit" disabled={isDeepScraping}>{isDeepScraping ? <Loader2 className="animate-spin"/> : <Search/>}</Button>
+                           </form>
+                           {deepScrapeResult && (
+                            <div className="mt-4 text-xs space-y-1">
+                                <p>Found {deepScrapeResult.resultsFound} total results.</p>
+                                <p>Identified <span className="font-bold text-primary">{deepScrapeResult.highQualityCount} high-quality sources</span> to add to knowledge base.</p>
+                            </div>
+                           )}
+                         </CardContent>
+                    </Card>
+                </div>
             </TabsContent>
 
             <TabsContent value="users" className="mt-6 space-y-6">
@@ -131,4 +193,3 @@ export function DevAdminClient({ initialCity, initialCountry }: DevAdminClientPr
         </Tabs>
     );
 }
-
