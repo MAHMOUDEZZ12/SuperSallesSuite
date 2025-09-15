@@ -20,7 +20,7 @@ export default function DashboardLayout({
       <CanvasProvider>
        <div className="flex flex-col min-h-screen">
         <DashboardHeader />
-        <main className="flex-1 overflow-y-auto">{children}</main>
+        <main className="flex-1 overflow-y-auto p-4 md:p-10">{children}</main>
          <CreativeCanvas />
          <AssistantChat />
        </div>

@@ -22,12 +22,12 @@ export async function runFlow(flowId: string, payload: any): Promise<any> {
     const result = await response.json();
 
     if (!response.ok) {
-      throw new Error(result.error || `Flow '${'\'\'\'' + flowId + '\'\'\''}' failed with status ${'\'\'\'' + response.status + '\'\'\''}`);
+      throw new Error(result.error || `Flow '${flowId}' failed with status ${response.status}`);
     }
 
     return result;
   } catch (error: any) {
-    console.error(`Error running flow '${'\'\'\'' + flowId + '\'\'\''}':`, error);
+    console.error(`Error running flow '${flowId}':`, error);
     // Re-throw the error so the calling component can handle it if needed
     throw error;
   }

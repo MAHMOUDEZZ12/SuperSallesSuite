@@ -21,8 +21,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/superfreetime',
     '/blog',
     '/g/flows',
-    '/g/video',
-    '/g/search',
     '/community',
     '/community/roadmap',
     '/community/careers',

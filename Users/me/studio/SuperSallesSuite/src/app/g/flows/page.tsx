@@ -1,8 +1,11 @@
 
 import { PageHeader } from "@/components/ui/page-header";
-import { tools } from "@/lib/features";
-import { FeatureModal } from "@/components/feature-modal";
+import { tools, modules } from "@/lib/features";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { ArrowRight, Bot, Palette, Rocket } from "lucide-react";
+import Link from 'next/link';
+import { FeatureModal } from "@/components/feature-modal";
 
 /**
  * The "Flows" page - A grand, central destination showcasing our
