@@ -106,8 +106,7 @@ function GenesisUI() {
                         className="text-center"
                     >
                         <div className="flex justify-center items-center mb-4">
-                            {/* Replaced with a placeholder to avoid potential missing file issues */}
-                            <div className="w-20 h-20 bg-primary/20 rounded-full" />
+                            <Image src="https://firebasestorage.googleapis.com/v0/b/supersellerae-4rzzy.firebasestorage.app/o/white%20logo%20of%20whatsmapp.png?alt=media&token=5218d2c8-7f98-4665-90d9-79653d11ecc7" alt="WhatsMAP Logo" width={80} height={80} />
                         </div>
                         <h1 className="text-5xl md:text-7xl font-bold font-heading">WhatsMAP</h1>
                         <p className="text-xl text-muted-foreground mt-2">The World Spins Knowledge Into Place.</p>
@@ -122,7 +121,7 @@ function GenesisUI() {
                 >
                     <div className="relative p-px rounded-xl bg-gradient-to-r from-primary/30 to-primary/50">
                         <Input
-                            placeholder="Search Palm Jumeirah 2005, or ask any question..."
+                            placeholder="Search Palm Jumeirah 2005, Emaar vs DAMAC, or ask any question..."
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
                             className="w-full h-16 pl-6 pr-16 text-lg bg-black/70 border-2 border-gray-800 text-white rounded-[calc(0.75rem-1px)] shadow-lg placeholder:text-gray-500 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
@@ -155,6 +154,7 @@ function GenesisUI() {
     );
 }
 
+// The new Genesis Engine Homepage
 export default function GenesisHomepage() {
     const searchParams = useSearchParams();
     const hasSearched = !!searchParams?.get('q');

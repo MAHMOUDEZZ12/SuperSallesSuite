@@ -70,11 +70,7 @@ export function SearchResultsBriefing({ briefing }: { briefing: any }) {
         {briefing.content_blocks.map((block: any, index: number) => {
             const Component = componentMap[block.type];
             if (!Component) return null;
-            
-            const props = block.type === 'listing_card_interactive' 
-                ? { project: block.data } 
-                : { ...block }; // Pass all block data to other widgets
-            
+            const props = block.type === 'listing_card_interactive' ? { project: block.data } : block;
             return <Component key={`${block.type}-${index}`} {...props} />;
         })}
     </div>
