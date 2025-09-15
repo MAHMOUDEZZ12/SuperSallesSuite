@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview The main AI orchestrator for the entire WhatsMAP platform.
@@ -13,14 +14,14 @@ const projectSearch = ai.defineTool(
   {
     name: 'projectSearch',
     description: 'Search the real estate project database for listings matching a query.',
-    input: { schema: z.string() },
-    output: { schema: z.any() },
+    input: z.string(),
+    output: z.any(),
   },
   async (query) => {
     // In a real app, this would be a call to our /api/projects/scan endpoint
-    console.log(`TOOL: projectSearch called with query: ${'\'\'\'' + query + '\'\'\''}`);
+    console.log(`TOOL: projectSearch called with query: ${query}`);
     return {
-      projects: [{ id: 'p-1', name: `${'\'\'\'' + query + '\'\'\''}`, developer: 'Emaar', area: 'Dubai Marina', city: 'Dubai', country: 'AE', priceFrom: 'AED 2.5M', status: 'Ready', thumbnailUrl: 'https://picsum.photos/seed/project1/600/400' }],
+      projects: [{ id: 'p-1', name: `${query}`, developer: 'Emaar', area: 'Dubai Marina', city: 'Dubai', country: 'AE', priceFrom: 'AED 2.5M', status: 'Ready', thumbnailUrl: 'https://picsum.photos/seed/project1/600/400' }],
     };
   }
 );

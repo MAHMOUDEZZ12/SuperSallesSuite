@@ -117,7 +117,7 @@ export async function POST(req: NextRequest) {
     
     const runner = flowRunnerMap[toolId];
     if (!runner) {
-      return NextResponse.json({ error: `Tool with id "${'\'\'\'' + toolId + '\'\'\'\'}" not found.` }, { status: 404 });
+      return NextResponse.json({ error: `Tool with id "${'\'\'\'' + toolId + '\'\'\''}" not found.` }, { status: 404 });
     }
 
     const result = await runner(payload);
@@ -125,8 +125,8 @@ export async function POST(req: NextRequest) {
 
   } catch (e: any) {
     const errorMessage = e.message || 'An unexpected error occurred.';
-    const toolIdMessage = body?.toolId ? ` in tool ${'\'\'\'' + body.toolId + '\'\'\''}` : '';
-    console.error(`Error running tool${'\'\'\'' + toolIdMessage + '\'\'\''}: ${'\'\'\'' + errorMessage + '\'\'\''}`, e);
+    const toolIdMessage = body?.toolId ? ` in tool '${body.toolId}'` : '';
+    console.error(`Error running tool${toolIdMessage}: ${errorMessage}`, e);
     return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
