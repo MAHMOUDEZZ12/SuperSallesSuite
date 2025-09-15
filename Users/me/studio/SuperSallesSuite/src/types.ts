@@ -72,19 +72,6 @@ export const MainOrchestratorOutput = z.object({
 export type MainOrchestratorOutput = z.infer<typeof MainOrchestratorOutput>;
 
 
-// Simplified Execution Step for Client-side
-export interface ExecutionStep {
-  description: string;
-  tool: string;
-  status: 'pending' | 'running' | 'complete' | 'error';
-}
-
-export interface RollflowPlan {
-  title: string;
-  steps: ExecutionStep[];
-}
-
-
 // Schemas for AI Brand Creator
 export const AIBrandCreatorInputSchema = z.object({
   command: z.string().describe('The command from the user.'),

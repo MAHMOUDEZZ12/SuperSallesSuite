@@ -28,13 +28,12 @@ const mainNav = [
   { href: '/dashboard/assistant', label: 'AI Center', icon: Bot },
   { href: '/dashboard/marketing', label: 'Apps', icon: Puzzle },
   { href: '/dashboard/flows', label: 'Flows', icon: Workflow },
-  { href: '/dashboard/tool/listing-performance', label: 'Performance', icon: BarChart },
+  { href: '/dashboard/performance', label: 'Performance', icon: BarChart },
   { href: '/blog', label: 'Academy', icon: AcademyIcon },
 ];
 
 const settingsNav = [
   { href: '/dashboard/brand', label: 'Brand & Assets', icon: Palette },
-  { href: '/dashboard/learning-curve', label: 'My AI\'s Learning Curve', icon: BrainCircuit },
   { href: '/dashboard/leads', label: 'Leads (CRM)', icon: UserPlus },
   { href: '/dashboard/clients', label: 'Clients', icon: Users },
   { href: '/dashboard/settings', label: 'Settings', icon: Settings },
