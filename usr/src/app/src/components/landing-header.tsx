@@ -4,10 +4,9 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Sun, Moon, Laptop, Bot, MessageCircle, ChevronDown } from 'lucide-react';
+import { Menu, X, Sun, Moon, Laptop, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/logo';
-import { cn } from '@/lib/utils';
 import {
   Sheet,
   SheetContent,
@@ -18,19 +17,18 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  DropdownMenuGroup,
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from '@/components/theme-switcher';
 
 const mainNavLinks = [
-    { name: 'Solutions', href: '/solutions' },
+    { name: 'Flows', href: '/g/flows' },
     { name: 'Community', href: '/community' },
     { name: 'Pricing', href: '/pricing' },
 ];
 
 const secondaryNavLinks = [
     { name: 'Chat', href: '/' },
-    { name: 'Solutions', href: '/solutions' },
+    { name: 'Flows', href: '/g/flows' },
     { name: 'Community', href: '/community' },
     { name: 'Pricing', href: '/pricing' },
 ];
@@ -50,6 +48,17 @@ export function LandingHeader({ host }: { host?: string }) {
             <Logo />
         </div>
         <div className="hidden md:flex items-center gap-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost">Solutions <ChevronDown className="ml-1 h-4 w-4" /></Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem asChild><Link href="/solutions/agent">For Agents</Link></DropdownMenuItem>
+                <DropdownMenuItem asChild><Link href="/solutions/developer">For Developers</Link></DropdownMenuItem>
+                <DropdownMenuItem asChild><Link href="/solutions/investor">For Investors</Link></DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             {navLinks.map((link) => (
                  <Link key={link.name} href={link.href}>
                     <Button variant="ghost">{link.name}</Button>
@@ -73,11 +82,8 @@ export function LandingHeader({ host }: { host?: string }) {
               </DropdownMenuContent>
             </DropdownMenu>
              <div className="flex items-center gap-2 ml-4">
-                <Link href="/login">
-                  <Button variant="ghost">Log In</Button>
-                </Link>
-                <Link href="/signup">
-                  <Button>Sign Up Free</Button>
+                <Link href="/account">
+                  <Button>Account</Button>
                 </Link>
             </div>
         </div>
@@ -118,6 +124,16 @@ export function LandingHeader({ host }: { host?: string }) {
                         </div>
                     </div>
                     <nav className="flex flex-col items-center gap-6 text-center">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                             <span className="text-2xl font-semibold text-foreground hover:text-primary transition-colors flex items-center">Solutions <ChevronDown className="ml-1 h-5 w-5" /></span>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent>
+                            <DropdownMenuItem asChild><Link href="/solutions/agent" onClick={() => setIsOpen(false)}>For Agents</Link></DropdownMenuItem>
+                            <DropdownMenuItem asChild><Link href="/solutions/developer" onClick={() => setIsOpen(false)}>For Developers</Link></DropdownMenuItem>
+                            <DropdownMenuItem asChild><Link href="/solutions/investor" onClick={() => setIsOpen(false)}>For Investors</Link></DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
                          {navLinks.map((link) => (
                              <Link key={link.name} href={link.href} onClick={() => setIsOpen(false)}>
                                 <span className="text-2xl font-semibold text-foreground hover:text-primary transition-colors">{link.name}</span>
@@ -125,11 +141,8 @@ export function LandingHeader({ host }: { host?: string }) {
                         ))}
                     </nav>
                      <div className="mt-auto flex flex-col gap-4">
-                        <Link href="/login" onClick={() => setIsOpen(false)}>
-                            <Button variant="outline" className="w-full text-lg py-6">Log In</Button>
-                        </Link>
-                        <Link href="/signup" onClick={() => setIsOpen(false)}>
-                            <Button className="w-full text-lg py-6">Sign Up</Button>
+                        <Link href="/account" onClick={() => setIsOpen(false)}>
+                            <Button className="w-full text-lg py-6">My Account</Button>
                         </Link>
                     </div>
                  </div>
