@@ -1,4 +1,3 @@
-
 'use client';
 
 import {
@@ -25,10 +24,10 @@ import { useTabManager } from "@/context/TabManagerContext";
 import { cn } from "@/lib/utils";
 
 const mainNav = [
-  { href: '/dashboard/assistant', label: 'AI Command Center', icon: Bot },
+  { href: '/dashboard/assistant', label: 'AI Center', icon: Bot },
   { href: '/dashboard/marketing', label: 'Apps', icon: Puzzle },
   { href: '/dashboard/flows', label: 'Flows', icon: Workflow },
-  { href: '/dashboard/tool/listing-performance', label: 'Performance', icon: BarChart },
+  { href: '/dashboard/performance', label: 'Performance', icon: BarChart },
   { href: '/blog', label: 'Academy', icon: AcademyIcon },
 ];
 
@@ -169,4 +168,3 @@ export function DashboardHeader() {
         </>
     );
 }
-

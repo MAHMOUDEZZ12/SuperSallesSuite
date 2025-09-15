@@ -1,4 +1,3 @@
-
 'use client';
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
@@ -35,7 +34,7 @@ const statusConfig: { [key in TaskStatus]: { color: string, icon: React.ReactNod
     'Implemented': { color: 'bg-green-500', icon: <CheckCircle className="h-3 w-3" /> },
     'Assured': { color: 'bg-emerald-500', icon: <Sparkles className="h-3 w-3" /> },
     'Issue Reported': { color: 'bg-red-500', icon: <AlertTriangle className="h-3 w-3" /> },
-}
+};
 
 const initialLog: ChangeLogEntry[] = [
     {
