@@ -1,10 +1,10 @@
 
 'use client';
 
-import React,  { Suspense, useState, useEffect, useRef } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import React,  { Suspense, useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
-import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { MarketSearchInput } from '@/components/ui/market-search-input';
 import { BriefingStep } from '@/components/ui/briefing-step';
 import { LoginToContinue } from '@/components/ui/login-to-continue';
