@@ -1,7 +1,127 @@
-// DELETED: This page is now obsolete. The root page (app/page.tsx)
-// has been re-forged into the single, living, SPA-like search experience.
-import { redirect } from 'next/navigation';
 
-export default function DeprecatedSearchPage() {
-  redirect('/');
+'use client';
+import React, { Suspense, useState, useEffect } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Loader2 } from 'lucide-react';
+import { BriefingStep } from '@/components/ui/briefing-step';
+import { LoginToContinue } from '@/components/ui/login-to-continue';
+import { track } from '@/lib/events';
+import { MarketSearchInput } from '@/components/ui/market-search-input';
+import { LandingHeader } from '@/components/landing-header';
+import { LandingFooter } from '@/components/landing-footer';
+
+// MOCK DATA: In a real app, this would come from the AI's structured response.
+const mockBriefingSteps = [
+    { type: 'summary', content: 'The query for "Emaar Beachfront" shows high investor interest and strong rental yield potential. Here is the top result:' },
+    { type: 'listing', data: { id: 'p-1', name: 'Emaar Beachfront Tower 1', developer: 'Emaar', area: 'Dubai Marina', city: 'Dubai', country: 'AE', priceFrom: 'AED 2.5M', status: 'Ready', thumbnailUrl: 'https://picsum.photos/seed/project1/600/400' } },
+    { type: 'financials', data: { price: 2500000, rental: 150000, serviceFee: 25000 } },
+    // The Login Gate will be inserted after this step
+    { type: 'schools', data: { rating: 'Outstanding', distance: '5km' } },
+    { type: 'commission', data: { salePrice: 2500000, commissionRate: 2 } },
+];
+
+
+function SearchExperience() {
+    const searchParams = useSearchParams();
+    const query = searchParams.get('q');
+    
+    const [isLoading, setIsLoading] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState(false); // Simulate auth state
+    const [revealedSteps, setRevealedSteps] = useState<number>(0);
+
+    const LOGIN_GATE_POSITION = 3; // Show gate after 3 steps (0, 1, 2)
+
+    useEffect(() => {
+        if (query) {
+            track('search_executed', { query });
+            setIsLoading(true);
+            setRevealedSteps(0);
+            // Simulate fetching data and revealing the first step
+            setTimeout(() => {
+                setIsLoading(false);
+                setRevealedSteps(1);
+            }, 1000);
+        } else {
+            setIsLoading(false);
+        }
+    }, [query]);
+    
+    useEffect(() => {
+        // Reveal next step automatically for demo purposes
+        if (revealedSteps > 0 && revealedSteps < LOGIN_GATE_POSITION && revealedSteps < mockBriefingSteps.length) {
+            const timer = setTimeout(() => setRevealedSteps(revealedSteps + 1), 1500);
+            return () => clearTimeout(timer);
+        }
+    }, [revealedSteps]);
+
+
+    if (!query) {
+        return (
+             <div className="text-center">
+                <h1 className="text-5xl md:text-7xl font-bold font-heading">WhatsMAP</h1>
+                <p className="text-xl text-muted-foreground mt-2">The World Spins Knowledge Into Place.</p>
+                <div className="mt-8">
+                     <MarketSearchInput />
+                </div>
+            </div>
+        )
+    }
+
+    if (isLoading) {
+        return <div className="flex justify-center items-center h-64"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>
+    }
+
+    return (
+        <div className="space-y-6">
+             <MarketSearchInput />
+            <AnimatePresence>
+                {mockBriefingSteps.slice(0, revealedSteps).map((step, index) => (
+                    <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.1 }}
+                    >
+                        <BriefingStep step={step} stepNumber={index + 1} />
+                    </motion.div>
+                ))}
+            </AnimatePresence>
+
+            {revealedSteps === LOGIN_GATE_POSITION && !isAuthenticated && (
+                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
+                    <LoginToContinue onLogin={() => setIsAuthenticated(true)} />
+                 </motion.div>
+            )}
+
+            {isAuthenticated && revealedSteps >= LOGIN_GATE_POSITION && (
+                <AnimatePresence>
+                    {mockBriefingSteps.slice(LOGIN_GATE_POSITION).map((step, index) => (
+                         <motion.div
+                            key={index + LOGIN_GATE_POSITION}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: index * 0.5 }}
+                        >
+                            <BriefingStep step={step} stepNumber={index + LOGIN_GATE_POSITION + 1} />
+                        </motion.div>
+                    ))}
+                </AnimatePresence>
+            )}
+        </div>
+    );
+}
+
+export default function SearchPage() {
+    return (
+        <div className="flex min-h-screen flex-col bg-background text-foreground">
+            <LandingHeader />
+            <main className="flex-1 w-full max-w-4xl mx-auto px-4 md:px-6 lg:px-8 py-12">
+                <Suspense fallback={<div className="flex justify-center"><Loader2 className="h-8 w-8 animate-spin" /></div>}>
+                    <SearchExperience />
+                </Suspense>
+            </main>
+            <LandingFooter />
+        </div>
+    );
 }
