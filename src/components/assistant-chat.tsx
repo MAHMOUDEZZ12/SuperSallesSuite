@@ -1,3 +1,4 @@
+
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -6,7 +7,7 @@ import { Button } from './ui/button';
 import { runFlow } from '@/lib/flows';
 import { ExecutionStep, RollflowPlan } from '@/types';
 import { Textarea } from './ui/textarea';
-import { InteractiveListingBrief } from '@/components/interactive-listing-brief';
+import { InteractiveListingBrief } from '@/components/ui/interactive-listing-brief';
 import { track } from '@/lib/events';
 import { useToast } from '@/hooks/use-toast';
 
@@ -30,8 +31,9 @@ const PlanExecutionCard = ({ plan }: { plan: RollflowPlan }) => {
             <ul className="space-y-2">
                 {plan.steps.map((step, index) => (
                     <li key={index} className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <CheckCircle className="h-4 w-4 text-green-500"/>
+                        {step.status === 'complete' ? <CheckCircle className="h-4 w-4 text-green-500"/> : <div className="h-4 w-4 rounded-full border border-dashed"/>}
                         <span>{step.description}</span>
+                        {step.status === 'running' && <Loader2 className="h-4 w-4 animate-spin"/>}
                     </li>
                 ))}
             </ul>
