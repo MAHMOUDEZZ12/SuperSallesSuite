@@ -30,17 +30,18 @@ export function useAuth() {
   useEffect(() => {
     if (loading) return; // Wait until auth state is confirmed
 
-    const isAuthPage = pathname.startsWith('/login') || pathname.startsWith('/signup') || pathname.startsWith('/account');
+    const isAuthPage = pathname.startsWith('/login') || pathname.startsWith('/signup');
     
-    // If user is logged in and tries to access login/signup/account, redirect them away.
+    // If user is logged in and tries to access login/signup, redirect them away.
     if (user && isAuthPage) {
       router.push('/dashboard');
       return;
     }
 
-    // If user is NOT logged in and IS trying to access the dashboard, redirect to account hub.
+    // THE FIX: Only protect the /dashboard routes.
+    // If user is NOT logged in and IS trying to access the dashboard, redirect to login.
     if (!user && pathname.startsWith('/dashboard')) {
-      router.push('/account');
+      router.push('/login');
       return;
     }
 
