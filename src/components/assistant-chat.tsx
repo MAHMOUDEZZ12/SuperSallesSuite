@@ -1,195 +1,166 @@
-
 'use client';
-
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Bot, Send, User, X, Loader2, Play, CheckCircle, BrainCircuit } from 'lucide-react';
 import { Button } from './ui/button';
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from './ui/card';
-import { Input } from './ui/input';
-import { ScrollArea } from './ui/scroll-area';
-import { Bot, Send, X, Sparkles, Loader2, BookOpen } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { secretCodes } from '@/lib/codes';
-import Link from 'next/link';
-import { useAuth } from '@/hooks/useAuth';
+import { runFlow } from '@/lib/flows';
+import { ExecutionStep, RollflowPlan } from '@/types';
+import { Textarea } from './ui/textarea';
+import { InteractiveListingBrief } from './ui/interactive-listing-brief';
+import { track } from '@/lib/events';
+import { useToast } from '@/hooks/use-toast';
 
-type Message = {
-    from: 'ai' | 'user';
-    text: string | React.ReactNode;
+interface Message {
+  id: string;
+  text?: string;
+  sender: 'user' | 'ai';
+  plan?: RollflowPlan;
+  component?: 'listing_brief' | 'persona_select';
+  componentData?: any;
+}
+
+const PlanExecutionCard = ({ plan, onExecute }: { plan: RollflowPlan; onExecute: (plan: RollflowPlan) => void }) => {
+    const [isExecuting, setIsExecuting] = useState(false);
+
+    const handleExecute = () => {
+        setIsExecuting(true);
+        onExecute(plan);
+    };
+
+    const isCompleted = plan.steps.every(s => s.status === 'complete');
+    const isExecutable = !isExecuting && !isCompleted;
+
+    return (
+        <div className="bg-muted/50 p-4 rounded-lg border border-primary/20">
+            <div className='flex items-center gap-3 mb-2'>
+                <BrainCircuit className="h-5 w-5 text-primary"/>
+                <h4 className="font-semibold text-foreground">Generated Plan: {plan.title}</h4>
+            </div>
+            <p className="text-xs text-muted-foreground mb-3">The AI has created a multi-step workflow. Please review before execution.</p>
+            <ul className="space-y-2">
+                {plan.steps.map((step, index) => (
+                    <li key={index} className="flex items-center gap-2 text-sm text-muted-foreground">
+                        {step.status === 'complete' ? <CheckCircle className="h-4 w-4 text-green-500"/> : step.status === 'running' ? <Loader2 className="h-4 w-4 animate-spin"/> : <div className="h-4 w-4 rounded-full border border-dashed flex-shrink-0"/>}
+                        <span>{step.description}</span>
+                    </li>
+                ))}
+            </ul>
+            {isExecutable && (
+                <Button className="w-full mt-4" onClick={handleExecute}>
+                    <Play className="mr-2 h-4 w-4"/> Execute Plan
+                </Button>
+            )}
+             {isCompleted && (
+                 <div className="text-center mt-3 text-xs text-green-500 font-semibold flex items-center justify-center gap-2"><CheckCircle className="h-4 w-4"/>Execution Complete</div>
+            )}
+        </div>
+    );
 };
 
-const InitialAssistantMessage = () => (
-    <div>
-        <p className="font-semibold mb-2">Hello! I'm your AI co-pilot, the brain of selltoday.ai.</p>
-        <p className="mb-2">You can command me to perform complex tasks, but first, you should train me. The more I know, the better I can help you.</p>
-        <div className="p-3 bg-background rounded-lg border space-y-2">
-            <div className="flex items-start gap-3">
-                <div className="p-2 bg-primary/10 text-primary rounded-md mt-1"><BookOpen className="h-5 w-5" /></div>
-                <div>
-                    <h4 className="font-semibold text-foreground">How to Train Me</h4>
-                    <p className="text-sm text-foreground/80">Go to the <Link href="/dashboard/brand" className="underline font-semibold hover:text-primary">Brand & Assets</Link> page and upload your brochures, price lists, and market reports. This is my "Knowledge Base".</p>
-                </div>
-            </div>
-             <div className="flex items-start gap-3">
-                 <div className="p-2 bg-primary/10 text-primary rounded-md mt-1"><Sparkles className="h-5 w-5" /></div>
-                <div>
-                    <h4 className="font-semibold text-foreground">Next Best Step</h4>
-                    <p className="text-sm text-foreground/80">A great place to start is the <Link href="/dashboard/tool/meta-auto-pilot" className="underline font-semibold hover:text-primary">Meta Auto Pilot</Link>. It can run an entire ad campaign for you with a single click.</p>
-                </div>
-            </div>
-        </div>
-         <p className="mt-3 text-sm">If you have a secret code, feel free to enter it below.</p>
-    </div>
-);
-
-
 export function AssistantChat() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    { from: 'ai', text: <InitialAssistantMessage /> },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { user } = useAuth();
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
+  const chatEndRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (isOpen && scrollAreaRef.current) {
-      setTimeout(() => {
-          scrollAreaRef.current?.scrollTo({ top: scrollAreaRef.current.scrollHeight, behavior: 'smooth' });
-      }, 100);
-    }
-  }, [messages, isOpen]);
+  const handleSendMessage = async () => {
+    if (input.trim() === '' || isLoading) return;
 
-  const handleSendMessage = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim() || isLoading) return;
-
-    const userMessage: Message = { from: 'user', text: input };
+    const userMessage: Message = { id: `msg-user-${Date.now()}`, text: input, sender: 'user' };
     setMessages(prev => [...prev, userMessage]);
-    const currentInput = input;
+    const command = input;
     setInput('');
     setIsLoading(true);
 
     try {
-        const foundCode = secretCodes.find(c => currentInput.toUpperCase().includes(c.code));
-        let aiResponse: Message;
+      const response = await runFlow('mainOrchestratorAgent', { command });
+      
+      const aiResponseMessage: Message = { id: `msg-ai-${Date.now()}`, sender: 'ai' };
+      if (response.plan) {
+         aiResponseMessage.plan = response.plan;
+         aiResponseMessage.text = "I've analyzed your request and generated an execution plan.";
+      } else if (response.component) {
+          aiResponseMessage.component = response.component;
+          aiResponseMessage.componentData = response.componentData;
+          aiResponseMessage.text = response.text;
+      } else {
+         aiResponseMessage.text = response.text || "I was unable to process that command.";
+      }
+      setMessages(prev => [...prev, aiResponseMessage]);
 
-        if (foundCode) {
-            aiResponse = { from: 'ai', text: `Excellent! The code ${foundCode.code} is valid. \n\n**Reward Unlocked**: ${foundCode.reward} \n\nI can now perform this action for you. What property or project should I start with?` };
-            setMessages(prev => [...prev, aiResponse]);
-        } else {
-             const response = await fetch('/api/run', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    toolId: 'market-chat-assistant',
-                    payload: { message: currentInput }
-                })
-            });
-            const data = await response.json();
-            if (data.error) throw new Error(data.error);
-
-            setMessages(prev => [...prev, { from: 'ai', text: data.reply }]);
-        }
-    } catch (err: any) {
-        setMessages(prev => [...prev, { from: 'ai', text: `Sorry, I encountered an error: ${err.message}` }]);
+    } catch (error) {
+      const errorMessage: Message = { id: `msg-err-${Date.now()}`, text: "Sorry, I encountered a critical error orchestrating that request.", sender: 'ai' };
+      setMessages(prev => [...prev, errorMessage]);
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
-  if (!isOpen) {
-      return (
-        <button
-            aria-label="Open AI Assistant"
-            onClick={() => setIsOpen(true)}
-            className="fixed bottom-6 right-6 z-50 rounded-full bg-primary p-3 text-primary-foreground shadow-lg hover:bg-primary/90 animate-in fade-in zoom-in"
-        >
-            <Sparkles className="h-6 w-6" />
-      </button>
-      )
-  }
+  const handleExecutePlan = useCallback(async (plan: RollflowPlan) => {
+     let currentPlanId = plan.id;
+     for (let i = 0; i < plan.steps.length; i++) {
+        setMessages(prev => prev.map(msg => {
+            if (msg.plan?.id === currentPlanId) {
+                const newSteps = [...msg.plan.steps];
+                newSteps[i].status = "running";
+                return { ...msg, plan: { ...msg.plan, steps: newSteps }};
+            }
+            return msg;
+        }));
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        setMessages(prev => prev.map(msg => {
+            if (msg.plan?.id === currentPlanId) {
+                const newSteps = [...msg.plan.steps];
+                newSteps[i].status = "complete";
+                return { ...msg, plan: { ...msg.plan, steps: newSteps }};
+            }
+            return msg;
+        }));
+     }
+     const finalMessage: Message = { id: `msg-fin-${Date.now()}`, sender: 'ai', text: `Execution of plan '${plan.title}' is complete.`};
+     setMessages(prev => [...prev, finalMessage]);
+  }, []);
 
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   return (
-    <>
-      <div className="fixed inset-0 z-[60] flex items-end justify-end bg-black/50 animate-in fade-in">
-          <div className="m-4 w-full max-w-lg rounded-2xl border bg-card text-card-foreground shadow-lg animate-in slide-in-from-bottom-8">
-            <div className="flex items-center justify-between p-4 border-b">
-              <h3 className="text-base font-semibold flex items-center gap-2">
-                <Bot className="h-5 w-5 text-primary"/>
-                Your AI Assistant
-              </h3>
-              <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="h-6 w-6">
-                <X className="h-4 w-4" />
-                <span className="sr-only">Close</span>
-              </Button>
+    <div className="flex flex-col h-full bg-background">
+      <div ref={chatEndRef} className="flex-1 p-6 space-y-6 overflow-y-auto">
+        {messages.map((msg) => (
+            <div key={msg.id} className={`flex items-start gap-4 ${msg.sender === 'user' ? 'justify-end' : ''}`}>
+               {msg.sender === 'ai' && <div className="w-9 h-9 rounded-full bg-primary flex items-center justify-center flex-shrink-0"><Bot size={20} className="text-primary-foreground"/></div>}
+               <div className={`max-w-xl w-full p-4 rounded-lg shadow-sm ${msg.sender === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
+                  {msg.text && <p className="text-sm mb-2">{msg.text}</p>}
+                  {msg.plan && <PlanExecutionCard plan={msg.plan} onExecute={handleExecutePlan} />}
+                  {msg.component === 'listing_brief' && <InteractiveListingBrief project={msg.componentData} />}
+               </div>
+               {msg.sender === 'user' && <div className="w-9 h-9 rounded-full bg-muted flex items-center justify-center flex-shrink-0"><User size={20}/></div>}
             </div>
-            
-            <CardContent className="p-0">
-                <ScrollArea className="h-[400px] p-4" ref={scrollAreaRef as any}>
-                <div className="space-y-4">
-                    {messages.map((msg, index) => (
-                    <div
-                        key={index}
-                        className={cn(
-                        "flex items-end gap-2",
-                        msg.from === 'user' ? 'justify-end' : 'justify-start'
-                        )}
-                    >
-                        {msg.from === 'ai' && (
-                        <Avatar className="h-8 w-8">
-                            <AvatarFallback className="bg-primary/20 text-primary">
-                            <Bot className="h-4 w-4" />
-                            </AvatarFallback>
-                        </Avatar>
-                        )}
-                        <div
-                        className={cn(
-                            "max-w-xs rounded-2xl p-3 text-sm whitespace-pre-wrap",
-                            msg.from === 'user'
-                            ? 'bg-primary text-primary-foreground rounded-br-none'
-                            : 'bg-muted rounded-bl-none'
-                        )}
-                        >
-                        {msg.text}
-                        </div>
-                        {msg.from === 'user' && (
-                        <Avatar className="h-8 w-8">
-                             <AvatarImage src={user?.photoURL || undefined} />
-                            <AvatarFallback>{user?.displayName?.charAt(0) || 'U'}</AvatarFallback>
-                        </Avatar>
-                        )}
-                    </div>
-                    ))}
-                    {isLoading && (
-                         <div className="flex items-end gap-2 justify-start">
-                            <Avatar className="h-8 w-8"><AvatarFallback className="bg-primary/20 text-primary"><Bot className="h-4 w-4" /></AvatarFallback></Avatar>
-                             <div className="max-w-xs rounded-2xl p-3 text-sm bg-muted rounded-bl-none">
-                                <Loader2 className="h-5 w-5 animate-spin text-primary" />
-                             </div>
-                         </div>
-                    )}
-                </div>
-                </ScrollArea>
-            </CardContent>
-            
-             <CardFooter className="p-4 border-t">
-                <form onSubmit={handleSendMessage} className="flex w-full items-center gap-2">
-                    <Input 
-                        placeholder="Ask anything or enter a secret code..." 
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        disabled={isLoading}
-                    />
-                    <Button type="submit" size="icon" disabled={isLoading || !input.trim()}>
-                        <Send className="h-4 w-4" />
-                    </Button>
-                </form>
-            </CardFooter>
-          </div>
+        ))}
+         {isLoading && <div className="flex justify-center"><Loader2 className="h-5 w-5 animate-spin text-primary" /></div>}
+        <div className="h-1"/>
+      </div>
+
+      <div className="p-4 bg-background border-t">
+        <div className="relative">
+            <Textarea
+                placeholder="Command your AI... (e.g. 'Find me off-plan villas in Dubai Hills with a strong ROI potential')"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSendMessage(); } }}
+                className="w-full pr-14 text-base"
+                rows={2}
+            />
+            <Button onClick={handleSendMessage} size="icon" className="absolute right-3 bottom-3 h-9 w-9" disabled={isLoading}>
+                <Send size={18} />
+            </Button>
         </div>
-    </>
+      </div>
+    </div>
   );
 }
+        
+    
