@@ -61,6 +61,7 @@ export function InteractiveListingBrief({ project }: { project: Project }) {
 
                         <div className="border-t border-border/50 my-4"></div>
 
+                        {/* GENERATIVE ACTION - THE "WOW" MOMENT */}
                         {videoUri ? (
                              <div className="space-y-2">
                                 <p className="text-sm font-semibold">Instant Cinematic Tour:</p>
