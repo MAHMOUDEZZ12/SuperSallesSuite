@@ -1,6 +1,6 @@
 
 import { PageHeader } from "@/components/ui/page-header";
-import { allMappedTools, modules } from "@/lib/features";
+import { tools, modules } from "@/lib/features";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Bot, Palette, Rocket } from "lucide-react";
@@ -19,21 +19,21 @@ export default function SolutionsUniversePage() {
             description: 'Autonomous, analytical, and persona-driven AI co-pilots designed to perform complex reasoning and strategic tasks.',
             icon: <Bot className="h-6 w-6" />,
             // Logic to get tools of type 'agent' or similar would go here
-            tools: allMappedTools.filter(t => t?.mindMapCategory === 'Market Intelligence' || t?.mindMapCategory === 'EBRAM (Legal Intelligence)')
+            tools: tools.filter(t => t?.mindMapCategory === 'Market Intelligence' || t?.mindMapCategory === 'EBRAM (Legal Intelligence)')
         },
         {
             id: 'flows',
             title: 'Automated Flows',
             description: 'Powerful, multi-step "Pilot" workflows that chain multiple agents together to automate an entire business process from start to finish.',
             icon: <Rocket className="h-6 w-6" />,
-            tools: allMappedTools.filter(t => t?.type === 'pilot' || t?.type === 'dashboard')
+            tools: tools.filter(t => t?.type === 'pilot' || t?.type === 'dashboard')
         },
         {
             id: 'apps',
             title: 'Creative Apps',
             description: 'A suite of single-purpose generative tools for creating high-quality marketing assets, from videos and ad copy to entire landing pages.',
             icon: <Palette className="h-6 w-6" />,
-            tools: allMappedTools.filter(t => t?.mindMapCategory === 'Archy (Creative Marketing)')
+            tools: tools.filter(t => t?.mindMapCategory === 'Archy (Creative Marketing)')
         }
     ];
 
