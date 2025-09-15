@@ -252,8 +252,3 @@ export default function ListingManagerPage() {
         </main>
     );
 }
-    
-
-    
-
-    
