@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { Suspense } from 'react';
@@ -23,9 +22,6 @@ function HomePage() {
                       <MarketSearchInput />
                   </Suspense>
               </div>
-              <p className="text-lg md:text-xl text-foreground/70 max-w-3xl mx-auto mt-8">
-                An AI-native real estate search engine that provides personalized results for investors, buyers, and brokers, alongside a powerful suite of B2B tools.
-              </p>
            </div>
         </section>
       </main>
