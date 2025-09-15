@@ -6,7 +6,7 @@ import { Button } from './ui/button';
 import { runFlow } from '@/lib/flows';
 import { ExecutionStep, RollflowPlan } from '@/types';
 import { Textarea } from './ui/textarea';
-import { InteractiveListingBrief } from './ui/interactive-listing-brief';
+import { InteractiveListingBrief } from '@/components/ui/interactive-listing-brief';
 import { track } from '@/lib/events';
 import { useToast } from '@/hooks/use-toast';
 
@@ -15,9 +15,22 @@ interface Message {
   text?: string;
   sender: 'user' | 'ai';
   plan?: RollflowPlan;
-  component?: 'listing_brief' | 'persona_select';
+  component?: 'listing_brief' | 'persona_select' | 'name_input' | 'code_input';
   componentData?: any;
 }
+
+const initialMessages: Message[] = [
+    {
+      id: `msg-init-1`,
+      sender: 'ai',
+      text: "Welcome to WhatsMAP. I'm the AI brain of your new real estate OS. To give you the best experience, I need to know a little about you. It's my first time meeting you, so let's get your workspace adapted for your needs.",
+    },
+    {
+      id: `msg-init-2`,
+      sender: 'ai',
+      component: 'persona_select'
+    }
+];
 
 const PlanExecutionCard = ({ plan, onExecute }: { plan: RollflowPlan; onExecute: (plan: RollflowPlan) => void }) => {
     const [isExecuting, setIsExecuting] = useState(false);
@@ -28,7 +41,7 @@ const PlanExecutionCard = ({ plan, onExecute }: { plan: RollflowPlan; onExecute:
     };
 
     const isCompleted = plan.steps.every(s => s.status === 'complete');
-    const isExecutable = !isExecuting && !isCompleted;
+    const isExecutable = !isExecuting && !isCompleted && plan.steps.every(s => s.status === 'pending');
 
     return (
         <div className="bg-muted/50 p-4 rounded-lg border border-primary/20">
@@ -40,14 +53,16 @@ const PlanExecutionCard = ({ plan, onExecute }: { plan: RollflowPlan; onExecute:
             <ul className="space-y-2">
                 {plan.steps.map((step, index) => (
                     <li key={index} className="flex items-center gap-2 text-sm text-muted-foreground">
-                        {step.status === 'complete' ? <CheckCircle className="h-4 w-4 text-green-500"/> : step.status === 'running' ? <Loader2 className="h-4 w-4 animate-spin"/> : <div className="h-4 w-4 rounded-full border border-dashed flex-shrink-0"/>}
+                        {step.status === 'complete' ? <CheckCircle className="h-4 w-4 text-green-500 animate-pulse"/> : <div className="h-4 w-4 rounded-full border border-dashed flex-shrink-0"/>}
                         <span>{step.description}</span>
+                        {step.status === 'running' && <Loader2 className="h-4 w-4 ml-auto animate-spin"/>}
                     </li>
                 ))}
             </ul>
             {isExecutable && (
                 <Button className="w-full mt-4" onClick={handleExecute}>
-                    <Play className="mr-2 h-4 w-4"/> Execute Plan
+                    <Play className="mr-2 h-4 w-4"/>
+                    Execute Plan
                 </Button>
             )}
              {isCompleted && (
@@ -58,11 +73,14 @@ const PlanExecutionCard = ({ plan, onExecute }: { plan: RollflowPlan; onExecute:
 };
 
 export function AssistantChat() {
+  const [isOpen, setIsOpen] = useState(true); // Default to open in the main view
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const [onboardingState, setOnboardingState] = useState({ step: 'none' });
+
 
   const handleSendMessage = async () => {
     if (input.trim() === '' || isLoading) return;
@@ -79,7 +97,7 @@ export function AssistantChat() {
       const aiResponseMessage: Message = { id: `msg-ai-${Date.now()}`, sender: 'ai' };
       if (response.plan) {
          aiResponseMessage.plan = response.plan;
-         aiResponseMessage.text = "I've analyzed your request and generated an execution plan.";
+         aiResponseMessage.text = "I've analyzed your request and generated the following execution plan.";
       } else if (response.component) {
           aiResponseMessage.component = response.component;
           aiResponseMessage.componentData = response.componentData;
@@ -113,6 +131,7 @@ export function AssistantChat() {
             if (msg.plan?.id === currentPlanId) {
                 const newSteps = [...msg.plan.steps];
                 newSteps[i].status = "complete";
+                if (newSteps[i+1]) newSteps[i+1].status = "running";
                 return { ...msg, plan: { ...msg.plan, steps: newSteps }};
             }
             return msg;
@@ -135,7 +154,9 @@ export function AssistantChat() {
                <div className={`max-w-xl w-full p-4 rounded-lg shadow-sm ${msg.sender === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
                   {msg.text && <p className="text-sm mb-2">{msg.text}</p>}
                   {msg.plan && <PlanExecutionCard plan={msg.plan} onExecute={handleExecutePlan} />}
+                  
                   {msg.component === 'listing_brief' && <InteractiveListingBrief project={msg.componentData} />}
+                  
                </div>
                {msg.sender === 'user' && <div className="w-9 h-9 rounded-full bg-muted flex items-center justify-center flex-shrink-0"><User size={20}/></div>}
             </div>
@@ -147,7 +168,7 @@ export function AssistantChat() {
       <div className="p-4 bg-background border-t">
         <div className="relative">
             <Textarea
-                placeholder="Command your AI... (e.g. 'Find me off-plan villas in Dubai Hills with a strong ROI potential')"
+                placeholder="Command your AI... (e.g. Find me off-plan villas in Dubai Hills with a strong ROI potential)"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSendMessage(); } }}
