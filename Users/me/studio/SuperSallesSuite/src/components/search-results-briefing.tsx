@@ -3,7 +3,7 @@
 import React from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { BarChart, Users, Zap } from 'lucide-react';
-import { InteractiveListingBrief } from "@/components/ui/interactive-listing-brief";
+import { InteractiveListingBrief } from "@/components/interactive-listing-brief";
 
 // --- WIDGETS MOVED HERE FOR CLEANLINESS ---
 const SummaryWidget = ({ content }: { content: string }) => (

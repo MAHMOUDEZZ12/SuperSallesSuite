@@ -21,11 +21,11 @@ export function BriefingStep({ step, stepNumber }: { step: any; stepNumber: numb
         return <p className="text-muted-foreground">{step.content}</p>;
       case 'listing_card_interactive':
         return <InteractiveListingBrief project={step.data as Project} />;
-      case 'financial_summary':
+      case 'financials':
         return <FinancialTable data={step.data} />;
-      case 'broker_tools':
+      case 'commission':
         return <CommissionCalculator data={step.data} />;
-      case 'lifestyle_score':
+      case 'schools':
         return <SchoolsAndAmenities data={step.data} />;
       default:
         return <p>Unsupported content type.</p>;

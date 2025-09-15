@@ -24,7 +24,6 @@ export default function DashboardLayout({
           <main className="flex-1 overflow-y-auto">{children}</main>
         </div>
          <CreativeCanvas />
-         <DashboardFooter />
          <AssistantChat />
        </div>
       </CanvasProvider>

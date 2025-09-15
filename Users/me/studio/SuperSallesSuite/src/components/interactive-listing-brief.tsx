@@ -24,7 +24,7 @@ export function InteractiveListingBrief({ project }: { project: Project }) {
         }
         setIsGeneratingVideo(true);
         try {
-            const result = await runFlow('generate-aerial-view', { address: `${'\'\'\'' + project.name + '\'\'\''}, ${'\'\'\'' + project.area + '\'\'\''}` });
+            const result = await runFlow('generate-aerial-view', { address: `${project.name}, ${project.area}` });
             if (result?.videoDataUri) {
                 setVideoUri(result.videoDataUri);
             } else {
@@ -43,7 +43,7 @@ export function InteractiveListingBrief({ project }: { project: Project }) {
                 <div className="md:col-span-4 relative h-48 md:h-full">
                     <Image
                         src={project.thumbnailUrl || '/placeholder-image.jpg'}
-                        alt={`Image of ${'\'\'\'' + project.name + '\'\'\''}`}
+                        alt={`Image of ${project.name}`}
                         fill
                         className="object-cover"
                     />
