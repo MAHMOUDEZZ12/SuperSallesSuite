@@ -40,6 +40,7 @@ export function useAuth() {
 
     // THE FIX: Only protect the /dashboard routes.
     // If user is NOT logged in and IS trying to access the dashboard, redirect to login.
+    // Allow unauthenticated access to all other pages (e.g. /account)
     if (!user && pathname.startsWith('/dashboard')) {
       router.push('/login');
       return;
