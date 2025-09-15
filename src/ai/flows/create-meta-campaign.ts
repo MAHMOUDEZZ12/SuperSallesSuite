@@ -1,5 +1,5 @@
 
-
+'use server';
 
 /**
  * @fileOverview An AI flow to create a complete Meta (Facebook/Instagram) ad campaign structure.
@@ -12,7 +12,6 @@
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
 import { CreateMetaCampaignInputSchema, CreateMetaCampaignOutputSchema, CreateMetaCampaignInput, CreateMetaCampaignOutput } from '@/types';
 
 
@@ -76,5 +75,3 @@ const createMetaCampaignFlow = ai.defineFlow(
 export async function createMetaCampaign(input: CreateMetaCampaignInput): Promise<CreateMetaCampaignOutput> {
   return await createMetaCampaignFlow(input);
 }
-
-    
