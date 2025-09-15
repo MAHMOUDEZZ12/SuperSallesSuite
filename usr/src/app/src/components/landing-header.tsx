@@ -19,6 +19,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from '@/components/theme-switcher';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 
 const mainNavLinks = [
     { name: 'Flows', href: '/g/flows' },
@@ -126,17 +132,21 @@ export function LandingHeader({ host }: { host?: string }) {
                             </Button>
                         </div>
                     </div>
-                    <nav className="flex flex-col items-center gap-6 text-center">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                             <span className="text-2xl font-semibold text-foreground hover:text-primary transition-colors flex items-center">Solutions <ChevronDown className="ml-1 h-5 w-5" /></span>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent>
-                            <DropdownMenuItem asChild><Link href="/solutions/agent" onClick={() => setIsOpen(false)}>For Agents</Link></DropdownMenuItem>
-                            <DropdownMenuItem asChild><Link href="/solutions/developer" onClick={() => setIsOpen(false)}>For Developers</Link></DropdownMenuItem>
-                            <DropdownMenuItem asChild><Link href="/solutions/investor" onClick={() => setIsOpen(false)}>For Investors</Link></DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
+                    <nav className="flex flex-col items-center gap-2 text-center">
+                        <Accordion type="single" collapsible className="w-full">
+                          <AccordionItem value="solutions" className="border-b-0">
+                            <AccordionTrigger className="text-2xl font-semibold text-foreground hover:text-primary transition-colors justify-center [&[data-state=open]>svg]:text-primary">
+                                Solutions
+                            </AccordionTrigger>
+                            <AccordionContent>
+                              <div className="flex flex-col items-center gap-4 mt-2">
+                                <Link href="/solutions/agent" onClick={() => setIsOpen(false)}><span className="text-xl font-medium text-muted-foreground hover:text-primary">For Agents</span></Link>
+                                <Link href="/solutions/developer" onClick={() => setIsOpen(false)}><span className="text-xl font-medium text-muted-foreground hover:text-primary">For Developers</span></Link>
+                                <Link href="/solutions/investor" onClick={() => setIsOpen(false)}><span className="text-xl font-medium text-muted-foreground hover:text-primary">For Investors</span></Link>
+                              </div>
+                            </AccordionContent>
+                          </AccordionItem>
+                        </Accordion>
                          {navLinks.map((link) => (
                              <Link key={link.name} href={link.href} onClick={() => setIsOpen(false)}>
                                 <span className="text-2xl font-semibold text-foreground hover:text-primary transition-colors">{link.name}</span>
