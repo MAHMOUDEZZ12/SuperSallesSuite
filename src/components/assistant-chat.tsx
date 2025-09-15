@@ -1,3 +1,4 @@
+
 'use client';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -130,24 +131,27 @@ interface Message {
 }
 
 export function AssistantChat() {
+  const [isOpen, setIsOpen] = useState(true); // Default to open for main view
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   const handleSendMessage = async () => {
     if (input.trim() === '' || isLoading) return;
     const userMessage: Message = { id: `user-${Date.now()}`, text: input, sender: 'user' };
     setMessages(prev => [...prev, userMessage]);
+    const currentInput = input;
     setInput('');
     setIsLoading(true);
 
     try {
-      const response = await runFlow('mainOrchestratorAgent', { command: input });
+      const response = await runFlow('mainOrchestratorAgent', { command: currentInput });
       const aiResponseMessage: Message = { id: `ai-${Date.now()}`, sender: 'ai', ...response };
       setMessages(prev => [...prev, aiResponseMessage]);
-    } catch (error) {
-      setMessages(prev => [...prev, { id: `err-${Date.now()}`, text: "Sorry, I encountered an error.", sender: 'ai' }]);
+    } catch (err: any) {
+      setMessages(prev => [...prev, { id: `err-${Date.now()}`, text: `Sorry, I encountered an error: ${err.message}`, sender: 'ai' }]);
     } finally {
       setIsLoading(false);
     }
@@ -156,6 +160,18 @@ export function AssistantChat() {
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+  
+    // Initial welcome message if chat is empty
+    useEffect(() => {
+        if(messages.length === 0 && !isLoading) {
+            setMessages([{
+                id: `welcome-${Date.now()}`,
+                sender: 'ai',
+                text: "Welcome to your AI Command Center. How can I help you dominate the market today?"
+            }])
+        }
+    },[messages.length, isLoading])
+
 
   return (
     <div className="flex flex-col h-full bg-background">
@@ -178,7 +194,7 @@ export function AssistantChat() {
       <div className="p-4 bg-background border-t">
         <div className="relative">
              <Textarea
-                placeholder="Command your AI..."
+                placeholder="Command your AI... (e.g. Find me off-plan villas in Dubai Hills with a strong ROI potential)"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSendMessage(); } }}
@@ -193,3 +209,4 @@ export function AssistantChat() {
     </div>
   );
 }
+
