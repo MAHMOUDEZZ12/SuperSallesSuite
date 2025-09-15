@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './car
 import { ProjectCard } from './project-card';
 import { Project } from '@/types';
 import { Sparkles } from 'lucide-react';
+import { InteractiveListingBrief } from '../interactive-listing-brief';
 
 /**
  * A dynamic component that renders the correct "content holder"
@@ -20,7 +21,7 @@ export function BriefingStep({ step, stepNumber }: { step: any; stepNumber: numb
       case 'summary':
         return <p className="text-muted-foreground">{step.content}</p>;
       case 'listing':
-        return <ProjectCard project={step.data as Project} />;
+        return <InteractiveListingBrief project={step.data as Project} />;
       case 'financials':
         return <FinancialTable data={step.data} />;
       case 'commission':
@@ -35,7 +36,6 @@ export function BriefingStep({ step, stepNumber }: { step: any; stepNumber: numb
   return (
     <Card className="bg-muted/30 border-border/30">
       <CardHeader>
-        {/* The explicit Step number has been removed for a more fluid experience */}
         <CardDescription className="flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-primary" />
             Intelligence Update
