@@ -82,8 +82,11 @@ export function LandingHeader({ host }: { host?: string }) {
               </DropdownMenuContent>
             </DropdownMenu>
              <div className="flex items-center gap-2 ml-4">
-                <Link href="/account">
-                  <Button>Account</Button>
+                <Link href="/login">
+                  <Button variant="ghost">Log In</Button>
+                </Link>
+                <Link href="/signup">
+                  <Button>Sign Up Free</Button>
                 </Link>
             </div>
         </div>
@@ -141,8 +144,11 @@ export function LandingHeader({ host }: { host?: string }) {
                         ))}
                     </nav>
                      <div className="mt-auto flex flex-col gap-4">
-                        <Link href="/account" onClick={() => setIsOpen(false)}>
-                            <Button className="w-full text-lg py-6">My Account</Button>
+                        <Link href="/login" onClick={() => setIsOpen(false)}>
+                            <Button variant="outline" className="w-full text-lg py-6">Log In</Button>
+                        </Link>
+                        <Link href="/signup" onClick={() => setIsOpen(false)}>
+                            <Button className="w-full text-lg py-6">Sign Up</Button>
                         </Link>
                     </div>
                  </div>
