@@ -20,11 +20,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/cookies',
     '/superfreetime',
     '/blog',
-    '/ai-presenter',
-    '/solutions',
-    '/solutions/agent',
-    '/solutions/developer',
-    '/solutions/investor',
+    '/g/flows',
+    '/g/video',
+    '/g/search',
     '/community',
     '/community/roadmap',
     '/community/careers',
@@ -43,7 +41,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   const toolRoutes = tools.filter(tool => tool.isPage).map((tool) => ({
-    url: `${siteUrl}/dashboard/tool/${tool.id}`,
+    url: `${siteUrl}${tool.href}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.6,

@@ -125,7 +125,7 @@ export async function POST(req: NextRequest) {
 
   } catch (e: any) {
     const errorMessage = e.message || 'An unexpected error occurred.';
-    const toolIdMessage = body?.toolId ? ` in tool ${toolId}` : '';
+    const toolIdMessage = body?.toolId ? ` in tool ${body.toolId}` : '';
     console.error(`Error running tool${toolIdMessage}: ${errorMessage}`, e);
     return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
