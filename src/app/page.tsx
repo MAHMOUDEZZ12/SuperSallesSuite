@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { Suspense } from 'react';
@@ -8,8 +9,6 @@ import { Button } from '@/components/ui/button';
 import { Search } from 'lucide-react';
 import { LandingHeader } from '@/components/landing-header';
 import { LandingFooter } from '@/components/landing-footer';
-import { ShinyButton } from '@/components/ui/shiny-button';
-import Link from 'next/link';
 
 // Component code directly embedded to resolve build error
 function MarketSearchInput() {
@@ -45,9 +44,8 @@ function HomePage() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <LandingHeader />
-      <main className="flex-1 flex flex-col items-center px-4">
-        {/* Hero Section */}
-        <section className="w-full text-center py-24 md:py-32 lg:py-40">
+      <main className="flex-1 flex flex-col items-center justify-center px-4">
+        <section className="w-full text-center">
            <div className="container max-w-4xl">
                <div className="w-full max-w-3xl mx-auto">
                   <Suspense fallback={<Loader2 className="h-12 w-12 animate-spin text-primary" />}>

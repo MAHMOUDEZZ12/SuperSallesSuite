@@ -1,77 +1,74 @@
 
 import { PageHeader } from "@/components/ui/page-header";
-import { tools, modules } from "@/lib/features";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Bot, Palette, Rocket } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import Link from 'next/link';
-import { FeatureModal } from "@/components/feature-modal";
+import { ArrowRight, Briefcase, Building, TrendingUp, Library } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+const personas = [
+    { 
+        name: 'Agent', 
+        href: '/solutions/agent',
+        description: 'Automate marketing, qualify leads, and close deals faster.',
+        icon: <Briefcase className="h-8 w-8 text-primary"/>
+    },
+    { 
+        name: 'Investor', 
+        href: '/solutions/investor',
+        description: 'Find off-market deals and analyze ROI with institutional-grade data.',
+        icon: <TrendingUp className="h-8 w-8 text-primary"/>
+    },
+    { 
+        name: 'Developer', 
+        href: '/solutions/developer',
+        description: 'From site acquisition to sell-out, powered by market intelligence.',
+        icon: <Building className="h-8 w-8 text-primary"/>
+    },
+];
 
 /**
- * The "Solutions Universe" - A grand, central destination showcasing our
- * entire orchestra of solutions, designed with a wide, enterprise-grade layout.
+ * NEW: The "Solutions" page is now a content-rich hub explaining the Market Library,
+ * with a creative internal menu to guide users to persona-specific pages.
  */
-export default function SolutionsUniversePage() {
-    const solutionOrchestras = [
-        {
-            id: 'agents',
-            title: 'AI Agents',
-            description: 'Autonomous, analytical, and persona-driven AI co-pilots designed to perform complex reasoning and strategic tasks.',
-            icon: <Bot className="h-6 w-6" />,
-            // Logic to get tools of type 'agent' or similar would go here
-            tools: tools.filter(t => t?.mindMapCategory === 'Market Intelligence' || t?.mindMapCategory === 'EBRAM (Legal Intelligence)')
-        },
-        {
-            id: 'flows',
-            title: 'Automated Flows',
-            description: 'Powerful, multi-step "Pilot" workflows that chain multiple agents together to automate an entire business process from start to finish.',
-            icon: <Rocket className="h-6 w-6" />,
-            tools: tools.filter(t => t?.type === 'pilot' || t?.type === 'dashboard')
-        },
-        {
-            id: 'apps',
-            title: 'Creative Apps',
-            description: 'A suite of single-purpose generative tools for creating high-quality marketing assets, from videos and ad copy to entire landing pages.',
-            icon: <Palette className="h-6 w-6" />,
-            tools: tools.filter(t => t?.mindMapCategory === 'Archy (Creative Marketing)')
-        }
-    ];
+export default function SolutionsHubPage() {
+  return (
+    <div className="container mx-auto px-6 py-12">
+        <PageHeader
+            icon={<Library className="h-10 w-10"/>}
+            title="The AI-Powered Market Library"
+            description="Our ecosystem is built on a foundation of live, comprehensive market data. We don't just give you tools; we give you an unfair intelligence advantage."
+            className="text-center mb-16"
+        />
 
-    return (
-        // WIDER LAYOUT for enterprise feel
-        <div className="container mx-auto px-6 py-12 max-w-[120rem]">
-            <PageHeader
-                title="The WhatsMAP Solutions Universe"
-                description="A complete and integrated ecosystem of AI agents, automated flows, and creative apps, all powered by a single, intelligent core."
-                className="text-center"
-            />
-            
-            <div className="mt-16 space-y-20">
-                {solutionOrchestras.map(orchestra => (
-                    <section key={orchestra.id}>
-                        <div className="flex items-center gap-4 mb-6">
-                            <div className="p-3 bg-muted rounded-lg border border-border">{orchestra.icon}</div>
-                            <div>
-                               <h2 className="text-3xl font-bold font-heading">{orchestra.title}</h2>
-                               <p className="text-muted-foreground">{orchestra.description}</p>
-                            </div>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                            {orchestra.tools.map(tool => tool && (
-                                <FeatureModal key={tool.id} feature={tool}>
-                                    <div className="group cursor-pointer bg-muted/40 p-6 rounded-lg border border-border/50 hover:border-primary/50 hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
-                                        <h3 className="font-semibold text-lg">{tool.title}</h3>
-                                        <p className="text-sm text-muted-foreground mt-1 flex-grow">{tool.description}</p>
-                                        <div className="mt-4 text-xs text-primary font-semibold flex items-center">
-                                            Learn More <ArrowRight className="ml-2 h-3 w-3 transition-transform group-hover:translate-x-1" />
-                                        </div>
-                                    </div>
-                                </FeatureModal>
-                            ))}
-                        </div>
-                    </section>
+        <div className="prose prose-invert max-w-4xl mx-auto text-lg text-center">
+            <p>
+                Traditional portals provide lists. WhatsMAP provides intelligence. Our system constantly watches the entire real estate market—indexing listings, developer announcements, news, and economic indicators. This creates a living "Market Library" that powers every tool in our suite, ensuring your strategies are always based on the most current and complete picture of reality.
+            </p>
+        </div>
+
+        <div className="my-24">
+             <h2 className="text-3xl font-bold font-heading text-center mb-10">Find Your Advantage</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                {personas.map((persona) => (
+                     <Link key={persona.name} href={persona.href} className="group block">
+                        <Card className="h-full bg-muted/40 hover:border-primary/50 transition-colors duration-300 text-center">
+                             <CardContent className="p-8">
+                                <div className="p-4 bg-background rounded-full w-fit mx-auto mb-4 border">
+                                    {persona.icon}
+                                </div>
+                                <CardTitle>{persona.name}</CardTitle>
+                                <CardDescription className="mt-2">{persona.description}</CardDescription>
+                            </CardContent>
+                            <CardFooter>
+                                <Button variant="link" className="w-full">
+                                    Explore Tools for {persona.name}s <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1"/>
+                                </Button>
+                            </CardFooter>
+                        </Card>
+                    </Link>
                 ))}
             </div>
         </div>
-    );
+    </div>
+  );
 }
