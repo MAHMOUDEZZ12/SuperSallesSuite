@@ -3,7 +3,7 @@
 
 import React, { Suspense } from 'react';
 import { Loader2 } from 'lucide-react';
-import MarketSearchInput from '@/components/ui/market-search-input';
+import { MarketSearchInput } from '@/components/ui/market-search-input';
 import { LandingHeader } from '@/components/landing-header';
 import { LandingFooter } from '@/components/landing-footer';
 
