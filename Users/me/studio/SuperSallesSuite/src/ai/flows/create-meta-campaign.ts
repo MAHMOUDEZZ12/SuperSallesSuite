@@ -54,7 +54,7 @@ const createMetaCampaignFlow = ai.defineFlow(
     inputSchema: CreateMetaCampaignInputSchema,
     outputSchema: CreateMetaCampaignOutputSchema,
   },
-  async input => {
+  async (input) => {
     const {output} = await createMetaCampaignPrompt(input);
     if (!output) {
       throw new Error('The AI failed to generate a campaign structure.');
