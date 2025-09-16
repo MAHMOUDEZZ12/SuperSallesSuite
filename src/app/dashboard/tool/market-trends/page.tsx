@@ -4,15 +4,27 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
-import { Loader2, Sparkles, Wand2, Palette, Pen, Upload, Download, MonitorPlay, LayoutTemplate, LineChart, Target, FileText, Separator, Lightbulb, MapPin, Search, TrendingUp } from 'lucide-react';
+import { Loader2, Wand2, FileText, TrendingUp } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { PageHeader } from '@/components/ui/page-header';
-import { getMarketTrends } from '@/ai/flows/get-market-trends';
-import { GetMarketTrendsInput, GetMarketTrendsOutput } from '@/ai/flows/get-market-trends';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { track } from '@/lib/events';
-import Link from 'next/link';
+
+interface GetMarketTrendsInput {
+  topic: string;
+}
+
+interface Trend {
+  trend: string;
+  description: string;
+}
+
+interface GetMarketTrendsOutput {
+  overallSentiment: string;
+  emergingTrends: Trend[];
+  futureOutlook: string;
+}
 
 const ResultDisplay = ({ result, topic }: { result: GetMarketTrendsOutput, topic: string }) => {
     return (
@@ -70,7 +82,19 @@ export default function MarketTrendsPage() {
 
         try {
             const payload: GetMarketTrendsInput = { topic };
-            const responseData = await getMarketTrends(payload);
+            
+            const response = await fetch('/api/run', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ toolId: 'market-trends', payload }),
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Trend analysis generation failed.');
+            }
+
+            const responseData = await response.json();
             setResult(responseData);
             track('market_trends_generation_succeeded');
             toast({ title: 'Trend Analysis Complete!', description: 'Your new report is ready for review.'});

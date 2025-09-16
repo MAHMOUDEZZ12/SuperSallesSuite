@@ -1,13 +1,11 @@
-
 "use client";
 
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Sun, Moon, Laptop, Bot, MessageCircle, ChevronDown } from 'lucide-react';
+import { Menu, X, Sun, Moon, Laptop, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/logo';
-import { cn } from '@/lib/utils';
 import {
   Sheet,
   SheetContent,
@@ -18,17 +16,18 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  DropdownMenuGroup,
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from '@/components/theme-switcher';
 
 const mainNavLinks = [
+    { name: 'Flows', href: '/g/flows' },
     { name: 'Community', href: '/community' },
     { name: 'Pricing', href: '/pricing' },
 ];
 
 const secondaryNavLinks = [
     { name: 'Chat', href: '/' },
+    { name: 'Flows', href: '/g/flows' },
     { name: 'Community', href: '/community' },
     { name: 'Pricing', href: '/pricing' },
 ];
@@ -82,11 +81,8 @@ export function LandingHeader({ host }: { host?: string }) {
               </DropdownMenuContent>
             </DropdownMenu>
              <div className="flex items-center gap-2 ml-4">
-                <Link href="/login">
-                  <Button variant="ghost">Log In</Button>
-                </Link>
-                <Link href="/signup">
-                  <Button>Sign Up Free</Button>
+                <Link href="/account">
+                  <Button>Account</Button>
                 </Link>
             </div>
         </div>
@@ -144,11 +140,8 @@ export function LandingHeader({ host }: { host?: string }) {
                         ))}
                     </nav>
                      <div className="mt-auto flex flex-col gap-4">
-                        <Link href="/login" onClick={() => setIsOpen(false)}>
-                            <Button variant="outline" className="w-full text-lg py-6">Log In</Button>
-                        </Link>
-                        <Link href="/signup" onClick={() => setIsOpen(false)}>
-                            <Button className="w-full text-lg py-6">Sign Up</Button>
+                        <Link href="/account" onClick={() => setIsOpen(false)}>
+                            <Button className="w-full text-lg py-6">My Account</Button>
                         </Link>
                     </div>
                  </div>

@@ -1,196 +1,79 @@
 
-
 'use client';
-
-import Link from 'next/link';
-import React, { useState } from 'react';
-import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
+import { Card, CardDescription, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, BookOpen, Plus, Check, Loader2, CreditCard, Sparkles } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+import { Feature } from '@/lib/features';
+import { IconMap } from './icon-map';
 import { useToast } from '@/hooks/use-toast';
 import { track } from '@/lib/events';
-import { type Feature } from '@/lib/features';
-import { IconMap } from './icon-map';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from './alert-dialog';
 
-
-interface DashboardServiceCardProps {
-  tool: Omit<Feature, 'renderResult'>;
-  isAdded: boolean;
-  setIsAdded: (isAdded: boolean) => void;
-  connectionRequired?: string; // e.g., "Facebook"
-  paymentRequired?: boolean;
-}
-
-export function DashboardServiceCard({
-  tool,
-  isAdded,
-  setIsAdded,
-  connectionRequired,
-  paymentRequired,
-}: DashboardServiceCardProps) {
+export const DashboardServiceCard = ({ tool }: { tool: Feature }) => {
   const { toast } = useToast();
-  const [isConnecting, setIsConnecting] = useState(false);
-  
-  const { title, description, icon: iconName, href, guideHref, color, dashboardTitle } = tool;
-  const Icon = IconMap[iconName as keyof typeof IconMap] || Sparkles;
+  const router = useRouter();
+  const [isActivationOpen, setIsActivationOpen] = useState(false);
+  const [isAdded, setIsAdded] = useState(false); // In real app, this would come from user data
+  const ToolIcon = IconMap[tool.icon] || IconMap['Sparkles'];
 
-  const handleAdd = (e: React.MouseEvent) => {
-    e.preventDefault();
+  const handleActivate = () => {
+    track('app_activated', { toolId: tool.id });
     setIsAdded(true);
-    track('app_added', { toolId: tool.id, connectionType: 'direct' });
-    toast({ title: `${title} Added!`, description: 'The tool is now available in your workspace.' });
-  }
-
-  const handleConnect = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsConnecting(true);
-    setTimeout(() => {
-        setIsConnecting(false);
-        setIsAdded(true);
-        track('app_added', { toolId: tool.id, connectionType: 'api' });
-        toast({
-            title: `${title} Activated!`,
-            description: `You have connected your ${connectionRequired} account.`
-        });
-    }, 1500);
-  }
-
-  const handlePayment = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsConnecting(true);
-    setTimeout(() => {
-        setIsConnecting(false);
-        setIsAdded(true);
-        track('app_added', { toolId: tool.id, connectionType: 'payment' });
-        toast({
-            title: `${title} Unlocked!`,
-            description: `You can now use this premium tool.`
-        });
-    }, 1500);
-  }
-
+    setIsActivationOpen(false);
+    toast({
+      title: `${tool.dashboardTitle || tool.title} Activated!`,
+      description: "The app has been added to your workspace.",
+    });
+    router.push(tool.href);
+  };
   
-  const AddButtonContent = () => (
-    <>
-        <Plus className="mr-2 h-4 w-4" />
-        Add
-    </>
-  );
-
-  const MainAction = () => {
+  const handleCardClick = () => {
     if (isAdded) {
-        const destination = href;
-        return (
-             <Link href={destination} onClick={() => track('app_opened', { toolId: tool.id })}>
-                <Button size="sm">
-                    Open
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Button>
-            </Link>
-        )
-    }
-
-    let dialogContent;
-    let actionHandler = handleAdd;
-    let actionText = "Add to Workspace";
-    let titleText = `Add "${title}" to Your Workspace?`;
-
-    if (connectionRequired) {
-        titleText = `Connect to ${connectionRequired}?`;
-        dialogContent = `To use the ${title} tool, you need to securely connect your ${connectionRequired} account. This allows the application to act on your behalf.`;
-        actionText = `Connect to ${connectionRequired}`;
-        actionHandler = handleConnect;
-    } else if (paymentRequired) {
-        titleText = `Unlock "${title}"?`;
-        dialogContent = (
-            <div>
-                <p>The "{title}" tool is a premium feature. To activate it, please confirm your subscription or add a payment method.</p>
-                {guideHref && (
-                    <p className="mt-2 text-sm text-muted-foreground">
-                        Read the <Link href={guideHref} className="underline hover:text-primary">Handbook guide</Link> to learn more.
-                    </p>
-                )}
-            </div>
-        );
-        actionText = "Confirm & Unlock";
-        actionHandler = handlePayment;
+      router.push(tool.href);
     } else {
-        dialogContent = (
-             <div>
-                <p>You are about to add the "{title}" tool to your personal workspace. This will make it available on your main dashboard.</p>
-                {guideHref && (
-                    <p className="mt-2 text-sm text-muted-foreground">
-                        Read the <Link href={guideHref} className="underline hover:text-primary">Handbook guide</Link> to learn more.
-                    </p>
-                )}
-            </div>
-        );
+      setIsActivationOpen(true);
     }
-
-    return (
-        <AlertDialog>
-            <AlertDialogTrigger asChild>
-                    <Button size="sm" variant="outline"><AddButtonContent /></Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-                <AlertDialogHeader>
-                <AlertDialogTitle>{titleText}</AlertDialogTitle>
-                <AlertDialogDescription asChild>
-                    <div>{dialogContent}</div>
-                </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={actionHandler} disabled={isConnecting}>
-                    {isConnecting ? <Loader2 className="mr-2 h-4 w-4 animate-spin"/> : null}
-                    {actionText}
-                </AlertDialogAction>
-                </AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
-    );
   }
 
   return (
-    <Card className={cn("group flex h-full flex-col transition-all duration-300", isAdded && "border-primary/30 bg-card")}>
-      <CardHeader>
-        <div className="mb-4 flex items-center justify-between">
-            <div className="flex items-center gap-4">
-                 <div
-                    className="rounded-lg p-3 text-white"
-                    style={{ backgroundColor: color || 'hsl(var(--primary))' }}
-                >
-                    <Icon className="h-6 w-6" />
-                </div>
-                <CardTitle className="text-xl font-heading">{dashboardTitle || title}</CardTitle>
-            </div>
-            {isAdded && <Check className="h-5 w-5 text-green-500" />}
-        </div>
-        <CardDescription>{description}</CardDescription>
-      </CardHeader>
-      <CardFooter className="mt-auto flex justify-end gap-2">
-        {guideHref && (
-          <Link href={guideHref} target="_blank">
-            <Button variant="ghost" size="sm">
-              <BookOpen className="mr-2 h-4 w-4" />
-              Guide
-            </Button>
-          </Link>
-        )}
-        <MainAction />
-      </CardFooter>
-    </Card>
+    <>
+      <div onClick={handleCardClick} className="group cursor-pointer relative h-full">
+         <Card className="bg-card/50 h-full flex flex-col transition-all duration-300 border-2 border-transparent group-hover:border-primary/50 group-hover:-translate-y-1">
+            <CardHeader className="flex-row items-start gap-4">
+              <div className="p-3 rounded-lg bg-muted">
+                <ToolIcon className="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <CardTitle>{tool.dashboardTitle || tool.title}</CardTitle>
+                <CardDescription className="text-xs">{tool.mindMapCategory}</CardDescription>
+              </div>
+            </CardHeader>
+            <CardContent className="flex-grow">
+              <p className="text-sm text-muted-foreground">{tool.description}</p>
+            </CardContent>
+            <CardFooter>
+                 <Button variant="secondary" className="w-full">
+                    {isAdded ? 'Launch' : 'Add to Workspace'}
+                 </Button>
+            </CardFooter>
+        </Card>
+      </div>
+
+      <AlertDialog open={isActivationOpen} onOpenChange={setIsActivationOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Add "{tool.dashboardTitle || tool.title}" to your workspace?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will enable the tool and any associated AI flows. You can manage all your added apps from the dashboard at any time.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleActivate}>Add to Workspace</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
-}
+};

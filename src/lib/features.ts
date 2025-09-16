@@ -1,9 +1,8 @@
 
-// This file is now a pure data file with no React/JSX dependencies.
-// It can be safely imported by both server and client components.
-
 import type { ReactNode } from 'react';
 
+// This file is now a pure data file with no React/JSX dependencies.
+// It can be safely imported by both server and client components.
 export type Field = {
   id: string;
   name: string;
@@ -27,22 +26,22 @@ export type Feature = {
   icon: string; // Changed from React.ElementType to string
   color: string;
   cta: string;
-  categories: FilterCategory[];
+  type: 'app' | 'pilot' | 'dashboard' | 'internal'; // Differentiates tool types
   mindMapCategory: 'Archy' | 'Meta Pilot' | 'Market Intelligence' | 'Listing & CRM' | 'Developer & Backend' | 'Internal' | 'EBRAM';
   badge?: 'NEW' | 'BETA' | 'SOON' | 'Pilot*';
   isPage?: boolean;
   href: string;
   guideHref?: string;
   details: {
-    steps: { text: string; icon: string }[]; // Changed icon to string
+    steps: { text: string; icon: string; }[]; // Changed icon to string
     aiVsManual: {
       metric: string;
       manual: string;
       ai: string;
       icon: string; // Changed icon to string
     }[];
-    synergy: { tool: string; benefit: string }[];
-    faqs: { question: string; answer: string }[];
+    synergy: { tool: string; benefit: string; }[];
+    faqs: { question: string; answer: string; }[];
   };
   creationFields: Field[];
   renderResult?: (result: any, toast: any) => ReactNode;
@@ -61,6 +60,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     mindMapCategory: 'Archy',
     isPage: true,
     badge: 'NEW',
+    type: 'app',
     href: '/dashboard/tool/creative-canvas',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
@@ -75,6 +75,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Creative', 'Video', 'Marketing', 'Ads', 'Archy'],
     mindMapCategory: 'Archy',
     isPage: true,
+    type: 'app',
     href: '/dashboard/tool/ai-video-presenter',
     guideHref: '/blog/ai-video-presenter',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
@@ -90,6 +91,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Creative', 'Video', 'Marketing', 'Ads', 'Archy'],
     mindMapCategory: 'Archy',
     isPage: true,
+    type: 'app',
     href: '/dashboard/tool/aerial-view-generator',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
@@ -104,6 +106,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Creative', 'Ads', 'Social & Comms', 'Archy'],
     mindMapCategory: 'Archy',
     isPage: true,
+    type: 'app',
     href: '/dashboard/tool/ugc-script-writer',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
@@ -118,6 +121,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Creative', 'Web', 'Archy'],
     mindMapCategory: 'Archy',
     isPage: true,
+    type: 'app',
     href: '/dashboard/tool/landing-pages',
     guideHref: '/blog/landing-pages',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
@@ -136,6 +140,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     mindMapCategory: 'Meta Pilot',
     badge: 'Pilot*',
     isPage: true,
+    type: 'pilot',
     href: '/dashboard/tool/meta-auto-pilot',
     guideHref: '/blog/meta-auto-pilot',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
@@ -152,6 +157,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Marketing', 'Ads', 'Lead Gen', 'Meta Pilot'],
     mindMapCategory: 'Meta Pilot',
     isPage: true,
+    type: 'app',
     href: '/dashboard/tool/meta-ads-copilot',
     guideHref: '/blog/meta-ads-copilot',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
@@ -167,6 +173,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Marketing', 'Lead Gen', 'Ads', 'Meta Pilot'],
     mindMapCategory: 'Meta Pilot',
     isPage: true,
+    type: 'app',
     href: '/dashboard/tool/audience-creator',
     guideHref: '/blog/audience-creator',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
@@ -184,6 +191,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Ads', 'Creative', 'Social & Comms', 'Meta Pilot'],
     mindMapCategory: 'Archy',
     isPage: false,
+    type: 'app',
     href: '/dashboard/tool/insta-ads-designer',
     guideHref: '/blog/insta-ads-designer',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
@@ -205,6 +213,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Marketing', 'Creative', 'Social & Comms', 'Meta Pilot'],
     mindMapCategory: 'Archy',
     isPage: false,
+    type: 'app',
     href: '/dashboard/tool/instagram-content-creator',
     guideHref: '/blog/instagram-content-creator',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
@@ -227,6 +236,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Sales Tools', 'Utilities', 'Market Intelligence'],
     mindMapCategory: 'Market Intelligence',
     isPage: true,
+    type: 'app',
     href: '/dashboard/tool/price-estimator',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
@@ -241,6 +251,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Market Intelligence', 'Ads'],
     mindMapCategory: 'Market Intelligence',
     isPage: true,
+    type: 'app',
     href: '/dashboard/tool/keyword-planner',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
@@ -255,6 +266,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Market Library', 'Sales Tools', 'Market Intelligence'],
     mindMapCategory: 'Market Intelligence',
     isPage: true,
+    type: 'app',
     href: '/dashboard/tool/market-reports',
     guideHref: '/blog/market-reports',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
@@ -270,6 +282,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Market Library', 'Sales Tools', 'Lead Gen', 'Market Intelligence'],
     mindMapCategory: 'Market Intelligence',
     isPage: true,
+    type: 'app',
     href: '/dashboard/tool/market-trends',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
@@ -284,6 +297,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Sales Tools', 'Lead Gen', 'Market Intelligence'],
     mindMapCategory: 'Market Intelligence',
     badge: 'SOON',
+    type: 'app',
     href: '/dashboard/tool/investor-matching',
     guideHref: '/blog/investor-matching',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
@@ -307,6 +321,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Sales Tools', 'Editing', 'Market Intelligence'],
     mindMapCategory: 'Market Intelligence',
     badge: 'SOON',
+    type: 'app',
     href: '/dashboard/tool/offer-generator',
     guideHref: '/blog/email-creator',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
@@ -329,6 +344,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     mindMapCategory: 'Listing & CRM',
     isPage: true,
     badge: 'Pilot*',
+    type: 'pilot',
     href: '/dashboard/tool/lead-to-deal-pipeline',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
@@ -343,6 +359,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Listing & CRM', 'Sales Tools', 'Web'],
     mindMapCategory: 'Listing & CRM',
     isPage: true,
+    type: 'dashboard',
     href: '/dashboard/tool/listing-manager',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
@@ -357,6 +374,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Listing & CRM', 'Sales Tools', 'Ads'],
     mindMapCategory: 'Listing & CRM',
     isPage: true,
+    type: 'dashboard',
     href: '/dashboard/tool/listing-performance',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
@@ -371,6 +389,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Listing & CRM', 'Sales Tools', 'Editing'],
     mindMapCategory: 'Listing & CRM',
     badge: 'SOON',
+    type: 'app',
     href: '/dashboard/tool/listing-generator',
     guideHref: '/blog/bayut-listing-ai',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
@@ -392,6 +411,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Sales Tools', 'Utilities', 'Listing & CRM'],
     mindMapCategory: 'Listing & CRM',
     isPage: true,
+    type: 'app',
     href: '/dashboard/tool/payment-planner',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
@@ -406,6 +426,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Sales Tools', 'Social & Comms', 'Lead Gen', 'Listing & CRM'],
     mindMapCategory: 'Listing & CRM',
     badge: 'SOON',
+    type: 'app',
     href: '/dashboard/tool/whatsapp-campaigns',
     guideHref: '/blog/instagram-admin-ai',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
@@ -425,6 +446,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Sales Tools', 'Lead Gen', 'Listing & CRM'],
     mindMapCategory: 'Listing & CRM',
     isPage: true,
+    type: 'app',
     href: '/dashboard/tool/lead-investigator',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [
@@ -445,6 +467,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Sales Tools', 'Lead Gen', 'Listing & CRM'],
     mindMapCategory: 'Listing & CRM',
     badge: 'SOON',
+    type: 'app',
     href: '/dashboard/tool/crm-assistant',
     guideHref: '/blog/ai-brand-creator',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
@@ -465,6 +488,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Utilities', 'Developer & Backend'],
     mindMapCategory: 'Developer & Backend',
     isPage: false,
+    type: 'app',
     href: '/dashboard/tool/vm-creator',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [
@@ -486,6 +510,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     mindMapCategory: 'Developer & Backend',
     isPage: true,
     badge: 'Pilot*',
+    type: 'pilot',
     href: '/dashboard/tool/property-finder-sync',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
@@ -501,6 +526,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     mindMapCategory: 'Developer & Backend',
     isPage: true,
     badge: 'Pilot*',
+    type: 'pilot',
     href: '/dashboard/tool/bayut-sync',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
@@ -516,6 +542,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     mindMapCategory: 'Developer & Backend',
     isPage: true,
     badge: 'Pilot*',
+    type: 'pilot',
     href: '/dashboard/tool/creative-execution-terminal',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
@@ -532,6 +559,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Sales Tools', 'Utilities', 'EBRAM'],
     mindMapCategory: 'EBRAM',
     isPage: true,
+    type: 'app',
     href: '/dashboard/tool/lease-reviewer',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
@@ -548,6 +576,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Creative', 'Editing', 'Social & Comms', 'Archy'],
     mindMapCategory: 'Archy',
     isPage: true,
+    type: 'app',
     href: '/dashboard/tool/youtube-video-editor',
     guideHref: '/blog/youtube-video-editor',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
@@ -556,13 +585,14 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
   {
     id: 'rebranding',
     title: 'Automated Rebranding',
-    description: 'Apply your brand identity to any brochure.',
+    description: 'Apply your brand identity to any document.',
     icon: 'Palette',
     color: '#f97316', 
     cta: 'Rebrand a Document',
     categories: ['Creative', 'Editing', 'Archy'],
     mindMapCategory: 'Archy',
     isPage: true,
+    type: 'app',
     href: '/dashboard/tool/rebranding',
     guideHref: '/blog/rebranding',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
@@ -578,6 +608,7 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     categories: ['Editing', 'Creative', 'Developer & Backend'],
     mindMapCategory: 'Developer & Backend',
     isPage: true,
+    type: 'app',
     href: '/dashboard/tool/pdf-editor',
     guideHref: '/blog/pdf-editor',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
@@ -594,8 +625,64 @@ export const tools: Omit<Feature, 'renderResult'>[] = [
     mindMapCategory: 'Archy',
     href: '/dashboard/tool/brochure-translator',
     isPage: true,
+    type: 'app',
     guideHref: '/blog/brochure-translator',
     details: { steps: [], aiVsManual: [], synergy: [], faqs: [] },
     creationFields: [],
   },
+];
+
+export const modules = [
+    {
+        id: 'archy',
+        title: 'Archy (Creative Marketing)',
+        description: 'Your on-demand creative agency. Generate stunning videos, ad copy, branding, and landing pages with AI-powered tools that understand your market.',
+        icon: 'Palette',
+        tools: tools.filter(t => t.mindMapCategory === 'Archy').map(t => t.id),
+        allTools: tools,
+        hero: {
+            title: 'Your On-Demand AI Creative Agency',
+            description: 'Go from a blank page to a full campaign in minutes. Archy is a suite of creative tools designed to automate your marketing content production.'
+        },
+        longDescription: 'Archy is the creative engine of WhatsMAP. It allows you to generate high-quality marketing materials—from video presenters and ad scripts to branded brochures and entire landing pages—in a fraction of the time it would take a traditional agency.'
+    },
+    {
+        id: 'meta-pilot',
+        title: 'Meta Pilot (Campaign Automation)',
+        description: 'A complete suite of tools to plan, build, and launch automated ad campaigns on Facebook and Instagram, from audience discovery to live optimization.',
+        icon: 'Rocket',
+        tools: tools.filter(t => t.mindMapCategory === 'Meta Pilot').map(t => t.id),
+        allTools: tools,
+        hero: {
+            title: 'Launch Meta Ad Campaigns on Autopilot',
+            description: 'Stop guessing. Use AI to find your perfect audience, build compelling ads, and automate your campaign workflows for maximum ROI.'
+        },
+        longDescription: 'Meta Pilot is your campaign co-pilot for Facebook and Instagram. It provides a guided workflow from identifying high-intent buyer personas to generating audience strategies and building your final campaign structure, ready for launch.'
+    },
+    {
+        id: 'ebram',
+        title: 'EBRAM (Legal Intelligence)',
+        description: 'Your AI legal co-pilot. Analyze contracts, review lease agreements, and navigate complex legal documents with AI-powered insights and summaries.',
+        icon: 'Shield',
+        tools: tools.filter(t => t.mindMapCategory === 'EBRAM').map(t => t.id),
+        allTools: tools,
+        hero: {
+            title: 'AI-Powered Legal Intelligence on Autopilot',
+            description: 'Navigate contracts and compliance with confidence. EBRAM analyzes legal documents, identifies risks, and explains complex jargon in plain English.'
+        },
+        longDescription: 'EBRAM is your first line of defense in a world of complex contracts. Upload lease agreements or purchase contracts, and our AI will analyze the document for key clauses, potential risks, and areas of concern, giving you the intelligence you need to negotiate effectively.'
+    },
+    {
+        id: 'market-intelligence',
+        title: 'Market Intelligence',
+        description: 'The data-driven core of WhatsMAP. Get AI-powered price estimations, discover emerging market trends, and generate comprehensive reports to win deals.',
+        icon: 'LineChart',
+        tools: tools.filter(t => t.mindMapCategory === 'Market Intelligence').map(t => t.id),
+        allTools: tools,
+        hero: {
+            title: 'Gain an Unfair Market Advantage',
+            description: 'Move beyond simple data. Our Market Intelligence suite turns raw information into actionable insights, helping you find, price, and close deals faster.'
+        },
+        longDescription: 'This is the analytical heart of the platform. Use the AI Price Estimator for instant valuations, the Market Trends Watcher to stay ahead of the curve, and the Report Generator to create stunning, client'
+    }
 ];

@@ -3,11 +3,16 @@
 
 import Link from 'next/link';
 import { ArrowRight, Twitter, Facebook, Linkedin, Puzzle } from 'lucide-react';
-import { ShinyButton } from './ui/shiny-button';
 import { Logo } from './logo';
 import { Separator } from './ui/separator';
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 export function LandingFooter() {
+  const pathname = usePathname();
+  // A simple footer is shown for the main chat/search interface
+  const isSimpleFooter = pathname === '/';
+
   const footerLinks = {
     app: [
         { name: 'About', href: '/about' },
@@ -26,9 +31,19 @@ export function LandingFooter() {
     ]
   };
 
+  if (isSimpleFooter) {
+    return (
+        <footer className="absolute bottom-0 left-0 right-0 p-4 z-10">
+            <div className="container mx-auto text-center text-xs text-muted-foreground">
+                 <p>WhatsMAP © 2025 mtc'. All rights reserved. An AI system by Google.</p>
+            </div>
+        </footer>
+    )
+  }
+
   return (
     <footer className="relative w-full overflow-hidden mt-32 border-t border-border/40">
-      <div className="absolute -top-1/2 left-1/2 -translate-x-1/2 w-[150%] h-[150%] bg-gradient-to-t from-primary/10 to-transparent rounded-t-full" />
+      <div className="absolute -top-1/2 left-1/2 -translate-x-1/2 w-[150%] h-[150%] bg-gradient-to-t from-primary/5 to-transparent rounded-t-full" />
       <div className="container relative z-10 py-16">
         <div className="mt-8">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">

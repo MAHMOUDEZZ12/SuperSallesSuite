@@ -4,20 +4,29 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
-import { Loader2, Sparkles, Wand2, Palette, Pen, GalleryHorizontal, Map, Mail, Download, MonitorPlay, ArrowRight, ArrowLeft, Users2, Upload, Crown, Info, CheckCircle, Wallet, Clock2, LineChart, Bot, BadgeCheck, Briefcase, ClipboardList, Target, BrainCircuit, Network, Key, Search, FileText, Building, MessageCircle, Phone, Link as LinkIcon, Binoculars } from 'lucide-react';
+import { Loader2, Sparkles, Wand2, ArrowRight, ArrowLeft, Users2, Upload, Crown, Info, Binoculars } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { PageHeader } from '@/components/ui/page-header';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { suggestTargetingOptions } from '@/ai/flows/suggest-targeting-options';
-import { SuggestTargetingOptionsOutput } from '@/types';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { track } from '@/lib/events';
-import * as z from 'zod';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
+
+interface Strategy {
+    strategyName: string;
+    audienceType: string;
+    demographics: string;
+    interests: string;
+    keywords: string;
+}
+
+interface SuggestTargetingOptionsOutput {
+    strategies: Strategy[];
+}
 
 
 const ProFeatureLock = ({ children, title }: { children: React.ReactNode, title: string }) => (
@@ -262,7 +271,18 @@ export default function AudienceCreatorPage() {
         track('audience_generation_started', { projectId });
 
         try {
-            const responseData = await suggestTargetingOptions({ projectId });
+            const response = await fetch('/api/run', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    toolId: 'audience-creator',
+                    payload: { projectId },
+                }),
+            });
+            const responseData = await response.json();
+            if (!response.ok) {
+                throw new Error(responseData.error || 'An unexpected error occurred.');
+            }
             setResult(responseData);
             track('audience_generation_succeeded');
         } catch (e: any) {

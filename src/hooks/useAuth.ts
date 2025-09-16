@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useRouter, usePathname } from 'next/navigation';
@@ -21,21 +21,32 @@ export function useAuth() {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
       setLoading(false);
-
-      const isAuthPage = pathname === '/login' || pathname === '/signup';
-      const isOnboardingPage = pathname === '/onboarding';
-
-      if (user && isAuthPage) {
-        // If user is logged in and on login/signup, redirect to dashboard
-        router.push('/dashboard');
-      } else if (!user && !isAuthPage && !isOnboardingPage) {
-        // If user is not logged in and not on an auth/onboarding page, redirect to login
-        router.push('/login');
-      }
     });
 
     return () => unsubscribe();
-  }, [router, pathname]);
+  }, []);
+
+
+  useEffect(() => {
+    if (loading) return; // Wait until auth state is confirmed
+
+    const isAuthPage = pathname.startsWith('/login') || pathname.startsWith('/signup');
+    
+    // If user is logged in and tries to access login/signup, redirect them away.
+    if (user && isAuthPage) {
+      router.push('/dashboard');
+      return;
+    }
+
+    // THE FIX: Only protect the /dashboard routes.
+    // If user is NOT logged in and IS trying to access the dashboard, redirect to login.
+    if (!user && pathname.startsWith('/dashboard')) {
+      router.push('/login');
+      return;
+    }
+
+  }, [user, loading, pathname, router]);
+
 
   return { user, loading };
 }

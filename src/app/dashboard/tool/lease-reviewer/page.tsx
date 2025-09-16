@@ -4,17 +4,32 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
-import { Loader2, Sparkles, Wand2, FileText, Download, ShieldCheck, AlertTriangle, Plus, Trash2 } from 'lucide-react';
+import { Loader2, Sparkles, FileText, Download, ShieldCheck, AlertTriangle, Plus, Trash2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { PageHeader } from '@/components/ui/page-header';
-import { reviewLeaseAgreement } from '@/ai/flows/review-lease-agreement';
-import { ReviewLeaseAgreementInput, ReviewLeaseAgreementOutput } from '@/ai/flows/review-lease-agreement';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { track } from '@/lib/events';
 import { fileToDataUri } from '@/lib/tools-client';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+
+interface ReviewLeaseAgreementInput {
+    leaseDocumentUri: string;
+    userConcerns: string[];
+}
+
+interface Finding {
+    concern: string;
+    riskLevel: 'Low' | 'Medium' | 'High' | 'Informational';
+    explanation: string;
+    clause: string;
+}
+
+interface ReviewLeaseAgreementOutput {
+    summary: string;
+    findings: Finding[];
+}
 
 const ResultDisplay = ({ result }: { result: ReviewLeaseAgreementOutput }) => {
     
@@ -91,7 +106,21 @@ export default function LeaseReviewerPage() {
                 leaseDocumentUri: leaseUri, 
                 userConcerns: concerns
             };
-            const responseData = await reviewLeaseAgreement(payload);
+            const response = await fetch('/api/run', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    toolId: 'lease-reviewer',
+                    payload 
+                })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Lease review failed.');
+            }
+            
+            const responseData = await response.json();
             setResult(responseData);
             track('lease_review_succeeded');
             toast({ title: 'Lease Review Complete!', description: 'Your AI legal analysis is ready.' });

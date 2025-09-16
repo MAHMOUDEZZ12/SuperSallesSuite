@@ -11,7 +11,6 @@ import { cn } from '@/lib/utils';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { syncBayutListing } from '@/ai/flows/sync-bayut-listing';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 
@@ -62,24 +61,28 @@ export default function BayutSyncPage() {
     setWorkflow(steps);
     setIsExecuting(true);
 
-    // Simulate API calls
-    const runStep = (index: number) => {
+    const runStep = async (index: number) => {
       if (index >= steps.length) {
         // Final API call
-        syncBayutListing(parsedPlan)
-            .then(result => {
-                if (result.success) {
-                    toast({ title: 'Synchronization Complete!', description: result.message });
-                } else {
-                    throw new Error(result.message);
-                }
-            })
-            .catch(err => {
-                toast({ title: 'Sync Failed', description: err.message, variant: 'destructive' });
-            })
-            .finally(() => {
-                setIsExecuting(false);
+        try {
+            const response = await fetch('/api/run', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ toolId: 'bayut-sync', payload: parsedPlan }),
             });
+            const result = await response.json();
+            if (!response.ok) throw new Error(result.error);
+            
+            if (result.success) {
+                toast({ title: 'Synchronization Complete!', description: result.message });
+            } else {
+                throw new Error(result.message);
+            }
+        } catch (err: any) {
+             toast({ title: 'Sync Failed', description: err.message, variant: 'destructive' });
+        } finally {
+            setIsExecuting(false);
+        }
         return;
       }
       
@@ -212,4 +215,3 @@ export default function BayutSyncPage() {
     </main>
   );
 }
-

@@ -465,5 +465,3 @@ export default function CampaignBuilderPage() {
         </main>
     );
 }
-
-    
