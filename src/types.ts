@@ -1,5 +1,4 @@
 
-
 import { z } from 'zod';
 
 // Core market identity
@@ -58,6 +57,28 @@ export interface AppEvent {
   props?: Record<string, any>;
   ts?: any; // serverTimestamp()
 }
+
+// Main Orchestrator Flow
+export type MainOrchestratorInput = { command: string; };
+export type MainOrchestratorOutput = {
+    text?: string;
+    plan?: RollflowPlan;
+    component?: 'listing_brief' | 'training_prompt_1';
+    componentData?: any;
+};
+
+// Simplified Execution Step for Client-side
+export interface ExecutionStep {
+  description: string;
+  tool: string;
+  status: 'pending' | 'running' | 'complete' | 'error';
+}
+
+export interface RollflowPlan {
+  title: string;
+  steps: ExecutionStep[];
+}
+
 
 // Schemas for AI Brand Creator
 export const AIBrandCreatorInputSchema = z.object({

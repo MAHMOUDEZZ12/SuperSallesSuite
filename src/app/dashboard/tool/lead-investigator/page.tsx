@@ -3,16 +3,34 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
-import { Loader2, Sparkles, Wand2, Search, ArrowRight, ArrowLeft, Users2, CheckCircle, HelpCircle, UserCheck } from 'lucide-react';
+import { Loader2, ArrowRight, ArrowLeft, Search } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { PageHeader } from '@/components/ui/page-header';
-import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { track } from '@/lib/events';
 import { AnimatePresence, motion } from 'framer-motion';
-import { InvestigateLeadInput, InvestigateLeadOutput } from '@/ai/flows/investigate-lead';
-import { investigateLead } from '@/ai/flows/investigate-lead';
 import Link from 'next/link';
+
+interface InvestigateLeadInput {
+    name: string;
+    company?: string;
+    email?: string;
+    location?: string;
+    role?: string;
+}
+
+interface Match {
+    name: string;
+    profileUrl: string;
+    source: string;
+    summary: string;
+    matchConfidence: number;
+}
+
+interface InvestigateLeadOutput {
+    matches: Match[];
+    overallSummary: string;
+}
 
 type InvestigationStep = 'name' | 'company' | 'email' | 'location' | 'role' | 'submitting' | 'results';
 
@@ -30,7 +48,6 @@ const stepConfig: Record<InvestigationStep, { label: string; placeholder: string
 
 
 const ResultsDisplay = ({ results, onRefine }: { results: InvestigateLeadOutput, onRefine: (match: any) => void }) => {
-    const { toast } = useToast();
     
     return (
         <Card className="col-span-full">
@@ -99,11 +116,26 @@ export default function LeadInvestigatorPage() {
         setIsLoading(true);
         track('lead_investigation_started');
         try {
-            const payload = {
+            const payload: InvestigateLeadInput = {
                 name: finalData.name!,
                 ...finalData
             };
-            const responseData = await investigateLead(payload);
+
+            const response = await fetch('/api/run', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    toolId: 'lead-investigator',
+                    payload: payload
+                })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Investigation failed');
+            }
+
+            const responseData = await response.json();
             setResults(responseData);
             setCurrentStep('results');
             track('lead_investigation_succeeded', { matches: responseData.matches.length });
@@ -207,5 +239,3 @@ export default function LeadInvestigatorPage() {
         </main>
     );
 }
-
-    

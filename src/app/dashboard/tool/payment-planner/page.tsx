@@ -4,15 +4,34 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
-import { Loader2, Sparkles, Wand2, Percent, Download } from 'lucide-react';
+import { Loader2, Sparkles, Percent, Download } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { PageHeader } from '@/components/ui/page-header';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { generatePaymentPlan } from '@/ai/flows/generate-payment-plan';
-import { GeneratePaymentPlanInput, GeneratePaymentPlanOutput } from '@/types';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { track } from '@/lib/events';
+
+// Copied types from /types.ts to avoid direct import
+interface GeneratePaymentPlanInput {
+  projectId: string;
+  totalPrice: number;
+  planType: string;
+}
+
+interface Milestone {
+  milestone: string;
+  date: string;
+  amount: number;
+  percentage: string;
+}
+
+interface GeneratePaymentPlanOutput {
+  planName: string;
+  planDescription: string;
+  milestones: Milestone[];
+}
+
 
 const ResultDisplay = ({ result }: { result: GeneratePaymentPlanOutput }) => {
     const { toast } = useToast();
@@ -82,7 +101,22 @@ export default function PaymentPlannerPage() {
                 totalPrice: Number(totalPrice),
                 planType,
             };
-            const responseData = await generatePaymentPlan(payload);
+            
+            const response = await fetch('/api/run', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    toolId: 'payment-planner',
+                    payload
+                })
+            });
+
+            if (!response.ok) {
+                 const errorData = await response.json();
+                throw new Error(errorData.error || 'Payment plan generation failed.');
+            }
+            
+            const responseData = await response.json();
             setResult(responseData);
             track('payment_plan_generation_succeeded');
             toast({ title: 'Payment Plan Generated!', description: 'Your new client-friendly plan is ready.' });

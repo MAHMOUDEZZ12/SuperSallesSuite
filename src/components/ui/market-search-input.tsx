@@ -4,18 +4,17 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
-import { cn } from '@/lib/utils';
 import { Button } from './button';
 import { Search } from 'lucide-react';
 
-export default function MarketSearchInput() {
+export function MarketSearchInput() {
     const router = useRouter();
     const [query, setQuery] = React.useState('');
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
         if (query.trim()) {
-            router.push(`/search?q=${'\'\'\'' + encodeURIComponent(query) + '\'\'\''}`);
+            router.push(`/search?q=${encodeURIComponent(query)}`);
         }
     };
     
@@ -34,5 +33,3 @@ export default function MarketSearchInput() {
         </form>
     );
 }
-
-    

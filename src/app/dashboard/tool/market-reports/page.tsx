@@ -4,17 +4,33 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
-import { Loader2, Sparkles, Wand2, Palette, Pen, Upload, Download, MonitorPlay, LayoutTemplate, LineChart, Target, FileText, Separator, Lightbulb, MapPin, Search } from 'lucide-react';
+import { Loader2, Wand2, Download, FileText, LineChart } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { PageHeader } from '@/components/ui/page-header';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { generateMarketReport } from '@/ai/flows/generate-market-report';
-import { GenerateMarketReportInput, GenerateMarketReportOutput } from '@/ai/flows/generate-market-report';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { track } from '@/lib/events';
-import { useCanvas } from '@/context/CanvasContext';
 import Link from 'next/link';
+
+interface GenerateMarketReportInput {
+  location: string;
+  propertyType: string;
+  reportType: 'Investor' | 'Home Buyer' | 'Seller';
+}
+
+interface MarketTrend {
+  trend: string;
+  analysis: string;
+}
+
+interface GenerateMarketReportOutput {
+  reportTitle: string;
+  executiveSummary: string;
+  marketTrends: MarketTrend[];
+  pricingAnalysis: string;
+  futureOutlook: string;
+}
 
 const ResultDisplay = ({ result }: { result: GenerateMarketReportOutput }) => {
     return (
@@ -88,7 +104,19 @@ export default function MarketReportPage() {
                 propertyType,
                 reportType,
             };
-            const responseData = await generateMarketReport(payload);
+            
+            const response = await fetch('/api/run', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ toolId: 'market-reports', payload }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Market report generation failed.');
+            }
+            
+            const responseData = await response.json();
             setResult(responseData);
             track('market_report_generation_succeeded');
             toast({ title: 'Market Report Generated!', description: 'Your new report is ready for review.'});

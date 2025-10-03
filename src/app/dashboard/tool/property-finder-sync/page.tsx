@@ -4,14 +4,13 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
-import { Loader2, Sparkles, Circle, CheckCircle, Play, Building, Upload, Bot, Download, Server } from 'lucide-react';
+import { Loader2, Sparkles, Circle, CheckCircle, Building, Upload, Download } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { PageHeader } from '@/components/ui/page-header';
 import { cn } from '@/lib/utils';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { syncPropertyFinderListing } from '@/ai/flows/sync-property-finder-listing';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 
@@ -47,8 +46,6 @@ export default function PropertyFinderSyncPage() {
   const handleExecute = async () => {
     let parsedPlan;
     try {
-      // For this pilot, we'll assume the input is JSON and convert it inside the flow
-      // to demonstrate the full pipeline.
       parsedPlan = JSON.parse(pastedPlan);
     } catch (e) {
       toast({ title: 'Invalid Plan', description: 'The pasted text is not a valid JSON listing plan.', variant: 'destructive' });
@@ -61,38 +58,40 @@ export default function PropertyFinderSyncPage() {
       return;
     }
 
-    setWorkflow(steps);
+    setWorkflow(steps.map(s => ({ ...s, status: 'running' })));
     setIsExecuting(true);
 
-    // Simulate API calls
-    const runStep = (index: number) => {
-      if (index >= steps.length) {
-        // Final API call
-        syncPropertyFinderListing(parsedPlan)
-            .then(result => {
-                if (result.success) {
-                    toast({ title: 'Synchronization Complete!', description: result.message });
-                } else {
-                    throw new Error(result.message);
-                }
-            })
-            .catch(err => {
-                toast({ title: 'Sync Failed', description: err.message, variant: 'destructive' });
-            })
-            .finally(() => {
-                setIsExecuting(false);
-            });
-        return;
-      }
-      
-      setWorkflow(prev => prev.map((step, i) => i === index ? { ...step, status: 'running' } : step));
-      setTimeout(() => {
-        setWorkflow(prev => prev.map((step, i) => i === index ? { ...step, status: 'completed' } : step));
-        runStep(index + 1);
-      }, 800);
-    };
+    try {
+        const response = await fetch('/api/run', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                toolId: 'property-finder-sync',
+                payload: parsedPlan,
+            }),
+        });
 
-    runStep(0);
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Property Finder sync failed');
+        }
+
+        const result = await response.json();
+
+        if (result.success) {
+            toast({ title: 'Synchronization Complete!', description: result.message });
+            setWorkflow(prev => prev.map(step => ({...step, status: 'completed'})));
+        } else {
+            throw new Error(result.message);
+        }
+    } catch (err: any) {
+        toast({ title: 'Sync Failed', description: err.message, variant: 'destructive' });
+        setWorkflow(prev => prev.map(step => ({...step, status: 'error'})));
+    } finally {
+        setIsExecuting(false);
+    }
   };
   
   const handlePull = (e: React.FormEvent) => {
@@ -117,6 +116,7 @@ export default function PropertyFinderSyncPage() {
     switch (status) {
       case 'running': return <Loader2 className="h-5 w-5 animate-spin text-primary" />;
       case 'completed': return <CheckCircle className="h-5 w-5 text-green-500" />;
+      case 'error': return <Circle className="h-5 w-5 text-red-500" />;
       default: return <Circle className="h-5 w-5 text-muted-foreground/50" />;
     }
   };
